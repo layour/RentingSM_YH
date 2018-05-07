@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="index.css">
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script src="../../js/font.js" charset="utf-8"></script>
+</head>
+
+<body>
+    <div class="um-win" id="index">
+        <div class="um-content">
+            <div class="box border">
+                <textarea id="question" placeholder="亲，请输入需要解决的问题（必填）" maxlength="200"></textarea>
+                <p class="showBox"><span id="txtShow">0/200</span></p>
+            </div>
+            <div class="box clearfix border">
+                <div class="title-box">
+                    <span class="title">问题截图(非必填) </span>
+                    <span id="picShow" class="picShow">0/4</span>
+                </div>
+                <div id="uploadForm">
+                    <div id="ibox">
+                        <div class="con" id="plus" onClick="showActionsheet();">
+                            <div class="con-con">
+                                <div class="font">
+                                    <span class="iconfont icon-add"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var g_pathArr = [];
+        summerready = function() {
+            bindEvents()
+            setTimeout(function() {}, 400)
+        }
+
+        function bindEvents() {
+            $("#question").on("input propertychange", function() {
+                var length = $(this).val().length;
+                $('#txtShow').text(length + '/200');
+            });
+            var plus = $("#ibox .con-con .font");
+            var phei = plus.parent().width() - 2;
+            var pwid = plus.parent().width() - 2;
+            plus.css({
+                "width": pwid,
+                "height": phei
+            });
+        }
+
+        function closePic(obj) {
+            var src = $(obj).prev("img").attr("src");
+            g_pathArr.remove(src);
+            $(obj).parent().parent(".con").remove();
+            var len = $("#ibox .con").length - 1;
+            $('#picShow').text(len + '/4');
+            $("#plus").removeClass("none");
+        }
+
+        function camera() { //打开相机
+            summer.openCamera({
+                compressionRatio: 0.2,
+                callback: function(args) {
+                    var imgPath = args.compressImgPath;
+                    g_pathArr.push(imgPath);
+                    var picDiv = '<div class="con">' + '<div class="con-con">' + '<img src="' + imgPath + '"><div class="bottomDelete"></div>' + '<span class="close iconfont icon-backspace" onClick="closePic(this);"></span>' +
+                        '</div></div>';
+                    $("#plus").before(picDiv);
+                    var len = $("#ibox .con").length - 1;
+                    $('#picShow').text(len + '/4');
+                    if (len == 4) {
+                        $("#plus").addClass("none");
+                    }
+                }
+            })
+        }
+
+        function openPhotoAlbum() { //打开相册
+            summer.openPhotoAlbum({
+                compressionRatio: 0.2,
+                callback: function(args) {
+                    var imgPath = args.compressImgPath;
+                    g_pathArr.push(imgPath);
+                    var picDiv = '<div class="con">' + '<div class="con-con">' + '<img src="' + imgPath + '"><div class="bottomDelete"></div>' + '<span class="close iconfont icon-backspace" onClick="closePic(this);"></span>' +
+                        '</div></div>';
+                    $("#plus").before(picDiv);
+                    var len = $("#ibox .con").length - 1;
+                    $('#picShow').text(len + '/4');
+                    if (len == 4) {
+                        $("#plus").addClass("none");
+                    }
+                }
+            });
+        }
+        //数组新增remove方法
+        Array.prototype.indexOf = function(val) {
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] == val)
+                    return i;
+            }
+            return -1;
+        };
+        Array.prototype.remove = function(val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+                this.splice(index, 1);
+            }
+        };
+
+        function showActionsheet() {
+            UM.actionsheet({
+                title: '',
+                items: ['拍照', '从相册中选择'],
+                callbacks: [camera, openPhotoAlbum]
+            });
+        }
+
+        function uploadHr() {
+            var question = $.trim($("#question").val());
+            if (question == "") {
+                summer.toast({
+                    "msg": "问题不能为空"
+                })
+                return false;
+            }
+            // manyfileupload();
+            feedback();
+        }
+
+        function manyfileupload() { //多图文上传方法
+            if (!summer.netAvailable()) {
+                summer.toast({
+                    "msg": "网络连接失败，请检查网络"
+                })
+                return;
+            }
+            summer.showProgress();
+            // 判断变量
+            var photoPath;
+            var photoList = [];
+            if (g_pathArr.length == 0) {
+                photoList = [];
+            } else {
+                for (var i = 0, length = g_pathArr.length; i < length; i++) {
+                    var photoPath = {
+                        "fileURL": "",
+                        "type": "image/png",
+                        "name": "file"
+                    };
+                    photoPath.fileURL = g_pathArr[i];
+                    photoList.push(photoPath);
+                }
+            }
+            var params = {
+                "EMPLOYEE_ID":"11350",
+                "EMPLOYEE_NAME":"张仁忠",
+                "FEEDBACKTYPE":"出错",
+                "FEEDTYPECONTENT":$.trim($("#question").val())
+            };
+            summer.multiUpload({
+                fileArray: photoList,
+                params: params,
+                headers: {
+			        "Content-Type" : "application/json"
+			    },
+                SERVER: "http://122.49.7.88:8080/appservice/appsys/getAppfeeback"
+            }, "successCallback()", "errorCallback()");
+        };
+
+        function successCallback(args) {
+            console.log(args);
+            summer.hideProgress();
+            summer.toast({
+                "msg": "感谢您的反馈"
+            });
+            summer.closeWin();
+        }
+
+        function errorCallback(args) {
+            console.log(args);
+            summer.hideProgress();
+            summer.toast({
+                "msg": "上传失败"
+            })
+        }
+
+        function feedback(){
+            summer.showProgress();
+            summer.ajax({
+				type: "post",
+				url: "http://122.49.7.88:8080/appservice/appsys/getAppfeeback",
+				param:{
+                    "EMPLOYEE_ID":"11350",
+                	"EMPLOYEE_NAME":"张仁忠",
+                	"FEEDBACKTYPE":"出错",
+                	"FEEDTYPECONTENT":$.trim($("#question").val())
+				},
+				header : {
+			        "Content-Type" : "application/json"
+			    }
+			}, function(response) {
+				summer.hideProgress();
+                var Data;
+				if (Object.prototype.toString.call(response.data) === '[object String]') {
+					Data = JSON.parse(response.data);
+				} else {
+					Data = response.data;
+				}
+				switch (Data.flag) {
+					case 1:
+						summer.toast({msg:"提交成功"});
+                        summer.closeToWin({
+            		        id: 'mine'
+            			});
+						break;
+					case 0:
+						summer.toast({msg:"提交失败"});
+						break;
+					default:
+						summer.toast({msg:"提交失败"});
+				}
+			}, function(error) {
+				summer.hideProgress();
+				console.log(error);
+				summer.toast({msg:"系统内部异常"});
+			});
+        };
+    </script>
+</body>
+
+</html>

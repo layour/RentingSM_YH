@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../css/iuapmobile.um.css">
+		<link rel="stylesheet" href="../../css/mint.css">
+		<link rel="stylesheet" href="../../css/fonts/iconfont.css">
+		<link rel="stylesheet" href="./car.min.css">
+	</head>
+	<body>
+		<div class="um-win" id="pickerModels" v-cloak>
+			<div class="um-content addCar">
+				<!-- <div class="um-input-group pr" id='search'>
+          <i class="icon iconfont icon-nav_search"></i>
+          <input type="text" name="search" class="form-control"  placeholder="搜索">
+					<span onclick="satartSearch('all')">取消</span>
+        </div> -->
+				<ul class="dealerList companyList">
+          <li @click="pickerCarModels(item)" v-for="(item,index) in modelsList" :key="index">{{item.name}}</li>
+        </ul>
+      </div>
+    </div>
+		<script src="../../js/summer.js" ></script>
+		<script src="../../js/jquery.min.js" ></script>
+		<script src="../../js/font.js" ></script>
+		<script src="../../js/vue.js" ></script>
+		<script src="../../js/mint.js" ></script>
+		<script src="../../js/common.js" ></script>
+		<script src="../../js/Frameworks/iuapmobile.frameworks.ui.js" ></script>
+    <script>
+				summerready=function() {
+					bindEvents();
+					console.log(summer.pageParam.list);
+					pickerModelsVue.modelsList=JSON.parse(summer.pageParam.list);
+				}
+				function bindEvents(){
+						$('.form-control').on('input propertychange',satartSearch);
+				}
+				function satartSearch(val){
+					if(val=='all'){
+						$(".form-control").val('');
+						$(".form-control").addClass('active').siblings('span').removeClass('active');
+	          pickerModelsVue.getData('')
+						return
+					}
+					var searchData=$(".form-control").val();
+					if(searchData){
+						$(".form-control").removeClass('active').siblings('span').addClass('active');
+					}else{
+						$(".form-control").addClass('active').siblings('span').removeClass('active')
+					}
+	        pickerModelsVue.getData(searchData)
+				}
+        var pickerModelsVue=new Vue({
+          el:'#pickerModels',
+          data:function(){
+            return {
+              modelsList:[],
+							id:''
+            }
+          },
+					methods:{
+						// getData(val){
+						// 	var _this=this;
+						// 	console.log(this.id);
+						// 	ajaxRequest({
+						// 		type:'get',
+						// 		url:'appservice/foundproject/queryCarBrand',
+						// 		param:{
+						// 			BRAND_NAME:val,
+						// 			COMPANY_ID:_this.id
+						// 		}
+						// 	},function(res){
+						// 		console.log("res",res);
+						// 		if(res.data.datas.length==0){
+						// 			createNull("pickerModels")
+						// 		}else {
+						// 			_this.modelsList=res.data.datas
+						// 		}
+						//
+						// 	},function(err){
+						// 		console.log("err",err);
+						// 	})
+						// },
+						pickerCarModels:function(it){
+							summer.setStorage('pickerDealCity1',JSON.stringify(it));
+							summer.openWin({
+								id:'pickerDealCity-2',
+								url:'html/touristsClient/pickerDealCity-2.html',
+								create:false,
+								type:'actionBar',
+								pageParam:{id:it.id},
+								actionBar: {
+						      title: it.name,
+						      titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+						      backgroundColor: "#039BE5",
+						      leftItem:{
+						          image: "img/back.png",
+						          method:'',//返回按钮自定义事件
+						          text:"返回",
+						          textColor:"#ffffff"  //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+						      }
+								}
+							})
+						}
+					}
+        })
+    </script>
+  </body>
+</html>

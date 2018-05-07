@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../css/iuapmobile.um.css">
+		<link rel="stylesheet" href="../../css/fonts/iconfont.css">
+		<script src="../../js/summer.js" ></script>
+		<script src="../../js/font.js" ></script>
+		<script src="../../js/vue.js" ></script>
+		<script src="../../js/jquery.min.js" ></script>
+		<script src="../../js/Frameworks/iuapmobile.frameworks.ui.js" ></script>
+		<style>
+			.listContent{
+			 background:#fff;
+			}
+			.listContent p.title{
+				color:#333;
+			}
+			.listContent p{
+				padding:0 .56rem;
+				font-size: 14px;
+				line-height:0.8rem;
+				border-bottom:1px solid #EFEFEF;
+				color:#333;
+				font-size:0.32rem;
+			}
+			.listContent .nb{border:none;}
+		</style>
+	</head>
+	<body>
+		<div class="um-win" id="finanlSub" v-cloak>
+			<div class="um-content">
+				<p class="f18 tc m30"><i style="font-size:20px;color:#1287DE;" class='icon  iconfont icon-right'></i><span class="p10">成功受理申请!</span></p>
+				<div class="list listContent">
+					<p class="title f16">立项中<span class="fr">{{bizTypCdNm}}</span></p>
+					<div>
+						<p class="nb">{{name}}购买了{{AMOUNT}}台{{equNm}}</p>
+						<p class="">&yen;{{guidePc}} </p>
+					</div>
+					<p @click="returnInit" class="last">流程ID:<span style="color:#1287DE;">{{procNm}}</span> <i class='icon iconfont icon-enter fr' style="color:#DBDBDB;"></i></p>
+				</div>
+			</div>
+		</div>
+		<script>
+			summerready = function() {
+				console.log(JSON.stringify(summer.pageParam));
+				finanlSubmit.cstNm=summer.pageParam.cstNm
+				finanlSubmit.bizTypCdNm=summer.pageParam.bizTypCdNm
+				finanlSubmit.equQty=summer.pageParam.equQty
+				finanlSubmit.equNm=summer.pageParam.equNm
+				finanlSubmit.guidePc=summer.pageParam.guidePc
+				finanlSubmit.procNm=summer.pageParam.procNm
+
+				finanlSubmit.prjPrdInfo_id=summer.pageParam.prjPrdInfo_id
+				finanlSubmit.project_Id=summer.pageParam.project_Id
+			}
+			var finanlSubmit=new Vue({
+				el:'#finanlSub',
+				data:function(){
+					return {
+						cstNm:'',
+						bizTypCdNm:'',
+						project_Id:'',
+						prjPrdInfo_id:'',
+						equQty:'',
+						equNm:'',
+						guidePc:'',
+						procNm:''
+					}
+				},
+				methods:{
+					returnInit:function(){
+						var _this=this;
+						summer.openWin({
+							id: 'programDetail',
+							url: 'html/fastReport/programDetail.html',
+							create: false,
+							type: 'actionBar',
+							pageParam: {
+								id: _this.project_Id,
+								prjPrdInfoId: _this.prjPrdInfo_id
+							},
+							actionBar: {
+								title: "业务查看",
+								titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+								backgroundColor: "#039be5",
+								leftItem: {
+									image: "img/back.png",
+									method: "", //返回按钮自定义事件
+									text: "返回",
+									textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+								}
+							},
+						})
+					}
+				}
+			})
+			//Android返回键监听
+			function keyBack() {
+				summer.execScript({
+						winId: 'programSelect',
+						frameId:'fra_total',
+						script: 'getData("1","true")'
+				});
+				summer.closeToWin({id:"programSelect"});
+			};
+		</script>
+	</body>
+</html>

@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="../../css/iuapmobile.um.css">
+	<link rel="stylesheet" href="../../css/fonts/iconfont.css">
+	<link rel="stylesheet" href="../../css/mint.css">
+	<style>
+		.pickerColor {
+			width: 100%;
+			z-index: 10;
+			background: #ffffff;
+		}
+
+		.pickerColor>p {
+			line-height: .88rem;
+			padding: 0 .56rem;
+			color: #039BE5;
+			border-top: 1px solid #E0E0E0;
+			overflow: hidden;
+		}
+
+		.pickerColor>p span {
+			color: #34aadc;
+		}
+
+		.mint-cell-wrapper {
+			background-size: 100% 0px;
+			border-bottom: 1px solid #f7f7f7;
+		}
+
+		.pickerColor>p span:last-child {
+			float: right;
+		}
+
+		.pickerColor>p span:first-child {
+			float: left;
+		}
+	.item .first {
+		color: #333;
+	}
+
+	.item .second {
+		color: #9e9e9e;
+	}
+		.um-list {
+			border: none;
+		}
+
+		.um-list a {
+			display: block;
+			line-height: .88rem;
+			height: .88rem;
+			position: relative;
+		}
+
+		.um-list .um-list-item-bodys {
+			align-self: center;
+			line-height: .88rem;
+			height: .88rem;
+			padding: 0;
+			font-size: 0.32rem;
+			color: #333;
+			padding-left: 0.56rem;
+			padding-right: .44rem;
+			border-bottom: 1px solid #EFEFEF;
+		}
+
+		.frp {
+			position: absolute;
+			right: .6rem;
+			top: 0;
+		}
+
+		.um-list a.um-list-item:before {
+			display: none;
+		}
+
+		i {
+			color: #DBDBDB;
+		}
+
+		.iconfont.icon-right {
+			font-size: 20px;
+			color: #039BE5;
+			display: none;
+		}
+
+		.iconfont.icon-right.active {
+			display: inline-block;
+		}
+
+		.iconfont.icon-enter.active {
+			display: none;
+		}
+		.um-footer{
+			min-height:0px;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div class="um-win" id="app" v-cloak>
+		<div class="um-content">
+			<div class="um-list">
+				<a href="javascript:void(0);" onclick="openNewCreateCustom()">
+					<div class="um-list-item-bodys">
+						客户信息
+						<span class="frp"> <i class="customer icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div>
+				</a>
+				<a href="javascript:void(0);" id="version" onclick="addContact()">
+					<div class="um-list-item-bodys">
+						紧急联系人
+						<span class="frp"> <i class="emergencyContract icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div>
+				</a>
+				<a href="javascript:void(0);" @click="openBaseMessage(baseMessageData)">
+					<div class="um-list-item-bodys">
+						业务基础信息
+						<span class="frp"> <i class="baseMessage icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div>
+				</a>
+				<a href="javascript:void(0);" onclick="checkVersion('addCarList')">
+					<div class="um-list-item-bodys">
+						添加车辆
+						<span class="frp"> <i class="addCarList icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div>
+				</a>
+				<a href="javascript:void(0);" id="version" onclick="checkVersion('quotedPriceList')">
+					<div class="um-list-item-bodys">
+						报价方案
+						<span class="frp"> <i class="price icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div>
+				</a>
+				<a href="javascript:void(0);" id="version"  onclick="openBank()"  >
+					<div class="um-list-item-bodys">
+						银行账号
+						<span class="frp"> <i class="bank icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div>
+				</a>
+				<a href="javascript:void(0);" id="version" onclick="checkVersion('uploadImg')">
+					<div class="um-list-item-bodys">
+						上传风控资料
+						<span class="frp"> <i class="uploadImg icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div>
+				</a>
+
+				<a href="javascript:void(0);" id="version"  onclick="slectSponsor('sponsorList')"  >
+					<div class="um-list-item-bodys">
+						担保人
+						<span class="frp"> <i class="sponsor icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div>
+				</a>
+
+
+				<!-- <a href="javascript:void(0);"  id="version" onclick="checkVersion('remark')">
+					<div class="um-list-item-bodys">
+						备注留言
+						<span class="frp"> <i class="remark icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div> </a> -->
+			</div>
+		</div>
+		<div class="um-footer" id="footer">
+			<mt-popup v-model="pickerSponsorTypeStatus" position='bottom' class="pickerColor">
+				<mt-picker :slots="slots1" @change="onValuesChange1"></mt-picker>
+				<p>
+					<span class="" @click="surePickerSponsorType">取消</span><span class="" @click="surePickerSponsorType('confirm')">确定</span>
+				</p>
+			</mt-popup>
+		</div>
+	</div>
+	<script src="../../js/summer.js"></script>
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/vue.js"></script>
+	<script src="../../js/mint.js"></script>
+	<script src="../../js/font.js"></script>
+	<script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+	<script src="../../js/common.js"></script>
+	<script>
+		summerready = function() {
+			var sourceId = summer.pageParam.source;
+			setProgect.sourceFrom = sourceId;
+				var customId = summer.pageParam.customId;
+			var __projectid = summer.pageParam.projectId;
+			setProgect.project_Id = __projectid;
+			//setProgect.getProjectId(__projectid);//此处应为从业务列表进来修改准备
+			console.log(JSON.stringify(summer.pageParam));
+			if (sourceId == "programSelect") {
+				setProgect.getProjectId(__projectid);
+				//setProgect.project_Id = __projectid;
+			}
+			setProgect.customId = customId;
+			setProgect.carName = summer.pageParam.carName;
+			setProgect.getData(customId);
+			$("." + sourceId).addClass('active').siblings('i').addClass("active");
+			//从后台判断有没有填写 为了调试上传图片 暂时加上车辆的 start
+			// if(summer.pageParam.isEdit){
+			// 	$(".customer").addClass('active').siblings('i').addClass("active");
+			// 	$(".addCarList").addClass('active').siblings('i').addClass("active");
+			// 	$(".baseMessage").addClass('active').siblings('i').addClass("active");
+			// 	summer.setStorage('carType',"重卡")
+			// }
+
+			//从后台判断有没有填写 为了调试上传图片 暂时加上车辆的 over
+		}
+		var setProgect = new Vue({
+			el: '#app',
+			data:function () {
+				return {
+					message: {
+						username: '',
+						card: '',
+						sex: '',
+						address: '',
+						phone: '',
+						phoneAddress: ''
+					},
+					baseMessageData: "",
+					customId: "",
+					project_Id: "",
+					carName:'',
+					sourceFrom:"",
+					slots1: [{
+						flex: 1,
+						values: ['企业', '个人'],
+						defaultIndex: 0,
+						className: 'slot1',
+						textAlign: 'center'
+					}],
+					pickerSponsorTypeStatus: false,
+					pickerSponsorType: "",
+				}
+			},
+			methods: {
+				handleClick: function() {
+					this.$toast('Hello world!')
+				},
+				openPicker: function() {
+					this.$refs.picker.open();
+				},
+				surePickerSponsorType: function(param) {
+					this.pickerSponsorTypeStatus = !this.pickerSponsorTypeStatus;
+					if (param == 'confirm') {
+						var sponsorType = this.pickerSponsorType;
+						if (sponsorType == "个人") {
+							openSponsor('newSponsor');
+						} else {
+							openSponsor('newSponsor_company');
+						}
+
+					}
+				},
+				sureSponsorType: function() {
+					var self = this;
+					ajaxRequest({
+						type: 'post',
+						url: 'appservice/project/prjcstbscinfo/initList.do',
+						param: {
+							"id": self.project_Id,
+						}
+					}, function(res) {
+						summer.hideProgress();
+						if (res.data.flag == 1) {
+							console.log(res.data);
+							if (res.data.datas.warTyp=="法人") {
+								openSponsor('newSponsor_company',res.data.datas.corpWarrList[0]);
+							} else {
+								openSponsor('newSponsor',res.data.datas.npWarrList[0]);
+							}
+						}
+					}, function(err) {
+						alert(err);
+						console.log(err);
+						summer.hideProgress();
+					});
+				},
+				onValuesChange1: function(picker, values) {
+					this.pickerSponsorType = values[0];
+				},
+				getData: function(id) {
+					var self = this;
+					ajaxRequest({
+						type: 'get',
+						url: 'appservice/project/prjbscinfo/toAddPrj.do',
+						param: {
+							"cstId.id": id,
+						}
+					}, function(res) {
+						summer.hideProgress();
+						if (res.data.flag == 1) {
+							self.baseMessageData = res.data.datas;
+							console.log(self.baseMessageData);
+						}
+					}, function(err) {
+						alert(err);
+						console.log(err);
+						summer.hideProgress();
+					});
+				},
+				getProjectId: function(__projectid) {
+					var self = this;
+					ajaxRequest({
+						type: 'post',
+						url: 'appservice/project/prjbscinfo/prjInfoExist.do',
+						param: {
+							"id": __projectid,
+						}
+					}, function(res) {
+						summer.hideProgress();
+						if (res.data.flag == 1) {
+							// self.customId = res.data.datas.ProjectObj.CLIENT_ID;
+							// if (self.sourceFrom=="programSelect") {
+							// 	self.getCompleteStatus(self.customId,self.project_Id);
+							// }
+							 var finanlData=res.data.datas;
+							if (finanlData.jjlFlag) {
+							 	addRight('emergencyContract');
+							}
+							// if (finanlData.scheme_id) {
+							//  	addRight('price');
+							// }
+							if (finanlData.prdInfoFlag) {
+							 	addRight('addCarList');
+							}
+							if (finanlData.guarFlag) {
+							 	addRight('sponsor');
+							}
+							if (finanlData.imgFlag) {
+							 	addRight('uploadImg');
+							}
+							if(finanlData.cstFlag){
+								addRight('customer');
+							}
+							if(finanlData.bscInfoFlag){
+								addRight('baseMessage');
+							}
+							if (finanlData.bankFlag) {
+							 	addRight('bank');
+							}
+							if (finanlData.quatFlag) {
+							 	addRight('price');
+							}
+							self.customId = finanlData.CST_ID;
+
+						}
+					}, function(err) {
+						alert(err);
+						console.log(err);
+						summer.hideProgress();
+					});
+				},
+				getCompleteStatus: function(clintId,projectId){
+					var self = this;
+					ajaxRequest({
+						type: 'post',
+						url: 'appservice/foundproject/qloadProjectPage',
+						param: {
+							"PROJECT_ID": projectId,
+							"CLIENT_ID":clintId
+						}
+					}, function(res) {
+						summer.hideProgress();
+						if (res.data.flag == 1) {
+							 var finanlData=res.data.datas;
+							if (finanlData.eID) {
+							 	addRight('emergencyContract');
+							}
+							if (finanlData.scheme_id) {
+							 	addRight('price');
+							}
+							if (finanlData.EquipObj) {
+							 	addRight('addCarList');
+							}
+							if (finanlData.gObj) {
+							 	addRight('sponsor');
+							}
+							if (finanlData.fObj) {
+							 	addRight('uploadImg');
+							}
+							
+						}
+					}, function(err) {
+						alert(err);
+						console.log(err);
+						summer.hideProgress();
+					});
+				},
+				openBaseMessage: function(data) {
+					console.log(data);
+					var self = this;
+					var baseData = JSON.parse(JSON.stringify(self.baseMessageData));
+					var _project_Id = self.project_Id;
+						if (_project_Id) {
+							summer.openWin({
+								id: "baseMessage",
+								url: "html/fastReport/baseMessage.html",
+								create: false,
+								type: 'actionBar',
+								actionBar: {
+									title: '基本信息',
+									titleColor: "#ffffff",
+									backgroundColor: "#039BE5",
+									leftItem: {
+										image: "img/back.png",
+										method: "",
+										text: "返回",
+										textColor: "#ffffff"
+									}
+								},
+								pageParam: {
+									baseData: baseData,
+									project_Id: _project_Id,
+									customId:self.customId
+								}
+							})
+						} else {
+							summer.openWin({
+								id: "baseMessage",
+								url: "html/fastReport/baseMessage.html",
+								create: false,
+								type: 'actionBar',
+								actionBar: {
+									title: '基本信息',
+									titleColor: "#ffffff",
+									backgroundColor: "#039BE5",
+									leftItem: {
+										image: "img/back.png",
+										method: "",
+										text: "返回",
+										textColor: "#ffffff"
+									},
+									rightItems: [{
+										type: "text",
+										text: "完成",
+										textColor: "#ffffff",
+										method: "save()"
+									}]
+								},
+								pageParam: {
+									baseData: baseData,
+									project_Id: _project_Id,
+									customId:self.customId
+								}
+							})
+						}
+
+				}
+			}
+		})
+		function checkVersion(param) {
+			var id = param,
+				url = '',
+				title = '';
+			if (param == 'addCarList') {
+				url='html/touristsClient/addCar.html';
+				title="添加车辆";
+				// url = "html/touristsClient/addCarList.html";
+				// title = '添加设备';
+				if (!setProgect.project_Id) {
+					summer.toast({
+						msg: '请先完善业务基础信息'
+					});
+					return
+				}
+				summer.openWin({
+					id: id,
+					url: url,
+					create: false,
+					type: 'actionBar',
+					pageParam: {
+						id: setProgect.project_Id,
+						CLIENT_ID: setProgect.customId
+					},
+					actionBar: {
+						title: title,
+						titleColor: "#ffffff",
+						backgroundColor: "#039BE5",
+						leftItem: {
+							image: "img/back.png",
+							method: "",
+							text: "返回",
+							textColor: "#ffffff"
+						},
+						rightItems: [{
+							type: "text",
+							text: "确定",
+							method: 'goBack()',
+							textColor: "#ffffff"
+						}]
+					}
+				})
+				return
+			} else if (param == 'quotedPriceList') {
+				url = "html/priceCalculation/quotedPriceDetail.html";
+				title = "报价方案"
+				if(!$(".addCarList").hasClass('active')){
+					summer.toast({
+						msg: '请先添加车辆信息'
+					});
+					return
+				}
+				summer.openWin({
+					id: id,
+					url: url,
+					create: false,
+					type: 'actionBar',
+					pageParam: {
+						id: setProgect.project_Id
+					},
+					actionBar: {
+						title: title,
+						titleColor: "#ffffff",
+						backgroundColor: "#039BE5",
+						leftItem: {
+							image: "img/back.png",
+							method: "", //返回按钮自定义事件
+							text: "返回",
+							textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+						},
+						rightItems: [{
+							type: "text",
+							text: "保存",
+							method: 'save()',
+							textColor: "#ffffff"
+						}]
+					}
+				})
+				return
+			} else if (param == 'uploadImg') {
+				if(!$(".price").hasClass('active')){
+					summer.toast({
+						msg: '请先选择报价方案'
+					});
+					return
+				}
+				id="uploadImg"
+				url = "html/fastReport/uploadImgList.html";
+				title = '资料上传';
+				summer.openWin({
+					id: id,
+					url: url,
+					create: false,
+					type: 'actionBar',
+					pageParam: {
+						id: setProgect.project_Id,
+						CLIENT_ID: setProgect.customId
+					},
+					actionBar: {
+						title: title,
+						titleColor: "#ffffff",
+						backgroundColor: "#039BE5",
+						leftItem: {
+							image: "img/back.png",
+							method: "",
+							text: "返回",
+							textColor: "#ffffff"
+						},
+						rightItems: [{
+							type: "text",
+							text: "保存",
+							method:'goBack()',
+							textColor: "#ffffff"
+						}]
+					}
+				})
+				return
+			} else if (param == 'remark') {
+				url = "html/fastReport/remark.html";
+				title = '备注';
+			}
+			if (!setProgect.project_Id) {
+				summer.toast({
+					msg: '请先完善业务基础信息'
+				});
+				return
+			}
+			summer.openWin({
+				id: id,
+				url: url,
+				create: false,
+				type: 'actionBar',
+				pageParam: {
+					id: setProgect.project_Id,
+					CLIENT_ID: setProgect.customId
+				},
+				actionBar: {
+					title: title,
+					titleColor: "#ffffff",
+					backgroundColor: "#039BE5",
+					leftItem: {
+						image: "img/back.png",
+						method: "",
+						text: "返回",
+						textColor: "#ffffff"
+					},
+					rightItems: [{
+						type: "text",
+						text: "保存",
+						textColor: "#ffffff",
+						method: "save()"
+					}]
+				}
+			})
+		}
+
+		function addContact() {
+			summer.openWin({
+				id: 'emergencyContract',
+				url: "html/fastReport/addEmergencyContact.html",
+				create: false,
+				type: 'actionBar',
+				pageParam: {
+					id: setProgect.customId
+				},
+				actionBar: {
+					title: '添加紧急联系人',
+					titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+					backgroundColor: "#039BE5",
+					leftItem: {
+						image: "img/back.png",
+						method: "", //返回按钮自定义事件
+						text: "返回",
+						textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+					},
+					rightItems: [{
+						type: "text",
+						text: "添加",
+						textColor: "#ffffff",
+						method: "addEmergencyContract()"
+					}]
+				}
+			})
+		}
+
+		function slectSponsor() {
+			var projectId = setProgect.project_Id;
+			var clientId = setProgect.customId
+			if (!projectId) {
+				summer.toast({
+					msg: "请先完善业务基本信息"
+				});
+				return;
+			} else {
+				var isAdd;
+				if(!$(".sponsor").hasClass('active')){
+					setProgect.surePickerSponsorType();
+					isAdd= true;
+				}else{
+					isAdd=false;
+					setProgect.sureSponsorType();
+				}
+			}
+
+		}
+		function openSponsor(id,data) {
+			var projectId = setProgect.project_Id;
+			var clientId = setProgect.customId
+			summer.openWin({
+				id: id,
+				url: 'html/fastReport/' + id + '.html',
+				create: false,
+				type: 'actionBar',
+				actionBar: {
+					title: "添加担保人",
+					titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+					backgroundColor: "#039BE5",
+					leftItem: {
+						image: "img/back.png",
+						method: "", //返回按钮自定义事件
+						text: "返回",
+						textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+					},
+					rightItems: [{
+						type: "text",
+						text: "保存",
+						textColor: "#ffffff",
+						method: "complete()"
+					}]
+
+				},
+				pageParam: {
+					projectId: projectId,
+					clientId: clientId,
+					item:data
+				}
+			});
+
+		}
+		function nextStopInput() {
+			//完成接口
+			/*summer.execScript({
+				winId: "programSelect",
+				frameId: "fra_total",
+				script: "getData('1','true')"
+			});
+			summer.closeToWin({
+				id: "programSelect"
+			});*/
+			if(!$(".baseMessage").hasClass('active')){
+				summer.toast({msg:"请完善业务基本信息"});
+				return;
+			}else if(!$(".addCarList").hasClass('active')){
+				summer.toast({msg:"请添加车辆"});
+				return;
+			}else if(!$(".price").hasClass('active')){
+				summer.toast({msg:"请完善报价方案"});
+				return;
+			}else if(!$(".uploadImg").hasClass('active')){
+				summer.toast({msg:"请上传评审资料"});
+				return;
+			}else if(!$(".emergencyContract").hasClass('active')){
+				summer.toast({msg:"请添加紧急联系人"});
+				return;
+			}/*else if(!$(".sponsor").hasClass('active')){
+				summer.toast({msg:"请添加担保人"});
+				return;
+			}*/
+			summer.openWin({
+					id : "submitSure",
+					url : "html/fastReport/submitSure.html",
+					create : false,
+					type : 'actionBar',
+					actionBar : {
+						title : "提交确认",
+						titleColor : "#ffffff",
+						backgroundColor : "#039BE5",
+						leftItem : {
+							image : "img/back.png",
+							method : "",
+							text : "返回",
+							textColor : "#ffffff"
+						},
+						rightItems: [{
+							type: "text",
+							text: "提交",
+							method: 'opensubmitFinanl()',
+							textColor: "#ffffff"
+						}]
+					},
+					pageParam:{
+						project_Id:	setProgect.project_Id
+					}
+
+				})
+		}
+
+		function openNewCreateCustom() {
+			var projectId = setProgect.project_Id;
+			var clintId = setProgect.customId;
+			summer.openWin({
+				id: 'newCreateCustom',
+				url: 'html/fastReport/newCreateCustom.html',
+				create: false,
+				type: 'actionBar',
+				actionBar: {
+					title: "客户信息",
+					titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+					backgroundColor: "#039be5",
+					leftItem: {
+						image: "img/back.png",
+						method: "", //返回按钮自定义事件
+						text: "返回",
+						textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+					},
+					rightItems: [{
+						type: "text",
+						text: "下一步",
+						textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+						method: "nextStopAction()" //在打开的window中自定义事件
+					}]
+				},
+				pageParam: {
+					projectId: projectId,
+					clintId: clintId,
+					sourceFrom:"setProject"
+				}
+			});
+		}
+		function openBank(){
+			// 客户id
+			var clintId = setProgect.customId;
+			summer.showProgress();
+            ajaxRequest({
+				type: 'get',
+                url: 'appservice/customer/cstBank/form.do',
+                param: {
+					cstId: clintId
+                }
+            }, function(res) {
+				summer.hideProgress();
+                var Data;
+                if (Object.prototype.toString.call(res.data) === '[object String]') {
+					Data = JSON.parse(res.data);
+                } else {
+					Data = res.data;
+                }
+                if (Data.flag == 1) {
+					summer.openWin({
+						id: 'bankList',
+						url: 'html/fastReport/bankList.html',
+						create: false,
+						type: 'actionBar',
+						actionBar: {
+							title: "银行账号",
+							titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+							backgroundColor: "#039be5",
+							leftItem: {
+								image: "img/back.png",
+								method: "", //返回按钮自定义事件
+								text: "返回",
+								textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+							},
+							rightItems: [{
+								type: "text",
+								text: "保存",
+								textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+								method: "bankInfo.saveBank()" //在打开的window中自定义事件
+							}]
+						},
+						pageParam: {
+							clintId: clintId
+						}
+					});
+				} else {
+					/* 如果已发起流程就不允许进入修改页面 */
+					summer.toast({
+						msg: "客户名下代扣卡已发起变更流程流程，请先通过流程"
+					});
+                }
+            }, function(err) {
+                summer.hideProgress();
+                summer.toast({
+                    msg: "系统内部异常"
+                });
+                console.log(err);
+            });
+		}
+		function addRight(param, projectId) {
+			$("." + param).addClass('active').siblings('i').addClass("active");
+			if (projectId) {
+				setProgect.project_Id = projectId;
+			}
+		}
+	</script>
+</body>
+
+</html>

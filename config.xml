@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application> 
+  <app_start>html/guide/index.html</app_start>  
+  <app_name>易汇资本</app_name>  
+  <project_name>RentingSM_YH</project_name>  
+  <package_name>com.skywish.rentingsm.yh</package_name>  
+  <frame_name>summer-um</frame_name>  
+  <theme>blue</theme>  
+  <icon relativePath="css/themes/default/app">app</icon>  
+  <versionCode>1</versionCode>  
+  <versionBuild>1.0.0</versionBuild>  
+  <versionName>1.0.0</versionName>  
+  <orientation>unspecified</orientation>  
+  <permission id="android.permission.INTERNET"></permission>  
+  <statusBarStyle>light</statusBarStyle>  
+  <fullScreen>true</fullScreen>  
+  <windowSoftInputMode>stateHidden</windowSoftInputMode>  
+  <openMDoctor>false</openMDoctor>  
+  <autoHideLaunch>false</autoHideLaunch>  
+  <openMDoctor>false</openMDoctor>
+  <urlScheme>yhzbsm</urlScheme>
+  <import id="cordova-plugin-compat" type="web" ref="cordova"></import>  
+  <import id="cordova-plugin-http" type="web" ref="cordova"/>  
+  <import id="cordova-plugin-camera" type="web" ref="cordova"/>  
+  <import id="cordova-plugin-file" type="web" ref="cordova"/>  
+  <!--import id="cordova-plugin-summer-personscan" type="web" ref="cordova"/-->  
+  <import id="cordova-plugin-amap" type="web" ref="cordova"> 
+    <parameter>AMAP_KEY=1ce883e34f61ade8e137a400be5f9f2f</parameter> 
+  </import>  
+  <!--import id="summer-plugin-video" type="web" ref="cordova"/--> 
+</application>

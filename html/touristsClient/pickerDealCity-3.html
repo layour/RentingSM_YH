@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../css/iuapmobile.um.css">
+		<link rel="stylesheet" href="./car.min.css">
+	</head>
+	<body>
+		<div class="um-win" id="pickerModels-3">
+			<div class="um-content pickerModels">
+        <ul class="modelsList">
+          <li v-for="(it,index) in modelsList" @click="pickerModels(it)" :key="index">
+						{{it.name}}
+					</li>
+        </ul>
+      </div>
+    </div>
+		<script src="../../js/summer.js" ></script>
+		<script src="../../js/jquery.min.js" ></script>
+		<script src="../../js/font.js" ></script>
+		<script src="../../js/vue.js" ></script>
+		<script src="../../js/common.js" ></script>
+		<script src="../../js/Frameworks/iuapmobile.frameworks.ui.js" ></script>
+    <script>
+				summerready=function() {
+					pickerModelsVue3.id=summer.pageParam.braId;
+					pickerModelsVue3.getData();
+				}
+        var pickerModelsVue3=new Vue({
+          el:'#pickerModels-3',
+          data:function(){
+            return {
+							id:'',
+							equSet:'',
+              modelsList:[]
+            }
+          },
+					methods:{
+						getData:function(){
+							var _this=this;
+							console.log(this.id);
+							ajaxRequest({
+								type:'GET',
+								url:'appservice/sys/area/appTreeData.do',
+								param:{
+									provinceId:_this.id
+								}
+							},function(res){
+								console.log("res",res);
+								if(res.data==0){
+									createNull("pickerModels-3")
+								}else {
+									_this.modelsList=res.data
+								}
+							},function(err){
+								console.log("err",err);
+							})
+						},
+						pickerModels:function(it){
+							var _this=this;
+							summer.setStorage('pickerDealCity3',JSON.stringify(it));
+							summer.openWin({
+								id:'pickerDealCity-4',
+								url:'html/touristsClient/pickerDealCity-4.html',
+								create:false,
+								type:'actionBar',
+								pageParam:{id:it.id},
+								actionBar: {
+						      title: it.name,
+						      titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+						      backgroundColor: "#039BE5",
+						      leftItem:{
+						          image: "img/back.png",
+						          method:'',//返回按钮自定义事件
+						          text:"返回",
+						          textColor:"#ffffff"  //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+						      }
+								}
+							})
+						}
+					}
+        })
+    </script>
+  </body>
+</html>

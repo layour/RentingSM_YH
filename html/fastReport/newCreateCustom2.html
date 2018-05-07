@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="../../css/iuapmobile.um.css">
+	<link rel="stylesheet" href="../../css/fonts/iconfont.css">
+	<link rel="stylesheet" href="../../css/mint.css">
+	<script src="../../js/font.js"></script>
+	<style>
+		.pickerColor {
+			width: 100%;
+			z-index: 10;
+			background: #ffffff;
+		}
+
+		.pickerColor>p {
+			line-height: .88rem;
+			padding: 0 .56rem;
+			color: #039BE5;
+			border-top: 1px solid #E0E0E0;
+			overflow: hidden;
+		}
+
+		.pickerColor>p span {
+			color: #34aadc;
+		}
+
+		.mint-cell-wrapper {
+			background-size: 100% 0px;
+			border-bottom: 1px solid #f7f7f7;
+		}
+
+		.pickerColor>p span:last-child {
+			float: right;
+		}
+
+		.pickerColor>p span:first-child {
+			float: left;
+		}
+
+		.item .first {
+
+			color: #333;
+		}
+
+		.item .second {
+			color: #9e9e9e;
+		}
+
+		.um-footer {
+			min-height: 0px;
+		}
+		.item input{
+			border: none;
+			height: .5rem;
+			width: 2.92rem;
+			text-align: right;
+			line-height: .5rem;
+			outline: none;
+			margin-top: .2rem;
+			font-size: 0.28rem;
+		}
+		input::-webkit-input-placeholder {
+			color: #DEDEDE;
+			font-size: 0.28rem;
+		}
+
+		.topheader {
+			position: relative;
+			height: 180px;
+			background-image: url("img/cardBgc.png");
+			background-repeat: no-repeat;
+			background-size: 100% 100%;
+		}
+
+		.topheader img {
+			margin-top: 0.8rem;
+			width: 2.8rem;
+			height: 1.8rem;
+		}
+
+	 
+		div.item {
+			line-height: 44px;
+			background: #ffffff;
+			border-bottom: 1px solid #f7f7f7;
+			font-size: 0.28rem;
+			height:44px;
+
+		}
+
+		div.item span {
+			color: #333;
+		}
+
+		div.item span i {
+			color: #dbdbdb;
+		}
+
+		 
+
+		.item .first {
+
+			color: #333;
+		}
+
+		.item .second {
+			color: #9e9e9e;
+		}
+		.um-footer{
+			min-height:0px;
+		}
+		.item input{
+			border: none;
+			height: .5rem;
+			width: 2.92rem;
+			text-align: right;
+			line-height: .5rem;
+			outline: none;
+			margin-top: .2rem;
+			font-size: 0.28rem;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="um-win" id="app" v-cloak>
+		<!-- <div class="topheader tc um-header-light" @click="cardIdentify">
+			<img v-bind:src="cardUrl" v-show="cardShow" alt="" />
+		</div> -->
+		<div class="um-content">
+			<div class="item">
+					<p class="pl10 pr10 tr">
+						<span class="fl">姓名</span>
+						<span class="">
+							<span class="first">{{message.cstNpSocialRl.rlNm}} </span>
+						</span>
+					</p>
+			</div>
+			<div class="item">
+					<p class="pl10 pr10 tr">
+						<span class="fl">身份证</span>
+						<span class="">
+							<span class="first">{{message.cstNpSocialRl.certNo}} </span>
+						</span>
+					</p>
+			</div>
+			<div class="item">
+					<p class="pl10 pr10 tr">
+						<span class="fl">性别</span>
+						<span class="">
+							<span class="first">{{SEXCOM}} </span>
+						</span>
+					</p>
+			</div>
+		<form action="">
+			<div class="item um-box pl10 pr10"  >
+					 	<span class="um-bf1">手机号</span><input class="um-bf3"  placeholder="请输入您的手机号码"  v-model="message.cstNpSocialRl.mp" type="text" />   
+			</div>
+			<div class="item um-box pl10 pr10"  >
+					 	<span class="um-bf1">户口所在地</span><input class="um-bf3" placeholder="请输入您的户口所在地" v-model="message.cstNpSocialRl.idAddr"   type="text" />   
+			</div>
+			<div class="item um-box pl10 pr10"  >
+					 	<span class="um-bf1">工作单位名称</span><input class="um-bf3" placeholder="请输入您的工作单位" v-model="message.cstNpSocialRl.workPlc"   type="text" />   
+			</div>
+			<div @click="surePickerSoureIncome" class="item" >
+					<p class="pl10 pr10  um-box">
+						<span class="um-bf1">主要收入来源</span>
+						<span class="um-bf1 tr">
+							<span v-if='message.cstNpSocialRl.majorInTypCdName' class="first">{{message.cstNpSocialRl.majorInTypCdName}}</span>
+							<span v-else class="second">请选择</span>
+							<i class="icon iconfont icon-enter"></i>
+						</span>
+					</p>
+			</div>
+			<div class="item um-box pl10 pr10"  >
+					<span class="um-bf2">税后年收入（万元）</span><input class="um-bf3" placeholder="请输入您的税后年收入" v-model="message.cstNpSocialRl.afterTaxYearIn"   type="number" />   
+	   </div>
+		</form>
+		</div>	
+		<mt-popup v-model="pickerSourceIncomeStatus" position='bottom' class="pickerColor">
+				<mt-picker :slots="slots8" @change="onValuesChange8"></mt-picker>
+				<p>
+					<span class="" @click="surePickerSoureIncome">取消</span>
+					<span class="" @click="surePickerSoureIncome('confirm')">确定</span>
+				</p>
+		</mt-popup>
+		<div>
+
+		</div>
+	 
+	</div>
+	<script src="../../js/summer.js"></script>
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/vue.js"></script>
+	<script src="../../js/mint.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+	<script>
+		var newCreateCustom = new Vue({
+			el: '#app',
+			data:function() {
+				return {
+					pickerSourceIncomeStatus:false,
+					pickerSourceIncome:"",
+					cardShow: false,
+					cardUrl: "",
+					pickerVisible: "",
+					personMes:'',
+					slots8: [{
+						flex: 1,
+						values: [],
+					//	values: ["工资","股票","投资"],
+						defaultIndex: 0,
+						className: 'slot1',
+						textAlign: 'center'
+					}],
+					totalData:'',
+					message: {
+						cstNpSocialRl:{
+							rlNm:'',
+							certNo:'',
+							certTypCd:'1',
+							genderCd:'',
+							idAddr:'',
+							workPlc:'',
+							mp:'',
+							id:'',//配偶id，修改需要带上
+							majorInTypCd:'',
+							majorInTypCdName:'',
+							afterTaxYearIn:''
+						}
+					},
+					sourceFrom:'',
+				}
+			},
+			computed: {
+				 SEXCOM: function () {
+					if (this.message.cstNpSocialRl && this.message.cstNpSocialRl.certNo.length == "18") {
+						var psidno = this.message.cstNpSocialRl.certNo;
+						if (parseInt(psidno.substring(16, 17)) % 2 == 0) {
+							return "女"
+						} else {
+							return "男"
+						};
+					}
+				}
+			 
+			},
+			methods: {
+				getData:function(clintId) {
+					var self = this;
+					ajaxRequest({
+						type: 'post',
+						url: 'appservice/customer/cstNpBscInfo/view.do',
+						param: {
+							"cstBscInfo": {
+								id: clintId
+							}
+						}
+					}, function(res) {
+						summer.hideProgress();
+						if (res.data.flag == 1) {
+							var totalData = res.data.datas;
+							self.totalData = totalData;
+							var majorInArrayData = [];
+							for (var i = 0; i < totalData.majorInArray.length; i++) {
+								majorInArrayData.push(totalData.majorInArray[i].label);
+							}
+							self.slots8[0].values = majorInArrayData;
+							//self.baseMessageData=res.data.datas;
+							//console.log(self.baseMessageData);
+						}
+					}, function(err) {
+						////alert(err);
+						//summer.toast({msg:err});
+						console.log(err);
+						summer.hideProgress();
+					});
+				},
+				messageTest: function() {
+					var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+				   if (this.message.cstNpSocialRl.idAddr == "") {
+						summer.toast({
+							msg: "户口所在地不能为空"
+						});
+						return false;
+					} else if (this.message.cstNpSocialRl.workPlc == "") {
+						summer.toast({
+							msg: "工作单位不能为空"
+						});
+						return false;
+					} else if (this.message.cstNpSocialRl.mp == "") {
+						summer.toast({
+							msg: "手机号不能为空"
+						});
+						return false;
+					} else if (!phoneCard.test(this.message.cstNpSocialRl.mp)) {
+						summer.toast({
+							msg: "手机号格式不正确"
+						});
+						return false;
+					}else if (this.message.cstNpSocialRl.majorInTypCd == "") {
+						summer.toast({
+							msg: "主要收入来源不能为空"
+						});
+						return false;
+					}else if (this.message.cstNpSocialRl.afterTaxYearIn == "") {
+						summer.toast({
+							msg: "税后年收入不能为空"
+						});
+						return false;
+					}
+					return true;
+				},
+				onValuesChange8: function (picker, values) {
+					this.pickerSourceIncome = values[0];
+				},
+				surePickerSoureIncome: function (param) {
+					var self = this;
+					this.pickerSourceIncomeStatus = !this.pickerSourceIncomeStatus;
+					if (param == 'confirm') {
+						this.message.cstNpSocialRl.majorInTypCdName = this.pickerSourceIncome;
+						this.totalData.majorInArray.map(function(e,i){
+							if(e.label==self.message.cstNpSocialRl.majorInTypCdName){
+								self.message.cstNpSocialRl.majorInTypCd=self.totalData.majorInArray[i].value;
+							}
+						});
+					}
+				},
+				savePerson: function() {
+					var self=this;
+					if (!this.messageTest()) {
+						return;
+					};
+					self.personMes.cstNpSocialRl=self.message.cstNpSocialRl;
+				 
+					var finanlInput=JSON.parse(JSON.stringify(self.personMes));
+					ajaxRequest({
+						type: 'post',
+						url: 'appservice/customer/cstNpBscInfo/save.do',
+						param:finanlInput
+					}, function(res) {
+						summer.hideProgress();
+						if (res.data.flag == 1) {
+							//self.baseMessageData=res.data.datas;
+							//console.log(self.baseMessageData);
+							summer.toast({msg:"保存成功"});
+							//var clint_Id=res.data.datas.id;
+							var clint_Id = res.data.datas.cstId;
+								//self.clintId=clint_Id;
+								//self.message.id=res.data.datas.npId;//保存详情id
+							//var clint_Id=self.res.data.datas.cstId
+							if (self.sourceFrom=="newCreateCustom_verify2") {
+								summer.openWin({
+									id : 'setProject',
+									url : 'html/fastReport/setProject.html',
+									create : false,
+									type : 'actionBar',
+									pageParam:{
+										source:"customer",
+										customId:clint_Id
+									},
+									actionBar : {
+										title : "快捷报单",
+										titleColor : "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+										backgroundColor : "#039be5",
+										leftItem : {
+											image : "img/back.png",
+											method : "", //返回按钮自定义事件
+											text : "返回",
+											textColor : "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+										},
+										rightItems : [{
+											type : "text",
+											text : "下一步",
+											textColor : "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+											method : "nextStopInput()" //在打开的window中自定义事件
+										}]
+									}
+								});
+							} else if(self.sourceFrom=="newCustom"){
+								summer.closeToWin({id:"newCustom"});
+							} else if(self.sourceFrom=="setProject") {  
+									summer.closeToWin({id:"setProject"});
+							}
+						}else if(res.data.flag==0){
+							if(res.data.code=="E02003"){
+								summer.toast({msg:"客户证件号重复,请重新录入"});
+								return
+							}
+						}
+					}, function(err) {
+						alert(err);
+						console.log(err);
+						summer.hideProgress();
+					});
+				},
+				// openPicker: function() {
+				// 	this.$refs.picker.open();
+				// }
+			}
+		})
+
+		function saveAllPerMessage() {
+			newCreateCustom.savePerson();
+		}
+		summerready = function() {
+			//var clint_Id=summer.getStorage("clint_id");
+			var clint_Id;
+			newCreateCustom.getData(clint_Id);
+			var personMessage = summer.pageParam.personMessage;
+			var sponseBase=summer.pageParam.sponseBase;
+			var sourceFrom=summer.pageParam.sourceFrom;
+			if(sourceFrom=="newCreateCustom_verify2"){
+				if(sponseBase){
+					newCreateCustom.message.cstNpSocialRl.rlNm=sponseBase.cstNm;
+					newCreateCustom.message.cstNpSocialRl.certNo=sponseBase.certNo;
+					newCreateCustom.message.cstNpSocialRl.genderCd=sponseBase.genderNm=="男"?"1":"2";
+				}
+			}else{
+				if(personMessage&&personMessage.cstNpSocialRl){
+					newCreateCustom.message.cstNpSocialRl.rlNm=personMessage.cstNpSocialRl.rlNm
+					newCreateCustom.message.cstNpSocialRl.certNo=personMessage.cstNpSocialRl.certNo
+					newCreateCustom.message.cstNpSocialRl.genderCd=personMessage.cstNpSocialRl.genderCd
+					newCreateCustom.message.cstNpSocialRl.idAddr=personMessage.cstNpSocialRl.idAddr
+					newCreateCustom.message.cstNpSocialRl.workPlc=personMessage.cstNpSocialRl.workPlc
+					newCreateCustom.message.cstNpSocialRl.mp=personMessage.cstNpSocialRl.mp;
+					newCreateCustom.message.cstNpSocialRl.id=personMessage.cstNpSocialRl.id;
+					newCreateCustom.message.cstNpSocialRl.majorInTypCdName=personMessage.cstNpSocialRl.majorInTypCdName;
+					newCreateCustom.message.cstNpSocialRl.majorInTypCd=personMessage.cstNpSocialRl.majorInTypCd;
+					newCreateCustom.message.cstNpSocialRl.afterTaxYearIn=personMessage.cstNpSocialRl.afterTaxYearIn;
+				}
+			}
+			newCreateCustom.sourceFrom=sourceFrom;
+			newCreateCustom.personMes=personMessage;
+		}
+	</script>
+
+</body>
+
+</html>

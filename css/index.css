@@ -1,0 +1,143 @@
+html{
+    background-color: #f6f6f6;
+}
+.clearfix:after{
+    content: ".";
+    overflow: hidden;
+    visibility: hidden;
+    height: 0;
+    clear: both;
+    display: block;
+}
+#content{
+   padding: 0;
+   background-color: #f6f6f6;
+   position: relative;
+}
+.container{
+    width: 100%;
+    height: 3.7rem;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 0.2rem;
+}
+
+.swiper-container{
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+    width: 100%;
+    height: 100%;
+}
+.swiper-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.swiper-free-mode > .swiper-wrapper {
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+    -ms-transition-timing-function: ease-out;
+    -o-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+    margin: 0 auto;
+}
+.swiper-slide {
+    float: left;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-align: center;
+}
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.crm,.xmgl{
+   height: 0.7rem;
+   background-color: #fff;
+   padding-left: 0.4rem;
+   margin: 0;
+}
+.crm div,.xmgl div{
+   height: 0.7rem;
+   border-bottom: 1px solid #dbdbdb;
+   width: 100%;
+}
+.crm div span,.xmgl div span{
+   float: left;
+   width: 0.04rem;
+   height: 0.28rem;
+   background-color: #039be5;
+   margin: 0.23rem 0.12rem 0 0;
+}
+.crm div i,.xmgl div i{
+   float: left;
+   height: 0.28rem;
+   line-height: 0.28rem;
+   font-size: 0.28rem;
+   color: #424242;
+   font-style: normal;
+   font-weight: normal;
+   margin-top: 0.23rem;
+}
+.crm_con,.xmgl_con{
+   background-color: #fff;
+   width: 100%;
+   margin-bottom: 0.2rem;
+}
+.xmgl_con:last-child{
+   margin-bottom: 0;
+}
+.crm_list,.xmgl_list{
+   width: 100%;
+   padding: 0.2rem 0.2rem 0 0.2rem;
+}
+.crm_list li,.xmgl_list li{
+   float: left;
+   width: 2rem;
+   height: 1.16rem;
+   font-size: 0.24rem;
+   margin: 0 0.18rem 0.54rem 0.18rem;
+   position: relative;
+}
+.crm_list li dl,.xmgl_list li dl{
+   width: 100%;
+   height: 100%;
+}
+.crm_list li dl dt,.xmgl_list li dl dt{
+   width: 100%;
+   height: 0.8rem;
+   line-height: 0.8rem;
+   display: flex;
+   align-items:center;
+   justify-content:center;
+   font-size: 0.4rem;
+}
+.crm_list li dl dd,.xmgl_list li dl dd{
+   text-align: center;
+   height: 0.36rem;
+   line-height: 0.36rem;
+   font-size: 0.24rem;
+   color: #424242;
+}
+.missionNum{
+   position: absolute;;
+   top:0.1rem;
+   right:0.4rem;
+   color:white;
+   width: 18px;
+   display: inline-block;
+   font-size: 12px;
+   text-align: center;
+   line-height:18px;
+   border-radius: 18px;
+   background-color: #fe0000;
+
+}
