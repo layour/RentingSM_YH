@@ -8,12 +8,6 @@
 // 华科测试地址
 window.G_COMMON_URL = "http://122.49.7.88:8080/honor/";
 
-function getToken() {
-	var userinfo = summer.getStorage("userinfo");
-	var token = userinfo ? userinfo.token : "";
-	return token;
-}
-
 var CommonUtil = {
 	//图片加水印
 	watermark: function (params) {
@@ -105,7 +99,6 @@ var CommonUtil = {
 };
 
 function ajaxRequest(paramObj, successCallback, errorCallback) {
-	console.log('用户的token' + getToken());
 	var testPath = '';
 	var paramData = {};
 	if (paramObj.fullUrl) {
@@ -129,28 +122,6 @@ function ajaxRequest(paramObj, successCallback, errorCallback) {
 	window.cordovaHTTP.settings = {
 		timeout: 5000
 	};
-	if (getToken()) {
-		var token = getToken();
-		if ($summer.os == "ios") {
-			if (paramObj.type == "post" || paramObj.type == "POST") {
-				if(paramObj.search){
-					testPath = testPath + "&TOKEN=" + token;//搜索的URL单独处理
-				}else{
-					testPath = testPath + "?TOKEN=" + token;
-				}
-				
-			} else {
-				paramObj.param.TOKEN = token;
-			}
-		} else {
-			if(paramObj.search){//搜索的URL单独处理
-				testPath = testPath + "&TOKEN=" + token;
-			}else{
-				testPath = testPath + "?TOKEN=" + token;
-			}
-			
-		}
-	}
 	summer.ajax({
 		type: paramObj.type,
 		url: testPath,
