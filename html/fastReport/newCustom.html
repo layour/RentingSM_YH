@@ -189,11 +189,10 @@
 			getData:function(end, flag) {
 				var self = this;
 				ajaxRequest({
-					type: 'get',
-					url: 'appservice/customer/cstbscinfo/initList.do',
+					type: 'POST',
+					url: 'customer/queryCustomerList',
 					param: {
-						"pageNo": end,
-						"pageSize": 10,
+						 
 					}
 				}, function (res) {
 					summer.hideProgress();
