@@ -5,8 +5,8 @@
  * 3、日期时间格式化：datePattern("yyyy-MM-dd EE hh:mm:ss", date) =>2009-03-10 周二 08:09:04
  * 4、兼容获取权限：getPermission(["android.permission.ACCESS_FINE_LOCATION","android.permission.ACCESS_COARSE_LOCATION"], successFn)
  */
-// 华科测试地址
-window.G_COMMON_URL = "http://122.49.7.88:8080/honor/";
+// 易汇测试地址
+window.G_COMMON_URL = "http://122.49.7.88:8080/";
 
 var CommonUtil = {
 	//图片加水印

@@ -64,7 +64,7 @@
 		// 判断是否已登陆
 		function isLogin() {
 			if (summer.getStorage("userinfo")) {
-				if (summer.getStorage("userinfo").token) {
+				if (summer.getStorage("userinfo").EMPLOYEE_ID) {
 					return true;
 				} else {
 					return false;
@@ -80,7 +80,7 @@
 		summerready = function () {
 			if (isLogin()) {
 				var userinfo = summer.getStorage("userinfo");
-				var name = userinfo.userName ? userinfo.userName : "张帅经理";
+				var name = userinfo.EMPLOYEE_NAME ? userinfo.EMPLOYEE_NAME : "admin";
 				$('.box').find('p').text(name);
 			} else {
 				$('.box').find('p').text("请登录");
@@ -91,7 +91,6 @@
 
 		function logout() {
 			if (isLogin()) {
-				var os = $summer.os;
 				UM.confirm({
 					title: '确定要退出吗？',
 					btnText: ["取消", "确定"],
@@ -215,7 +214,7 @@
 
 		function changePsw() {
 			if (isLogin()) {
-				/* summer.openWin({
+				summer.openWin({
 					id: 'changePsw',
 					url: 'html/changePsw/index.html',
 					create: false,
@@ -237,9 +236,6 @@
 							method: "submitPsw()"
 						}]
 					}
-				}); */
-				summer.toast({
-					msg: "敬请期待"
 				});
 			} else {
 				summer.toast({
@@ -250,7 +246,6 @@
 
 		function toLog() {
 			if (!isLogin()) {
-				var os = $summer.os;
 				summer.setStorage("userinfo", {});
 				summer.openWin({
 					id: 'login',
