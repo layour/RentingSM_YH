@@ -175,18 +175,36 @@
 				<mt-popup v-model="addStatus" v-if="addStatus" position="bottom" class="add">
 					<ul>
 						<li>
-							<span>紧急联系人</span>
+							<span>姓名</span>
 							<input type="text" name="rlNm" class='fr' maxlength='6' v-model="rlNm" placeholder='请输入真实姓名'>
 						</li>
 						<li>
-							<span>电话</span>
+							<span>手机号</span>
 							<input type="number" class='fr' name="mp" v-model="mp" placeholder='请输入号码'>
 						</li>
+						<li>
+							<span>性别</span>
+							<span v-if='sex' class="grayColor fr">{{rlTypNm}}</span>
+							<span class="grayColor gray fr" v-else>请选择</span>
+							<i class="icon iconfont icon-enter"></i>
+						</li>
 						<li @click="surePicker">
-							<span>关系</span>
+							<span>与客户关系</span>
 							<span v-if='rlTypCd' class="grayColor fr">{{rlTypNm}}</span>
 							<span class="grayColor gray fr" v-else>请选择</span>
 							<i class="icon iconfont icon-enter"></i>
+						</li>
+						<li>
+							<span>家庭地址</span>
+							<input type="text">
+						</li>
+						<li>
+							<span>身份证号</span>
+							<input type="text">
+						</li>
+						<li>
+							<span>身份证地址</span>
+							<input type="text">
 						</li>
 					</ul>
 					<p><span  @click="addItem">取消</span><span class="fr" @click="sureAdd">确定</span></p>
@@ -227,6 +245,7 @@
 							mp:'',
 							rlTypCd:'',
 							rlTypNm:'',
+							sex: '',
 							id:'',
 							list:[],
 							slots: [{
