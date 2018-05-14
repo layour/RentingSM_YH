@@ -32,6 +32,11 @@ summerready = function() {
                 url: 'html/repayApply/payList/loaned.html',
                 bgColor: '#ffffff',
                 hidden: true
+            }, {
+                id: 'unPassed',
+                url: 'html/repayApply/payList/unPassed.html',
+                bgColor: '#ffffff',
+                hidden: true
             }
         ]
     }, function(ret, err) {

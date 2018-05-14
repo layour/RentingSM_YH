@@ -54,8 +54,8 @@
 		</div>
 	</div>
     <script type="text/javascript">
-        // 已申请
-		var loaning = new Vue({
+        // 未通过
+		var unPassed = new Vue({
 			el: '#index',
 			data: {
 				items: [],
@@ -100,7 +100,7 @@
                     param: {
                         "pageNo": pageNum,
                         "pageSize": 10,
-                        "APPLICATION_STATE": "1",
+                        "APPLICATION_STATE": "3",
                         "RENTER_NAME": ""
                     }
                 }, function (res) {
@@ -112,7 +112,7 @@
 						Data = res.data;
 					}
 					if (Data.flag == 1) {
-						loaning.totalPage = Data.datas.count;
+						unPassed.totalPage = Data.datas.count;
 						if (Data.datas.list.length < 1) {
 							createNull("content", "../../../img/empty.png");
 							$('#content').css('display', 'block');
@@ -129,11 +129,11 @@
                                     e.APPLICATION_STATE = "未通过"
                                 }
 							});
-							if (loaning.resetData) {
-								loaning.items = Data.datas.list;
+							if (unPassed.resetData) {
+								unPassed.items = Data.datas.list;
 							} else {
 								Data.datas.list.forEach(function (e) {
-									loaning.items.push(e);
+									unPassed.items.push(e);
 								});
 							}
 						}
@@ -146,7 +146,7 @@
 					console.log(err);
 				});
 			};
-			getData(loaning.num);
+			getData(unPassed.num);
 			summer.setRefreshHeaderInfo({
 				visible: true,
 				loadingImg: 'img/refresh.png',
@@ -157,7 +157,7 @@
 				showTime: true
 			}, function (ret, err) {
 				//通常在这里从服务器加载数据
-				loaning.resetData = true;
+				unPassed.resetData = true;
 				getData(1);
 				summer.refreshHeaderLoadDone(); //加载完成后调用方法恢复组件到默认状态
 			});
@@ -171,13 +171,13 @@
 				showTime: true
 			}, function (ret, err) {
 				//通常在这里从服务器加载数据，
-				var num = loaning.num++;
-				if (num > loaning.totalPage) {
+				var num = unPassed.num++;
+				if (num > unPassed.totalPage) {
 					summer.toast({
 						msg: "没有更多了"
 					});
 				} else {
-					loaning.resetData = false;
+					unPassed.resetData = false;
 					getData(num);
 				}
 				summer.refreshFooterLoadDone(); //加载完成后调用方法恢复组件到默认状态
