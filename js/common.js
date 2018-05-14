@@ -8,6 +8,12 @@
 // 易汇测试地址
 window.G_COMMON_URL = "http://122.49.7.88:8080/appservice-yh/";
 
+function userId() {
+	var userinfo = summer.getStorage("userinfo");
+	var EMPLOYEE_ID = userinfo ? userinfo.EMPLOYEE_ID : "";
+	return EMPLOYEE_ID;
+}
+
 var CommonUtil = {
 	//图片加水印
 	watermark: function (params) {
@@ -121,7 +127,13 @@ function ajaxRequest(paramObj, successCallback, errorCallback) {
 	//设置超时
 	window.cordovaHTTP.settings = {
 		timeout: 5000
-	};
+    };
+    if (userId()) {
+		paramData = paramObj.param;
+		paramData.EMPLOYEE_ID = userId();
+	} else {
+		paramData = paramObj.param;
+	}
 	summer.ajax({
 		type: paramObj.type,
 		url: testPath,
