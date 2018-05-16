@@ -664,11 +664,9 @@
 					var self = this;
 					ajaxRequest({
 						type: 'post',
-						url: 'appservice/customer/cstNpBscInfo/view.do',
+						url: 'customer/queryNpCustDetails',
 						param: {
-							"cstBscInfo": {
-								id: clintId
-							}
+							"CUSTOMER_ID": clintId
 						}
 					}, function (res) {
 						summer.hideProgress();

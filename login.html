@@ -79,7 +79,7 @@
 				return false;
 			}
 			window.cordovaHTTP.settings = {
-				timeout: 5000
+				timeout: 120000
 			}; //设置5秒超时
 			summer.ajax({
 				type: "post",
@@ -134,6 +134,7 @@
 						});
 				}
 			}, function (error) {
+                alert(JSON.stringify(error));
 				console.log(error);
 				summer.hideProgress();
 				summer.toast({
