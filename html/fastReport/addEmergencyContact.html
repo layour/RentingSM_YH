@@ -229,24 +229,34 @@
     <script>
 				summerready=function(){
 					vueTemplate.id=summer.pageParam.id
-					console.log(vueTemplate.id);
+					vueTemplate.BECR_TYPE=summer.pageParam.BECR_TYPE
+					console.log(vueTemplate.id,vueTemplate.BECR_TYPE);
 					vueTemplate.getData()
 				}
         var vueTemplate=new Vue({
           el:'#addContact',
           data:function () {
-			  var This = this;
             return {
 							addStatus:false,
 							pickerStatus:false,
 							pickedValues:{},
-							addContactList:[],
+							addContactList:[
+								{
+									rlNm:'张三丰',
+									mp:'13146829922',
+									rlTypNm:'上下级',
+									idNum:'411829199408164321',
+									addresHome:'张三丰411829199408164321上下级张三丰411829199408164321上下级',
+									addresIDS:'上下级上下级上下级上下级'
+								}
+							],
 							rlNm:'',
 							mp:'',
 							rlTypCd:'',
 							rlTypNm:'',
 							sex: '',
-							id:'',
+							id:'', //客户id
+							BECR_TYPE:'', //客户类型
 							idNum:'', //身份证号码
 							addresIDS:'',
 							addresHome:'',
@@ -277,24 +287,34 @@
 							var _this=this
 							summer.showProgress()
 							ajaxRequest({
-								type:'GET',
-								url:'appservice/customer/cstnpsocialrl/list.do',
+								type:'post',
+								url:'customer/queryCustLinkManList',
 								param:{
-									cstId:_this.id
+									BECR_ID:_this.id,
+									BECR_TYPE:_this.BECR_TYPE
 								}
 							},function(res){
-								console.log(res,JSON.stringify(res));
+								console.log('data',JSON.stringify(res));
 								_this.slots[0].values=res.data.datas.rlTypArray
 								_this.addContactList=res.data.datas.jjList
 								summer.hideProgress()
-								// for(var i=0;i<_this.addContactList.length;i++){
-								// 	for(var j=0;j<_this.list.length;j++){
-								// 		if(_this.addContactList[i].rlTypCd==_this.list[j].value){
-								// 			_this.addContactList[i].rlTypNm=_this.list[j].label
-								// 			continue
-								// 		}
-								// 	}
-								// }
+							},function(err){
+								summer.hideProgress()
+								alert(err);
+							})
+							// 查询字典
+							summer.showProgress()
+							ajaxRequest({
+								type:'post',
+								url:'customer/queryCustLinkManInfo',
+								param:{
+									CULM_ID: ''
+								}
+							},function(res){
+								console.log('init',JSON.stringify(res));
+								_this.slots[0].values=res.data.datas.rlTypArray
+								_this.addContactList=res.data.datas.jjList
+								summer.hideProgress()
 							},function(err){
 								summer.hideProgress()
 								alert(err);

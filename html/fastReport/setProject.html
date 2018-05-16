@@ -186,6 +186,7 @@
             setProgect.sourceFrom = sourceId;
             var type = summer.pageParam.type;
             setProgect.type = type;
+						console.log('type',type)
 			var customId = summer.pageParam.customId;
 			var __projectid = summer.pageParam.projectId;
 			setProgect.project_Id = __projectid;
@@ -384,7 +385,7 @@
 							if (finanlData.fObj) {
 							 	addRight('uploadImg');
 							}
-							
+
 						}
 					}, function(err) {
 						alert(err);
@@ -476,7 +477,8 @@
 					type: 'actionBar',
 					pageParam: {
 						id: setProgect.project_Id,
-						CLIENT_ID: setProgect.customId
+						CLIENT_ID: setProgect.customId,
+						BECR_TYPE: setProgect.type
 					},
 					actionBar: {
 						title: title,
@@ -512,7 +514,9 @@
 					create: false,
 					type: 'actionBar',
 					pageParam: {
-						id: setProgect.project_Id
+						id: setProgect.project_Id,
+						BECR_TYPE: setProgect.type
+
 					},
 					actionBar: {
 						title: title,
@@ -617,7 +621,8 @@
 				create: false,
 				type: 'actionBar',
 				pageParam: {
-					id: setProgect.customId
+					id: setProgect.customId,
+					BECR_TYPE: setProgect.type
 				},
 				actionBar: {
 					title: '添加紧急联系人',
