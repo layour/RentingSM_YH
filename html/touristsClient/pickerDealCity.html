@@ -18,7 +18,7 @@
 					<span onclick="satartSearch('all')">取消</span>
         </div> -->
 				<ul class="dealerList companyList">
-          <li @click="pickerCarModels(item)" v-for="(item,index) in modelsList" :key="index">{{item.name}}</li>
+          <li @click="pickerCarModels(item)" v-for="(item,index) in modelsList" :key="index">{{item.FLAG}}</li>
         </ul>
       </div>
     </div>
@@ -91,7 +91,7 @@
 								url:'html/touristsClient/pickerDealCity-2.html',
 								create:false,
 								type:'actionBar',
-								pageParam:{id:it.id},
+								pageParam:{id:it.CODE},
 								actionBar: {
 						      title: it.name,
 						      titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）

@@ -198,7 +198,7 @@
 			}
 			setProgect.customId = customId;
 			setProgect.carName = summer.pageParam.carName;
-			setProgect.getData(customId);
+			setProgect.getData(__projectid);
 			$("." + sourceId).addClass('active').siblings('i').addClass("active");
 			//从后台判断有没有填写 为了调试上传图片 暂时加上车辆的 start
 			// if(summer.pageParam.isEdit){
@@ -288,10 +288,11 @@
 				getData: function(id) {
 					var self = this;
 					ajaxRequest({
-						type: 'get',
-						url: 'appservice/project/prjbscinfo/toAddPrj.do',
+						type: 'POST',
+						url: 'foundproject/loadProjectPage',
 						param: {
-							"cstId.id": id,
+							"PROJECT_ID": id
+						 
 						}
 					}, function(res) {
 						summer.hideProgress();

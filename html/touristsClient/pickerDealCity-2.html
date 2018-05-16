@@ -12,7 +12,7 @@
 			<div class="um-content pickerModels">
         <ul class="modelsList">
           <li v-for="(it,index) in modelsList" @click="pickerModels(it)" :key="index">
-						{{it.name}}
+						{{it.NAME}}
 					</li>
         </ul>
       </div>
@@ -41,17 +41,17 @@
 						getData:function(){
 							var _this=this;
 							ajaxRequest({
-								type:'GET',
-								url:'appservice/sys/area/appTreeData.do',
+								type:'POST',
+								url:'foundproject/getProList',
 								param:{
-									regionId:_this.id
+									'LARGE_AREA':_this.id
 								}
 							},function(res){
 								console.log("res",res);
 								if(res.data==0){
 									createNull("pickerModels-2")
 								}else {
-									_this.modelsList=res.data
+									_this.modelsList=res.data.datas.provList
 								}
 							},function(err){
 								console.log("err",err);
@@ -65,9 +65,9 @@
 								url:'html/touristsClient/pickerDealCity-3.html',
 								create:false,
 								type:'actionBar',
-								pageParam:{braId:it.id},
+								pageParam:{braId:it.SHORT_NAME},
 								actionBar: {
-						      title: it.name,
+						      title: it.NAME,
 						      titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
 						      backgroundColor: "#039BE5",
 						      leftItem:{
