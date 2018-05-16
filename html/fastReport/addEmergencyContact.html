@@ -196,15 +196,15 @@
 						</li>
 						<li>
 							<span>家庭地址</span>
-							<input type="text">
+							<input type="text" v-model="addresHome" placeholder="请输入家庭地址">
 						</li>
 						<li>
 							<span>身份证号</span>
-							<input type="text">
+							<input type="text" @blur="checkedIDS" v-model="idNum" placeholder="请输入身份证号">
 						</li>
 						<li>
 							<span>身份证地址</span>
-							<input type="text">
+							<input type="text" v-model="addresIDS" placeholder="请输入身份证地址">
 						</li>
 					</ul>
 					<p><span  @click="addItem">取消</span><span class="fr" @click="sureAdd">确定</span></p>
@@ -247,6 +247,9 @@
 							rlTypNm:'',
 							sex: '',
 							id:'',
+							idNum:'', //身份证号码
+							addresIDS:'',
+							addresHome:'',
 							list:[],
 							slots: [{
 								flex: 1,
@@ -265,6 +268,11 @@
             }
           },
 					methods:{
+						checkedIDS:function(){
+							if(!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.idNum))){
+								summer.toast({msg:'身份证号码有误'})
+							}
+						},
 						getData:function(){
 							var _this=this
 							summer.showProgress()

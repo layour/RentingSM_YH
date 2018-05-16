@@ -54,31 +54,48 @@
 					</td>
 				</tr>
 				<tr>
-						<td>车辆识别号</td>
+					<td>指导价</td>
+					<td>
+						<input type="text" @input="checkNumber($event,'realityPrice')" name="price" placeholder="请输入车辆单价" v-model="realityPrice">元
+					</td>
+				</tr>
+				<tr>
+					<td>零售价</td>
+					<td>
+						<input type="text" @input="checkNumber($event,'realityPrice')" name="price" placeholder="请输入零售价" v-model="realityPrice">元
+					</td>
+				</tr>
+				<tr>
+						<td>数量</td>
 						<td class='oldCar'>
-							<input type="text" @blur="checkCarNumber" name="carNumber" placeholder="请输入车辆识别号" v-model="carNumber">
+							<input type="number" @blur="checkCarNumber" name="carNumber" placeholder="请输入车辆识别号" v-model="carNumber">
 						</td>
 				</tr>
 				<tr>
-						<td>发动机号</td>
+						<td>留购价</td>
 						<td class='oldCar'>
 							<input type="text" name="powerNumber" placeholder="请输入发动机号" v-model="powerNumber">
 						</td>
 				</tr>
-				<template v-if="isOldCar=='是'">
-					<tr>
-						<td>二手车里程数(公里)</td>
+				<tr>
+						<td>车船税</td>
 						<td class='oldCar'>
-							<input type="text" name="mileage"  @input="checkNumber($event,'mileage')" placeholder="二手车里程数(公里)" v-model="mileage">
+							<input type="text" name="powerNumber" placeholder="请输入发动机号" v-model="powerNumber">
 						</td>
-					</tr>
+				</tr>
+				<tr  class='last'>
+					<td>保险</td>
+					<td class='oldCar'>
+						<input type="text" name="mileage"  @input="checkNumber($event,'mileage')" placeholder="二手车里程数(公里)" v-model="mileage">
+					</td>
+				</tr>
+				<!-- <template v-if="isOldCar=='是'">
 					<tr @click="openPickerDate">
 						<td>二手车首次登记日期</td>
 						<td class='oldCar lastCity'>
 							<span v-if='firstDate'>{{firstDate}}</span>
 							<span class="grayColor" v-else>请选择</span>
 							<i class="icon iconfont icon-enter"></i>
-							<!-- <input type="text" name="firstDate" placeholder="二手车首次登记日期" v-model="firstDate"> -->
 						</td>
 					</tr>
 					<tr @click="pickerDealCity">
@@ -101,20 +118,14 @@
 							<input type="text" name="carId" placeholder="请输入卖家证件号码" v-model="carId">
 						</td>
 					</tr>
-				</template>
-				<tr>
-					<td>车辆单价</td>
-					<td class='last'>
-						<input type="text" @input="checkNumber($event,'realityPrice')" name="price" placeholder="请输入车辆单价" v-model="realityPrice">元
-					</td>
-				</tr>
-				<tr  @click="surePickerRealColor">
+				</template> -->
+
+				<!-- <tr  @click="surePickerRealColor">
 					<td>车身颜色</td>
 					<td>
 							<span v-if='carColor'>{{carColor}}</span>
 							<span class="grayColor" v-else>请选择</span>
 							<i class="icon iconfont icon-enter"></i>
-						<!-- <input type="text"  name="carColor" placeholder="请输入车身颜色" v-model="carColor"> -->
 					</td>
 				</tr>
 				<tr @click="surePickerColor('guanXi')">
@@ -124,7 +135,7 @@
 						<span class="grayColor" v-else>请选择</span>
 						<i class="icon iconfont icon-enter"></i>
 					</td>
-				</tr>
+				</tr> -->
 			</table>
 			<mt-popup v-model="pickerColorStatus" position='bottom' class="pickerColor">
 				<mt-picker value-key="label" :slots="slots" @change="onValuesChange"></mt-picker>
