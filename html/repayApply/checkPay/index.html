@@ -213,8 +213,8 @@
 				type: 'get',
 				url: 'appservice/cap/cappayinfo/capPayView',
 				param: {
-					"payId.id": info.userId,
-					"flag": "2"
+					"CONTRACT_ID": info.CONTRACT_ID,
+					"PAYMENT_ID": info.ID
 				}
 			}, function(res) {
 				summer.hideProgress();
