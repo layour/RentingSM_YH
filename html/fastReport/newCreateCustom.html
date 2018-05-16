@@ -128,7 +128,7 @@
 				<img v-bind:src="cardUrl" v-show="cardShow" alt="" />
 			</div> -->
 			<div class="item um-box pl10 pr10"  >
-			<span class="um-red mr5">*</span>	<span class="um-bf1">姓名</span>  <span class="um-bf3 tr">{{message.cstBscInfo.cstNm}}</span>  
+			<span class="um-red mr5">*</span>	<span class="um-bf1">姓名</span>  <span class="um-bf3 tr">{{totalData.cstBscInfo.cstNm}}</span>  
 			</div>
 			<div class="item um-box pl10 pr10" >
 					<span class="um-red mr5">*</span>	<span class="um-bf1">手机号</span>  <span class="um-bf3 tr">{{message.cstBscInfo.cstPhoneNumber}}</span>  
@@ -660,6 +660,7 @@
 							}
 						})
 				},
+                // 自然人客户信息
 				getData:function(projectId, clintId) {
 					var self = this;
 					ajaxRequest({
@@ -671,7 +672,8 @@
 					}, function (res) {
 						summer.hideProgress();
 						if (res.data.flag == 1) {
-							var holeDataBase = res.data.datas.cstBscInfo;
+                            self.totalData = res.data.datas.npCustDetails;
+							/* var holeDataBase = res.data.datas.cstBscInfo;
 							var holeDataDetail = res.data.datas.cstNpBscInfo;
 							var totalData = res.data.datas;
 							self.totalData=totalData;
@@ -794,7 +796,7 @@
 										}
 									});
 								}
-							}
+							} */
 						}
 					}, function (err) {
 						alert(err);

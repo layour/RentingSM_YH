@@ -183,7 +183,9 @@
 	<script>
 		summerready = function() {
 			var sourceId = summer.pageParam.source;
-			setProgect.sourceFrom = sourceId;
+            setProgect.sourceFrom = sourceId;
+            var type = summer.pageParam.type;
+            setProgect.type = type;
 			var customId = summer.pageParam.customId;
 			var __projectid = summer.pageParam.projectId;
 			setProgect.project_Id = __projectid;
@@ -221,7 +223,8 @@
 					},
 					baseMessageData: "",
 					customId: "",
-					project_Id: "",
+                    project_Id: "",
+                    type: "",
 					carName:'',
 					sourceFrom:"",
 					slots1: [{

@@ -104,7 +104,7 @@
 		</div>
 		<div class="um-content">
 			<div id="content"></div>
-			<div class="list customList um-bgc-white" v-for="(item,index) in dataSource" @click="completeCustom(item.EMPLOYEE_ID,item.CR_BECR_NAME)"
+			<div class="list customList um-bgc-white" v-for="(item,index) in dataSource" @click="completeCustom(item.EMPLOYEE_ID,item.CR_BECR_NAME, item.CR_BECR_TYPE)"
 			    v-bind:class="[index==0 ? marginTop0 : '']">
 				<p class="pl20 title pr20">{{item.CR_BECR_NAME}}
 					<span class="status fr">
@@ -234,7 +234,7 @@
 					summer.refreshFooterLoadDone(); //加载完成后调用方法恢复组件到默认状态
 				})
 			},
-			completeCustom:function(id, name) {
+			completeCustom:function(id, name, type) {
 				var self = this;
 				if (self.pageSource == 'programSelect') {
 					summer.openWin({
@@ -244,7 +244,8 @@
 						type: 'actionBar',
 						pageParam: {
 							source: "customer",
-							customId: id
+                            customId: id,
+                            type: type
 						},
 						actionBar: {
 							title: "快捷报单",
@@ -289,7 +290,8 @@
 						},
 						pageParam: {
 							clintId: id,
-							sourceFrom: "newCustom"
+							sourceFrom: "newCustom",
+                            type: type
 						}
 					});
 				} else {
