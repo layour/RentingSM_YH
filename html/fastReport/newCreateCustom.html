@@ -128,19 +128,19 @@
 				<img v-bind:src="cardUrl" v-show="cardShow" alt="" />
 			</div> -->
 			<div class="item um-box pl10 pr10"  >
-			<span class="um-red mr5">*</span>	<span class="um-bf1">姓名</span>  <span class="um-bf3 tr">{{totalData.cstBscInfo.cstNm}}</span>  
+			<span class="um-red mr5">*</span>	<span class="um-bf1">姓名</span>  <span class="um-bf3 tr">{{totalData.CR_BECR_NAME}}</span>  
 			</div>
 			<div class="item um-box pl10 pr10" >
-					<span class="um-red mr5">*</span>	<span class="um-bf1">手机号</span>  <span class="um-bf3 tr">{{message.cstBscInfo.cstPhoneNumber}}</span>  
+					<span class="um-red mr5">*</span>	<span class="um-bf1">手机号</span>  <span class="um-bf3 tr">{{totalData.CR_NATU_MOBILE}}</span>  
 			</div>
 			<div class="item um-box pl10 pr10"  >
-					<span class="um-red mr5">*</span>	<span class="um-bf1">身份证号</span>  <span class="um-bf3 tr">{{message.cstBscInfo.certNo}}</span>  
+					<span class="um-red mr5">*</span>	<span class="um-bf1">身份证号</span>  <span class="um-bf3 tr">{{totalData.CR_NATU_IDCARD}}</span>  
 			</div>
 			<div class="item">
 				<p class="pl10 pr10 tr">
 						<span class="um-red mr5 fl">*</span><span class="fl">性别</span>
 					<span class="">
-						<span class="first">{{message.genderNm}} </span>
+						<span class="first">{{totalData.CR_NATU_SEX}} </span>
 					</span>
 				</p>
 			</div>
@@ -148,29 +148,29 @@
 				<p class="pl10 pr10 tr">
 						<span class="um-red mr5 fl">*</span><span class="fl">出生年月</span>
 					<span class="">
-						<span class="first">{{message.birthday}} </span>
+						<span class="first">{{totalData.CR_BIRTH_DATE}} </span>
 					</span>
 				</p>
 			</div>
-			<div class="item">
+			<!-- <div class="item">
 				<p class="pl10 pr10 tr">
 						<span class="um-red mr5 fl">*</span><span class="fl">年龄</span>
 					<span class="">
 						<span class="first">{{message.age}} </span>
 					</span>
 				</p>
-			</div>
+			</div> -->
 			<div @click="surePickerEducate" class="item" >
 					<p class="pl10 pr10  um-box">
 							<span class="um-red mr5 fl">*</span><span class="um-bf1">最高学历</span>
 						<span class="um-bf1 tr">
-							<span v-if='message.eduLvlNm' class="first">{{message.eduLvlNm}}</span>
+							<span v-if='totalData.CR_EDUCATION' class="first">{{totalData.CR_EDUCATION}}</span>
 							<span v-else class="second">请选择</span>
 							<i class="icon iconfont icon-enter"></i>
 						</span>
 					</p>
 				</div>
-			<div @click="surePickerMarStsCd" class="item" >
+			<!-- <div @click="surePickerMarStsCd" class="item" >
 				<p class="pl10 pr10  um-box">
 						<span class="um-red mr5 fl">*</span><span class="um-bf1">婚姻状况</span>
 					<span class="um-bf1 tr">
@@ -179,8 +179,8 @@
 						<i class="icon iconfont icon-enter"></i>
 					</span>
 				</p>
-			</div>
-			<div class="item" >
+			</div> -->
+			<!-- <div class="item" >
 				<p class="pl10 pr10 tr" @click="selectHukouCity">
 						<span class="um-red mr5 fl">*</span><span class="fl">户籍所在地城市</span>
 					<span class="">
@@ -309,7 +309,7 @@
 							<i class="icon iconfont icon-enter"></i>
 						</span>
 					</p>
-				</div>
+				</div>-->
 		</div>
 		<div class="um-footer">
 				<mt-popup v-model="pickerEducateStatus" position='bottom' class="pickerColor">
