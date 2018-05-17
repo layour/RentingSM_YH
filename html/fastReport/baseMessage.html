@@ -181,6 +181,7 @@
 					totalData:'',//基本信息所有字典
 					project_Id:'',//保存基本信息后返回的项目ID
 					 message:{
+						CREDIT_ID:'',//资信ID需传到立项
 						BECR_ID:'',//承租人ID（客户ID）
 						USER_ID:'',
 						PROJECT_ID:'',
@@ -354,14 +355,21 @@
 							  if(res.data.flag==1){
 								  console.log(res);
 								  var projectId=res.data.datas.parameter.PROJECT_ID;
-								  self.message.PROJECT_ID  = projectId;
-								  self.message.SCHEME_ID  = res.data.datas.parameter.SCHEME_ID;
-
+								  self.message.PROJECT_ID  = projectId;//项目ID
+								  self.message.SCHEME_ID  = res.data.datas.parameter.SCHEME_ID;//方案ID
+								  self.message.CREDIT_ID  = res.data.datas.parameter.CREDIT_ID;
+								  //CREDIT_ID 资信ID
+								  var baseMessageReturn=JSON.stringify({
+										PROJECT_ID:projectId,//项目ID
+										SCHEME_ID:self.message.SCHEME_ID,//方案ID
+										CREDIT_ID:self.message.CREDIT_ID,//资信ID
+										PLATFORM:self.message.PLATFORM//业务类型
+								  })
 								  summer.hideProgress();
 								  summer.toast({msg:"保存成功"});
 									summer.execScript({
 									    winId: "setProject",
-									    script: "addRight('baseMessage','"+projectId+"')"
+									    script: "addRight('baseMessage','"+baseMessageReturn+"')"
 									});
 									summer.closeWin()
 							  }
