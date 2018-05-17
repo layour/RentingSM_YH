@@ -104,7 +104,7 @@
 		</div>
 		<div class="um-content">
 			<div id="content"></div>
-			<div class="list customList um-bgc-white" v-for="(item,index) in dataSource" @click="completeCustom(item.EMPLOYEE_ID,item.CR_BECR_NAME, item.CR_BECR_TYPE)"
+			<div class="list customList um-bgc-white" v-for="(item,index) in dataSource" @click="completeCustom(item.CUSTOMER_ID,item.CR_BECR_NAME, item.CR_BECR_TYPE)"
 			    v-bind:class="[index==0 ? marginTop0 : '']">
 				<p class="pl20 title pr20">{{item.CR_BECR_NAME}}
 					<span class="status fr">
