@@ -316,6 +316,17 @@
                     </span>
                 </p>
             </div>
+            <div @click="surePickerPO" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">婚姻状况</span>
+                    <span class="um-bf2 tr">
+                        <span v-if="message.CR_MARRIAGE_STATE" class="first">{{message.CR_MARRIAGE_STATE}}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
                 <span class="um-bf1">身份证地址</span>
@@ -451,6 +462,14 @@
                 <p>
                     <span class="" @click="surePickerDJYQ">取消</span>
                     <span class="" @click="surePickerDJYQ('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 婚姻状况 -->
+            <mt-popup v-model="pickerPOShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots13" @change="onValuesChange13"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerPO">取消</span>
+                    <span class="" @click="surePickerPO('confirm')">确定</span>
                 </p>
             </mt-popup>
         </div>
@@ -599,6 +618,16 @@
                         className: 'slot1',
                         textAlign: 'center'
                     }],
+                    // 婚姻状况
+                    pickerPOShow: false,
+                    pickerPO: "",
+                    slots13: [{
+                        flex: 1,
+                        values: [],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
                     // 信息详情
                     message: "",
                     // 全部数据
@@ -731,6 +760,13 @@
                                 self.slots8[0].values.push(e.FLAG);
                                 if (e.CODE == self.message.CR_NATU_MATE_PROPERTY) {
                                     self.message.CR_NATU_MATE_PROPERTY = e.FLAG;
+                                }
+                            });
+                            // 婚姻状况slots13
+                            res.data.datas.CR_MARRIAGE_STATE_DIC.forEach(function (e) {
+                                self.slots13[0].values.push(e.FLAG);
+                                if (e.CODE == self.message.CR_MARRIAGE_STATE) {
+                                    self.message.CR_MARRIAGE_STATE = e.FLAG;
                                 }
                             });
                             // 邮寄地址字典查询
@@ -892,6 +928,54 @@
                         this.message.MAILING_CREDIT_OVERDUE = this.pickerDJYQ;
                     }
                 },
+                // 婚姻状况更改
+                onValuesChange13: function (picker, values) {
+                    this.pickerPO = values[0];
+                },
+                surePickerPO: function (param) {
+                    var self = this;
+                    var result;
+                    this.pickerPOShow = !this.pickerPOShow;
+                    if (param == 'confirm') {
+                        this.message.CR_MARRIAGE_STATE = this.pickerPO;
+                        this.totalData.CR_MARRIAGE_STATE_DIC.forEach(function (e) {
+                            if (e.FLAG == self.pickerPO) {
+                                result = e.CODE;
+                            }
+                        });
+                        if (result == "3" || result == "23" || result == "22" || result == "21") {
+                            // 有配偶
+                            summer.setWinAttr({
+                                actionBar: {
+                                    title: "客户信息",
+                                    titleColor: "#ffffff",
+                                    backgroundColor: "#039be5",
+                                    rightItems: [{
+                                        type: "text",
+                                        text: "下一步",
+                                        textColor: "#ffffff",
+                                        method: "nextStopAction()"
+                                    }]
+                                }
+                            });
+                        } else {
+                            // 无配偶
+                            summer.setWinAttr({
+                                actionBar: {
+                                    title: "客户信息",
+                                    titleColor: "#ffffff",
+                                    backgroundColor: "#039be5",
+                                    rightItems: [{
+                                        type: "text",
+                                        text: "保存",
+                                        textColor: "#ffffff",
+                                        method: "savePerson()"
+                                    }]
+                                }
+                            });
+                        }
+                    }
+                },
                 // 日期更改
                 surePickerBirthday: function () {
 					this.pickerBirthday = !this.pickerBirthday;
@@ -967,6 +1051,11 @@
                     } else if (this.message.CR_NATU_WORK_ADDRESS == "") {
                         summer.toast({
                             msg: "请输入单位地址"
+                        });
+                        return false;
+                    } else if (!this.message.PEIOU) {
+                        summer.toast({
+                            msg: "请选择婚姻状况"
                         });
                         return false;
                     }
@@ -1097,8 +1186,15 @@
                                 }]
                             },
                             pageParam: {
+                                // 全部数据
+                                totalData: self.totalData,
+                                // 信息详情
                                 personMessage: self.message,
-                                sourceFrom: self.sourceFrom
+                                sourceFrom: self.sourceFrom,
+                                // 证件类型
+                                cardValues: self.slots1[0].values,
+                                // 性别
+                                sexValues: self.slots2[0].values,
                             }
                         });
                     }
