@@ -12,7 +12,7 @@
 			<div class="um-content pickerModels">
         <ul class="modelsList">
           <li v-for="(it,index) in modelsList" @click="pickerModels(it)" :key="index">
-						{{it.name}}
+						{{it.NAME}}
 					</li>
         </ul>
       </div>
@@ -42,17 +42,17 @@
 							var _this=this;
 							console.log(this.id);
 							ajaxRequest({
-								type:'GET',
-								url:'appservice/sys/area/appTreeData.do',
+								type:'POST',
+								url:'foundproject/getCityList',
 								param:{
-									provinceId:_this.id
+									SHORT_NAME:_this.id
 								}
 							},function(res){
 								console.log("res",res);
 								if(res.data==0){
 									createNull("pickerModels-3")
 								}else {
-									_this.modelsList=res.data
+									_this.modelsList=res.data.datas.cityList;
 								}
 							},function(err){
 								console.log("err",err);
@@ -61,24 +61,32 @@
 						pickerModels:function(it){
 							var _this=this;
 							summer.setStorage('pickerDealCity3',JSON.stringify(it));
-							summer.openWin({
-								id:'pickerDealCity-4',
-								url:'html/touristsClient/pickerDealCity-4.html',
-								create:false,
-								type:'actionBar',
-								pageParam:{id:it.id},
-								actionBar: {
-						      title: it.name,
-						      titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
-						      backgroundColor: "#039BE5",
-						      leftItem:{
-						          image: "img/back.png",
-						          method:'',//返回按钮自定义事件
-						          text:"返回",
-						          textColor:"#ffffff"  //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-						      }
-								}
+							var fromToSelectCityId= summer.getStorage('fromToSelectCityId')
+							summer.execScript({
+							    winId: fromToSelectCityId.id,
+							    script: 'getCity("'+fromToSelectCityId.dataSource+'")'
+							});
+							summer.closeToWin({
+								id:fromToSelectCityId.id
 							})
+							// summer.openWin({
+							// 	id:'pickerDealCity-4',
+							// 	url:'html/touristsClient/pickerDealCity-4.html',
+							// 	create:false,
+							// 	type:'actionBar',
+							// 	pageParam:{id:it.id},
+							// 	actionBar: {
+						  //     title: it.NAME,
+						  //     titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+						  //     backgroundColor: "#039BE5",
+						  //     leftItem:{
+						  //         image: "img/back.png",
+						  //         method:'',//返回按钮自定义事件
+						  //         text:"返回",
+						  //         textColor:"#ffffff"  //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+						  //     }
+							// 	}
+							// })
 						}
 					}
         })

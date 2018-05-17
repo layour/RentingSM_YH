@@ -136,3 +136,25 @@ i.iconfont{
 .um-footer{
    min-height: 0px;
 }
+.item .first {
+
+  color: #333;
+}
+
+.item .second {
+  color: #9e9e9e;
+}
+
+.um-footer {
+  min-height: 0px;
+}
+.item input{
+  border: none;
+  height: .5rem;
+  width: 2.92rem;
+  text-align: right;
+  line-height: .5rem;
+  outline: none;
+  margin-top: .2rem;
+  font-size: 0.28rem;
+}
