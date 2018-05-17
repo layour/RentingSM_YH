@@ -766,7 +766,8 @@
 
 		function openNewCreateCustom() {
 			var projectId = setProgect.project_Id;
-			var clintId = setProgect.customId;
+            var clintId = setProgect.customId;
+            var type = setProgect.type;
 			summer.openWin({
 				id: 'newCreateCustom',
 				url: 'html/fastReport/newCreateCustom.html',
@@ -791,7 +792,8 @@
 				},
 				pageParam: {
 					projectId: projectId,
-					clintId: clintId,
+                    clintId: clintId,
+                    type: type,
 					sourceFrom:"setProject"
 				}
 			});
