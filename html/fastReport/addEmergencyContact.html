@@ -58,17 +58,28 @@
 			.mint-popup{
 				width: 100%;
 			}
-			.mint-popup>p{
+			.mint-popup>p,.mint-popups>p{
 				text-align: left;
 				line-height: .88rem;
 				padding: 0 .56rem;
 				color:#039BE5;
 				border-top: 1px solid #E0E0E0;
+				padding-top: .3rem;
 			}
-			.mint-popup ul{
-				padding-bottom: 2rem;
+			.mint-popups p button{
+				font-size: 17px;
+				line-height: 1;
+				border-radius: 5px;
+				display: inline-block;
+				width: 20%;
+				min-width: 60px;
 			}
-			.mint-popup li{
+			.mint-popups{
+				/*padding-bottom: 2rem;*/
+				background: #fff;
+				height:100vh;
+			}
+			.mint-popups li{
 				text-align: left;
 				padding:0 .56rem;
 				line-height: .88rem;
@@ -156,23 +167,24 @@
 	<body>
 		<div class="um-win" id="addContact" v-cloak>
 			<div class="um-content addContact">
-				<div class="alignCenter" v-if="addContactList.length==0">
-					<img src="../../img/empty.png" alt="">
-					<p>暂无数据</p>
-	      </div>
-				<ul>
-					<li v-for="(item,index) in addContactList" :key='index' @click="lookDetail(item)">
-						<mt-cell-swipe :title="item.LINK_NAME" :label="item.LINK_MOBILE" :right="[{content: '&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'1.76rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index)}}]">
-							<div  class="fr one inDiv">
-								<!-- <a href=""><i class="icon iconfont icon-call"></i></a> -->
-								{{item.LINK_RELATION2CUST}}
-							</div>
-						</mt-cell-swipe>
-					</li>
-				</ul>
-      </div>
-			<div class="um-footer"id="footer">
-				<mt-popup v-model="addStatus" v-if="addStatus" position="bottom" class="add">
+				<div v-if="!addStatus">
+					<div class="alignCenter" v-if="addContactList.length==0">
+						<img src="../../img/empty.png" alt="">
+						<p>暂无数据</p>
+		      </div>
+					<ul>
+						<li v-for="(item,index) in addContactList" :key='index' @click="lookDetail(item)">
+							<mt-cell-swipe :title="item.LINK_NAME" :label="item.LINK_MOBILE" :right="[{content: '&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'1.76rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index)}}]">
+								<div  class="fr one inDiv">
+									<!-- <a href=""><i class="icon iconfont icon-call"></i></a> -->
+									{{item.LINK_RELATION2CUST}}
+								</div>
+							</mt-cell-swipe>
+						</li>
+					</ul>
+				</div>
+
+				<div  v-if="addStatus" class="add mint-popups ">
 					<ul>
 						<li>
 							<span>姓名</span>
@@ -207,8 +219,10 @@
 							<input type="text" class="um-bf3" v-model="LINK_IDCARD_ADDRESS  " placeholder="请输入身份证地址">
 						</li>
 					</ul>
-					<p><span  @click="addItem">取消</span><span class="fr" @click="sureAdd">确定</span></p>
-				</mt-popup>
+					<p><button class="btn"  @click="addItem">取消</button><button class="fr btn" @click="sureAdd">确定</button></p>
+				</div>
+      </div>
+			<div class="footer"id="footer">
 				<mt-popup v-model="pickerStatus" position='bottom' class="add">
 					<mt-picker value-key="FLAG" :slots="slots" @change="onValuesChange"></mt-picker>
 					<p class="foop">
@@ -241,17 +255,7 @@
 							addStatus:false,
 							pickerStatus:false,
 							pickedValues:{},
-							addContactList:[
-								{
-									LINK_NAME:'张三丰',
-									LINK_MOBILE:'13146829922',
-									LINK_SEX:'女',
-									LINK_RELATION2CUST:'上下级',
-									LINK_IDCARD:'411829199408164321',
-									LINK_HOME_ADDRESS:'张三丰411829199408164321上下级张三丰411829199408164321上下级',
-									LINK_IDCARD_ADDRESS  :'上下级上下级上下级上下级'
-								}
-							],
+							addContactList:[],
 							LINK_NAME:'',
 							LINK_MOBILE:'',
 							rlTypCd:'',
@@ -367,7 +371,7 @@
 						},
 						surePicker:function(val,param) {
 							this.pickerStatus = !this.pickerStatus;
-							this.addStatus=!this.addStatus
+							// this.addStatus=!this.addStatus
 							if(val == 'sex'){
 								this.slots[0].values = this.sexList;
 								this.currentTarget=val
@@ -411,6 +415,7 @@
 								return
 							}
 							var _this=this;
+							summer.showProgress()
 							ajaxRequest({
 									type:'post',
 									url:'customer/addCustLinkMan',
@@ -428,23 +433,25 @@
 									}
 							},function(res){
 									console.log(res,JSON.stringify(res));
-									_this.getDate()
+									_this.getData()
 									summer.hideProgress()
-									this.LINK_NAME=''
-									this.LINK_MOBILE=''
-									this.LINK_RELATION2CUST=''
-									this.LINK_SEX=''
-									this.CULM_ID=''
-									this.LINK_IDCARD=''
-									this.LINK_IDCARD_ADDRESS=''
-									this.LINK_HOME_ADDRESS=''
+									_this.LINK_NAME=''
+									_this.LINK_MOBILE=''
+									_this.LINK_RELATION2CUST=''
+									_this.LINK_SEX=''
+									_this.CULM_ID=''
+									_this.LINK_IDCARD=''
+									_this.LINK_IDCARD_ADDRESS=''
+									_this.LINK_HOME_ADDRESS=''
 									summer.execScript({
 										  winId: "setProject",
 										  script: "addRight('emergencyContract')"
 									});
 									_this.addStatus=false
+									summer.hideProgress()
 								},function(err){
 									alert(err);
+									summer.hideProgress()
 							})
 						}
 					}
