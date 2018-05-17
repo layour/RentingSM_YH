@@ -44,8 +44,17 @@
 						</p>
 					</li>
 					<li class="item um-box pl10 pr10" >
-							<span class="um-bf1">融资租赁公司</span><input  placeholder="请输入融资租赁公司" type="text"    v-model="message.FHFA_ID" class="um-bf3">
-					</li>
+						<span class="um-bf1">融资租赁公司</span><input  placeholder="请输入融资租赁公司" type="number"    v-model="message.FHFA_ID" class="um-bf3">
+				</li>
+					<!-- <li class="item" >
+						<p class="pl10 pr10 tr" @click="selectCompany">
+								<span class="um-red mr5 fl">*</span><span class="fl">融资租赁公司</span>
+							<span class="">
+								<span class="first">{{message.FHFA_ID}}</span>
+								<i class="icon iconfont icon-enter"></i>
+							</span>
+						</p>
+					</li> -->
 					<li @click="surePickerTargettype"   >
 							<p class="pl10 pr10 tr">
 								<span class="fl">指标类型</span>
@@ -109,6 +118,7 @@
 					baseMessage.getData(_project_Id);
 			  }
 			  baseMessage.totalData=baseData;
+			  baseMessage.companyList=baseData.companyList;//融资租赁公司列表
 			  baseMessage.project_Id=_project_Id;
 			  baseData.PLATFORM.map(function(e,i){
 					baseMessage.slots1[0].values.push(e.FLAG);
@@ -177,7 +187,7 @@
 						className : 'slot1',
 						textAlign : 'center'
 					}],
-				 
+					companyList:'',//融资租赁公司列表
 					totalData:'',//基本信息所有字典
 					project_Id:'',//保存基本信息后返回的项目ID
 					 message:{
@@ -209,28 +219,63 @@
 				 getData:function(id){
 					 var self=this;
 					 ajaxRequest({
-						 type: 'get',
-						 url: 'appservice/project/prjbscinfo/toAddPrj.do',
+						 type: 'POST',
+						 url: 'foundproject/projectBaseInfo',
 						 param: {
-							  "id":id
+							  "PROJECT_ID":id
 						 }
 					 }, function(res) {
 						 summer.hideProgress();
 						 if (res.data.flag == 1) {
-								self.programStyle =res.data.datas.prjBscInfo.prjTypCdNm;
-								self.taskStyle =res.data.datas.prjBscInfo.bizTypNm;
-								self.lendRuleStyle =res.data.datas.prjBscInfo.fkgzCd=="1"?"先抵押后放款":"先放款后抵押";
-								self.carCdTyp =res.data.datas.prjBscInfo.carCdTyp;
-								self.carCdTypName =res.data.datas.prjBscInfo.carCdTypName;
-								self.splStore =res.data.datas.prjBscInfo.splStore?res.data.datas.prjBscInfo.splStore.id:'';
-								self.splStoreNm =res.data.datas.prjBscInfo.splStore?res.data.datas.prjBscInfo.splStore.stoNm:'';
-								var dataT=res.data.datas.prjBscInfo;
-								self.areaTotal =dataT.rgnReCd.name+"-"+dataT.rgnPrCd.name+"-"+dataT.rgnCyCd.name+"-"+dataT.rgnToCd.name;
+								 let baseMessageData = res.data.datas.projectinfo;
+								 self.message.PROJECT_ID = baseMessageData.PROJECT_ID;
+								 self.message.PROJECT_NAME = baseMessageData.PROJECT_NAME;
+								 self.message.CR_CORP_COMPANY_PHONE = baseMessageData.CR_CORP_COMPANY_PHONE;
+								 self.message.PROJECT_TYPE = baseMessageData.PROJECT_TYPE;
+								 self.message.PROJECT_TYPE_NM = baseMessageData.PROJECT_TYPE;
+								 self.message.PLATFORM = baseMessageData.PLATFORM;
+								 self.message.PLATFORM_NM = baseMessageData.PLATFORM;
+								 self.message.FHFA_ID = baseMessageData.FHFA_ID;
+								 self.message.ZBLX = baseMessageData.ZBLX;
+								 self.message.ZBLX_NM = baseMessageData.ZBLX;
+
+								 self.message.CLLX = baseMessageData.CLLX;
+								 self.message.CLLX_NM = baseMessageData.CLLX;
+
+								 self.message.LARGE_AREA = baseMessageData.LARGE_AREA;
+								 self.message.AREA1 = baseMessageData.AREA1;
+
+								 self.message.AREA2 = baseMessageData.AREA2;
+								 self.message.ZBLX_NM = baseMessageData.ZBLX;
+
 						 }
 					 }, function(err) {
 						 console.log(err);
 						 summer.hideProgress();
 					 });
+				 },
+				 selectCompany:function(){
+					 let self = this;
+					summer.openWin({
+							id: 'pickeCompany',
+							url: 'html/touristsClient/pickeCompany.html',
+							create: false,
+							type: 'actionBar',
+							pageParam: {
+								list: JSON.stringify(self.companyList)
+							},
+							actionBar: {
+								title: "选择公司",
+								titleColor: "#ffffff",
+								backgroundColor: "#039BE5",
+								leftItem: {
+									image: "img/back.png",
+									method: '',
+									text: "返回",
+									textColor: "#ffffff"
+								}
+							}
+						})
 				 },
 				 selectAllCity:function(){
 					var selectParam={
@@ -238,14 +283,14 @@
 						dataSource:'baseMessageCity'
 					}
 					summer.setStorage('fromToSelectCityId',selectParam)
-					var _this=this
+					var self=this
 						summer.openWin({
 							id: 'pickerDealCity',
 							url: 'html/touristsClient/pickerDealCity.html',
 							create: false,
 							type: 'actionBar',
 							pageParam: {
-								list: JSON.stringify(_this.totalData.LARGE_AREA)
+								list: JSON.stringify(self.totalData.LARGE_AREA)
 							},
 							actionBar: {
 								title: "选择大区",
@@ -290,7 +335,7 @@
 					}
 					this.totalData.PROJECT_TYPE.map(function(e,i){
 						if(e.FLAG == self.message.PROJECT_TYPE_NM){
-							self.message.PROJECT_TYPE = e.CODE;
+							self.message.PROJECT_TYPE = e.FLAG;
 						}
 			  		})
 				},
@@ -326,25 +371,39 @@
 				},
 				 
 				save:function() {
-					var self=this;
-					// if(this.programStyle==""){
-					// 	summer.toast({msg:"请选择业务类型"});
-					// 	return;
-					// }
-					// if(this.taskStyle==""){
-					// 	summer.toast({msg:"请选择业务类型"});
-					// 	return;
-					// }
-					// if(this.lendRuleStyle==""){
-					// 	summer.toast({msg:"请选择放款规则"});
-					// 	return;
-					// }
-					// }else if(this.CITY_ID==""){
-					// 	summer.toast({msg:"请选择省市"});
-					// 	return;
-					// }
+					if(this.message.PROJECT_NAME==""){
+						summer.toast({msg:"项目名称不能为空"});
+						return;
+					}
+					if(this.message.CR_CORP_COMPANY_PHONE==""){
+						summer.toast({msg:"手机号不能为空"});
+						return;
+					}
+					if(this.message.AREA_NM==""){
+						summer.toast({msg:"区域不能为空"});
+						return;
+					}
+					if(this.message.PLATFORM_NM==""){
+						summer.toast({msg:"业务类型不能为空"});
+						return;
+					}
+					if(this.message.PROJECT_TYPE_NM==""){
+						summer.toast({msg:"项目类型不能为空"});
+						return;
+					}
+					if(this.message.FHFA_ID==""){
+						summer.toast({msg:"融资租赁公司不能为空"});
+						return;
+					}
+					if(this.message.ZBLX_NM==""){
+						summer.toast({msg:"指标类型不能为空"});
+						return;
+					}
+					if(this.message.CLLX_NM==""){
+						summer.toast({msg:"车辆类型不能为空"});
+						return;
+					}
 					//此时需要调后端的ajax请求数据
-
 					 let param = JSON.parse(JSON.stringify(self.message));
 					summer.showProgress();
 					ajaxRequest({
@@ -364,7 +423,8 @@
 										SCHEME_ID:self.message.SCHEME_ID,//方案ID
 										CREDIT_ID:self.message.CREDIT_ID,//资信ID
 										PLATFORM:self.message.PLATFORM//业务类型
-								  })
+								  });
+
 								  summer.hideProgress();
 								  summer.toast({msg:"保存成功"});
 									summer.execScript({
@@ -388,7 +448,12 @@
 					baseMessage.message.AREA2 =JSON.parse(summer.getStorage("pickerDealCity3")).NAME;
 					baseMessage.message.AREA_NM=JSON.parse(summer.getStorage("pickerDealCity1")).FLAG+" "+JSON.parse(summer.getStorage("pickerDealCity2")).NAME+" "+JSON.parse(summer.getStorage("pickerDealCity3")).NAME
 				} 
-		}
+			}
+			function getCompany(){
+				let company = JSON.parse(summer.getStorage('pickerCompany'));
+				baseMessage.message.SHORT_NAME = company.SHORT_NAME;
+				baseMessage.message.FHFA_ID = company.ID;
+			}
 
 		</script>
 	</body>
