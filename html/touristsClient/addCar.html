@@ -28,7 +28,7 @@
 						</td>
           </tr>
 					<tr @click="pickerModels">
-            <td>选择品牌</td>
+            <td>品牌</td>
             <td>
 							<span v-if='carModels'>{{carModels}}</span><span class="grayColor"  v-else>请选择</span>
 							<i class="icon iconfont icon-enter"></i>
@@ -82,7 +82,8 @@
 		<script>
 				summerready=function(){
 					addCar.PROJECT_ID=summer.pageParam.id
-					console.log("PROJECT_ID",addCar.PROJECT_ID);
+					addCar.newID=summer.pageParam
+					console.log("newID",JSON.stringify(addCar.newID));
 					addCar.getData()
 				}
 				$(function(){$('body').height($('body')[0].clientHeight);});
@@ -106,6 +107,7 @@
 							id:'',
 							PROJECT_ID:'',
 							CLIENT_ID:'',
+							newID:{},
 							slots: [
 								{
 									flex: 1,
@@ -253,10 +255,10 @@
 									BUSINESS_HEAD_ID:this.PROJECT_ID,
 									equipObjList:[param],
 									SUPPLIERS_ID:JSON.parse(summer.getStorage('pickerDealer')).SUPPLIERS_ID,
-									CREDIT_HEAD_ID:'',
-									SCHEME_ID:'',
-									PLATFORM:'',
-									CUSTOMER_ID:''
+									CUSTOMER_ID:this.newID.CUSTOMER_ID,
+									SCHEME_ID = this.newID.SCHEME_ID,//方案ID
+									CREDIT_HEAD_ID = this.newID.CREDIT_ID,//资信ID
+									PLATFORM = this.newID.PLATFORM//业务类型
 								}
 							},function(res){
 								console.log("返回数据",JSON.stringify(res));
