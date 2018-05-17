@@ -224,7 +224,10 @@
 					},
 					baseMessageData: "",
 					customId: "",
-                    project_Id: "",
+					project_Id: "",//项目ID
+					SCHEME_ID:"",//方案ID
+					CREDIT_ID:'',//资信ID
+					PLATFORM:'',//业务类型
                     type: "",
 					carName:'',
 					sourceFrom:"",
@@ -848,10 +851,15 @@
                 console.log(err);
             });
 		}
-		function addRight(param, projectId) {
+		function addRight(param, baseMessageReturn) {
+			console.log(baseMessageReturn);
 			$("." + param).addClass('active').siblings('i').addClass("active");
-			if (projectId) {
-				setProgect.project_Id = projectId;
+			if (baseMessageReturn) {
+				baseMessageReturn = JSON.parse(baseMessageReturn);
+				setProgect.project_Id = baseMessageReturn.PROJECT_ID;//项目ID
+				setProgect.SCHEME_ID = baseMessageReturn.SCHEME_ID;//方案ID
+				setProgect.CREDIT_ID = baseMessageReturn.CREDIT_ID;//资信ID
+				setProgect.PLATFORM = baseMessageReturn.PLATFORM;//业务类型
 			}
 		}
 	</script>

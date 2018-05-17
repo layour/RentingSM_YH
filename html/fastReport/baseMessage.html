@@ -18,7 +18,7 @@
 								<span class="um-bf1">项目名称</span><input  placeholder="请输入项目名称" type="text"    v-model="message.PROJECT_NAME" class="um-bf3">
 						</li>
 						<li class="item um-box pl10 pr10" >
-								<span class="um-bf1">手机号</span><input  placeholder="请输入手机号" type="number"    v-model="message.CR_NATU_PHONE" class="um-bf3">
+								<span class="um-bf1">手机号</span><input  placeholder="请输入手机号" type="number"    v-model="message.CR_CORP_COMPANY_PHONE" class="um-bf3">
 						</li>
 						<li class="item" >
 								<p class="pl10 pr10 tr" @click="selectAllCity">
@@ -44,7 +44,7 @@
 						</p>
 					</li>
 					<li class="item um-box pl10 pr10" >
-							<span class="um-bf1">融资租赁公司</span><input  placeholder="请输入融资租赁公司" type="text"    v-model="message.SHORT_NAME" class="um-bf3">
+							<span class="um-bf1">融资租赁公司</span><input  placeholder="请输入融资租赁公司" type="text"    v-model="message.FHFA_ID" class="um-bf3">
 					</li>
 					<li @click="surePickerTargettype"   >
 							<p class="pl10 pr10 tr">
@@ -99,9 +99,11 @@
 		  summerready=function(){
 			  var baseData=summer.pageParam.baseData;
 			  var customId=summer.pageParam.customId;
-			  baseMessage.customId=customId;
+			  baseMessage.message.BECR_ID=customId;
 			  var _project_Id=summer.pageParam.project_Id;
-
+			  if (userId()){
+				baseMessage.message.USER_ID="107502";
+			  }
 			  if(_project_Id){
 				  baseMessage.hasProjectId=true;
 					baseMessage.getData(_project_Id);
@@ -175,24 +177,31 @@
 						className : 'slot1',
 						textAlign : 'center'
 					}],
-					customId:'',//客户ID
+				 
 					totalData:'',//基本信息所有字典
 					project_Id:'',//保存基本信息后返回的项目ID
 					 message:{
+						CREDIT_ID:'',//资信ID需传到立项
+						BECR_ID:'',//承租人ID（客户ID）
+						USER_ID:'',
+						PROJECT_ID:'',
 						PROJECT_NAME:'',//项目名称
-						CR_NATU_PHONE:'',//手机号
+						CR_CORP_COMPANY_PHONE:'',//手机号
 						PLATFORM:'',//业务类型
 						PLATFORM_NM:'',
 						PROJECT_TYPE:'',//项目类型
 						PROJECT_TYPE_NM:'',
-						SHORT_NAME:'',//融资租赁公司
+						FHFA_ID:'',//融资租赁公司
 						ZBLX:'',//指标类型
+
 						ZBLX_NM:'',
 						CLLX:'',//车辆类型
 						CLLX_NM:'',
 						LARGE_AREA:'',//大区
-						AREA:'',//区域
-						AREA_NM:''
+						AREA1:'',//省
+						AREA2:'',//市
+						AREA_NM:'',
+						SCHEME_ID:''
 					 }
 				}
 			},
@@ -337,7 +346,6 @@
 					//此时需要调后端的ajax请求数据
 
 					 let param = JSON.parse(JSON.stringify(self.message));
-
 					summer.showProgress();
 					ajaxRequest({
 						  type: 'post',
@@ -346,12 +354,22 @@
 					 }, function (res) {
 							  if(res.data.flag==1){
 								  console.log(res);
-								  var projectId=res.data.datas.id;
+								  var projectId=res.data.datas.parameter.PROJECT_ID;
+								  self.message.PROJECT_ID  = projectId;//项目ID
+								  self.message.SCHEME_ID  = res.data.datas.parameter.SCHEME_ID;//方案ID
+								  self.message.CREDIT_ID  = res.data.datas.parameter.CREDIT_ID;
+								  //CREDIT_ID 资信ID
+								  var baseMessageReturn=JSON.stringify({
+										PROJECT_ID:projectId,//项目ID
+										SCHEME_ID:self.message.SCHEME_ID,//方案ID
+										CREDIT_ID:self.message.CREDIT_ID,//资信ID
+										PLATFORM:self.message.PLATFORM//业务类型
+								  })
 								  summer.hideProgress();
 								  summer.toast({msg:"保存成功"});
 									summer.execScript({
 									    winId: "setProject",
-									    script: "addRight('baseMessage','"+projectId+"')"
+									    script: "addRight('baseMessage','"+baseMessageReturn+"')"
 									});
 									summer.closeWin()
 							  }
@@ -366,6 +384,8 @@
 			function getCity(dataSource) {
 				if(dataSource=="baseMessageCity"){
 					baseMessage.message.LARGE_AREA =JSON.parse(summer.getStorage("pickerDealCity1")).FLAG;
+					baseMessage.message.AREA1 =JSON.parse(summer.getStorage("pickerDealCity2")).NAME;
+					baseMessage.message.AREA2 =JSON.parse(summer.getStorage("pickerDealCity3")).NAME;
 					baseMessage.message.AREA_NM=JSON.parse(summer.getStorage("pickerDealCity1")).FLAG+" "+JSON.parse(summer.getStorage("pickerDealCity2")).NAME+" "+JSON.parse(summer.getStorage("pickerDealCity3")).NAME
 				} 
 		}
