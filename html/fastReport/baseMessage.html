@@ -12,7 +12,7 @@
 	<body>
 		<div class="um-win" id="baseMessageElement" v-cloak>
 			<div class="um-content baseMessage">
-					 
+
 				<ul>
 						<li class="item um-box pl10 pr10" >
 								<span class="um-bf1">项目名称</span><input  placeholder="请输入项目名称" type="text"    v-model="message.PROJECT_NAME" class="um-bf3">
@@ -35,8 +35,8 @@
 							 <span class="right"><span v-if='message.PLATFORM_NM' class="first">{{message.PLATFORM_NM}}</span><span v-else class="second">请选择</span> <i class="icon iconfont icon-enter"></i></span>
 						</p>
 					</li>
-					 
-					  
+
+
 					<li @click="surePickerProgramtype"   >
 						<p class="pl10 pr10 tr">
 							<span class="fl">项目类型</span>
@@ -94,7 +94,7 @@
 				<span class="fl" @click="surePickerCartype">取消</span><span class="fr" @click="surePickerCartype('confirm')">确定</span>
 			</p>
 	</mt-popup>
-	 
+
 			</div>
 		</div>
 		<script src="../../js/summer.js" ></script>
@@ -132,9 +132,9 @@
 			  baseData.CLLX.map(function(e,i){
 					baseMessage.slots4[0].values.push(e.FLAG);
 			  })
-			  
+
 		  }
-		  
+
 			function save(){
 				baseMessage.save();
 			}
@@ -227,7 +227,7 @@
 					 }, function(res) {
 						 summer.hideProgress();
 						 if (res.data.flag == 1) {
-								 let baseMessageData = res.data.datas.projectinfo;
+								 var baseMessageData = res.data.datas.projectinfo;
 								 self.message.PROJECT_ID = baseMessageData.PROJECT_ID;
 								 self.message.PROJECT_NAME = baseMessageData.PROJECT_NAME;
 								 self.message.CR_CORP_COMPANY_PHONE = baseMessageData.CR_CORP_COMPANY_PHONE;
@@ -255,7 +255,7 @@
 					 });
 				 },
 				 selectCompany:function(){
-					 let self = this;
+					 var self = this;
 					summer.openWin({
 							id: 'pickeCompany',
 							url: 'html/touristsClient/pickeCompany.html',
@@ -308,7 +308,7 @@
 				goBack:function() {
 					summer.closeWin();
 				},
-				 
+
 				onValuesChange1:function(picker, values) {
 					this.pickerTasktype = values[0];
 				},
@@ -369,7 +369,7 @@
 						}
 			  		})
 				},
-				 
+
 				save:function() {
 					if(this.message.PROJECT_NAME==""){
 						summer.toast({msg:"项目名称不能为空"});
@@ -404,7 +404,9 @@
 						return;
 					}
 					//此时需要调后端的ajax请求数据
-					 let param = JSON.parse(JSON.stringify(self.message));
+					var self = this;
+					var param = self.message
+					//  var param = JSON.parse(JSON.stringify(self.message));
 					summer.showProgress();
 					ajaxRequest({
 						  type: 'post',
@@ -447,10 +449,10 @@
 					baseMessage.message.AREA1 =JSON.parse(summer.getStorage("pickerDealCity2")).NAME;
 					baseMessage.message.AREA2 =JSON.parse(summer.getStorage("pickerDealCity3")).NAME;
 					baseMessage.message.AREA_NM=JSON.parse(summer.getStorage("pickerDealCity1")).FLAG+" "+JSON.parse(summer.getStorage("pickerDealCity2")).NAME+" "+JSON.parse(summer.getStorage("pickerDealCity3")).NAME
-				} 
+				}
 			}
 			function getCompany(){
-				let company = JSON.parse(summer.getStorage('pickerCompany'));
+				var company = JSON.parse(summer.getStorage('pickerCompany'));
 				baseMessage.message.SHORT_NAME = company.SHORT_NAME;
 				baseMessage.message.FHFA_ID = company.ID;
 			}

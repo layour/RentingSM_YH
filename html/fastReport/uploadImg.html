@@ -402,9 +402,9 @@
 						})
 					}
 					var dataParams = {
-						fileValue: that.param.id,
-						prjId: that.param.projectId,
-						TOKEN:getToken()
+						BECR_ID: that.param.id, // 客户id
+						PROJECT_NAME: that.param.projectId,
+						REMARK:getToken()  //此文件的名字
 					};
 					console.log("上传的参数" + JSON.stringify(dataParams))
 					console.log("文件数组" + JSON.stringify(this.uploadImgArr));

@@ -84,14 +84,14 @@
 							var _this=this
 							ajaxRequest({
 								type: 'post',
-								url: 'appservice/project/prjbscinfo/prjFile.do',
+								url: 'business/getCoreFileByProject',
 								param: {
-									id:_this.projectId
+									PROJECT_ID:_this.projectId
 								}
 							}, function(res) {
 								console.log(JSON.stringify(res));
-								_this.list=res.data.datas.needArray
-								_this.mustList=res.data.datas.mustArray
+								// _this.list=res.data.datas.needArray
+								_this.mustList=res.data.datas. corelist
 							},function(err){
 								console.log(JSON.stringify(err));
 							})

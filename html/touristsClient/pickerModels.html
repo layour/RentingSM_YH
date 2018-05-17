@@ -14,11 +14,11 @@
 <body>
     <div class="um-win" id="pickerModels" v-cloak>
         <div class="um-content addCar">
-            <div class="um-input-group pr" id='search'>
+            <!-- <div class="um-input-group pr" id='search'>
                 <i class="icon iconfont icon-nav_search"></i>
                 <input type="text" name="search" class="form-control"  placeholder="搜索">
 				<span onclick="satartSearch('all')">取消</span>
-            </div>
+            </div> -->
             <div id="noData" class="alignCenter" v-if="modelsList.length==0">
                 <img src="../../img/empty.png" alt="">
                 <p>暂无数据</p>
@@ -84,9 +84,10 @@
                             SUPPLIERS_ID: this.id
                         }
                     }, function (res) {
+                      console.log(_this.id,JSON.stringify(res))
                         if (res.data.flag == 1) {
-                            if (res.data.datas.braList && res.data.datas.braList.length != 0) {
-                                _this.modelsList = res.data.datas.braList
+                            if (res.data.datas.brandList && res.data.datas.brandList.length != 0) {
+                                _this.modelsList = res.data.datas.brandList
                             } else {
                                 _this.modelsList = [];
                             }

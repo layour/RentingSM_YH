@@ -466,25 +466,28 @@
 			if (param == 'addCarList') {
 				url='html/touristsClient/addCar.html';
 				title="添加车辆";
-				// url = "html/touristsClient/addCarList.html";
-				// title = '添加设备';
-				if (!setProgect.project_Id) {
-					summer.toast({
-						msg: '请先完善业务基础信息'
-					});
-					return
-				}
+				// if (!setProgect.project_Id) {
+				// 	summer.toast({
+				// 		msg: '请先完善业务基础信息'
+				// 	});
+				// 	return
+				// }
 				summer.openWin({
-					id: id,
+					id: 'addCar',
 					url: url,
 					create: false,
 					type: 'actionBar',
 					pageParam: {
-						id: setProgect.project_Id,
-						CUSTOMER_ID: setProgect.customId,
-						SCHEME_ID: setProgect.SCHEME_ID,//方案ID
-						CREDIT_ID: setProgect.CREDIT_ID,//资信ID
-						PLATFORM: setProgect.PLATFORM//业务类型
+						// id: setProgect.project_Id,
+						// CUSTOMER_ID: setProgect.customId,
+						// SCHEME_ID: setProgect.SCHEME_ID,//方案ID
+						// CREDIT_ID: setProgect.CREDIT_ID,//资信ID
+						// PLATFORM: setProgect.PLATFORM//业务类型
+						id: 23030,
+						CUSTOMER_ID:240622,
+						SCHEME_ID: 29762,//方案ID
+						CREDIT_ID: 32119,//资信ID
+						PLATFORM: "直租"//业务类
 					},
 					actionBar: {
 						title: title,
