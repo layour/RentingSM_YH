@@ -351,13 +351,14 @@
 								var _this=this
 								ajaxRequest({
 									type:'post',
-									url:'appservice/customer/cstnpsocialrl/deleteById.do',
+									url:'customer/updateLinkmanStatus',
 									param:{
-										id:_this.addContactList[i].id
+										CULM_ID:_this.addContactList[i].CULM_ID
 									}
 								},function(res){
 									console.log(res,JSON.stringify(res));
 									_this.addContactList.splice(i,1)
+									summer.toast({msg:'删除成功'})
 
 								},function(err){
 									summer.hideProgress()
@@ -435,6 +436,14 @@
 									console.log(res,JSON.stringify(res));
 									_this.getDate()
 									summer.hideProgress()
+									this.LINK_NAME=''
+									this.LINK_MOBILE=''
+									this.LINK_RELATION2CUST=''
+									this.LINK_SEX=''
+									this.CULM_ID=''
+									this.LINK_IDCARD=''
+									this.LINK_IDCARD_ADDRESS=''
+									this.LINK_HOME_ADDRESS=''
 									summer.execScript({
 										  winId: "setProject",
 										  script: "addRight('emergencyContract')"
