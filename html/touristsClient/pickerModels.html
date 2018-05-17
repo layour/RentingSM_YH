@@ -24,7 +24,7 @@
                 <p>暂无数据</p>
             </div>
             <ul class="dealerList companyList" v-else>
-                <li @click="pickerCarModels(item)" v-for="(item,index) in modelsList" :key="index">{{item.mfrNm}}</li>
+                <li @click="pickerCarModels(item)" v-for="(item,index) in modelsList" :key="index">{{item.NAME}}</li>
             </ul>
         </div>
     </div>
@@ -37,8 +37,9 @@
     <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
     <script>
         summerready = function () {
-            bindEvents();
-            pickerModelsVue.getData('');
+            // bindEvents();
+            pickerModelsVue.id=summer.pageParam.id
+            pickerModelsVue.getData();
             // console.log(summer.pageParam.list);
             // pickerModelsVue.modelsList = JSON.parse(summer.pageParam.list);
             /* if (pickerModelsVue.modelsList.length == 0) {
@@ -78,9 +79,9 @@
                     var _this = this;
                     ajaxRequest({
                         type: 'post',
-                        url: 'appservice/project/prjprdbscinfo/queryBraList.do',
+                        url: 'foundproject/getCarBrandBySupplier',
                         param: {
-                            mfrNm: val
+                            SUPPLIERS_ID: this.id
                         }
                     }, function (res) {
                         if (res.data.flag == 1) {
@@ -97,18 +98,19 @@
                     })
                 },
                 pickerCarModels: function (it) {
-                    summer.setStorage('pickerModels1', it.mfrNm);
-                    summer.setStorage('pickerModelsId', it.id);
+                    summer.setStorage('pickerModels1', JSON.stringify({
+                      COMPANY_NAME:it.NAME,COMPANY_ID:it.COMPANY_ID}));
+                    summer.setStorage('pickerModelsId', it.COMPANY_ID);
                     summer.openWin({
                         id: 'pickerModels-2',
                         url: 'html/touristsClient/pickerModels-2.html',
                         create: false,
                         type: 'actionBar',
                         pageParam: {
-                            id: it.id
+                            id: it.COMPANY_ID
                         },
                         actionBar: {
-                            title: it.mfrNm,
+                            title: it.NAME,
                             titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
                             backgroundColor: "#039BE5",
                             leftItem: {
