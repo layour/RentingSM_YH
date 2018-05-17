@@ -229,13 +229,15 @@
 					console.log(err);
 					summer.hideProgress();
 				});
-				this.$nextTick(function () {
-					summer.refreshHeaderLoadDone() //加载完成后调用方法恢复组件到默认状态
-					summer.refreshFooterLoadDone(); //加载完成后调用方法恢复组件到默认状态
-				})
 			},
 			completeCustom:function(id, name, type) {
-				var self = this;
+                var self = this;
+                /* if (type == "法人") {
+                    summer.toast({
+                        msg: "敬请期待"
+                    });
+                    return;
+                } */
 				if (self.pageSource == 'programSelect') {
 					summer.openWin({
 						id: 'setProject',

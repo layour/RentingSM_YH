@@ -143,6 +143,8 @@ function ajaxRequest(paramObj, successCallback, errorCallback) {
 			"Content-Type": "application/json"
 		}
 	}, function (response) {
+        summer.refreshHeaderLoadDone();
+        summer.refreshFooterLoadDone();
 		if (Object.prototype.toString.call(response.data) === '[object String]') {
 			response.data = JSON.parse(response.data);
 		}
@@ -184,7 +186,9 @@ function ajaxRequest(paramObj, successCallback, errorCallback) {
 		}
 		successCallback(response);
 	}, function (response) {
-		summer.hideProgress();
+        summer.hideProgress();
+        summer.refreshHeaderLoadDone();
+        summer.refreshFooterLoadDone();
 		summer.toast({
 			msg: "数据请求失败" + JSON.stringify(response)
 		});

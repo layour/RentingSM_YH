@@ -295,7 +295,7 @@
 						url: 'foundproject/loadProjectPage',
 						param: {
 							"PROJECT_ID": id
-						 
+
 						}
 					}, function(res) {
 						summer.hideProgress();
@@ -481,8 +481,10 @@
 					type: 'actionBar',
 					pageParam: {
 						id: setProgect.project_Id,
-						CLIENT_ID: setProgect.customId,
-						BECR_TYPE: setProgect.type
+						CUSTOMER_ID: setProgect.customId,
+						SCHEME_ID: setProgect.SCHEME_ID,//方案ID
+						CREDIT_ID: setProgect.CREDIT_ID,//资信ID
+						PLATFORM: setProgect.PLATFORM//业务类型
 					},
 					actionBar: {
 						title: title,
@@ -519,8 +521,9 @@
 					type: 'actionBar',
 					pageParam: {
 						id: setProgect.project_Id,
-						BECR_TYPE: setProgect.type
-
+						SCHEME_ID: setProgect.SCHEME_ID,//方案ID
+						CREDIT_ID: setProgect.CREDIT_ID,//资信ID
+						PLATFORM: setProgect.PLATFORM//业务类型
 					},
 					actionBar: {
 						title: title,
@@ -762,7 +765,8 @@
 
 		function openNewCreateCustom() {
 			var projectId = setProgect.project_Id;
-			var clintId = setProgect.customId;
+            var clintId = setProgect.customId;
+            var type = setProgect.type;
 			summer.openWin({
 				id: 'newCreateCustom',
 				url: 'html/fastReport/newCreateCustom.html',
@@ -787,7 +791,8 @@
 				},
 				pageParam: {
 					projectId: projectId,
-					clintId: clintId,
+                    clintId: clintId,
+                    type: type,
 					sourceFrom:"setProject"
 				}
 			});

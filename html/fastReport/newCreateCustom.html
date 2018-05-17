@@ -2,1326 +2,1145 @@
 <html>
 
 <head>
-	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
-	<meta charset="UTF-8">
-	<title></title>
-	<link rel="stylesheet" href="../../css/iuapmobile.um.css">
-	<link rel="stylesheet" href="../../css/fonts/iconfont.css">
-	<link rel="stylesheet" href="../../css/mint.css">
-	<script src="../../js/font.js"></script>
-	<style>
-		input::-webkit-input-placeholder {
-			color: #DEDEDE;
-			font-size: 0.28rem;
-		}
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
+    <script src="../../js/font.js"></script>
+    <style>
+        input::-webkit-input-placeholder {
+            color: #DEDEDE;
+            font-size: 0.28rem;
+        }
 
-		.topheader {
-			position: relative;
-			height: 180px;
-			background-image: url("img/cardBgc.png");
-			background-repeat: no-repeat;
-			background-size: 100% 100%;
-		}
+        .topheader {
+            position: relative;
+            height: 180px;
+            background-image: url("img/cardBgc.png");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
 
-		.topheader img {
-			margin-top: 0.8rem;
-			width: 2.8rem;
-			height: 1.8rem;
-		}
+        .topheader img {
+            margin-top: 0.8rem;
+            width: 2.8rem;
+            height: 1.8rem;
+        }
 
-		.mint-field-core {
-			text-align: right;
-		}
+        .mint-field-core {
+            text-align: right;
+        }
 
-		.mint-cell-wrapper {
-			color: #333;
-			font-size: 0.28rem;
-		}
+        .mint-cell-wrapper {
+            color: #333;
+            font-size: 0.28rem;
+        }
 
-		.mint-cell {
-			min-height: 40px;
-			/* height: 0.88rem; */
-			height: 44px;
-			color: #333;
-			font-size: 0.28rem;
-		}
+        .mint-cell {
+            min-height: 40px;
+            /* height: 0.88rem; */
+            height: 44px;
+            color: #333;
+            font-size: 0.28rem;
+        }
 
-		div.item {
-			/* line-height: 0.88rem; */
-			line-height: 44px;
-			background: #ffffff;
-			border-bottom: 1px solid #f7f7f7;
-			font-size: 0.28rem;
-			height: 44px;
-		}
+        div.item {
+            /* line-height: 0.88rem; */
+            line-height: 44px;
+            background: #ffffff;
+            border-bottom: 1px solid #f7f7f7;
+            font-size: 0.28rem;
+            height: 44px;
+        }
 
-		div.item span {
-			color: #333;
-		}
-		div.item span.um-red {
-			color:red;
-		}
-		div.item span i {
-			color: #dbdbdb;
-		}
+        div.item span {
+            color: #333;
+        }
 
-		.pickerColor {
-			width: 100%;
-			z-index: 10;
-			background: #ffffff;
-		}
+        div.item span.um-red {
+            color: red;
+        }
 
-		.pickerColor>p {
-			line-height: .88rem;
-			padding: 0 .56rem;
-			color: #039BE5;
-			border-top: 1px solid #E0E0E0;
-			overflow: hidden;
-		}
+        div.item span i {
+            color: #dbdbdb;
+        }
 
-		.pickerColor>p span {
-			color: #34aadc;
-		}
+        .pickerColor {
+            width: 100%;
+            z-index: 10;
+            background: #ffffff;
+        }
 
-		.mint-cell-wrapper {
-			background-size: 100% 0px;
-			border-bottom: 1px solid #f7f7f7;
-		}
+        .pickerColor>p {
+            line-height: .88rem;
+            padding: 0 .56rem;
+            color: #039BE5;
+            border-top: 1px solid #E0E0E0;
+            overflow: hidden;
+        }
 
-		.pickerColor>p span:last-child {
-			float: right;
-		}
+        .pickerColor>p span {
+            color: #34aadc;
+        }
 
-		.pickerColor>p span:first-child {
-			float: left;
-		}
+        .mint-cell-wrapper {
+            background-size: 100% 0px;
+            border-bottom: 1px solid #f7f7f7;
+        }
 
-		.item .first {
+        .pickerColor>p span:last-child {
+            float: right;
+        }
 
-			color: #333;
-		}
+        .pickerColor>p span:first-child {
+            float: left;
+        }
 
-		.item .second {
-			color: #9e9e9e;
-		}
+        .item .first {
 
-		.um-footer {
-			min-height: 0px;
-		}
-		.item input{
-			border: none;
-			height: .5rem;
-			width: 2.92rem;
-			text-align: right;
-			line-height: .5rem;
-			outline: none;
-			margin-top: .2rem;
-			font-size: 0.28rem;
-		}
-	</style>
+            color: #333;
+        }
+
+        .item .second {
+            color: #9e9e9e;
+        }
+
+        .um-footer {
+            min-height: 0px;
+        }
+
+        .item input {
+            border: none;
+            height: .5rem;
+            width: 4.6rem;
+            text-align: right;
+            line-height: .5rem;
+            outline: none;
+            margin-top: .2rem;
+            font-size: 0.28rem;
+        }
+        .um-bf2.tr {
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+    </style>
 </head>
 
 <body>
-	<div class="um-win" id="app" v-cloak>
-		<div class="um-content">
-			<!-- <div class="topheader tc um-header-light" @click="cardIdentify">
-				<img v-bind:src="cardUrl" v-show="cardShow" alt="" />
-			</div> -->
-			<div class="item um-box pl10 pr10"  >
-			<span class="um-red mr5">*</span>	<span class="um-bf1">姓名</span>  <span class="um-bf3 tr">{{totalData.CR_BECR_NAME}}</span>  
-			</div>
-			<div class="item um-box pl10 pr10" >
-					<span class="um-red mr5">*</span>	<span class="um-bf1">手机号</span>  <span class="um-bf3 tr">{{totalData.CR_NATU_MOBILE}}</span>  
-			</div>
-			<div class="item um-box pl10 pr10"  >
-					<span class="um-red mr5">*</span>	<span class="um-bf1">身份证号</span>  <span class="um-bf3 tr">{{totalData.CR_NATU_IDCARD}}</span>  
-			</div>
-			<div class="item">
-				<p class="pl10 pr10 tr">
-						<span class="um-red mr5 fl">*</span><span class="fl">性别</span>
-					<span class="">
-						<span class="first">{{totalData.CR_NATU_SEX}} </span>
-					</span>
-				</p>
-			</div>
-			<div class="item">
-				<p class="pl10 pr10 tr">
-						<span class="um-red mr5 fl">*</span><span class="fl">出生年月</span>
-					<span class="">
-						<span class="first">{{totalData.CR_BIRTH_DATE}} </span>
-					</span>
-				</p>
-			</div>
-			<!-- <div class="item">
-				<p class="pl10 pr10 tr">
-						<span class="um-red mr5 fl">*</span><span class="fl">年龄</span>
-					<span class="">
-						<span class="first">{{message.age}} </span>
-					</span>
-				</p>
-			</div> -->
-			<div @click="surePickerEducate" class="item" >
-					<p class="pl10 pr10  um-box">
-							<span class="um-red mr5 fl">*</span><span class="um-bf1">最高学历</span>
-						<span class="um-bf1 tr">
-							<span v-if='totalData.CR_EDUCATION' class="first">{{totalData.CR_EDUCATION}}</span>
-							<span v-else class="second">请选择</span>
-							<i class="icon iconfont icon-enter"></i>
-						</span>
-					</p>
-				</div>
-			<!-- <div @click="surePickerMarStsCd" class="item" >
-				<p class="pl10 pr10  um-box">
-						<span class="um-red mr5 fl">*</span><span class="um-bf1">婚姻状况</span>
-					<span class="um-bf1 tr">
-						<span v-if='message.marStsNm' class="first">{{message.marStsNm}}</span>
-						<span v-else class="second">请选择</span>
-						<i class="icon iconfont icon-enter"></i>
-					</span>
-				</p>
-			</div> -->
-			<!-- <div class="item" >
-				<p class="pl10 pr10 tr" @click="selectHukouCity">
-						<span class="um-red mr5 fl">*</span><span class="fl">户籍所在地城市</span>
-					<span class="">
-						<span class="first">{{HukouCity}}</span>
-						<i class="icon iconfont icon-enter"></i>
-					</span>
-				</p>
-			</div>
-			<div class="item um-box pl10 pr10"  >
-					<span class="um-red mr5">*</span>	<span class="um-bf1">户籍所在地详细地址</span><input placeholder="请输入户口所在地详细地址" v-model="message.idAddr" type="text">   
-			</div>
-			<div class="item" >
-				<p class="pl10 pr10 tr" @click="selectCurrentCity">
-					<span class="um-red mr5 fl">*</span><span class="fl">现居城市</span>
-					<span class="">
-						<span class="first">{{CurrentCity}}</span>
-						<i class="icon iconfont icon-enter"></i>
-					</span>
-				</p>
-			</div>
-			<div class="item um-box pl10 pr10"  >
-					<span class="um-red mr5">*</span>	<span class="um-bf1">现居详细地址</span><input placeholder="请输入现居详细地址"  v-model="message.homeAddr" type="text">   
-			</div>
-			<div class="item um-box pl10 pr10"  >
-					<span class="um-red mr5">*</span>	<span class="um-bf1">居住地址邮编</span><input placeholder="请输入居住地址邮编" v-model="message.zipNo" type="text">   
-			</div>
-			<div @click="surePickerIsHasLicense" class="item" >
-				<p class="pl10 pr10  um-box">
-					<span class="um-bf1">是否有驾照</span>
-					<span class="um-bf1 tr">
-						<span v-if='message.isHasLicenseNm' class="first">{{message.isHasLicenseNm}}</span>
-						<span v-else class="second">请选择</span>
-						<i class="icon iconfont icon-enter"></i>
-					</span>
-				</p>
-			</div>
-		 
-			<div @click="surePickerDriverLicenseType" class="item" v-if="isChooseCar"  >
-				<p class="pl10 pr10  um-box">
-					<span class="um-bf1">准驾车型</span>
-					<span class="um-bf1 tr">
-						<span v-if="message.driverLicenseNm" class="first">{{message.driverLicenseNm}}</span>
-						<span v-else class="second">请选择</span>
-						<i class="icon iconfont icon-enter"></i>
-					</span>
-				</p>
-			</div>
-			<div   class="item" v-else  >
-					<p class="pl10 pr10  um-box">
-						<span class="um-bf1">准驾车型</span>
-						<span class="um-bf1 tr">
-							<span   class="first"> </span>
-						</span>
-					</p>
-				</div>
-			<div @click="surePickerHousingOwnership" class="item " >
-				<p class="pl10 pr10  um-box">
-					<span class="um-red mr5 fl">*</span><span class="um-bf1">住房所有权</span>
-					<span class="um-bf1 tr">
-						<span v-if='message.housingOwnershipNm' class="first">{{message.housingOwnershipNm}}</span>
-						<span v-else class="second">请选择</span>
-						<i class="icon iconfont icon-enter"></i>
-					</span>
-				</p>
-			</div>
-			<div @click="surePickerIndustry" class="item" >
-				<p class="pl10 pr10  um-box">
-					<span class="um-bf1">从事行业</span>
-					<span class="um-bf1 tr">
-						<span v-if='message. industryNm' class="first">{{message. industryNm}}</span>
-						<span v-else class="second">请选择</span>
-						<i class="icon iconfont icon-enter"></i>
-					</span>
-				</p>
-			</div>
-			<div class="item um-box pl10 pr10"  >
-					<span class="um-red mr5">*</span>	<span class="um-bf1">现工作单位名称</span><input placeholder="请输入现工作单位名称" v-model="message.workPlc" type="text">   
-			</div>
-			<div class="item um-box pl10 pr10"  >
-					<span class="um-red mr5">*</span>	<span class="um-bf1">现工作单位年限(年)</span><input placeholder="请输入现工作单位年限"  v-model="message.workYrs" type="number">   
-			</div>
-			<div @click="surePickerWorkTypCd" class="item" >
-				<p class="pl10 pr10  um-box">
-					<span class="um-bf1">工作单位性质</span>
-					<span class="um-bf1 tr">
-						<span v-if='message. workTypNm' class="first">{{message. workTypNm}}</span>
-						<span v-else class="second">请选择</span>
-						<i class="icon iconfont icon-enter"></i>
-					</span>
-				</p>
-			</div>
-			<div class="item" >
-				<p class="pl10 pr10 tr" @click="selectWorkCity">
-						<span class="um-red mr5 fl">*</span><span class="fl">现工作地址城市</span>
-					<span class="">
-						<span class="first">{{WorkCity}}</span>
-						<i class="icon iconfont icon-enter"></i>
-					</span>
-				</p>
-			</div>
-			<div class="item um-box pl10 pr10"  >
-					<span class="um-red mr5">*</span>	<span class="um-bf1">现工作单位详细地址</span><input placeholder="请输入现工作单位详细地址"   v-model="message.workAddr" type="text">   
-			</div>
-			<div class="item um-box pl10 pr10"  >
-					<span class="um-red mr5">*</span>	<span class="um-bf1">现工作单位电话</span><input placeholder="请输入现工作单位电话" v-model="message.workTel" type="text">   
-			</div>
-			<div class="item um-box pl10 pr10"  >
-					<span class="um-red mr5">*</span>	<span class="um-bf1">税后年收入（万元）</span><input placeholder="请输入税后年收入" v-model="message.afterTaxYearIn" type="text">   
-			</div>
-			<div @click="surePickerSoureIncome" class="item" >
-					<p class="pl10 pr10  um-box">
-							<span class="um-red mr5 fl">*</span><span class="um-bf1">主要收入来源</span>
-						<span class="um-bf1 tr">
-							<span v-if='message.majorInTypCdName' class="first">{{message.majorInTypCdName}}</span>
-							<span v-else class="second">请选择</span>
-							<i class="icon iconfont icon-enter"></i>
-						</span>
-					</p>
-			</div>
-			<div @click="surePickerPosition" class="item" >
-					<p class="pl10 pr10  um-box">
-						<span class="um-bf1">现工作单位职位</span>
-						<span class="um-bf1 tr">
-							<span v-if='message.positionNm' class="first">{{message.positionNm}}</span>
-							<span v-else class="second">请选择</span>
-							<i class="icon iconfont icon-enter"></i>
-						</span>
-					</p>
-				</div>-->
-		</div>
-		<div class="um-footer">
-				<mt-popup v-model="pickerEducateStatus" position='bottom' class="pickerColor">
-						<mt-picker :slots="slots0" @change="onValuesChange0"></mt-picker>
-						<p>
-							<span class="" @click="surePickerEducate">取消</span>
-							<span class="" @click="surePickerEducate('confirm')">确定</span>
-						</p>
-					</mt-popup>
-			<mt-popup v-model="pickerMarStsCdStatus" position='bottom' class="pickerColor">
-				<mt-picker :slots="slots1" @change="onValuesChange1"></mt-picker>
-				<p>
-					<span class="" @click="surePickerMarStsCd">取消</span>
-					<span class="" @click="surePickerMarStsCd('confirm')">确定</span>
-				</p>
-			</mt-popup>
-			<mt-popup v-model="pickerIsHasLicenseStatus" position='bottom' class="pickerColor">
-				<mt-picker :slots="slots2" @change="onValuesChange2"></mt-picker>
-				<p>
-					<span class="" @click="surePickerIsHasLicense">取消</span>
-					<span class="" @click="surePickerIsHasLicense('confirm')">确定</span>
-				</p>
-			</mt-popup>
-
-			<mt-popup v-model="pickerDriverLicenseTypeStatus" position='bottom' class="pickerColor">
-				<mt-picker :slots="slots3" @change="onValuesChange3"></mt-picker>
-				<p>
-					<span class="" @click="surePickerDriverLicenseType">取消</span>
-					<span class="" @click="surePickerDriverLicenseType('confirm')">确定</span>
-				</p>
-			</mt-popup>
-			<mt-popup v-model="pickerHousingOwnershipStatus" position='bottom' class="pickerColor">
-				<mt-picker :slots="slots4" @change="onValuesChange4"></mt-picker>
-				<p>
-					<span class="" @click="surePickerHousingOwnership">取消</span>
-					<span class="" @click="surePickerHousingOwnership('confirm')">确定</span>
-				</p>
-			</mt-popup>
-			<mt-popup v-model="pickerIndustryStatus" position='bottom' class="pickerColor">
-				<mt-picker :slots="slots5" @change="onValuesChange5"></mt-picker>
-				<p>
-					<span class="" @click="surePickerIndustry">取消</span>
-					<span class="" @click="surePickerIndustry('confirm')">确定</span>
-				</p>
-			</mt-popup>
-			<mt-popup v-model="pickerWorkTypCdStatus" position='bottom' class="pickerColor">
-				<mt-picker :slots="slots6" @change="onValuesChange6"></mt-picker>
-				<p>
-					<span class="" @click="surePickerWorkTypCd">取消</span>
-					<span class="" @click="surePickerWorkTypCd('confirm')">确定</span>
-				</p>
-			</mt-popup>
-			<mt-popup v-model="pickerPositionStatus" position='bottom' class="pickerColor">
-					<mt-picker :slots="slots7" @change="onValuesChange7"></mt-picker>
-					<p>
-						<span class="" @click="surePickerPosition">取消</span>
-						<span class="" @click="surePickerPosition('confirm')">确定</span>
-					</p>
-			</mt-popup>
-			<mt-popup v-model="pickerSourceIncomeStatus" position='bottom' class="pickerColor">
-					<mt-picker :slots="slots8" @change="onValuesChange8"></mt-picker>
-					<p>
-						<span class="" @click="surePickerSoureIncome">取消</span>
-						<span class="" @click="surePickerSoureIncome('confirm')">确定</span>
-					</p>
-			</mt-popup>
-		</div>
-	</div>
-	<script src="../../js/summer.js"></script>
-	<script src="../../js/jquery.min.js"></script>
-	<script src="../../js/vue.js"></script>
-	<script src="../../js/mint.js"></script>
-	<script src="../../js/common.js"></script>
-	<script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
-	<script>
-		var newCreateCustom = new Vue({
-			el: '#app',
-			data:function() {
-				return {
-					cardShow: false,
-					cardUrl: "",
-					pickerVisible: "",
-					pickerEducateStatus:false,
-					pickerMarStsCdStatus: false,
-					pickerIsHasLicenseStatus: false,
-					pickerDriverLicenseTypeStatus: false,
-					pickerHousingOwnershipStatus: false,
-					pickerIndustryStatus: false,
-					pickerWorkTypCdStatus: false,
-					pickerPositionStatus: false,
-					pickerSourceIncomeStatus:false,
-					pickerEducate: "",
-					pickerMarStsCd: "",
-					pickerIsHasLicense: "",
-					pickerDriverLicenseType: "",
-					pickerHousingOwnership: "",
-					pickerIndustry: "",
-					pickerWorkTypCd: "",
-					pickerPosition: "",
-					pickerSourceIncome:"",
-					isChooseCar:false,//判断准驾车型是否可选择
-					slots0: [{
-						flex: 1,
-						//values: ['大专', '本科', '离婚', '丧偶', '未说明的婚姻状况'],
-						values: [],
-						defaultIndex: 0,
-						className: 'slot1',
-						textAlign: 'center'
-					}],
-					slots1: [{
-						flex: 1,
-						//values: ['未婚', '已婚', '离婚', '丧偶', '未说明的婚姻状况'],
-						values: [],
-						defaultIndex: 0,
-						className: 'slot1',
-						textAlign: 'center'
-					}],
-					slots2: [{
-						flex: 1,
-						values: ['是', '否'],
-						defaultIndex: 0,
-						className: 'slot1',
-						textAlign: 'center'
-					}],
-					slots3: [{
-						flex: 1,
-						//values: ["货车", "汽车"],
-						values: [],
-						defaultIndex: 0,
-						className: 'slot1',
-						textAlign: 'center'
-					}],
-					slots4: [{
-						flex: 1,
-						//values: ["自置", "租房", "房贷"],
-						values: [],
-						defaultIndex: 0,
-						className: 'slot1',
-						textAlign: 'center'
-					}],
-					slots5: [{
-						flex: 1,
-						//values: ["农林", "IT", "牧业"],
-						values: [],
-						defaultIndex: 0,
-						className: 'slot1',
-						textAlign: 'center'
-					}],
-					slots6: [{
-						flex: 1,
-						//values: ["国企", "私企", "上市企业"],
-						values: [],
-						defaultIndex: 0,
-						className: 'slot1',
-						textAlign: 'center'
-					}],
-					slots7: [{
-						flex: 1,
-						//values: ["员工", "经理"],
-						values: [],
-						defaultIndex: 0,
-						className: 'slot1',
-						textAlign: 'center'
-					}],
-					slots8: [{
-						flex: 1,
-						//values:["工资","股票","投资"],
-						values: [],
-						defaultIndex: 0,
-						className: 'slot1',
-						textAlign: 'center'
-					}],
-					regionArray:'',//大区列表
-					message: {
-						//cstNm: '',
-						//cstPhoneNumber:'',
-					//	certNo: '',
-						marStsCd: '',
-						idAddr: '',
-						homeAddr: '',
-						genderCd:'',
-						genderNm:'',
-						age:'',
-						birthday:'',
-						eduLvlNm:'',//最高学历
-						eduLvlCd:'',
-						marStsNm:'',//婚姻状况
-						marStsCd:'',
-						isHasLicense: '', //是否有驾照
-						driverLicenseNm: '',
-						driverLicenseType: '', //准驾类型
-						housingOwnershipNm: '',
-						housingOwnership: '', //住房情况
-						industryNm: '',
-						industry: '', //从事行业
-						workTypNm: '',
-						workTypCd: '',//工作单位性质
-						workPlc:'',//工作单位名字
-						workYrs:'',//工作单位年限
-						workAddr:'',//单位详细地址
-						workTel:'',//单位电话
-						position:'',//单位职位
-						positionNm:'',
-						cstIdRegion: '',//户口大区
-						cstIdProvince:'',//户口省
-						cstIdCity:'',//户口市
-						cstIdDistrict: '',//户口县
-
-						cstHomeRegion:'',//通讯地址大区
-						cstHomeProvince:'',//通讯地址省
-						cstHomeCity:'',//通讯地址市
-						cstHomeDistrict:'',//通讯地址县
-
-						cstWorkRegion:'',//工作地址大区
-						cstWorkProvince:'' ,//工作地址省
-						cstWorkCity: '',//工作地址市
-						cstWorkDistrict:'',//工作地址县
-						cstNpSocialRl:'',//配偶信息
-						cstBscInfo:{
-							id:'',//客户基本信息id
-							cstNm:'',
-							certNo:'',
-							cstPhoneNumber:'',
-							cstTypCd:'1'
-						},
-						id:'',//客户详情id,如果编辑后保存，必须带上
-						majorInTypCdName:'',//收入类型名字（显示到前端）
-						majorInTypCd:'',//收入类型value（提交到后端）
-						afterTaxYearIn:''//税后年收入
-					},
-					totalData:'',//字典所有数据
-					HukouCity:'',
-					CurrentCity:'',
-					WorkCity:'',
-					spoustObjMes: "",
-					sourceFrom: '',
-					isNativeData_total: "",
-					transportData_total: '',
-					clintId: '',
-					isAdd:'',//根据这个判断是否打开配偶验证页
-					hasCheckFinish:false,  //根据这个判断是否可以输入
-					isChooseCar:false//根据这个判断是否选择准驾车型
-
-				}
-			},
-			// computed: {
-			// 	 isChooseCar: function () {  //判断准驾车型是否可编辑
-			// 		if (this.message.isHasLicense==2) {
-			// 			 return false;
-			// 		}else{
-			// 			return true;
-			// 		}
-			// 	}
-			// },
-			watch:{
-				"message.isHasLicense":function(val,oldval){
-					console.log(val);
-					if(val==2){
-						this.isChooseCar=false;
-					}else{
-						this.isChooseCar=true;
-					}
-				},
-				deep:true
-			},
-			methods: {
-				selectHukouCity:function(){
-					var selectParam={
-						id:'newCreateCustom',
-						dataSource:'HukouCity'
-					}
-					summer.setStorage('fromToSelectCityId',selectParam)
-					var _this=this
-						summer.openWin({
-							id: 'pickerDealCity',
-							url: 'html/touristsClient/pickerDealCity.html',
-							create: false,
-							type: 'actionBar',
-							pageParam: {
-								list: JSON.stringify(_this.regionArray)
-							},
-							actionBar: {
-								title: "选择大区",
-								titleColor: "#ffffff",
-								backgroundColor: "#039BE5",
-								leftItem: {
-									image: "img/back.png",
-									method: '',
-									text: "返回",
-									textColor: "#ffffff"
-								}
-							}
-						})
-				},
-				selectCurrentCity:function(){
-					var selectParam={
-						id:'newCreateCustom',
-						dataSource:'CurrentCity'
-					}
-					summer.setStorage('fromToSelectCityId',selectParam)
-					var _this=this
-						summer.openWin({
-							id: 'pickerDealCity',
-							url: 'html/touristsClient/pickerDealCity.html',
-							create: false,
-							type: 'actionBar',
-							pageParam: {
-								list: JSON.stringify(_this.regionArray)
-							},
-							actionBar: {
-								title: "选择大区",
-								titleColor: "#ffffff",
-								backgroundColor: "#039BE5",
-								leftItem: {
-									image: "img/back.png",
-									method: '',
-									text: "返回",
-									textColor: "#ffffff"
-								}
-							}
-						})
-				},
-				selectWorkCity:function(){
-					var selectParam={
-						id:'newCreateCustom',
-						dataSource:'WorkCity'
-					}
-					summer.setStorage('fromToSelectCityId',selectParam)
-					var _this=this
-						summer.openWin({
-							id: 'pickerDealCity',
-							url: 'html/touristsClient/pickerDealCity.html',
-							create: false,
-							type: 'actionBar',
-							pageParam: {
-								list: JSON.stringify(_this.regionArray)
-							},
-							actionBar: {
-								title: "选择大区",
-								titleColor: "#ffffff",
-								backgroundColor: "#039BE5",
-								leftItem: {
-									image: "img/back.png",
-									method: '',
-									text: "返回",
-									textColor: "#ffffff"
-								}
-							}
-						})
-				},
+    <div class="um-win" id="app" v-cloak>
+        <div class="um-content">
+            <div class="item um-box pl10 pr10">
+                <span class="um-red mr5">*</span>
+                <span class="um-bf1">姓名</span>
+                <span class="um-bf3 tr">{{ message.CR_BECR_NAME }}</span>
+            </div>
+            <div @click="surePickerZJType" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">证件类型</span>
+                    <span class="um-bf1 tr">
+                        <span v-if="message.CR_ID_CARD_TYPE" class="first">{{ message.CR_ID_CARD_TYPE }}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-red mr5">*</span>
+                <span class="um-bf1">证件号码</span>
+                <input placeholder="请输入证件号码" v-model="message.CR_NATU_IDCARD" type="text">
+            </div>
+            <div @click="surePickerKehuType" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">客户分类</span>
+                    <span class="um-bf1 tr">
+                        <span v-if="message.CR_CUST_LEVEL" class="first">{{ message.CR_CUST_LEVEL }}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-red mr5">*</span>
+                <span class="um-bf1">手机号码</span>
+                <input placeholder="请输入手机号码" v-model="message.CR_NATU_MOBILE" type="text">
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-red mr5">*</span>
+                <span class="um-bf1">客户类型</span>
+                <span class="um-bf3 tr">{{ CR_BECR_TYPE }}</span>
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-red mr5">*</span>
+                <span class="um-bf1">工作单位</span>
+                <input placeholder="请输入工作单位" v-model="message.CR_NATU_WORK_UNITS" type="text">
+            </div>
+            <div @click="surePickerSex" class="item">
+                <p class="pl10 pr10 um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">性别</span>
+                    <span class="um-bf1 tr">
+                        <span v-if="message.CR_NATU_SEX" class="first">{{ message.CR_NATU_SEX }}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-red mr5">*</span>
+                <span class="um-bf1">电子邮箱</span>
+                <input placeholder="请输入电子邮箱" v-model="message.EMPLOYEE_EMAIL" type="text">
+            </div>
+            <div @click="surePickerBirthday" class="item">
+                <p class="pl10 pr10 um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">出生日期</span>
+                    <span class="um-bf1 tr">
+                        <span v-if="message.CR_NATU_SEX" class="first">{{ message.CR_BIRTH_DATE }}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <div @click="surePickerXL" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">最高学历</span>
+                    <span class="um-bf1 tr">
+                        <span v-if="message.CR_EDUCATION" class="first">{{message.CR_EDUCATION}}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <div @click="surePickerZC" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">职称</span>
+                    <span class="um-bf1 tr">
+                        <span v-if="message.CR_NATU_CASTE" class="first">{{message.CR_NATU_CASTE}}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <div @click="surePickerHY" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">所属行业</span>
+                    <span class="um-bf2 tr">
+                        <span v-if="message.CR_TRADE_TYPE" class="first">{{message.CR_TRADE_TYPE}}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <div @click="surePickerZW" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">职务</span>
+                    <span class="um-bf2 tr">
+                        <span v-if="message.CR_NATU_POSITION" class="first">{{message.CR_NATU_POSITION}}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <div @click="surePickerZYType" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">职业类型</span>
+                    <span class="um-bf2 tr">
+                        <span v-if="message.CR_TYPE_OCCUPATION" class="first">{{message.CR_TYPE_OCCUPATION}}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <div @click="surePickerFCType" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">房产类型</span>
+                    <span class="um-bf2 tr">
+                        <span v-if="message.CR_NATU_MATE_PROPERTY" class="first">{{message.CR_NATU_MATE_PROPERTY}}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <div @click="surePickerDK" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">贷款</span>
+                    <span class="um-bf2 tr">
+                        <span v-if="message.MAILING_LOAN" class="first">{{message.MAILING_LOAN}}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <div @click="surePickerYQ" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">是否有过逾期</span>
+                    <span class="um-bf2 tr">
+                        <span v-if="message.MAILING_LOANS_OVERDUE" class="first">{{message.MAILING_LOANS_OVERDUE}}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <div @click="surePickerDJ" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">贷记卡</span>
+                    <span class="um-bf2 tr">
+                        <span v-if="message.MAILING_CREDIT" class="first">{{message.MAILING_CREDIT}}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <div @click="surePickerDJYQ" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">是否有过逾期</span>
+                    <span class="um-bf2 tr">
+                        <span v-if="message.MAILING_CREDIT_OVERDUE" class="first">{{message.MAILING_CREDIT_OVERDUE}}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-red mr5">*</span>
+                <span class="um-bf1">身份证地址</span>
+                <input placeholder="请输入身份证地址" v-model="message.EMPLOYEE_ID_CARD_ADDR" type="text">
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-red mr5">*</span>
+                <span class="um-bf1">家庭地址</span>
+                <input placeholder="请输入家庭地址" v-model="message.CR_NATU_HOME_ADDRESS" type="text">
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-red mr5">*</span>
+                <span class="um-bf1">邮寄地址</span>
+                <input placeholder="请输入邮寄地址" v-model="message.CR_MAILING_ADDRESS" type="text">
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-red mr5">*</span>
+                <span class="um-bf1">单位地址</span>
+                <input placeholder="请输入单位地址" v-model="message.CR_NATU_WORK_ADDRESS" type="text">
+            </div>
+        </div>
+        <div class="um-footer">
+            <!-- 客户分类 -->
+            <mt-popup v-model="pickerKehuTypeShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots0" @change="onValuesChange0"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerKehuType">取消</span>
+                    <span class="" @click="surePickerKehuType('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 证件类型 -->
+            <mt-popup v-model="pickerZJTypeShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots1" @change="onValuesChange1"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerZJType">取消</span>
+                    <span class="" @click="surePickerZJType('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 性别 -->
+            <mt-popup v-model="pickerSexShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots2" @change="onValuesChange2"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerSex">取消</span>
+                    <span class="" @click="surePickerSex('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 出生日期 -->
+            <mt-datetime-picker 
+                ref="picker" 
+                v-model="pickerValue" 
+                type="date" 
+                cancel-text='取消' 
+                confirm-text='确定' 
+                :start-date='new Date("1950-01-01")'
+                :end-date="new Date()" 
+                @confirm="handleConfirm"
+            ></mt-datetime-picker>
+            <!-- 学历 -->
+            <mt-popup v-model="pickerXLShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots3" @change="onValuesChange3"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerXL">取消</span>
+                    <span class="" @click="surePickerXL('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 职称 -->
+            <mt-popup v-model="pickerZCShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots4" @change="onValuesChange4"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerZC">取消</span>
+                    <span class="" @click="surePickerZC('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 所属行业 -->
+            <mt-popup v-model="pickerHYShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots5" @change="onValuesChange5"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerHY">取消</span>
+                    <span class="" @click="surePickerHY('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 职务 -->
+            <mt-popup v-model="pickerZWShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots6" @change="onValuesChange6"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerZW">取消</span>
+                    <span class="" @click="surePickerZW('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 职业类型 -->
+            <mt-popup v-model="pickerZYTypeShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots7" @change="onValuesChange7"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerZYType">取消</span>
+                    <span class="" @click="surePickerZYType('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 房产类型 -->
+            <mt-popup v-model="pickerFCTypeShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots8" @change="onValuesChange8"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerFCType">取消</span>
+                    <span class="" @click="surePickerFCType('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 贷款 -->
+            <mt-popup v-model="pickerDKShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots9" @change="onValuesChange9"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerDK">取消</span>
+                    <span class="" @click="surePickerDK('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 贷款是否有过逾期 -->
+            <mt-popup v-model="pickerYQShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots10" @change="onValuesChange10"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerYQ">取消</span>
+                    <span class="" @click="surePickerYQ('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 贷记卡 -->
+            <mt-popup v-model="pickerDJShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots11" @change="onValuesChange11"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerDJ">取消</span>
+                    <span class="" @click="surePickerDJ('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 贷记卡是否有过逾期 -->
+            <mt-popup v-model="pickerDJYQShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots12" @change="onValuesChange12"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerDJYQ">取消</span>
+                    <span class="" @click="surePickerDJYQ('confirm')">确定</span>
+                </p>
+            </mt-popup>
+        </div>
+    </div>
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/mint.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script>
+        var newCreateCustom = new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    // 客户分类
+                    pickerKehuTypeShow: false,
+                    pickerKehuType: "",
+                    slots0: [{
+                        flex: 1,
+                        values: [],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    // 证件类型
+                    pickerZJTypeShow: false,
+                    pickerZJType: "",
+                    slots1: [{
+                        flex: 1,
+                        values: [],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    // 性别
+                    pickerSexShow: false,
+                    pickerSex: "",
+                    slots2: [{
+                        flex: 1,
+                        values: [],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    // 生日
+                    pickerBirthday: false,
+                    pickerValue: new Date(),
+                    // 学历
+                    pickerXLShow: false,
+                    pickerXL: "",
+                    slots3: [{
+                        flex: 1,
+                        values: [],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    // 职称
+                    pickerZCShow: false,
+                    pickerZC: "",
+                    slots4: [{
+                        flex: 1,
+                        values: [],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    // 行业
+                    pickerHYShow: false,
+                    pickerHY: "",
+                    slots5: [{
+                        flex: 1,
+                        values: [],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    // 职务
+                    pickerZWShow: false,
+                    pickerZW: "",
+                    slots6: [{
+                        flex: 1,
+                        values: [],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    // 职业类型
+                    pickerZYTypeShow: false,
+                    pickerZYType: "",
+                    slots7: [{
+                        flex: 1,
+                        values: [],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    // 房产类型
+                    pickerFCTypeShow: false,
+                    pickerFCType: "",
+                    slots8: [{
+                        flex: 1,
+                        values: [],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    // 贷款
+                    pickerDKShow: false,
+                    pickerDK: "",
+                    slots9: [{
+                        flex: 1,
+                        values: ['是', '否'],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    // 贷款是否有过逾期
+                    pickerYQShow: false,
+                    pickerYQ: "",
+                    slots10: [{
+                        flex: 1,
+                        values: ['是', '否'],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    // 贷记卡
+                    pickerDJShow: false,
+                    pickerDJ: "",
+                    slots11: [{
+                        flex: 1,
+                        values: ['是', '否'],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    // 贷记卡是否有过逾期
+                    pickerDJYQShow: false,
+                    pickerDJYQ: "",
+                    slots12: [{
+                        flex: 1,
+                        values: ['是', '否'],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    // 信息详情
+                    message: "",
+                    // 全部数据
+                    totalData: '',
+                    // 配偶信息
+                    spoustObjMes: "",
+                    // 页面来源
+                    sourceFrom: '',
+                    // 客户ID
+                    clintId: '',
+                    // 根据这个判断是否打开配偶验证页
+                    isAdd: '',
+                    // 客户类型
+                    CR_BECR_TYPE: ""
+                }
+            },
+            methods: {
                 // 自然人客户信息
-				getData:function(projectId, clintId) {
-					var self = this;
-					ajaxRequest({
-						type: 'post',
-						url: 'customer/queryNpCustDetails',
-						param: {
-							"CUSTOMER_ID": clintId
-						}
-					}, function (res) {
-						summer.hideProgress();
-						if (res.data.flag == 1) {
-                            self.totalData = res.data.datas.npCustDetails;
-							/* var holeDataBase = res.data.datas.cstBscInfo;
-							var holeDataDetail = res.data.datas.cstNpBscInfo;
-							var totalData = res.data.datas;
-							self.totalData=totalData;
-							self.regionArray = totalData.regionArray;
-							var marStsNmData=[],isHasLicenseNmData=[],driverLicenseNmData=[],housingOwnershipNmData=[],industryNmData=[],workTypNmData=[],positionData=[];majorInArrayData=[];mostEducateData=[]
-							for (var i = 0; i < totalData.eduLvlCd.length; i++) {
-								mostEducateData.push(totalData.eduLvlCd[i].label);
-							}
-							self.slots0[0].values = mostEducateData;
-							for (var i = 0; i < totalData.marStsCd.length; i++) {
-								marStsNmData.push(totalData.marStsCd[i].label);
-							}
-							self.slots1[0].values = marStsNmData;
-							// for (var i = 0; i < totalData.industry.length; i++) {
-							// 	isHasLicenseNmData.push(totalData.industry[i].label);
-							// }
-							// self.slots2[0].values = transportData;
-							for (var i = 0; i < totalData.driverLicenseType.length; i++) {
-								driverLicenseNmData.push(totalData.driverLicenseType[i].label);
-							}
-							self.slots3[0].values = driverLicenseNmData;
-							for (var i = 0; i < totalData.housingOwnership.length; i++) {
-								housingOwnershipNmData.push(totalData.housingOwnership[i].label);
-							}
-							self.slots4[0].values = housingOwnershipNmData;
-							for (var i = 0; i < totalData.industry.length; i++) {
-								industryNmData.push(totalData.industry[i].label);
-							}
-							self.slots5[0].values = industryNmData;
-							for (var i = 0; i < totalData.workTypCd.length; i++) {
-								workTypNmData.push(totalData.workTypCd[i].label);
-							}
-							self.slots6[0].values = workTypNmData;
-							for (var i = 0; i < totalData.positonArray.length; i++) {
-								positionData.push(totalData.positonArray[i].label);
-							}
-							self.slots7[0].values = positionData;
-							for (var i = 0; i < totalData.majorInArray.length; i++) {
-								majorInArrayData.push(totalData.majorInArray[i].label);
-							}
-							self.slots8[0].values = majorInArrayData;
-							if (holeDataBase&&holeDataDetail) {
-								self.message.cstNpSocialRl=holeDataDetail.cstNpSocialRl;//先存配偶信息
-								self.message.cstBscInfo.cstNm = holeDataBase.cstNm;
-								self.message.cstBscInfo.certNo = holeDataBase.certNo;
-								self.message.cstBscInfo.cstPhoneNumber = holeDataBase.cstPhoneNumber;
-								self.message.cstBscInfo.id = holeDataBase.id;//保存客户基本信息
-								self.message.id = holeDataDetail.id;//存的是客户详情id,编辑保存必须带上
-								self.message.eduLvlCd = holeDataDetail.eduLvlCd;
-								self.message.eduLvlNm = holeDataDetail.eduLvlNm
-								self.message.genderCd = holeDataDetail.genderCd;
-								self.message.genderNm = holeDataDetail.genderCd=="1"?"男":"女";
-								self.message.birthday = holeDataDetail.birthday;
-								self.message.age = holeDataDetail.age;
-								self.message.marStsNm = holeDataDetail.marStsNm;
-								self.message.marStsCd = holeDataDetail.marStsCd;
-								self.message.cstIdRegion = holeDataDetail.cstIdRegion;
-								self.message.cstIdProvince = holeDataDetail.cstIdProvince;
-								self.message.cstIdCity = holeDataDetail.cstIdCity;
-								self.message.cstIdDistrict = holeDataDetail.cstIdDistrict;
-								self.HukouCity=self.message.cstIdRegion.name+"-"+self.message.cstIdProvince.name+"-"+self.message.cstIdCity.name+"-"+self.message.cstIdDistrict.name;
-								self.message.cstWorkRegion = holeDataDetail.cstWorkRegion;
-								self.message.cstWorkProvince = holeDataDetail.cstWorkProvince;
-								self.message.cstWorkCity = holeDataDetail.cstWorkCity;
-								self.message.cstWorkDistrict = holeDataDetail.cstWorkDistrict;
-								self.WorkCity=self.message.cstWorkRegion.name+"-"+self.message.cstWorkProvince.name+"-"+self.message.cstWorkCity.name+"-"+self.message.cstWorkDistrict.name;
-								self.message.cstHomeRegion = holeDataDetail.cstHomeRegion;
-								self.message.cstHomeProvince = holeDataDetail.cstHomeProvince;
-								self.message.cstHomeCity = holeDataDetail.cstHomeCity;
-								self.message.cstHomeDistrict = holeDataDetail.cstHomeDistrict;
-								self.CurrentCity=self.message.cstHomeRegion.name+"-"+self.message.cstHomeProvince.name+"-"+self.message.cstHomeCity.name+"-"+self.message.cstHomeDistrict.name;
-								self.message.idAddr = holeDataDetail.idAddr;
-								self.message.homeAddr = holeDataDetail.homeAddr;
-								self.message.isHasLicenseNm = holeDataDetail.isHasLicenseNm;
-								self.message.isHasLicense = holeDataDetail.isHasLicense;
-								self.message.driverLicenseNm = holeDataDetail.driverLicenseNm;
-								self.message.driverLicenseType = holeDataDetail.driverLicenseType;
-								self.message.housingOwnership = holeDataDetail.housingOwnership;
-								self.message.housingOwnershipNm = holeDataDetail.housingOwnershipNm;
-								self.message.industry = holeDataDetail.industry;
-								self.message.industryNm = holeDataDetail.industryNm;
-								self.message.workPlc = holeDataDetail.workPlc;
-								self.message.workYrs = holeDataDetail.workYrs;
-								self.message.workTypCd = holeDataDetail.workTypCd;
-								self.message.workTypNm = holeDataDetail.workTypNm;
-								self.message.workAddr = holeDataDetail.workAddr;
-								self.message.workTel = holeDataDetail.workTel;
-								self.message.positionNm = holeDataDetail.positionNm;
-								self.message.position = holeDataDetail.position;
-								self.message.zipNo = holeDataDetail.zipNo;
-								self.message.afterTaxYearIn = holeDataDetail.afterTaxYearIn;
-								self.message.majorInTypCd = holeDataDetail.majorInTypCd;
-								self.message.majorInTypCdName = holeDataDetail.majorInTypCdName;
-								if (self.message.marStsCd == "3"||self.message.marStsCd == "21"||self.message.marStsCd == "22"||self.message.marStsCd == "23") {
-									summer.setWinAttr({
-										actionBar: {
-											title: "客户信息",
-											titleColor: "#ffffff",
-											backgroundColor: "#039be5",
-											rightItems: [{
-												type: "text",
-												text: "下一步",
-												textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-												method: "nextStopAction()" //在打开的window中自定义事件
-											}]
-										}
-									});
-								} else {
-									summer.setWinAttr({
-										actionBar: {
-											title: "客户信息",
-											titleColor: "#ffffff",
-											backgroundColor: "#039be5",
-											rightItems: [{
-												type: "text",
-												text: "保存",
-												textColor: "#ffffff",
-												method: "savePerson()" //自定义事件
-											}]
-										}
-									});
-								}
-							} */
-						}
-					}, function (err) {
-						alert(err);
-						console.log(err);
-						summer.hideProgress();
-					});
-				},
-				selectAddr:function() {
-					summer.setStorage("selectFrom", "newCreateCustom");
-					summer.openWin({
-						id: 'selectProvince',
-						url: 'html/fastReport/selectProvince.html',
-						create: false,
-						type: 'actionBar',
-						actionBar: {
-							title: '选择省',
-							titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
-							backgroundColor: "#039BE5",
-							leftItem: {
-								image: "img/back.png",
-								method: '', //返回按钮自定义事件
-								text: "返回",
-								textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-							}
-						}
-					})
-				},
-				handleClick: function () {
-					this.$toast('Hello world!')
-				},
-				cardIdentify: function () {
-					var _self = this;
-					PersonScan.scan({}, function (args) {
-						console.log(args);
-						_self.message.NAME = args.name;
-						_self.message.cstBscInfo.certNo = args.id;
-						_self.message.SEX_NM = args.sex;
-						args.sex == "男" ? _self.message.SEX = "0" : _self.message.SEX = "1";
-						_self.message.BIRTHDAY = args.birth_date;
-						_self.message.HOUSE_ADDRESS = args.address;
-						CommonUtil.watermark({
-							srcImage: args.imagePath,
-							targetImage: args.imagePath,
-							name: args.name,
-							callback: function (arg) {
-								if (!arg.target) {
-									_self.cardUrl = arg.watermarkFile;
-								} else {
-									_self.cardUrl = arg.target;
-								}
-								_self.cardShow = true;
-							}
-						});
-					}, function (args) {
-						console.log(args);
-					});
-				},
-				successCallBack: function (args) {
-					console.log(args);
-				},
-				onValuesChange0: function (picker, values) {
-					this.pickerEducate = values[0];
-				},
-				surePickerEducate: function (param) {
-					var self = this;
-					this.pickerEducateStatus = !this.pickerEducateStatus;
-					if (param == 'confirm') {
-						this.message.eduLvlNm = this.pickerEducate;
-						this.totalData.eduLvlCd.map(function(e,i){
-						 	if(e.label==self.message.eduLvlNm){
-								self.message.eduLvlCd=self.totalData.eduLvlCd[i].value;
-						 	}
-						 });
-					}
-				},
-				onValuesChange1: function (picker, values) {
-					this.pickerMarStsCd = values[0];
-				},
-				surePickerMarStsCd: function (param) {
-					this.pickerMarStsCdStatus = !this.pickerMarStsCdStatus;
-					var self=this;
-					 if (param == 'confirm') {
-						 this.message.marStsNm = this.pickerMarStsCd;
-					this.totalData.marStsCd.map(function(e,i){
-						if(e.label==self.message.marStsNm){
-							self.message.marStsCd=self.totalData.marStsCd[i].value;
-						}
-					});
-					if (this.message.marStsCd == "3"||this.message.marStsCd == "21"||this.message.marStsCd == "22"||this.message.marStsCd == "23") {
-						summer.setWinAttr({
-								actionBar: {
-									title: "客户信息",
-									titleColor: "#ffffff",
-									backgroundColor: "#039be5",
-									rightItems: [{
-										type: "text",
-										text: "下一步",
-										textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-										method: "nextStopAction()" //在打开的window中自定义事件
-									}]
-								}
-							});
-						}else{
-							summer.setWinAttr({
-									actionBar: {
-										title: "客户信息",
-										titleColor: "#ffffff",
-										backgroundColor: "#039be5",
-										rightItems: [{
-											type: "text",
-											text: "保存",
-											textColor: "#ffffff",
-											method: "savePerson()" //自定义事件
-										}]
-									}
-								});
-						}
-					 
-					}
-				},
-				onValuesChange2: function (picker, values) {
-					this.pickerIsHasLicense = values[0];
-				},
-				surePickerIsHasLicense: function (param) {
-					this.pickerIsHasLicenseStatus = !this.pickerIsHasLicenseStatus;
-					if (param == 'confirm') {
-						this.message.isHasLicenseNm = this.pickerIsHasLicense;
-					     if(this.message.isHasLicenseNm=="是"){
-							this.message.isHasLicense=1;
-						 }else{
-
-							this.message.isHasLicense=2;
-						 }
-					}
-				},
-
-				onValuesChange3: function (picker, values) {
-					this.pickerDriverLicenseType = values[0];
-				},
-				surePickerDriverLicenseType: function (param) {
-					var self=this;
-					this.pickerDriverLicenseTypeStatus = !this.pickerDriverLicenseTypeStatus;
-					if (param == 'confirm') {
-						this.message.driverLicenseNm = this.pickerDriverLicenseType;
-						this.totalData.driverLicenseType.map(function(e,i){
-							if(e.label==self.message.driverLicenseNm){
-								self.message.driverLicenseType=self.totalData.driverLicenseType[i].value;
-							}
-						});
-					}
-				},
-				onValuesChange4: function (picker, values) {
-					this.pickerHousingOwnership = values[0];
-				},
-				surePickerHousingOwnership: function (param) {
-					var self=this;
-					this.pickerHousingOwnershipStatus = !this.pickerHousingOwnershipStatus;
-					if (param == 'confirm') {
-						this.message.housingOwnershipNm = this.pickerHousingOwnership;
-						this.totalData.housingOwnership.map(function(e,i){
-							if(e.label==self.message.housingOwnershipNm){
-								self.message.housingOwnership=self.totalData.housingOwnership[i].value;
-							}
-						});
-					}
-				},
-				onValuesChange5: function (picker, values) {
-					this.pickerIndustry = values[0];
-				},
-				surePickerIndustry: function (param) {
-					var self=this;
-					this.pickerIndustryStatus = !this.pickerIndustryStatus;
-					if (param == 'confirm') {
-						this.message. industryNm = this.pickerIndustry;
-						this.totalData.industry.map(function(e,i){
-							if(e.label==self.message.industryNm){
-								self.message.industry=self.totalData.industry[i].value;
-							}
-						});
-					}
-				},
-				onValuesChange6: function (picker, values) {
-					this.pickerWorkTypCd = values[0];
-				},
-				surePickerWorkTypCd: function (param) {
-					var self=this;
-					this.pickerWorkTypCdStatus = !this.pickerWorkTypCdStatus;
-					if (param == 'confirm') {
-						this.message. workTypNm = this.pickerWorkTypCd;
-						this.totalData.workTypCd.map(function(e,i){
-							if(e.label==self.message.workTypNm){
-								self.message.workTypCd=self.totalData.workTypCd[i].value;
-							}
-						});
-					}
-				},
-				onValuesChange7: function (picker, values) {
-					this.pickerPosition = values[0];
-				},
-				surePickerPosition: function (param) {
-					var self=this;
-					this.pickerPositionStatus = !this.pickerPositionStatus;
-					if (param == 'confirm') {
-						this.message. positionNm = this.pickerPosition;
-						this.totalData.positonArray.map(function(e,i){
-							if(e.label==self.message.positionNm){
-								self.message.position=self.totalData.positonArray[i].value;
-							}
-						});
-					}
-				},
-				onValuesChange8: function (picker, values) {
-					this.pickerSourceIncome = values[0];
-				},
-				surePickerSoureIncome: function (param) {
-					var self=this;
-					this.pickerSourceIncomeStatus = !this.pickerSourceIncomeStatus;
-					if (param == 'confirm') {
-						this.message.majorInTypCdName = this.pickerSourceIncome;
-						 this.totalData.majorInArray.map(function(e,i){
-						 	if(e.label==self.message.majorInTypCdName){
-								self.message.majorInTypCd=self.totalData.majorInArray[i].value;
-						 	}
-						 });
-					}
-				},
-				handleConfirm: function (pickerValue) {
-					this.pickerValue = pickerValue;
-					this.message.BIRTHDAY = getFormatDate(pickerValue)
-
-					function getFormatDate(date) {
-						var date = new Date(date),
-							seperator1 = "-";
-						var year = date.getFullYear(),
-							month = date.getMonth() + 1,
-							strDate = date.getDate();
-						if (month >= 1 && month <= 9) {
-							month = "0" + month;
-						}
-						if (strDate >= 0 && strDate <= 9) {
-							strDate = "0" + strDate;
-						}
-						return year + '-' + month + '-' + strDate;
-					}
-
-				},
-				messageTest: function () {
-					var regCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; //身份证校验
-					var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
-				 if (this.message.marStsNm == "") {
-						summer.toast({
-							msg: "请选择婚姻状况"
-						});
-						return false;
-					} else if (this.HukouCity == "") {
-						summer.toast({
-							msg: "请选择户口所在地城市"
-						});
-						return false;
-					} else if (this.message.idAddr == "") {
-						summer.toast({
-							msg: "请输入户口所在地详细地址"
-						});
-						return false;
-					} else if (this.CurrentCity == "") {
-						summer.toast({
-							msg: "请选择现在居住城市"
-						});
-						return false;
-					} else if (this.message.homeAddr == "") {
-						summer.toast({
-							msg: "请选择现在居住详细地址"
-						});
-						return false;
-					}else if (this.message.housingOwnershipNm == "") {
-						summer.toast({
-							msg: "请选择住房所有权"
-						});
-						return false;
-					}else if (this.message.workPlc == "") {
-						summer.toast({
-							msg: "请输入工作单位名称"
-						});
-						return false;
-					}else if (this.message.workYrs == "") {
-						summer.toast({
-							msg: "请输入工作单位年限"
-						});
-						return false;
-					}else if (this.message.WorkCity == "") {
-						summer.toast({
-							msg: "请选择工作地城市"
-						});
-						return false;
-					}else if (this.message.workAddr == "") {
-						summer.toast({
-							msg: "请选择工作单位详细地址"
-						});
-						return false; 
-					}else if (this.message.workTel == "") {
-						summer.toast({
-							msg: "请输入工作单位电话"
-						});
-						return false;
-					}else if (this.message.afterTaxYearIn == "") {
-						summer.toast({
-							msg: "请输入税后年收入"
-						});
-						return false;
-					} else if (this.message.majorInTypCdName == "") {
-						summer.toast({
-							msg: "请输入主要收入来源"
-						});
-						return false;
-					} 
-					return true;
-				},
-				savePerson: function () {
-					var self = this;
-					if (!this.messageTest()) {
-						return;
-					};
-					summer.showProgress();
-					var paramData =$.extend({}, self.message);
-				//	delete paramData.cstNm;
-				//	delete paramData.certNo;
-					console.log(self.message);
-					ajaxRequest({
-						type: 'post',
-						url: 'appservice/customer/cstNpBscInfo/save.do',
-						param: paramData
-					}, function (res) {
-						summer.hideProgress();
-						if (res.data.flag == 1) {
-							summer.toast({
-								msg: "保存成功"
-							});
-							if (self.sourceFrom == "newCreateCustom_verify") {
-								var clint_Id = res.data.datas.cstId;
-								self.clintId=clint_Id;
-								self.message.id=res.data.datas.npId;//保存详情id
-								summer.openWin({
-									id: 'setProject',
-									url: 'html/fastReport/setProject.html',
-									create: false,
-									type: 'actionBar',
-									isKeep: false,
-									pageParam: {
-										source: "customer",
-										customId: clint_Id
-									},
-									actionBar: {
-										title: "快捷报单",
-										titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
-										backgroundColor: "#039be5",
-										leftItem: {
-											image: "img/back.png",
-											method: "", //返回按钮自定义事件
-											text: "返回",
-											textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-										},
-										rightItems: [{
-											type: "text",
-											text: "下一步",
-											textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-											method: "nextStopInput()" //在打开的window中自定义事件
-										}]
-									}
-								});
-							} else {
-								summer.closeWin();
-							}
-							//self.baseMessageData=res.data.datas;
-							//console.log(self.baseMessageData);
-						} else if (res.data.flag == 0) {
-							if (res.data.code == "E02003") {
-								summer.toast({
-									msg: "客户证件号重复,请重新录入"
-								});
-								return
-							}
-						}
-					}, function (err) {
-						//alert(err);
-						console.log(err);
-						summer.hideProgress();
-					});
-				},
-				nextStopAction: function () {
-					// if (!this.messageTest()) {
-					// 	return;
-					// };
-					var self = this;
-					if(self.isAdd){
-						summer.openWin({
-							id: 'newCreateCustom_verify2',
-							url: 'html/fastReport/newCreateCustom_verify2.html',
-							create: false,
-							type: 'actionBar',
-							actionBar: {
-								title: "配偶信息验证",
-								titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
-								backgroundColor: "#039be5",
-								leftItem: {
-									image: "img/back.png",
-									method: "", //返回按钮自定义事件
-									text: "返回",
-									textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-								},
-								rightItems: [{
-									type: "text",
-									text: "验证",
-									textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-									method: "verifyMessage()" //在打开的window中自定义事件
-								}]
-							},
-							pageParam: {
-								personMessage: self.message,
-								sourceFrom: self.sourceFrom
-							}
-						});
-					}else{
-						summer.openWin({
-							id: 'newCreateCustom2',
-							url: 'html/fastReport/newCreateCustom2.html',
-							create: false,
-							type: 'actionBar',
-							actionBar: {
-								title: "配偶信息",
-								titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
-								backgroundColor: "#039be5",
-								leftItem: {
-									image: "img/back.png",
-									method: "", //返回按钮自定义事件
-									text: "返回",
-									textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-								},
-								rightItems: [{
-									type: "text",
-									text: "保存",
-									textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-									method: "saveAllPerMessage()" //在打开的window中自定义事件
-								}]
-							},
-							pageParam: {
-								personMessage: self.message,
-								sourceFrom: self.sourceFrom
-							}
-						});
-					}
-					//此处ajax请求
-					
-				},
-				openPicker: function () {
+                getData: function (projectId, clintId, type) {
+                    var self = this;
+                    var CR_BECR_TYPE = (type == "自然人" ? 1 : 2);
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'customer/doCustomerPage',
+                        param: {
+                            /* 真实 */
+                            // "CUSTOMER_ID": clintId,
+                            // "CR_BECR_TYPE": CR_BECR_TYPE
+                            /* 测试用 */
+                            "CUSTOMER_ID": "240627",
+                            "CR_BECR_TYPE": 1
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            // 判断是否有配偶，设置navBar
+                            if (res.data.datas.custInfoDetails.CR_NATU_MATE_NAME) {
+                                // 有配偶
+                                summer.setWinAttr({
+                                    actionBar: {
+                                        title: "客户信息",
+                                        titleColor: "#ffffff",
+                                        backgroundColor: "#039be5",
+                                        rightItems: [{
+                                            type: "text",
+                                            text: "下一步",
+                                            textColor: "#ffffff",
+                                            method: "nextStopAction()"
+                                        }]
+                                    }
+                                });
+                            } else {
+                                // 无配偶
+                                summer.setWinAttr({
+                                    actionBar: {
+                                        title: "客户信息",
+                                        titleColor: "#ffffff",
+                                        backgroundColor: "#039be5",
+                                        rightItems: [{
+                                            type: "text",
+                                            text: "保存",
+                                            textColor: "#ffffff",
+                                            method: "savePerson()"
+                                        }]
+                                    }
+                                });
+                            }
+                            // 总数据
+                            self.totalData = res.data.datas;
+                            // 信息详情展示字段
+                            self.message = res.data.datas.custInfoDetails;
+                            // 客户分类slots0
+                            res.data.datas.CR_CUST_LEVEL_DIC.forEach(function (e) {
+                                self.slots0[0].values.push(e.FLAG);
+                                if (e.CODE == self.message.CR_CUST_LEVEL) {
+                                    self.message.CR_CUST_LEVEL = e.FLAG;
+                                }
+                            });
+                            // 证件类型slots1
+                            res.data.datas.CR_ID_CARD_TYPE_DIC.forEach(function (e) {
+                                self.slots1[0].values.push(e.FLAG);
+                                if (e.CODE == self.message.CR_ID_CARD_TYPE) {
+                                    self.message.CR_ID_CARD_TYPE = e.FLAG;
+                                }
+                            });
+                            // 性别slots2
+                            res.data.datas.SEX_DIC.forEach(function (e) {
+                                self.slots2[0].values.push(e.FLAG);
+                                if (e.CODE == self.message.CR_NATU_SEX) {
+                                    self.message.CR_NATU_SEX = e.FLAG;
+                                }
+                            });
+                            // 学历slots3
+                            res.data.datas.CR_EDUCATION_DIC.forEach(function (e) {
+                                self.slots3[0].values.push(e.FLAG);
+                                if (e.CODE == self.message.CR_EDUCATION) {
+                                    self.message.CR_EDUCATION = e.FLAG;
+                                }
+                            });
+                            // 职称slots4
+                            res.data.datas.CR_NATU_CASTE_DIC.forEach(function (e) {
+                                self.slots4[0].values.push(e.FLAG);
+                                if (e.CODE == self.message.CR_NATU_CASTE) {
+                                    self.message.CR_NATU_CASTE = e.FLAG;
+                                }
+                            });
+                            // 行业slots5
+                            res.data.datas.CR_TRADE_TYPE_DIC.forEach(function (e) {
+                                self.slots5[0].values.push(e.FLAG);
+                                if (e.CODE == self.message.CR_TRADE_TYPE) {
+                                    self.message.CR_TRADE_TYPE = e.FLAG;
+                                }
+                            });
+                            // 职务slots6
+                            res.data.datas.CR_NATU_POSITION_DIC.forEach(function (e) {
+                                self.slots6[0].values.push(e.FLAG);
+                                if (e.CODE == self.message.CR_NATU_POSITION) {
+                                    self.message.CR_NATU_POSITION = e.FLAG;
+                                }
+                            });
+                            // 职业类型slots7
+                            res.data.datas.CR_TYPE_OCCUPATION_DIC.forEach(function (e) {
+                                self.slots7[0].values.push(e.FLAG);
+                                if (e.CODE == self.message.CR_TYPE_OCCUPATION) {
+                                    self.message.CR_TYPE_OCCUPATION = e.FLAG;
+                                }
+                            });
+                            // 房产类型slots8
+                            res.data.datas.PROPERTY_TYPE_DIC.forEach(function (e) {
+                                self.slots8[0].values.push(e.FLAG);
+                                if (e.CODE == self.message.CR_NATU_MATE_PROPERTY) {
+                                    self.message.CR_NATU_MATE_PROPERTY = e.FLAG;
+                                }
+                            });
+                            // 邮寄地址字典查询
+                            res.data.datas.CR_MAILING_ADDRESS_DIC.forEach(function (e) {
+                                if (e.CODE == self.message.CR_MAILING_ADDRESS) {
+                                    self.message.CR_MAILING_ADDRESS = e.FLAG;
+                                }
+                            });
+                        } else {
+                            summer.toast({
+                                msg: "获取客户信息失败"
+                            });
+                        }
+                    }, function (err) {
+                        console.log(err);
+                        summer.hideProgress();
+                    });
+                },
+                // 客户分类更改
+                onValuesChange0: function (picker, values) {
+                    this.pickerKehuType = values[0];
+                },
+                surePickerKehuType: function (param) {
+                    var self = this;
+                    this.pickerKehuTypeShow = !this.pickerKehuTypeShow;
+                    if (param == 'confirm') {
+                        this.message.CR_CUST_LEVEL = this.pickerKehuType;
+                    }
+                },
+                // 证件类型更改
+                onValuesChange1: function (picker, values) {
+                    this.pickerZJType = values[0];
+                },
+                surePickerZJType: function (param) {
+                    var self = this;
+                    this.pickerZJTypeShow = !this.pickerZJTypeShow;
+                    if (param == 'confirm') {
+                        this.message.CR_ID_CARD_TYPE = this.pickerZJType;
+                    }
+                },
+                // 性别更改
+                onValuesChange2: function (picker, values) {
+                    this.pickerSex = values[0];
+                },
+                surePickerSex: function (param) {
+                    var self = this;
+                    this.pickerSexShow = !this.pickerSexShow;
+                    if (param == 'confirm') {
+                        this.message.CR_NATU_SEX = this.pickerSex;
+                    }
+                },
+                // 学历更改
+                onValuesChange3: function (picker, values) {
+                    this.pickerXL = values[0];
+                },
+                surePickerXL: function (param) {
+                    var self = this;
+                    this.pickerXLShow = !this.pickerXLShow;
+                    if (param == 'confirm') {
+                        this.message.CR_EDUCATION = this.pickerXL;
+                    }
+                },
+                // 职称更改
+                onValuesChange4: function (picker, values) {
+                    this.pickerZC = values[0];
+                },
+                surePickerZC: function (param) {
+                    var self = this;
+                    this.pickerZCShow = !this.pickerZCShow;
+                    if (param == 'confirm') {
+                        this.message.CR_NATU_CASTE = this.pickerZC;
+                    }
+                },
+                // 行业更改
+                onValuesChange5: function (picker, values) {
+                    this.pickerHY = values[0];
+                },
+                surePickerHY: function (param) {
+                    var self = this;
+                    this.pickerHYShow = !this.pickerHYShow;
+                    if (param == 'confirm') {
+                        this.message.CR_TRADE_TYPE = this.pickerHY;
+                    }
+                },
+                // 职务更改
+                onValuesChange6: function (picker, values) {
+                    this.pickerZW = values[0];
+                },
+                surePickerZW: function (param) {
+                    var self = this;
+                    this.pickerZWShow = !this.pickerZWShow;
+                    if (param == 'confirm') {
+                        this.message.CR_NATU_POSITION = this.pickerZW;
+                    }
+                },
+                // 职业类型更改
+                onValuesChange7: function (picker, values) {
+                    this.pickerZYType = values[0];
+                },
+                surePickerZYType: function (param) {
+                    var self = this;
+                    this.pickerZYTypeShow = !this.pickerZYTypeShow;
+                    if (param == 'confirm') {
+                        this.message.CR_TYPE_OCCUPATION = this.pickerZYType;
+                    }
+                },
+                // 房产类型更改
+                onValuesChange8: function (picker, values) {
+                    this.pickerFCType = values[0];
+                },
+                surePickerFCType: function (param) {
+                    var self = this;
+                    this.pickerFCTypeShow = !this.pickerFCTypeShow;
+                    if (param == 'confirm') {
+                        this.message.CR_NATU_MATE_PROPERTY = this.pickerFCType;
+                    }
+                },
+                // 贷款更改
+                onValuesChange9: function (picker, values) {
+                    this.pickerDK = values[0];
+                },
+                surePickerDK: function (param) {
+                    var self = this;
+                    this.pickerDKShow = !this.pickerDKShow;
+                    if (param == 'confirm') {
+                        this.message.MAILING_LOAN = this.pickerDK;
+                    }
+                },
+                // 贷款是否有过逾期更改
+                onValuesChange10: function (picker, values) {
+                    this.pickerYQ = values[0];
+                },
+                surePickerYQ: function (param) {
+                    var self = this;
+                    this.pickerYQShow = !this.pickerYQShow;
+                    if (param == 'confirm') {
+                        this.message.MAILING_LOANS_OVERDUE = this.pickerYQ;
+                    }
+                },
+                // 贷记卡更改
+                onValuesChange11: function (picker, values) {
+                    this.pickerDJ = values[0];
+                },
+                surePickerDJ: function (param) {
+                    var self = this;
+                    this.pickerDJShow = !this.pickerDJShow;
+                    if (param == 'confirm') {
+                        this.message.MAILING_CREDIT = this.pickerDJ;
+                    }
+                },
+                // 贷记卡是否有过逾期更改
+                onValuesChange12: function (picker, values) {
+                    this.pickerDJYQ = values[0];
+                },
+                surePickerDJYQ: function (param) {
+                    var self = this;
+                    this.pickerDJYQShow = !this.pickerDJYQShow;
+                    if (param == 'confirm') {
+                        this.message.MAILING_CREDIT_OVERDUE = this.pickerDJYQ;
+                    }
+                },
+                // 日期更改
+                surePickerBirthday: function () {
+					this.pickerBirthday = !this.pickerBirthday;
 					this.$refs.picker.open();
-				}
-			}
-		})
+				},
+                handleConfirm: function (pickerValue) {
+                    this.pickerValue = pickerValue;
+                    this.message.CR_BIRTH_DATE = getFormatDate(pickerValue);
+                    function getFormatDate(date) {
+                        var date = new Date(date),
+                            seperator1 = "-";
+                        var year = date.getFullYear(),
+                            month = date.getMonth() + 1,
+                            strDate = date.getDate();
+                        if (month >= 1 && month <= 9) {
+                            month = "0" + month;
+                        }
+                        if (strDate >= 0 && strDate <= 9) {
+                            strDate = "0" + strDate;
+                        }
+                        return year + '-' + month + '-' + strDate;
+                    }
+                },
+                // 校验（true/false）
+                messageTest: function () {
+                    var regCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; //身份证校验
+                    var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+                    if (this.message.CR_NATU_IDCARD == "") {
+                        summer.toast({
+                            msg: "请输入证件号码"
+                        });
+                        return false;
+                    } else if (this.message.CR_ID_CARD_TYPE == "身份证" && !regCard.test(this.message.CR_NATU_IDCARD)) {
+                        summer.toast({
+                            msg: "身份证号格式有误"
+                        });
+                        return false;
+                    } else if (this.message.CR_NATU_MOBILE == "") {
+                        summer.toast({
+                            msg: "请输入手机号码"
+                        });
+                        return false;
+                    } else if (!phoneCard.test(this.message.CR_NATU_MOBILE)) {
+                        summer.toast({
+                            msg: "手机号码格式有误"
+                        });
+                        return false;
+                    } else if (this.message.CR_NATU_WORK_UNITS == "") {
+                        summer.toast({
+                            msg: "请输入工作单位"
+                        });
+                        return false;
+                    } else if (this.message.EMPLOYEE_EMAIL == "") {
+                        summer.toast({
+                            msg: "请输入电子邮箱"
+                        });
+                        return false;
+                    } else if (this.message.EMPLOYEE_ID_CARD_ADDR == "") {
+                        summer.toast({
+                            msg: "请输入身份证地址"
+                        });
+                        return false;
+                    } else if (this.message.CR_NATU_HOME_ADDRESS == "") {
+                        summer.toast({
+                            msg: "请输入家庭地址"
+                        });
+                        return false;
+                    } else if (this.message.CR_MAILING_ADDRESS == "") {
+                        summer.toast({
+                            msg: "请输入邮寄地址"
+                        });
+                        return false;
+                    } else if (this.message.CR_NATU_WORK_ADDRESS == "") {
+                        summer.toast({
+                            msg: "请输入单位地址"
+                        });
+                        return false;
+                    }
+                    return true;
+                },
+                // 保存
+                savePerson: function () {
+                    var self = this;
+                    if (!this.messageTest()) {
+                        return;
+                    };
+                    summer.showProgress();
+                    var paramData = $.extend({}, self.message);
+                    console.log(self.message);
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'appservice/customer/cstNpBscInfo/save.do',
+                        param: paramData
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            summer.toast({
+                                msg: "保存成功"
+                            });
+                            if (self.sourceFrom == "newCreateCustom_verify") {
+                                var clint_Id = res.data.datas.cstId;
+                                self.clintId = clint_Id;
+                                self.message.id = res.data.datas.npId; //保存详情id
+                                summer.openWin({
+                                    id: 'setProject',
+                                    url: 'html/fastReport/setProject.html',
+                                    create: false,
+                                    type: 'actionBar',
+                                    isKeep: false,
+                                    pageParam: {
+                                        source: "customer",
+                                        customId: clint_Id
+                                    },
+                                    actionBar: {
+                                        title: "快捷报单",
+                                        titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                        backgroundColor: "#039be5",
+                                        leftItem: {
+                                            image: "img/back.png",
+                                            method: "", //返回按钮自定义事件
+                                            text: "返回",
+                                            textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                        },
+                                        rightItems: [{
+                                            type: "text",
+                                            text: "下一步",
+                                            textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                            method: "nextStopInput()" //在打开的window中自定义事件
+                                        }]
+                                    }
+                                });
+                            } else {
+                                summer.closeWin();
+                            }
+                        } else if (res.data.flag == 0) {
+                            if (res.data.code == "E02003") {
+                                summer.toast({
+                                    msg: "客户证件号重复,请重新录入"
+                                });
+                                return
+                            }
+                        }
+                    }, function (err) {
+                        console.log(err);
+                        summer.hideProgress();
+                    });
+                },
+                // 下一步
+                nextStopAction: function () {
+                    if (!this.messageTest()) {
+                        return;
+                    };
+                    var self = this;
+                    if (self.isAdd) {
+                        summer.openWin({
+                            id: 'newCreateCustom_verify2',
+                            url: 'html/fastReport/newCreateCustom_verify2.html',
+                            create: false,
+                            type: 'actionBar',
+                            actionBar: {
+                                title: "配偶信息验证",
+                                titleColor: "#ffffff",
+                                backgroundColor: "#039be5",
+                                leftItem: {
+                                    image: "img/back.png",
+                                    method: "",
+                                    text: "返回",
+                                    textColor: "#ffffff"
+                                },
+                                rightItems: [{
+                                    type: "text",
+                                    text: "验证",
+                                    textColor: "#ffffff", 
+                                    method: "verifyMessage()"
+                                }]
+                            },
+                            pageParam: {
+                                personMessage: self.message,
+                                sourceFrom: self.sourceFrom
+                            }
+                        });
+                    } else {
+                        summer.openWin({
+                            id: 'newCreateCustom2',
+                            url: 'html/fastReport/newCreateCustom2.html',
+                            create: false,
+                            type: 'actionBar',
+                            actionBar: {
+                                title: "配偶信息",
+                                titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                backgroundColor: "#039be5",
+                                leftItem: {
+                                    image: "img/back.png",
+                                    method: "", //返回按钮自定义事件
+                                    text: "返回",
+                                    textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                },
+                                rightItems: [{
+                                    type: "text",
+                                    text: "保存",
+                                    textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                    method: "saveAllPerMessage()" //在打开的window中自定义事件
+                                }]
+                            },
+                            pageParam: {
+                                personMessage: self.message,
+                                sourceFrom: self.sourceFrom
+                            }
+                        });
+                    }
+                }
+            }
+        })
+        // 保存
+        function savePerson() {
+            newCreateCustom.savePerson();
+        }
+        // 下一步
+        function nextStopAction() {
+            newCreateCustom.nextStopAction();
+        }
 
-		function savePerson() {
-			newCreateCustom.savePerson();
-		}
-
-		function nextStopAction() {
-			newCreateCustom.nextStopAction();
-		}
-		function getCity(dataSource) {
-			if(dataSource=="HukouCity"){
-				newCreateCustom.message.cstIdRegion =JSON.parse(summer.getStorage("pickerDealCity1"));
-				newCreateCustom.message.cstIdProvince =JSON.parse(summer.getStorage("pickerDealCity2"));
-				newCreateCustom.message.cstIdCity =JSON.parse(summer.getStorage("pickerDealCity3"));
-				newCreateCustom.message.cstIdDistrict =JSON.parse(summer.getStorage("pickerDealCity4"));
-				newCreateCustom.HukouCity=JSON.parse(summer.getStorage("pickerDealCity1")).name+" "+JSON.parse(summer.getStorage("pickerDealCity2")).name+" "+JSON.parse(summer.getStorage("pickerDealCity3")).name+" "+JSON.parse(summer.getStorage("pickerDealCity4")).name
-			}else if(dataSource=="CurrentCity"){
-				newCreateCustom.message.cstHomeRegion =JSON.parse(summer.getStorage("pickerDealCity1"));
-				newCreateCustom.message.cstHomeProvince =JSON.parse(summer.getStorage("pickerDealCity2"));
-				newCreateCustom.message.cstHomeCity =JSON.parse(summer.getStorage("pickerDealCity3"));
-				newCreateCustom.message.cstHomeDistrict =JSON.parse(summer.getStorage("pickerDealCity4"));
-				newCreateCustom.message.zipNo =JSON.parse(summer.getStorage("pickerDealCity4")).code;
-				newCreateCustom.CurrentCity=JSON.parse(summer.getStorage("pickerDealCity1")).name+" "+JSON.parse(summer.getStorage("pickerDealCity2")).name+" "+JSON.parse(summer.getStorage("pickerDealCity3")).name+" "+JSON.parse(summer.getStorage("pickerDealCity4")).name
-			}else if(dataSource=="WorkCity"){
-				newCreateCustom.message.cstWorkRegion =JSON.parse(summer.getStorage("pickerDealCity1"));
-				newCreateCustom.message.cstWorkProvince =JSON.parse(summer.getStorage("pickerDealCity2"));
-				newCreateCustom.message.cstWorkCity =JSON.parse(summer.getStorage("pickerDealCity3"));
-				newCreateCustom.message.cstWorkDistrict =JSON.parse(summer.getStorage("pickerDealCity4"));
-				newCreateCustom.WorkCity=JSON.parse(summer.getStorage("pickerDealCity1")).name+" "+JSON.parse(summer.getStorage("pickerDealCity2")).name+" "+JSON.parse(summer.getStorage("pickerDealCity3")).name+" "+JSON.parse(summer.getStorage("pickerDealCity4")).name
-			}
-		}
-		summerready = function () {
-			var projectId = summer.pageParam.projectId;
-			var clintId = summer.pageParam.clintId;
-			var isAdd=summer.pageParam.isAdd;
-			newCreateCustom.isAdd = isAdd;
-			var sourceFrom = summer.pageParam.sourceFrom;
-			newCreateCustom.sourceFrom = sourceFrom;
-			newCreateCustom.clintId = clintId;
-			var customBaseMessage=summer.pageParam.personBaseMessage;
-			if(sourceFrom=="newCreateCustom_verify"&&customBaseMessage){
-				newCreateCustom.message.genderNm=customBaseMessage.sex;
-				newCreateCustom.message.genderCd=customBaseMessage.sex=="男"?"1":"2";
-				newCreateCustom.message.age=customBaseMessage.age;
-				newCreateCustom.message.birthday=customBaseMessage.birth;
-				newCreateCustom.message.cstBscInfo.cstNm=customBaseMessage.cstNm;
-				newCreateCustom.message.cstBscInfo.certNo=customBaseMessage.certNo;
-				newCreateCustom.message.cstBscInfo.cstPhoneNumber=customBaseMessage.cstPhoneNumber;
-				//newCreateCustom.clintId = customBaseMessage.cstBscInfo.id;
-				//newCreateCustom.message.cstBscInfo.id = customBaseMessage.cstBscInfo.id;//保存客户基本信息id
-			}
-			newCreateCustom.getData(projectId, newCreateCustom.clintId);
-			var params = ["android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_COARSE_LOCATION",
-				"android.permission.CAMERA", "android.permission.FLASHLIGHT", "android.permission.READ_EXTERNAL_STORAGE",
-				"android.permission.READ_PHONE_STATE",
-				"android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.ACCESS_FINE_LOCATION",
-				"android.permission.ACCESS_COARSE_LOCATION"
-			];
-			summer.getPermission(params, function (args) {
-				//alert(args); //成功返回OK
-			}, function (args) {
-				//alert(args); //失败返回illegal access
-			})
-		}
-		$(function(){
-			$('body').height($('body')[0].clientHeight);
-		});
-	</script>
+        summerready = function () {
+            var projectId = summer.pageParam.projectId;
+            var type = summer.pageParam.type;
+            newCreateCustom.CR_BECR_TYPE = type;
+            var clintId = summer.pageParam.clintId;
+            var isAdd = summer.pageParam.isAdd;
+            newCreateCustom.isAdd = isAdd;
+            var sourceFrom = summer.pageParam.sourceFrom;
+            newCreateCustom.sourceFrom = sourceFrom;
+            newCreateCustom.clintId = clintId;
+            var customBaseMessage = summer.pageParam.personBaseMessage;
+            if (sourceFrom == "newCreateCustom_verify" && customBaseMessage) {
+                /* newCreateCustom.message.genderNm = customBaseMessage.sex;
+                newCreateCustom.message.genderCd = customBaseMessage.sex == "男" ? "1" : "2";
+                newCreateCustom.message.age = customBaseMessage.age;
+                newCreateCustom.message.birthday = customBaseMessage.birth;
+                newCreateCustom.message.cstBscInfo.cstNm = customBaseMessage.cstNm;
+                newCreateCustom.message.cstBscInfo.certNo = customBaseMessage.certNo;
+                newCreateCustom.message.cstBscInfo.cstPhoneNumber = customBaseMessage.cstPhoneNumber; */
+            }
+            // 获取信息
+            newCreateCustom.getData(projectId, newCreateCustom.clintId, type);
+        }
+        $(function () {
+            $('body').height($('body')[0].clientHeight);
+        });
+    </script>
 </body>
 
 </html>
