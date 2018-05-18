@@ -43,13 +43,39 @@
 							<input v-else type="text" @blur="checkVal('lease_term')" placeholder="租赁期数" name="lease_term" v-model="LEASE_TERM">
 						</span>
 					</li>
-					<li v-if='LEASE_COURSE'>
+					<li v-if='lease_course_status' @click="pickerFlag('leaseCourse')">
 						<b>租赁周期</b>
 						<span>
 							<b v-if="LEASE_COURSE">{{LEASE_COURSE}}</b>
+              <b v-else class="default">请选择</b>
 							<i class="icon iconfont icon-enter"></i>
 						</span>
 					</li>
+          <template v-if="llpz_status">
+            <li v-if='llpz_edit=="1"'>
+  						<b>利率</b>
+  						<span>
+  							<b>{{LLPZ}}</b>
+  						</span>
+  					</li>
+            <li v-else @click="pickerFlag('llpz')">
+  						<b>利率</b>
+  						<span>
+  							<b v-if="LLPZ">{{LLPZ}}</b>
+                <b v-else class="default">请选择</b>
+  							<i class="icon iconfont icon-enter"></i>
+  						</span>
+  					</li>
+          </template>
+          <li v-if='pay_way_status' @click="pickerFlag('payWay')">
+						<b>支付方式</b>
+						<span>
+							<b v-if="PAY_WAY">{{PAY_WAY}}</b>
+              <b v-else class="default">请选择</b>
+							<i class="icon iconfont icon-enter"></i>
+						</span>
+					</li>
+
 				</ul>
       </div>
 			<div class="um-footer" id="footer">
@@ -92,15 +118,30 @@
 							textAlign: 'center'
 						}],
 						LEASE_COURSE:'', //租赁周期
+						LEASE_COURSE_ID:'',
 						lease_course_status:'',
 						lease_course_list:[],
 
 						LEASE_TERM:'', //租赁期数
 						lease_term_status:'',
             lease_term_edit:0,
-						lease_term_limit:{
+						lease_term_limit:{  //限制条件对象
+							LIMIT_FLAG:'',    //1是 0否限制
+							LIMIT_VALUE_D:'',  //最小值
+							LIMIT_VALUE_U:''  //最大值
+						},
+						YEAR_LIMIT:'', // 年限
 
-						}, //限制条件
+						LLPZ:'', //利率
+						LLPZ_ID:'',
+						llpz_status:'',
+						llpz_edit:'',
+						llpz_list:[],
+
+						PAY_WAY:'',
+						PAY_WAY_ID:'',
+						pay_way_status:'',
+						pay_way_list:[]
 
 					}
 				},
@@ -119,7 +160,21 @@
 								var data=res.data.datas
 								_this.scheme_type_list=data.POLICY_TYPES //方案类型字典
 								_this.lease_course_list=data.LEASE_COURSES  //租赁周期
+								_this.llpz_list=data.LLPZS  //利率配置字典
+								_this.pay_way_list=data.PAY_WAYS
 
+								var projectData=res.data.datas.project
+								if(projectData){
+									_this.SCHEME_NAME=projectData.SCHEME_NAME
+                  _this.SCHEME_NAME_ID=projectData.SCHEME_ID
+                  _this.LEASE_TERM=projectData.LEASE_TERM
+                  _this.LEASE_COURSE=projectData.NULL
+                  _this.LEASE_COURSE_ID=projectData.LEASE_COURSE
+                  _this.PAY_WAY=projectData.NULL
+                  _this.PAY_WAY_ID=projectData.PAY_WAY
+
+
+								}
 								summer.hideProgress()
 							},function(err){
 								console.log("err",JSON.stringify(err))
@@ -141,6 +196,12 @@
 									return
 								}
 								this.pickerFlagList[0].values=this.scheme_name_list
+							}else if(val=='leaseCourse'){
+								this.pickerFlagList[0].values=this.lease_course_list
+							}else if(val=='llpz'){
+								this.pickerFlagList[0].values=this.llpz_list
+							}else if(val=='payWay'){
+								this.pickerFlagList[0].values=this.pay_way_list
 							}
 
 							this.currentName=val
@@ -169,6 +230,15 @@
 								this.SCHEME_NAME=this.pickingObj.FLAG
 								this.SCHEME_NAME_ID=this.pickingObj.CODE
 								this.checkDate()
+							}else if(this.currentName=='leaseCourse'){
+								this.LEASE_COURSE=this.pickingObj.FLAG
+								this.LEASE_COURSE_ID=this.pickingObj.CODE
+							}else if(this.currentName=='llpz'){
+								this.LLPZ=this.pickingObj.FLAG
+								this.LLPZ_ID=this.pickingObj.CODE
+							}else if(this.currentName=='payWay'){
+								this.PAY_WAY=this.pickingObj.FLAG
+								this.PAY_WAY_ID=this.pickingObj.CODE
 							}
 
 						}
@@ -197,6 +267,13 @@
 									_this.lease_term_limit.LIMIT_VALUE_D=arr[i].LIMIT_VALUE_D
 									_this.lease_term_limit.LIMIT_VALUE_U=arr[i].LIMIT_VALUE_U
 									_this.checkVal('lease_term')
+								}else if(arr[i].KEY_NAME_EN=='LLPZ'){
+									_this.LLPZ=arr[i].VALUE_STR
+									_this.llpz_status=arr[i].VALUE_STR
+									_this.llpz_edit=arr[i].VALUE_STATUS
+								}else if(arr[i].KEY_NAME_EN=='ZFFS'){
+									_this.PAY_WAY=arr[i].VALUE_STR
+									_this.pay_way_status=arr[i].VALUE_STR
 								}
 							}
 
@@ -222,7 +299,46 @@
 
 					},
 					save:function(){
+						var _this=this
+						if(!this.isTest){
+							summer.toast({msg:'请先测算报价'})
+							return
+						}
+						summer.showProgress();
+						var param={
+							PROJECT_ID:this.prjId,
+							SCHEME_NAME:this.SCHEME_NAME,
+							POLICY:this.SCHEME_NAME_ID,
+							LEASE_TERM:this.LEASE_TERM,
+							LEASE_COURSE:this.LEASE_COURSE_ID,
+							PAY_WAY:this.PAY_WAY_ID,
 
+						}
+						console.log(JSON.stringify(param));
+						ajaxRequest({
+							type:'POST',
+							url:'offer/saveProjectScheme',
+							param:param
+						},function(res){
+							console.log("res",JSON.stringify(res));
+							summer.hideProgress();
+							if(res.data.flag=="1"){
+								summer.toast({msg:"保存成功"});
+								summer.execScript({
+									winId: "setProject",
+									script: "addRight('price')"
+								});
+								summer.closeToWin({id:'setProject'})
+							}else{
+								summer.toast({
+									msg:res.data.msg
+								});
+								return;
+							}
+
+						},function(err){
+							console.log("err",err);
+						})
 					}
 				}
 			})
