@@ -483,7 +483,7 @@
 						// SCHEME_ID: setProgect.SCHEME_ID,//方案ID
 						// CREDIT_ID: setProgect.CREDIT_ID,//资信ID
 						// PLATFORM: setProgect.PLATFORM//业务类型
-						id: 23030,
+						id: 23030, //方便调试 写死了
 						CUSTOMER_ID:240622,
 						SCHEME_ID: 29762,//方案ID
 						CREDIT_ID: 32119,//资信ID
@@ -548,12 +548,13 @@
 				})
 				return
 			} else if (param == 'uploadImg') {
-				if(!$(".price").hasClass('active')){
-					summer.toast({
-						msg: '请先选择报价方案'
-					});
-					return
-				}
+				// 不需要用户ID了 CLIENT_ID: setProgect.customId
+				// if(!$(".price").hasClass('active')){
+				// 	summer.toast({
+				// 		msg: '请先选择报价方案'
+				// 	});
+				// 	return
+				// }
 				id="uploadImg"
 				url = "html/fastReport/uploadImgList.html";
 				title = '资料上传';
@@ -563,8 +564,9 @@
 					create: false,
 					type: 'actionBar',
 					pageParam: {
-						id: setProgect.project_Id,
-						CLIENT_ID: setProgect.customId
+						// id: setProgect.project_Id  方便调试 写死了
+						id:23030
+
 					},
 					actionBar: {
 						title: title,

@@ -106,7 +106,7 @@
 							<img v-if="item.filePath" :src="item.filePath" alt="">
 							<i v-else class="icon iconfont icon-add"></i>
 						</div>
-						<img class="close" @click="deleteOld(item.id,index)" src="../../img/close.png" alt="">
+						<img class="close" @click="deleteOld(item.ID,index)" src="../../img/close.png" alt="">
 						<p>{{param.name}}</p>
 					</li>
 					<li v-for="(item,index) in imgList" :key="index">
@@ -206,20 +206,18 @@
 					var _this = this;
 					ajaxRequest({
 						type: 'post',
-						url: 'appservice/project/sysuploadfile/prjFileList.do',
+						url: 'business/getCoreFileByProject',
 						param: {
-							tableId: _this.param.projectId,
+							PROJECT_ID: _this.param.projectId,
 							tableName: 'PRJ_BSC_INFO',
-							remarks: _this.param.id
+							REMARK: _this.param.name
 						}
 					}, function (res) {
 						console.log(JSON.stringify(res));
-						if (res.data.fileList.length > 0) {
-							_this.oldImgList = res.data.fileList
+						if (res.data.list.length > 0) {
+							_this.oldImgList = res.data.list
 							for (var i = 0; i < _this.oldImgList.length; i++) {
-								_this.oldImgList[i].filePath = window.G_COMMON_URL + "appservice/project/sysuploadfile/appDownload.do?PATH=" + _this.oldImgList[
-									i].filePath+ "&TOKEN="+ getToken()
-
+								_this.oldImgList[i].filePath = window.G_COMMON_URL + "business/downloadCoreFiles?PATH=" + _this.oldImgList[i].FILE_URL
 							}
 						}
 						// if (res.data.datas.length > 0 && res.data.datas[0].name == '面签视频材料') {
@@ -237,9 +235,9 @@
 					summer.showProgress();
 					ajaxRequest({
 						type: 'post',
-						url: 'appservice/project/sysuploadfile/delByFilePath.do',
+						url: 'business/delCoreFile',
 						param: {
-							id: id
+							ID: id
 						}
 					}, function (res) {
 						console.log(JSON.stringify(res));
@@ -285,7 +283,7 @@
 						compressionRatio: 0.5,
 						type: "multiple",
 						callback: function (args) {
-							console.log(JSON.stringify(args));
+							// console.log(JSON.stringify(args));
 							var length = args.imgPaths.length;
 							if (that.imgList.length + length > 9) {
 								summer.toast({
@@ -293,7 +291,7 @@
 								})
 								return
 							}
-							console.log("开始添加水印,图片个数" + length);
+							// console.log("开始添加水印,图片个数" + length);
 							summer.showProgress();
 							that.compressImg(0, args, length);
 
@@ -303,10 +301,10 @@
 									targetImage: args.imgPaths[i].imgPath,
 									name: that.param.name,
 									callback: function (res) {
-										console.log(i + "水印后的" + res.target)
+										// console.log(i + "水印后的" + res.target)
 										that.imgList.push(res.target);
 										if (i < length - 1) {
-											console.log("第" + i + "次回掉");
+											// console.log("第" + i + "次回掉");
 											compressImg(i + 1)
 										} else {
 											summer.hideProgress();
@@ -319,13 +317,13 @@
 				},
 				compressImg:function(i, args, length) {
 					var that = this;
-					console.log("第" + i + "次添加水印")
+					// console.log("第" + i + "次添加水印")
 					CommonUtil.watermark({
 						srcImage: args.imgPaths[i].imgPath,
 						targetImage: args.imgPaths[i].imgPath,
 						name: that.param.name,
 						callback: function (res) {
-							console.log("第" + i + "次水印后的" + res.target)
+							// console.log("第" + i + "次水印后的" + res.target)
 							that.imgList.push(res.target);
 							if (i < length - 1) {
 								that.compressImg(i + 1, args, length)
@@ -334,7 +332,7 @@
 							}
 						}
 					});
-					console.log("程序还在执行")
+					// console.log("程序还在执行")
 				},
 				takeVideo:function() {
 					var _this = this
@@ -402,9 +400,8 @@
 						})
 					}
 					var dataParams = {
-						BECR_ID: that.param.id, // 客户id
-						PROJECT_NAME: that.param.projectId,
-						REMARK:getToken()  //此文件的名字
+						PROJECT_ID: that.param.projectId,
+						REMARK:that.param.name //此文件的名字
 					};
 					console.log("上传的参数" + JSON.stringify(dataParams))
 					console.log("文件数组" + JSON.stringify(this.uploadImgArr));

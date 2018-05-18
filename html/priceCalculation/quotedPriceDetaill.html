@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title>报价</title>
+		<link rel="stylesheet" href="../../css/iuapmobile.um.css">
+		<link rel="stylesheet" href="../../css/mint.css">
+		<link rel="stylesheet" href="../../css/fonts/iconfont.css">
+		<link rel="stylesheet" href="./quotedPrice.min.css">
+		<script src="../../js/summer.js" ></script>
+		<script src="../../js/jquery.min.js" ></script>
+		<script src="../../js/font.js" ></script>
+		<script src="../../js/vue.js" ></script>
+		<script src="../../js/mint.js" ></script>
+		<script src="../../js/common.js" ></script>
+		<script src="../../js/Frameworks/iuapmobile.frameworks.ui.js" ></script>
+	</head>
+	<body>
+		<div class="um-win" id="quotedPriceDetail" v-cloak>
+			<div class="um-content quotedPriceDetail">
+				<ul>
+					<li @click="pickerFlag('schemeType')">
+						<b>商务类型</b>
+						<span>
+							<b v-if="SCHEME_TYPE">{{SCHEME_TYPE}}</b>
+							<b v-else class="default">请选择</b>
+							<i class="icon iconfont icon-enter"></i>
+						</span>
+					</li>
+					<li @click="pickerFlag('schemeName')">
+						<b>商务政策</b>
+						<span>
+							<b v-if="SCHEME_NAME">{{SCHEME_NAME}}</b>
+							<b v-else class="default">请选择</b>
+							<i class="icon iconfont icon-enter"></i>
+						</span>
+					</li>
+          <li v-if='lease_term_status'>
+						<b>租赁期数</b>
+						<span>
+							<b v-if="lease_term_edit=='1'">{{LEASE_TERM}}</b>
+							<input v-else type="text" @blur="checkVal('lease_term')" placeholder="租赁期数" name="lease_term" v-model="LEASE_TERM">
+						</span>
+					</li>
+					<li v-if='LEASE_COURSE'>
+						<b>租赁周期</b>
+						<span>
+							<b v-if="LEASE_COURSE">{{LEASE_COURSE}}</b>
+							<i class="icon iconfont icon-enter"></i>
+						</span>
+					</li>
+				</ul>
+      </div>
+			<div class="um-footer" id="footer">
+				<!-- 选择报价方案 -->
+				<mt-popup v-model="pickerFlagStatus" class="pickerPrice"  position='bottom' >
+					<mt-picker value-key="schemeName" :slots="pickerFlagList" @change="pickerFlagChange"></mt-picker>
+					<p><span class="fl" @click="pickerFlag(false,false)">取消</span><span class="fr" @click="pickerFlag(false,true)">确定</span></p>
+				</mt-popup>
+
+				<div class="bButton" v-show="!pickerFlagStatus">
+					<button @click="quotedTest">测算</button>
+				</div>
+			</div>
+    </div>
+		<script>
+			summerready=function(){
+				quotedVue.prjId=summer.pageParam.id;
+				quotedVue.getData();
+			}
+			$(function(){$('body').height($('body')[0].clientHeight);});
+			var quotedVue=new Vue({
+				el:'#quotedPriceDetail',
+				data:function(){
+					return {
+						prjId:'',
+						SCHEME_TYPE:'', //方案类型
+						scheme_type_list:[],
+						SCHEME_NAME:'', //方案名称
+						SCHEME_NAME_ID:'',
+						scheme_name_list:[],
+
+						pickingObj:{},  //选中的字典对象
+						currentName:'', //当前选中的字段
+						pickerFlagStatus:false, //选择弹窗状态
+						pickerFlagList:[{
+							flex: 1,
+							values: [],
+							defaultIndex:0,
+							className: 'slot1',
+							textAlign: 'center'
+						}],
+						LEASE_COURSE:'', //租赁周期
+						lease_course_status:'',
+						lease_course_list:[],
+
+						LEASE_TERM:'', //租赁期数
+						lease_term_status:'',
+            lease_term_edit:0,
+						lease_term_limit:{
+
+						}, //限制条件
+
+					}
+				},
+				methods: {
+					getData:function(){
+						console.log("prjId==>"+this.prjId);
+						var _this=this
+						if(this.prjId){ //是报价
+							summer.showProgress();
+							ajaxRequest({
+								type:'POST',
+								url:"offer/toProjectScheme",
+								param:{PROJECT_ID:_this.prjId}
+							},function(res){
+								console.log("res",JSON.stringify(res));
+								var data=res.data.datas
+								_this.scheme_type_list=data.POLICY_TYPES //方案类型字典
+								_this.lease_course_list=data.LEASE_COURSES  //租赁周期
+
+								summer.hideProgress()
+							},function(err){
+								console.log("err",JSON.stringify(err))
+								summer.hideProgress()
+							})
+						}
+					},
+					pickerFlagChange:function(picker,values){
+						this.pickingObj=values[0]
+					},
+					pickerFlag(val,status){
+						console.log(val,status,this.currentName,JSON.stringify(this.pickingObj))
+						if(!status){  // 打开/取消
+							if(val=='schemeType'){
+								this.pickerFlagList[0].values=this.scheme_type_list
+							}else if(val=='schemeName'){
+								if(!this.SCHEME_TYPE){
+									summer.toast({msg:'请先选择商务类型'})
+									return
+								}
+								this.pickerFlagList[0].values=this.scheme_name_list
+							}
+
+							this.currentName=val
+						}else{  // 确认选中
+							if(this.currentName=='schemeType'){
+								this.SCHEME_TYPE=this.pickingObj.FLAG
+								var _this=this
+								summer.showProgress();
+								ajaxRequest({
+									type:'POST',
+									url:"offer/toProjectScheme",
+									param:{
+										PROJECT_ID:_this.prjId,
+										POLICY_TYPE:_this.SCHEME_TYPE
+									}
+								},function(res){
+									console.log("res",JSON.stringify(res));
+									_this.scheme_name_list=res.data.datas.SCHEME_LIST //方案类型字典
+									summer.hideProgress()
+								},function(err){
+									console.log("err",JSON.stringify(err))
+									summer.hideProgress()
+								})
+							}else if(this.currentName=='schemeName'){
+								this.isTest=false  // 需要重新测算
+								this.SCHEME_NAME=this.pickingObj.FLAG
+								this.SCHEME_NAME_ID=this.pickingObj.CODE
+								this.checkDate()
+							}
+
+						}
+						this.pickerFlagStatus=!this.pickerFlagStatus
+					},
+					checkDate:function(){
+						var _this=this;
+						summer.showProgress();
+						console.log("schemeCode======>"+_this.SCHEME_NAME_ID);
+						ajaxRequest({
+							type:'POST',
+							url:'offer/getPolicyScheme',
+							param:{SCHEME_CODE:_this.SCHEME_NAME_ID}
+						},function(res){
+							console.log("res",JSON.stringify(res));
+							var arr=res.data.datas.SCHEME
+							for(var i=0;i<arr.length;i++){
+								if(arr[i].KEY_NAME_EN=='ZLZQ'){
+									_this.LEASE_COURSE=arr[i].VALUE_STR
+									_this.lease_course_status=arr[i].VALUE_STR
+								}else if(arr[i].KEY_NAME_EN=='ZLQS'){
+									_this.LEASE_TERM=arr[i].VALUE_STR
+									_this.lease_term_status=arr[i].VALUE_STR
+									_this.lease_term_edit=arr[i].VALUE_STATUS
+									_this.lease_term_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
+									_this.lease_term_limit.LIMIT_VALUE_D=arr[i].LIMIT_VALUE_D
+									_this.lease_term_limit.LIMIT_VALUE_U=arr[i].LIMIT_VALUE_U
+									_this.checkVal('lease_term')
+								}
+							}
+
+							summer.hideProgress()
+						},function(err){
+							console.log("err",err);
+							summer.hideProgress()
+						})
+					},
+					checkVal(val){
+						if(val=='lease_term'){
+							if(this.lease_term_limit.LIMIT_FLAG=='1'){
+								if(this.LEASE_TERM<this.lease_term_limit.LIMIT_VALUE_D || this.LEASE_TERM>this.lease_term_limit.LIMIT_VALUE_U){
+									summer.toast({msg:'租赁期数值超出范围'})
+									this.LEASE_TERM=''
+								}
+							}
+						}
+					},
+
+
+					quotedTest:function(){
+
+					},
+					save:function(){
+
+					}
+				}
+			})
+			function save(){
+				quotedVue.save()
+			}
+		</script>
+  </body>
+</html>
