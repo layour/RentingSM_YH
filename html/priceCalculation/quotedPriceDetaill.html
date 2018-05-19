@@ -95,7 +95,7 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
-          <li>
+          <li v-if="TX != '无'">
             <b>贴息金额</b>
             <span>
               <b v-if="tx_m_edit=='1'">{{TX_M}}</b>
@@ -189,6 +189,55 @@
   						</span>
   					</li>
           </template>
+          <template v-if="gpsaz_status">
+            <li v-if='gpsaz_edit=="1"'>
+  						<b>GPS安装</b>
+  						<span>
+  							<b>{{GPSAZ}}</b>
+  						</span>
+  					</li>
+            <li v-else @click="pickerFlag('gpsaz')">
+  						<b>GPS安装</b>
+  						<span>
+  							<b v-if="GPSAZ">{{GPSAZ}}</b>
+                <b v-else class="default">请选择</b>
+  							<i class="icon iconfont icon-enter"></i>
+  						</span>
+  					</li>
+          </template>
+          <li  @click="pickerFlag('sflys')">
+  						<b>是否留钥匙</b>
+  						<span>
+  							<b v-if="SFLYS">{{SFLYS}}</b>
+                <b v-else class="default">请选择</b>
+  							<i class="icon iconfont icon-enter"></i>
+  						</span>
+  				</li>
+          <li>
+              <b>实际成交价</b>
+              <span><b>{{EQU_MONEY_ALL}}</b>&nbsp;元</span>
+          </li>
+          <li v-if="first_pay_edit=='1'">
+              <b>首付款</b>
+              <span>
+                <b>{{HIRE_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{HEAD_HIRE}}&nbsp;元</b>
+              </span>
+          </li>
+          <li v-else @click="sureFristPay">
+              <b>首付款</b>
+              <span>
+                <b v-if="HIRE_PERCENT">{{HIRE_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{HEAD_HIRE}}&nbsp;元</b>
+                <b v-else class="default">请选择</b>
+  							<i class="icon iconfont icon-enter"></i>
+              </span>
+          </li>
+
+
+
+          <li>
+              <b>合同总计</b>
+              <span><b>{{LEASE_TOPRIC}}</b>&nbsp;元</span>
+            </li>
 				</ul>
       </div>
 			<div class="um-footer" id="footer">
@@ -196,6 +245,36 @@
 				<mt-popup v-model="pickerFlagStatus" class="pickerPrice"  position='bottom' >
 					<mt-picker value-key="schemeName" :slots="pickerFlagList" @change="pickerFlagChange"></mt-picker>
 					<p><span class="fl" @click="pickerFlag(false,false)">取消</span><span class="fr" @click="pickerFlag(false,true)">确定</span></p>
+				</mt-popup>
+        <!-- 首付款 -->
+				<mt-popup v-model="firstPayStatu" class="firstPayCont" position="bottom">
+					<ul v-if="moneyToRate">
+						<li class="input">
+							<b>首付比例</b>
+							<span><input type="text"  @input="toMoneyToRate('firstPay',true)" placeholder='请输入百分比' name="hirePct" v-model.trim="firstPayRate">&nbsp;%</span>
+						</li>
+						<li class="alertLi">当前为百分比计算，<button @click="moneyToRateStatus">改为金额计算</button></li>
+						<li class="input">
+							<b>首付款</b>
+							<span>
+								<b v-if="firstPay !==''">{{firstPay}}</b>
+								<b v-else class="default">自动计算{{firstPay !=''}}</b>&nbsp;元
+							</span>
+						</li>
+					</ul>
+					<ul v-else>
+						<li class="input">
+							<b>首付款</b>
+							<span><input type="text" @input="toMoneyToRate('firstPay',false)" placeholder="请输入您的金额" name="firstPay" v-model.trim="firstPay">&nbsp;元</span>
+						</li>
+						<li class="alertLi">当前为金额计算，<button @click="moneyToRateStatus">改为百分比计算</button></li>
+						<li>
+							<b>首付比例</b>
+							<span> <b v-if="firstPayRate">{{firstPayRate}}</b>
+							<b v-else class="default">自动计算</b>&nbsp;%</span>
+						</li>
+					</ul>
+					<p><span class="fl" @click="sureFristPay">取消</span><span class="fr" @click="sureFristPay('confirm')">确定</span></p>
 				</mt-popup>
 
 				<div class="bButton" v-show="!pickerFlagStatus">
@@ -298,15 +377,67 @@
 						qmclfs_status:'',
 						qmclfs_edit:'',
 						qmclfs_list:[],
-
-
-						EQU_MONEY_ALL:'', //设备总价值=车辆单价
+						GPSAZ:'', //GPS安装
+						GPSAZ_ID:'',
+						gpsaz_status:'',
+						gpsaz_edit:'',
+						gpsaz_list:[],
+						SFLYS:'', //是否留钥匙
+						SFLYS_ID:'',
+						sflys_list:'',
+						EQU_MONEY_ALL:'10000', //设备总价值=车辆单价 =实际成交价
+						LEASE_TOPRIC:'10000', //合同总计 =实际成交价+计入融资额其他费用
+						otherMoney:0, //计入融资额其他费用
+            HEAD_HIRE:'',//首付款 首付款比例*合同总计
+						HIRE_PERCENT:'', //首付款比例
+						firstPay:'', //输入中尚未确认的首付款
+						firstPayRate:'', //输入中尚未确认的首付款比例
+						firstPayStatu:false, //首付款弹窗
+						moneyToRate:true, //通过比例算金额 or 通过金额算比例
+						first_pay_edit:'',
+						first_pay_limit:{
+							LIMIT_FLAG:'',    //1是 0否限制
+							LIMIT_VALUE_D:'',  //最小值
+							LIMIT_VALUE_U:''  //最大值
+						},
+						TOPRIC_SUBFIRENT:'',// 融资额 =合同总计-首付款
+						LEASE_BAIL:'', //保证金 =保证金比例*融资额
+						BAIL_PERCENT:'', //保证金比例
+						bailMoney:'',
+						bailRate:'',
+						SXF:'',//手续费 =手续费比例*融资额
+						SXF_RATE:'', //手续费比例
+						sxMoney:'',
+						sxRate:'',
+						FINAL_FEE:'',//尾款 =合同总计*尾款比例
+						FINAL_RATE:'', //尾款比例
+						finalMoney:'',
+						finalRate:'',
+						final_money_edit:'',
+						final_money_limit:{
+							LIMIT_FLAG:'',    //1是 0否限制
+							LIMIT_VALUE_D:'',  //最小值
+							LIMIT_VALUE_U:''  //最大值
+						},
 
 
 
 					}
 				},
+				watch:{
+          otherMoney:function(){
+            this.initData()
+          }
+        },
 				methods: {
+					initData:function(){
+						this.LEASE_TOPRIC=parseInt(this.EQU_MONEY_ALL+this.otherMoney) //合同总计
+						this.HEAD_HIRE=parseInt(this.LEASE_TOPRIC*this.HIRE_PERCENT*0.01) //首付款
+						this.TOPRIC_SUBFIRENT=parseInt(this.LEASE_TOPRIC-(this.HEAD_HIRE || 0))//融资额
+						this.LEASE_BAIL=parseInt(this.TOPRIC_SUBFIRENT*this.BAIL_PERCENT*0.01)//保证金
+						this.SXF=parseInt(this.TOPRIC_SUBFIRENT*this.SXF_RATE*0.01) //手续费
+						this.FINAL_FEE=parseInt(this.TOPRIC_SUBFIRENT*this.FINAL_RATE*0.01)//保证金
+					},
 					getData:function(){
 						console.log("prjId==>"+this.prjId);
 						var _this=this
@@ -331,9 +462,11 @@
 								_this.fkgz_list=data.FKGZS    //放款方式
 								_this.tqgh_list=data.TQGHS    //提前过户
 								_this.qmclfs_list=data.QMCLFSS //期满处理方式
+								_this.gpsaz_list=data.GPSAZS  //GPS安装
+								_this.gpsaz_list=data.SFLYSS //是否留钥匙
 
-
-
+								_this.EQU_MONEY_ALL=res.data.EQU_MONEY_ALL
+								_this.initData()
 								var projectData=res.data.datas.project
 								if(projectData){
 									_this.SCHEME_NAME=projectData.SCHEME_NAME
@@ -356,20 +489,28 @@
 									_this.TX_ID=projectData.PREMIUMS
 									_this.TX_M =projectData.PREMIUMS_M
 									_this.RPZSF=projectData.NULL
-									_this.RPZSF_ID=projectData.NUll
+									_this.RPZSF_ID=projectData.NULL
 									_this.SFXYZB = projectData.NULL
 									_this.SFXYZB_ID = projectData.SFXYZB
 									_this.BXNX = projectData.NULL
-									_this.BXNX_ID = projectData.NULL
+									_this.BXNX_ID = projectData.BXNX
 									_this.CCSNX = projectData.NULL
-									_this.CCSNX_ID = projectData.NULL
+									_this.CCSNX_ID = projectData.CCSNX
 									_this.FKGZ = projectData.NULL
-									_this.CCSNX_ID = projectData.NULL
+									_this.FKGZ_ID = projectData.FKGZ
 									_this.TQGH = projectData.NULL
-									_this.TQGH_ID=projectData.NULL
+									_this.TQGH_ID=projectData.TQGH
 									_this.GHTIME =projectData.NULL
 									_this.QMCLFS =projectData.NULL
-									_this.QMCLFS_ID =projectData.NULL
+									_this.QMCLFS_ID =projectData.QMCLFS
+									_this.GPSAZ=projectData.NULL
+									_this.GPSAZ_ID=projectData.GPSAZ
+									_this.SFLYS=projectData.NULL
+									_this.SFLYS_ID=projectData.SFLYS
+									_this.LEASE_TOPRIC=projectData.NULL //合同总计
+									_this.HEAD_HIRE=projectData.NULL //首付款
+									_this.HIRE_PERCENT= projectData.NULL  //首付款比例
+
 
 
 								}
@@ -416,10 +557,15 @@
 								this.pickerFlagList[0].values=this.tqgh_list
 							}else if(val=='qmclfs'){
 								this.pickerFlagList[0].values=this.qmclfs_list
+							}else if(val=='gpsaz'){
+								this.pickerFlagList[0].values=this.gpsaz_list
+							}else if(val=='sflys'){
+								this.pickerFlagList[0].values=this.sflys_list
 							}
 
 							this.currentName=val
 						}else{  // 确认选中
+							this.isTest=false
 							if(this.currentName=='schemeType'){
 								this.SCHEME_TYPE=this.pickingObj.FLAG
 								var _this=this
@@ -483,6 +629,12 @@
 							}else if(this.currentName=='qmclfs'){
 								this.QMCLFS=this.pickingObj.FLAG
 								this.QMCLFS_ID=this.pickingObj.CODE
+							}else if(this.currentName=='gpsaz'){
+								this.GPSAZ=this.pickingObj.FLAG
+								this.GPSAZ_ID=this.pickingObj.CODE
+							}else if(this.currentName=='sflys'){
+								this.SFLYS=this.pickingObj.FLAG
+								this.SFLYS_ID=this.pickingObj.CODE
 							}
 
 						}
@@ -548,6 +700,16 @@
 								}else if(arr[i].KEY_NAME_EN=='QMCLFS'){
 									_this.qmclfs_status=arr[i].VALUE_STR
 									_this.qmclfs_edit=arr[i].VALUE_STATUS
+								}else if(arr[i].KEY_NAME_EN=='GPSAZ'){
+									_this.gpsaz_status=arr[i].VALUE_STR
+									_this.gpsaz_edit=arr[i].VALUE_STATUS
+								}else if(arr[i].KEY_NAME_EN=='START_PERCENT'){
+									_this.HIRE_PERCENT=arr[i].VALUE_STR
+									_this.first_pay_edit=arr[i].VALUE_STATUS
+									_this.first_pay_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
+									_this.first_pay_limit.LIMIT_VALUE_D=arr[i].LIMIT_VALUE_D
+									_this.first_pay_limit.LIMIT_VALUE_U=arr[i].LIMIT_VALUE_U
+									this.HEAD_HIRE=parseInt(this.LEASE_TOPRIC*this.HIRE_PERCENT*0.01)//首付款
 								}
 
 
@@ -594,16 +756,70 @@
 
 
 					},
+					sureFristPay:function(value){
+						if(!this.EQU_MONEY_ALL){
+							summer.toast({msg:'请先填写实际成交价'});
+							return;
+						}
+						if(value=='confirm'){
+							this.isTest=false
+							this.HEAD_HIRE=this.firstPay
+							this.HIRE_PERCENT=this.firstPayRate
+							this.TOPRIC_SUBFIRENT=parseInt(this.LEASE_TOPRIC-(this.HEAD_HIRE || 0))//融资额
+							this.LEASE_BAIL=parseInt(this.TOPRIC_SUBFIRENT*this.BAIL_PERCENT*0.01)//保证金
+							this.SXF=parseInt(this.TOPRIC_SUBFIRENT*this.SXF_RATE*0.01) //手续费
+							this.FINAL_FEE=parseInt(this.TOPRIC_SUBFIRENT*this.FINAL_RATE*0.01)//保证金
+						}else{
+							this.firstPay = this.HEAD_HIRE
+							this.firstPayRate = this.HIRE_PERCENT
+						}
+						this.firstPayStatu=!this.firstPayStatu
+
+					},
+					moneyToRateStatus:function(){
+						this.moneyToRate=!this.moneyToRate
+					},
+					toMoneyToRate:function(val,status){
+						console.log(val,status)
+						if(val == 'firstPay'){
+							if(status){  // status=true比例改变 计算金额
+								if(this.firstPayRate<100 && this.checkFloatNmber(this.firstPayRate)){
+									if(this.first_pay_limit.LIMIT_FLAG=='1'){
+										if(this.firstPayRate<this.first_pay_limit.LIMIT_VALUE_D || this.firstPayRate>this.first_pay_limit.LIMIT_VALUE_U){
+											this.firstPayRate=''
+										}
+									}
+									if(!this.firstPayRate){this.firstPay=''}else {
+										this.firstPay=parseInt(this.firstPayRate*this.LEASE_TOPRIC*0.01)
+									}
+								}else {
+									this.firstPayRate=''
+									this.firstPay=''
+								}
+							}else { // status=false  金额改变 计算比例
+								var money=this.firstPay
+								if(this.checkIntNmber(money) && money<this.LEASE_TOPRIC){
+									this.firstPayRate=parseFloat(100*this.firstPay/this.LEASE_TOPRIC).toFixed(2);
+								}else {
+									this.firstPay=''
+									this.firstPayRate=''
+									summer.toast({msg:'首付款不能大于合同总额且为整数'})
+								}
+							}
+						}
+
+
+					},
 
 					checkIntNmber(val){
-						if(!/^([1-9]\d{0,9}|0)$/.test(val)||!val||val<0){
+						if(!/^([1-9]\d{0,9}|0)$/.test(val)||val===''||val<0){
 							return false
 						}else {
 							return true
 						}
 					},
 					checkFloatNmber(val){
-						if(!/^([1-9]\d{0,9}|0)([.]?|(\.\d{1,2})?)$/.test(val)||!val||val<0){
+						if(!/^([1-9]\d{0,9}|0)([.]?|(\.\d{1,2})?)$/.test(val)||val===''||val<0){
 							return false
 						}else {
 							return true
@@ -629,14 +845,25 @@
 							YEAR_INTEREST:this.YEAR_INTEREST,
 							PAY_WAY:this.PAY_WAY_ID,
 							PREMIUMS:this.TX_ID,
-							PREMIUMS_M:this.TX_M,
 							RPZSF:this.RPZSF_ID,
 							QUOTA:this.SFXYZB_ID,
 							BXNX:this.BXNX_ID,
 							CCSNX:this.CCSNX_ID,
-							YEAR_INTEREST:this.YEAR_INTEREST
+							TQGH:this.TQGH_ID,
+							YEAR_INTEREST:this.YEAR_INTEREST,
+							TQGH:this.TQGH_ID,
+							QMCLFS:this.QMCLFS_ID,
+							GPSAZ:this.GPSAZ_ID,
+							SFLYS:this.SFLYS,
+							EQU_MONEY_ALL:this.EQU_MONEY_ALL,
+							LEASE_TOPRIC:this.LEASE_TOPRIC,
+							HEAD_HIRE:this.HEAD_HIRE,
+							HIRE_PERCENT:this.HIRE_PERCENT,
+
 
 						}
+						if(this.TX !='无'){param.PREMIUMS_M=this.TX_M}
+						if(this.TQGH !='否'){param.GHTIME=this.GHTIME}
 						console.log(JSON.stringify(param));
 						ajaxRequest({
 							type:'POST',
