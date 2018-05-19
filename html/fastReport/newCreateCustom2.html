@@ -141,7 +141,7 @@
                 <p class="pl10 pr10  um-box">
                     <span class="um-bf1">证件类型</span>
                     <span class="um-bf1 tr">
-                        <span v-if="personMes.CR_NATU_MATE_DOCUMENT" class="first">{{ personMes.CR_NATU_MATE_DOCUMENT }}</span>
+                        <span v-if="personMes.CR_NATU_MATE_DOCUMENT_NAME" class="first">{{ personMes.CR_NATU_MATE_DOCUMENT_NAME }}</span>
                         <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
                     </span>
@@ -191,11 +191,15 @@
                 <span class="um-bf1">邮寄地址</span>
                 <input placeholder="请输入邮寄地址" v-model="personMes.CR_MATE_MAILING_ADDRESS_DZ" type="text">
             </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-bf1">工作单位地址</span>
+                <input placeholder="请输入工作单位地址" v-model="personMes.CR_NATU_MATE_WORK_ADDRESS" type="text">
+            </div>
             <div @click="surePickerXL" class="item">
                 <p class="pl10 pr10  um-box">
                     <span class="um-bf1">教育</span>
                     <span class="um-bf1 tr">
-                        <span v-if="personMes.CR_NATU_MATE_EDUCATION" class="first">{{personMes.CR_NATU_MATE_EDUCATION}}</span>
+                        <span v-if="personMes.CR_NATU_MATE_EDUCATION_NAME" class="first">{{personMes.CR_NATU_MATE_EDUCATION_NAME}}</span>
                         <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
                     </span>
@@ -255,6 +259,8 @@
                 return {
                     personMes: '',
                     totalData: '',
+                    // 客户信息字段
+                    prevParams: "",
                     // 备注
                     remark: "",
                     message: {
@@ -301,7 +307,7 @@
                     pickerXL: "",
                     slots3: [{
                         flex: 1,
-                        values: ['本科以上', '本科', '高中、中专、技校', '高中以下'],
+                        values: [],
                         defaultIndex: 0,
                         className: 'slot1',
                         textAlign: 'center'
@@ -317,7 +323,7 @@
                     var self = this;
                     this.pickerZJTypeShow = !this.pickerZJTypeShow;
                     if (param == 'confirm') {
-                        this.personMes.CR_NATU_MATE_DOCUMENT = this.pickerZJType;
+                        this.personMes.CR_NATU_MATE_DOCUMENT_NAME = this.pickerZJType;
                     }
                 },
                 // 性别更改
@@ -362,54 +368,134 @@
                     var self = this;
                     this.pickerXLShow = !this.pickerXLShow;
                     if (param == 'confirm') {
-                        this.personMes.CR_NATU_MATE_EDUCATION = this.pickerXL;
+                        this.personMes.CR_NATU_MATE_EDUCATION_NAME = this.pickerXL;
                     }
                 },
                 // 校验
                 messageTest: function () {
                     var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
-                    if (this.personMes.CR_NATU_MATE_NAME == "") {
+                    if (!this.personMes.CR_NATU_MATE_NAME) {
                         summer.toast({
                             msg: "姓名不能为空"
                         });
                         return false;
-                    } else if (this.personMes.CR_NATU_MATE_IDCARD == "") {
+                    } else if (!this.personMes.CR_NATU_MATE_DOCUMENT_NAME) {
+                        summer.toast({
+                            msg: "请选择证件类型"
+                        });
+                        return false;
+                    } else if (!this.personMes.CR_NATU_MATE_IDCARD) {
                         summer.toast({
                             msg: "证件号码不能为空"
                         });
                         return false;
-                    } else if (this.personMes.CR_NATU_MATE_MOBILE == "") {
+                    } else if (!this.personMes.CR_NATU_MATE_SEX) {
+                        summer.toast({
+                            msg: "请选择性别"
+                        });
+                        return false;
+                    } else if (!this.personMes.CR_NATU_MATE_MOBILE) {
                         summer.toast({
                             msg: "手机号不能为空"
                         });
                         return false;
-                    } else if (!phoneCard.test(this.message.cstNpSocialRl.mp)) {
+                    } else if (!phoneCard.test(this.personMes.CR_NATU_MATE_MOBILE)) {
                         summer.toast({
                             msg: "手机号格式不正确"
                         });
                         return false;
-                    } else if (this.personMes.CR_MATE_HOME_ADDRESS == "") {
+                    } else if (!this.personMes.CR_MATE_BIRTH_DATE) {
+                        summer.toast({
+                            msg: "请选择出生日期"
+                        });
+                        return false;
+                    } else if (!this.personMes.CR_MATE_HOME_ADDRESS) {
                         summer.toast({
                             msg: "家庭地址不能为空"
                         });
                         return false;
-                    } else if (this.personMes.CR_NATU_MATE_WORK_UNITS == "") {
+                    } else if (!this.personMes.CR_NATU_MATE_WORK_UNITS) {
                         summer.toast({
                             msg: "工作单位不能为空"
                         });
                         return false;
-                    } else if (this.personMes.CR_NATU_MATE_IDCARD_ADDRESS == "") {
+                    } else if (!this.personMes.CR_NATU_MATE_IDCARD_ADDRESS) {
                         summer.toast({
                             msg: "身份证地址不能为空"
                         });
                         return false;
-                    } else if (this.personMes.CR_MATE_MAILING_ADDRESS_DZ == "") {
+                    } else if (!this.personMes.CR_MATE_MAILING_ADDRESS_DZ) {
                         summer.toast({
                             msg: "邮寄地址不能为空"
                         });
                         return false;
+                    } else if (!this.personMes.CR_NATU_MATE_WORK_ADDRESS) {
+                        summer.toast({
+                            msg: "工作单位地址不能为空"
+                        });
+                        return false;
+                    } else if (!this.personMes.CR_NATU_MATE_EDUCATION_NAME) {
+                        summer.toast({
+                            msg: "请选择最高学历"
+                        });
+                        return false;
                     }
                     return true;
+                },
+                // 此客户需要保存的字段信息（客户+配偶）
+                saveParams: function () {
+                    var self = this;
+                    var prev = this.prevParams;
+                    var peiou = {};
+                    var resultObj = {};
+                    // 配偶姓名
+                    peiou.CR_NATU_MATE_NAME = this.personMes.CR_NATU_MATE_NAME;
+                    // 证件类型
+                    if (this.totalData.CR_ID_CARD_TYPE_DIC.some(function (e) {return e.FLAG == self.personMes.CR_NATU_MATE_DOCUMENT_NAME})) {
+                        this.totalData.CR_ID_CARD_TYPE_DIC.forEach(function (e) {
+                            if (e.FLAG == self.personMes.CR_NATU_MATE_DOCUMENT_NAME) {
+                                peiou.CR_NATU_MATE_DOCUMENT = e.CODE;
+                            }
+                        });
+                    } else {
+                        peiou.CR_NATU_MATE_DOCUMENT = self.personMes.CR_NATU_MATE_DOCUMENT;
+                    }
+                    // 证件号码
+                    peiou.CR_NATU_MATE_IDCARD = this.personMes.CR_NATU_MATE_IDCARD;
+                    // 性别
+                    this.totalData.SEX_DIC.forEach(function (e) {
+                        if (e.FLAG == self.personMes.CR_NATU_MATE_SEX) {
+                            peiou.CR_NATU_MATE_SEX = e.CODE;
+                        }
+                    });
+                    // 手机号码
+                    peiou.CR_NATU_MATE_MOBILE = this.personMes.CR_NATU_MATE_MOBILE;
+                    // 出生日期
+                    peiou.CR_MATE_BIRTH_DATE = this.personMes.CR_MATE_BIRTH_DATE;
+                    // 家庭地址
+                    peiou.CR_MATE_HOME_ADDRESS = this.personMes.CR_MATE_HOME_ADDRESS;
+                    // 工作单位
+                    peiou.CR_NATU_MATE_WORK_UNITS = this.personMes.CR_NATU_MATE_WORK_UNITS;
+                    // 工作单位地址
+                    peiou.CR_NATU_MATE_WORK_ADDRESS = this.personMes.CR_NATU_MATE_WORK_ADDRESS;
+                    // 身份证地址
+                    peiou.CR_NATU_MATE_IDCARD_ADDRESS = this.personMes.CR_NATU_MATE_IDCARD_ADDRESS;
+                    // 邮寄地址
+                    peiou.CR_MATE_MAILING_ADDRESS_DZ = this.personMes.CR_MATE_MAILING_ADDRESS_DZ;
+                    // 教育（学历）
+                    if (this.totalData.CR_NATU_MATE_EDUCATION_DIC.some(function (e) {return e.FLAG == self.personMes.CR_NATU_MATE_EDUCATION_NAME})) {
+                        this.totalData.CR_NATU_MATE_EDUCATION_DIC.forEach(function (e) {
+                            if (e.FLAG == self.personMes.CR_NATU_MATE_EDUCATION_NAME) {
+                                peiou.CR_NATU_MATE_EDUCATION = e.CODE;
+                            }
+                        });
+                    } else {
+                        peiou.CR_NATU_MATE_EDUCATION = self.personMes.CR_NATU_MATE_EDUCATION;
+                    }
+                    // 备注
+                    peiou.EMPLOYEE_MEMO = this.remark;
+                    resultObj = $.extend({}, prev, peiou);
+                    return resultObj;
                 },
                 // 保存
                 savePerson: function () {
@@ -417,20 +503,21 @@
                     if (!this.messageTest()) {
                         return;
                     };
-                    self.personMes.cstNpSocialRl = self.message.cstNpSocialRl;
-                    var finanlInput = JSON.parse(JSON.stringify(self.personMes));
+                    var paramData = this.saveParams();
+                    console.log(paramData);
+                    summer.showProgress();
                     ajaxRequest({
                         type: 'post',
-                        url: 'appservice/customer/cstNpBscInfo/save.do',
-                        param: finanlInput
+                        url: 'customer/saveNpCust',
+                        param: paramData
                     }, function (res) {
                         summer.hideProgress();
                         if (res.data.flag == 1) {
                             summer.toast({
                                 msg: "保存成功"
                             });
-                            var clint_Id = res.data.datas.cstId;
                             if (self.sourceFrom == "newCreateCustom_verify2") {
+                                var clint_Id = res.data.datas.cstId;
                                 summer.openWin({
                                     id: 'setProject',
                                     url: 'html/fastReport/setProject.html',
@@ -472,13 +559,18 @@
                                 summer.toast({
                                     msg: "客户证件号重复,请重新录入"
                                 });
-                                return
+                            } else {
+                                summer.toast({
+                                    msg: "保存失败"
+                                });
                             }
                         }
                     }, function (err) {
-                        alert(err);
-                        console.log(err);
                         summer.hideProgress();
+                        console.log(err);
+                        summer.toast({
+                            msg: "保存失败"
+                        });
                     });
                 }
             }
@@ -492,6 +584,11 @@
             var totalData = summer.pageParam.totalData;
             var cardValues = summer.pageParam.cardValues;
             var sexValues = summer.pageParam.sexValues;
+            var eduValues = [];
+            summer.pageParam.eduValues.forEach(function (e) {
+                eduValues.push(e.FLAG);
+            });
+            var prevParams = summer.pageParam.prevParams;
             var sponseBase = summer.pageParam.sponseBase;
             var sourceFrom = summer.pageParam.sourceFrom;
             if (sourceFrom == "newCreateCustom_verify2") {
@@ -510,6 +607,10 @@
                     newCreateCustom.slots1[0].values = cardValues;
                     // 性别
                     newCreateCustom.slots2[0].values = sexValues;
+                    // 教育（学历）
+                    newCreateCustom.slots3[0].values = eduValues;
+                    // 客户信息字段
+                    newCreateCustom.prevParams = prevParams;
                 }
             }
             newCreateCustom.sourceFrom = sourceFrom;

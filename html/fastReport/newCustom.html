@@ -6,7 +6,8 @@
 	<meta charset="UTF-8">
 	<title></title>
 	<link rel="stylesheet" href="../../css/iuapmobile.um.css">
-	<link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
 	<script src="../../js/font.js"></script>
 	<style>
 		.sera {
@@ -87,6 +88,37 @@
 		.marginTop0 {
 			margin-top: 0px;
 		}
+
+        .pickerColor {
+            width: 100%;
+            z-index: 10;
+            background: #ffffff;
+        }
+
+        .pickerColor>p {
+            line-height: .88rem;
+            padding: 0 .56rem;
+            color: #039BE5;
+            border-top: 1px solid #E0E0E0;
+            overflow: hidden;
+        }
+
+        .pickerColor>p span {
+            color: #34aadc;
+        }
+
+        .mint-cell-wrapper {
+            background-size: 100% 0px;
+            border-bottom: 1px solid #f7f7f7;
+        }
+
+        .pickerColor>p span:last-child {
+            float: right;
+        }
+
+        .pickerColor>p span:first-child {
+            float: left;
+        }
 	</style>
 </head>
 
@@ -104,7 +136,7 @@
 		</div>
 		<div class="um-content">
 			<div id="content"></div>
-			<div class="list customList um-bgc-white" v-for="(item,index) in dataSource" @click="completeCustom(item.CUSTOMER_ID,item.CR_BECR_NAME, item.CR_BECR_TYPE)"
+			<div class="list customList um-bgc-white" v-for="(item,index) in dataSource" @click="completeCustom(item.CUSTOMER_ID,item.CR_BECR_NAME, item.CR_BECR_TYPE, USER_ID)"
 			    v-bind:class="[index==0 ? marginTop0 : '']">
 				<p class="pl20 title pr20">{{item.CR_BECR_NAME}}
 					<span class="status fr">
@@ -122,13 +154,22 @@
 					</p>
 				</div>
 			</div>
-		</div>
+        </div>
+        <!-- 选择法人、自然人 -->
+        <mt-popup v-model="pickerTypeShow" position="bottom" class="pickerColor">
+            <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
+            <p>
+                <span class="" @click="surePickerType">取消</span>
+                <span class="" @click="surePickerType('confirm')">确定</span>
+            </p>
+        </mt-popup>
 	</div>
 </body>
 <script src="../../js/summer.js"></script>
 <script src="../../js/jquery.min.js"></script>
 <script src="../../js/common.js"></script>
 <script src="../../js/vue.js"></script>
+<script src="../../js/mint.js"></script>
 <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
 <script>
 	var _endNum = 1;
@@ -187,7 +228,18 @@
 				totalPage: '',
 				pageSource: '',
                 marginTop0: "marginTop0",
-                USER_ID: ""
+                USER_ID: "",
+                // 法人、自然人
+                pickerTypeShow: false,
+                pickerType: "",
+                slots: [{
+                    flex: 1,
+                    values: ["法人", "自然人"],
+                    defaultIndex: 0,
+                    className: 'slot1',
+                    textAlign: 'center'
+                }],
+                type: ""
 			}
 		},
 		methods: {
@@ -229,8 +281,53 @@
 					console.log(err);
 					summer.hideProgress();
 				});
-			},
-			completeCustom:function(id, name, type) {
+            },
+            // 法人、自然人更改
+            onValuesChange: function (picker, values) {
+                this.pickerType = values[0];
+            },
+            surePickerType: function (param) {
+                var self = this;
+                this.pickerTypeShow = !this.pickerTypeShow;
+                if (param == 'confirm') {
+                    this.type = this.pickerType;
+                    if (this.type == "法人") {
+                        summer.toast({
+                            msg: "敬请期待"
+                        });
+                        return false;
+                    } else {
+                        summer.openWin({
+                            id: 'newCreateCustom_verify',
+                            url: 'html/fastReport/newCreateCustom_verify.html',
+                            create: false,
+                            type: 'actionBar',
+                            actionBar: {
+                                title: "客户信息",
+                                titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                backgroundColor: "#039be5",
+                                leftItem: {
+                                    image: "img/back.png",
+                                    method: "", //返回按钮自定义事件
+                                    text: "返回",
+                                    textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                },
+                                rightItems: [{
+                                    type: "text",
+                                    text: "验证",
+                                    textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                    method: "verifyMessage()" //在打开的window中自定义事件
+                                }]
+                            },
+                            pageParam: {
+                                sourceFrom: "newCustom",
+                                type: self.type
+                            }
+                        });
+                    }
+                }
+            },
+			completeCustom:function(id, name, type, USER_ID) {
                 var self = this;
                 /* if (type == "法人") {
                     summer.toast({
@@ -247,7 +344,8 @@
 						pageParam: {
 							source: "customer",
                             customId: id,
-                            type: type
+                            type: type,
+                            USER_ID: USER_ID
 						},
 						actionBar: {
 							title: "快捷报单",
@@ -293,7 +391,8 @@
 						pageParam: {
 							clintId: id,
 							sourceFrom: "newCustom",
-                            type: type
+                            type: type,
+                            USER_ID: USER_ID
 						}
 					});
 				} else {
@@ -307,34 +406,9 @@
 			}
 		}
 	});
-
+    // 点击添加
 	function newCreateCustom() {
-		summer.openWin({
-			id: 'newCreateCustom_verify',
-			url: 'html/fastReport/newCreateCustom_verify.html',
-			create: false,
-			type: 'actionBar',
-			actionBar: {
-				title: "客户信息",
-				titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
-				backgroundColor: "#039be5",
-				leftItem: {
-					image: "img/back.png",
-					method: "", //返回按钮自定义事件
-					text: "返回",
-					textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-				},
-				rightItems: [{
-					type: "text",
-					text: "验证",
-					textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-					method: "verifyMessage()" //在打开的window中自定义事件
-				}]
-			},
-			pageParam: {
-				sourceFrom: "newCustom"
-			}
-		});
+        newCustom.surePickerType();
 	}
 
 	function opensearch() {

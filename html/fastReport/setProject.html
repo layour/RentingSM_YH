@@ -184,6 +184,8 @@
 		summerready = function() {
 			var sourceId = summer.pageParam.source;
             setProgect.sourceFrom = sourceId;
+            var USER_ID = summer.pageParam.USER_ID; 
+            setProgect.USER_ID = USER_ID;
             var type = summer.pageParam.type;
             setProgect.type = type;
 						console.log('type',type)
@@ -223,7 +225,8 @@
 						phoneAddress: ''
 					},
 					baseMessageData: "",
-					customId: "",
+                    customId: "",
+                    USER_ID: "",
 					project_Id: "",//项目ID
 					SCHEME_ID:"",//方案ID
 					CREDIT_ID:'',//资信ID
@@ -772,6 +775,7 @@
 			var projectId = setProgect.project_Id;
             var clintId = setProgect.customId;
             var type = setProgect.type;
+            var USER_ID = setProgect.USER_ID;
 			summer.openWin({
 				id: 'newCreateCustom',
 				url: 'html/fastReport/newCreateCustom.html',
@@ -798,6 +802,7 @@
 					projectId: projectId,
                     clintId: clintId,
                     type: type,
+                    USER_ID: USER_ID,
 					sourceFrom:"setProject"
 				}
 			});
