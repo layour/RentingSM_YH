@@ -142,7 +142,7 @@
                     <span class="um-red mr5 fl">*</span>
                     <span class="um-bf1">证件类型</span>
                     <span class="um-bf1 tr">
-                        <span v-if="message.CR_ID_CARD_TYPE" class="first">{{ message.CR_ID_CARD_TYPE }}</span>
+                        <span v-if="message.CR_ID_CARD_TYPE_NAME" class="first">{{ message.CR_ID_CARD_TYPE_NAME }}</span>
                         <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
                     </span>
@@ -158,7 +158,7 @@
                     <span class="um-red mr5 fl">*</span>
                     <span class="um-bf1">客户分类</span>
                     <span class="um-bf1 tr">
-                        <span v-if="message.CR_CUST_LEVEL" class="first">{{ message.CR_CUST_LEVEL }}</span>
+                        <span v-if="message.CR_CUST_LEVEL_NAME" class="first">{{ message.CR_CUST_LEVEL_NAME }}</span>
                         <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
                     </span>
@@ -172,7 +172,7 @@
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
                 <span class="um-bf1">客户类型</span>
-                <span class="um-bf3 tr">{{ CR_BECR_TYPE }}</span>
+                <input placeholder="请输入客户类型" v-model="CR_BECR_TYPE" type="text">
             </div>
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
@@ -211,7 +211,7 @@
                     <span class="um-red mr5 fl">*</span>
                     <span class="um-bf1">最高学历</span>
                     <span class="um-bf1 tr">
-                        <span v-if="message.CR_EDUCATION" class="first">{{message.CR_EDUCATION}}</span>
+                        <span v-if="message.CR_EDUCATION_NAME" class="first">{{message.CR_EDUCATION_NAME}}</span>
                         <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
                     </span>
@@ -222,7 +222,7 @@
                     <span class="um-red mr5 fl">*</span>
                     <span class="um-bf1">职称</span>
                     <span class="um-bf1 tr">
-                        <span v-if="message.CR_NATU_CASTE" class="first">{{message.CR_NATU_CASTE}}</span>
+                        <span v-if="message.CR_NATU_CASTE_NAME" class="first">{{message.CR_NATU_CASTE_NAME}}</span>
                         <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
                     </span>
@@ -233,7 +233,7 @@
                     <span class="um-red mr5 fl">*</span>
                     <span class="um-bf1">所属行业</span>
                     <span class="um-bf2 tr">
-                        <span v-if="message.CR_TRADE_TYPE" class="first">{{message.CR_TRADE_TYPE}}</span>
+                        <span v-if="message.CR_TRADE_TYPE_NAME" class="first">{{message.CR_TRADE_TYPE_NAME}}</span>
                         <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
                     </span>
@@ -244,7 +244,7 @@
                     <span class="um-red mr5 fl">*</span>
                     <span class="um-bf1">职务</span>
                     <span class="um-bf2 tr">
-                        <span v-if="message.CR_NATU_POSITION" class="first">{{message.CR_NATU_POSITION}}</span>
+                        <span v-if="message.CR_NATU_POSITION_NAME" class="first">{{message.CR_NATU_POSITION_NAME}}</span>
                         <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
                     </span>
@@ -255,7 +255,7 @@
                     <span class="um-red mr5 fl">*</span>
                     <span class="um-bf1">职业类型</span>
                     <span class="um-bf2 tr">
-                        <span v-if="message.CR_TYPE_OCCUPATION" class="first">{{message.CR_TYPE_OCCUPATION}}</span>
+                        <span v-if="message.CR_TYPE_OCCUPATION_NAME" class="first">{{message.CR_TYPE_OCCUPATION_NAME}}</span>
                         <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
                     </span>
@@ -266,7 +266,7 @@
                     <span class="um-red mr5 fl">*</span>
                     <span class="um-bf1">房产类型</span>
                     <span class="um-bf2 tr">
-                        <span v-if="message.CR_NATU_MATE_PROPERTY" class="first">{{message.CR_NATU_MATE_PROPERTY}}</span>
+                        <span v-if="message.CR_NATU_MATE_PROPERTY_NAME" class="first">{{message.CR_NATU_MATE_PROPERTY_NAME}}</span>
                         <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
                     </span>
@@ -321,7 +321,7 @@
                     <span class="um-red mr5 fl">*</span>
                     <span class="um-bf1">婚姻状况</span>
                     <span class="um-bf2 tr">
-                        <span v-if="message.CR_MARRIAGE_STATE" class="first">{{message.CR_MARRIAGE_STATE}}</span>
+                        <span v-if="message.CR_MARRIAGE_STATE_NAME" class="first">{{message.CR_MARRIAGE_STATE_NAME}}</span>
                         <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
                     </span>
@@ -346,6 +346,21 @@
                 <span class="um-red mr5">*</span>
                 <span class="um-bf1">单位地址</span>
                 <input placeholder="请输入单位地址" v-model="message.CR_NATU_WORK_ADDRESS" type="text">
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-red mr5">*</span>
+                <span class="um-bf1">家庭地址邮编</span>
+                <input placeholder="请输入家庭地址邮编" v-model="message.CR_NATU_ZIP" type="text">
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-red mr5">*</span>
+                <span class="um-bf1">邮寄地址邮编</span>
+                <input placeholder="请输入邮寄地址邮编" v-model="message.CR_NATU_POSITION_ZIPCODE" type="text">
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-red mr5">*</span>
+                <span class="um-bf1">单位地址邮编</span>
+                <input placeholder="请输入单位地址邮编" v-model="message.CR_CORP_COMPANY_ZIP" type="text">
             </div>
         </div>
         <div class="um-footer">
@@ -583,7 +598,7 @@
                     pickerDK: "",
                     slots9: [{
                         flex: 1,
-                        values: ['是', '否'],
+                        values: ['有', '无'],
                         defaultIndex: 0,
                         className: 'slot1',
                         textAlign: 'center'
@@ -593,7 +608,7 @@
                     pickerYQ: "",
                     slots10: [{
                         flex: 1,
-                        values: ['是', '否'],
+                        values: ['有', '无'],
                         defaultIndex: 0,
                         className: 'slot1',
                         textAlign: 'center'
@@ -603,7 +618,7 @@
                     pickerDJ: "",
                     slots11: [{
                         flex: 1,
-                        values: ['是', '否'],
+                        values: ['有', '无'],
                         defaultIndex: 0,
                         className: 'slot1',
                         textAlign: 'center'
@@ -613,7 +628,7 @@
                     pickerDJYQ: "",
                     slots12: [{
                         flex: 1,
-                        values: ['是', '否'],
+                        values: ['有', '无'],
                         defaultIndex: 0,
                         className: 'slot1',
                         textAlign: 'center'
@@ -641,7 +656,9 @@
                     // 根据这个判断是否打开配偶验证页
                     isAdd: '',
                     // 客户类型
-                    CR_BECR_TYPE: ""
+                    CR_BECR_TYPE: "",
+                    // 登陆人ID（EMPLOYEE_ID）
+                    USER_ID: ""
                 }
             },
             methods: {
@@ -657,14 +674,14 @@
                             // "CUSTOMER_ID": clintId,
                             // "CR_BECR_TYPE": CR_BECR_TYPE
                             /* 测试用 */
-                            "CUSTOMER_ID": "240627",
+                            "CUSTOMER_ID": "240634",
                             "CR_BECR_TYPE": 1
                         }
                     }, function (res) {
                         summer.hideProgress();
                         if (res.data.flag == 1) {
                             // 判断是否有配偶，设置navBar
-                            if (res.data.datas.custInfoDetails.CR_NATU_MATE_NAME) {
+                            if (res.data.datas.custInfoDetails.CR_MARRIAGE_STATE_NAME == "已婚" || res.data.datas.custInfoDetails.CR_MARRIAGE_STATE_NAME == "复婚" || res.data.datas.custInfoDetails.CR_MARRIAGE_STATE_NAME == "再婚" || res.data.datas.custInfoDetails.CR_MARRIAGE_STATE_NAME == "初婚") {
                                 // 有配偶
                                 summer.setWinAttr({
                                     actionBar: {
@@ -702,15 +719,15 @@
                             // 客户分类slots0
                             res.data.datas.CR_CUST_LEVEL_DIC.forEach(function (e) {
                                 self.slots0[0].values.push(e.FLAG);
-                                if (e.CODE == self.message.CR_CUST_LEVEL) {
-                                    self.message.CR_CUST_LEVEL = e.FLAG;
+                                if (e.CODE == self.message.CR_CUST_LEVEL_NAME) {
+                                    self.message.CR_CUST_LEVEL_NAME = e.FLAG;
                                 }
                             });
                             // 证件类型slots1
                             res.data.datas.CR_ID_CARD_TYPE_DIC.forEach(function (e) {
                                 self.slots1[0].values.push(e.FLAG);
-                                if (e.CODE == self.message.CR_ID_CARD_TYPE) {
-                                    self.message.CR_ID_CARD_TYPE = e.FLAG;
+                                if (e.CODE == self.message.CR_ID_CARD_TYPE_NAME) {
+                                    self.message.CR_ID_CARD_TYPE_NAME = e.FLAG;
                                 }
                             });
                             // 性别slots2
@@ -723,50 +740,50 @@
                             // 学历slots3
                             res.data.datas.CR_EDUCATION_DIC.forEach(function (e) {
                                 self.slots3[0].values.push(e.FLAG);
-                                if (e.CODE == self.message.CR_EDUCATION) {
-                                    self.message.CR_EDUCATION = e.FLAG;
+                                if (e.CODE == self.message.CR_EDUCATION_NAME) {
+                                    self.message.CR_EDUCATION_NAME = e.FLAG;
                                 }
                             });
                             // 职称slots4
                             res.data.datas.CR_NATU_CASTE_DIC.forEach(function (e) {
                                 self.slots4[0].values.push(e.FLAG);
-                                if (e.CODE == self.message.CR_NATU_CASTE) {
-                                    self.message.CR_NATU_CASTE = e.FLAG;
+                                if (e.CODE == self.message.CR_NATU_CASTE_NAME) {
+                                    self.message.CR_NATU_CASTE_NAME = e.FLAG;
                                 }
                             });
                             // 行业slots5
                             res.data.datas.CR_TRADE_TYPE_DIC.forEach(function (e) {
                                 self.slots5[0].values.push(e.FLAG);
-                                if (e.CODE == self.message.CR_TRADE_TYPE) {
-                                    self.message.CR_TRADE_TYPE = e.FLAG;
+                                if (e.CODE == self.message.CR_TRADE_TYPE_NAME) {
+                                    self.message.CR_TRADE_TYPE_NAME = e.FLAG;
                                 }
                             });
                             // 职务slots6
                             res.data.datas.CR_NATU_POSITION_DIC.forEach(function (e) {
                                 self.slots6[0].values.push(e.FLAG);
-                                if (e.CODE == self.message.CR_NATU_POSITION) {
-                                    self.message.CR_NATU_POSITION = e.FLAG;
+                                if (e.CODE == self.message.CR_NATU_POSITION_NAME) {
+                                    self.message.CR_NATU_POSITION_NAME = e.FLAG;
                                 }
                             });
                             // 职业类型slots7
                             res.data.datas.CR_TYPE_OCCUPATION_DIC.forEach(function (e) {
                                 self.slots7[0].values.push(e.FLAG);
-                                if (e.CODE == self.message.CR_TYPE_OCCUPATION) {
-                                    self.message.CR_TYPE_OCCUPATION = e.FLAG;
+                                if (e.CODE == self.message.CR_TYPE_OCCUPATION_NAME) {
+                                    self.message.CR_TYPE_OCCUPATION_NAME = e.FLAG;
                                 }
                             });
                             // 房产类型slots8
                             res.data.datas.PROPERTY_TYPE_DIC.forEach(function (e) {
                                 self.slots8[0].values.push(e.FLAG);
-                                if (e.CODE == self.message.CR_NATU_MATE_PROPERTY) {
-                                    self.message.CR_NATU_MATE_PROPERTY = e.FLAG;
+                                if (e.CODE == self.message.CR_NATU_MATE_PROPERTY_NAME) {
+                                    self.message.CR_NATU_MATE_PROPERTY_NAME = e.FLAG;
                                 }
                             });
                             // 婚姻状况slots13
                             res.data.datas.CR_MARRIAGE_STATE_DIC.forEach(function (e) {
                                 self.slots13[0].values.push(e.FLAG);
-                                if (e.CODE == self.message.CR_MARRIAGE_STATE) {
-                                    self.message.CR_MARRIAGE_STATE = e.FLAG;
+                                if (e.CODE == self.message.CR_MARRIAGE_STATE_NAME) {
+                                    self.message.CR_MARRIAGE_STATE_NAME = e.FLAG;
                                 }
                             });
                             // 邮寄地址字典查询
@@ -793,7 +810,7 @@
                     var self = this;
                     this.pickerKehuTypeShow = !this.pickerKehuTypeShow;
                     if (param == 'confirm') {
-                        this.message.CR_CUST_LEVEL = this.pickerKehuType;
+                        this.message.CR_CUST_LEVEL_NAME = this.pickerKehuType;
                     }
                 },
                 // 证件类型更改
@@ -804,7 +821,7 @@
                     var self = this;
                     this.pickerZJTypeShow = !this.pickerZJTypeShow;
                     if (param == 'confirm') {
-                        this.message.CR_ID_CARD_TYPE = this.pickerZJType;
+                        this.message.CR_ID_CARD_TYPE_NAME = this.pickerZJType;
                     }
                 },
                 // 性别更改
@@ -826,7 +843,7 @@
                     var self = this;
                     this.pickerXLShow = !this.pickerXLShow;
                     if (param == 'confirm') {
-                        this.message.CR_EDUCATION = this.pickerXL;
+                        this.message.CR_EDUCATION_NAME = this.pickerXL;
                     }
                 },
                 // 职称更改
@@ -837,7 +854,7 @@
                     var self = this;
                     this.pickerZCShow = !this.pickerZCShow;
                     if (param == 'confirm') {
-                        this.message.CR_NATU_CASTE = this.pickerZC;
+                        this.message.CR_NATU_CASTE_NAME = this.pickerZC;
                     }
                 },
                 // 行业更改
@@ -848,7 +865,7 @@
                     var self = this;
                     this.pickerHYShow = !this.pickerHYShow;
                     if (param == 'confirm') {
-                        this.message.CR_TRADE_TYPE = this.pickerHY;
+                        this.message.CR_TRADE_TYPE_NAME = this.pickerHY;
                     }
                 },
                 // 职务更改
@@ -859,7 +876,7 @@
                     var self = this;
                     this.pickerZWShow = !this.pickerZWShow;
                     if (param == 'confirm') {
-                        this.message.CR_NATU_POSITION = this.pickerZW;
+                        this.message.CR_NATU_POSITION_NAME = this.pickerZW;
                     }
                 },
                 // 职业类型更改
@@ -870,7 +887,7 @@
                     var self = this;
                     this.pickerZYTypeShow = !this.pickerZYTypeShow;
                     if (param == 'confirm') {
-                        this.message.CR_TYPE_OCCUPATION = this.pickerZYType;
+                        this.message.CR_TYPE_OCCUPATION_NAME = this.pickerZYType;
                     }
                 },
                 // 房产类型更改
@@ -881,7 +898,7 @@
                     var self = this;
                     this.pickerFCTypeShow = !this.pickerFCTypeShow;
                     if (param == 'confirm') {
-                        this.message.CR_NATU_MATE_PROPERTY = this.pickerFCType;
+                        this.message.CR_NATU_MATE_PROPERTY_NAME = this.pickerFCType;
                     }
                 },
                 // 贷款更改
@@ -937,7 +954,7 @@
                     var result;
                     this.pickerPOShow = !this.pickerPOShow;
                     if (param == 'confirm') {
-                        this.message.CR_MARRIAGE_STATE = this.pickerPO;
+                        this.message.CR_MARRIAGE_STATE_NAME = this.pickerPO;
                         this.totalData.CR_MARRIAGE_STATE_DIC.forEach(function (e) {
                             if (e.FLAG == self.pickerPO) {
                                 result = e.CODE;
@@ -1003,14 +1020,24 @@
                 messageTest: function () {
                     var regCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; //身份证校验
                     var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
-                    if (this.message.CR_NATU_IDCARD == "") {
+                    if (!this.message.CR_ID_CARD_TYPE_NAME) {
+                        summer.toast({
+                            msg: "请选择证件类型"
+                        });
+                        return false;
+                    } else if (this.message.CR_NATU_IDCARD == "") {
                         summer.toast({
                             msg: "请输入证件号码"
                         });
                         return false;
-                    } else if (this.message.CR_ID_CARD_TYPE == "身份证" && !regCard.test(this.message.CR_NATU_IDCARD)) {
+                    } else if (this.message.CR_ID_CARD_TYPE_NAME == "身份证" && !regCard.test(this.message.CR_NATU_IDCARD)) {
                         summer.toast({
                             msg: "身份证号格式有误"
+                        });
+                        return false;
+                    }else if (!this.message.CR_CUST_LEVEL_NAME) {
+                        summer.toast({
+                            msg: "请选择客户分类"
                         });
                         return false;
                     } else if (this.message.CR_NATU_MOBILE == "") {
@@ -1023,14 +1050,84 @@
                             msg: "手机号码格式有误"
                         });
                         return false;
+                    } else if (this.CR_BECR_TYPE == "") {
+                        summer.toast({
+                            msg: "请输入客户类型"
+                        });
+                        return false;
                     } else if (this.message.CR_NATU_WORK_UNITS == "") {
                         summer.toast({
                             msg: "请输入工作单位"
                         });
                         return false;
+                    } else if (!this.message.CR_NATU_SEX) {
+                        summer.toast({
+                            msg: "请选择性别"
+                        });
+                        return false;
                     } else if (this.message.EMPLOYEE_EMAIL == "") {
                         summer.toast({
                             msg: "请输入电子邮箱"
+                        });
+                        return false;
+                    } else if (!this.message.CR_BIRTH_DATE) {
+                        summer.toast({
+                            msg: "请选择出生日期"
+                        });
+                        return false;
+                    } else if (!this.message.CR_EDUCATION_NAME) {
+                        summer.toast({
+                            msg: "请选择最高学历"
+                        });
+                        return false;
+                    } else if (!this.message.CR_NATU_CASTE_NAME) {
+                        summer.toast({
+                            msg: "请选择职称"
+                        });
+                        return false;
+                    } else if (!this.message.CR_TRADE_TYPE_NAME) {
+                        summer.toast({
+                            msg: "请选择所属行业"
+                        });
+                        return false;
+                    } else if (!this.message.CR_NATU_POSITION_NAME) {
+                        summer.toast({
+                            msg: "请选择职务"
+                        });
+                        return false;
+                    } else if (!this.message.CR_TYPE_OCCUPATION_NAME) {
+                        summer.toast({
+                            msg: "请选择职业类型"
+                        });
+                        return false;
+                    } else if (!this.message.CR_NATU_MATE_PROPERTY_NAME) {
+                        summer.toast({
+                            msg: "请选择房产类型"
+                        });
+                        return false;
+                    } else if (!this.message.MAILING_LOAN) {
+                        summer.toast({
+                            msg: "请选择是否有贷款"
+                        });
+                        return false;
+                    } else if (this.message.MAILING_LOAN == "有" && !this.message.MAILING_LOANS_OVERDUE) {
+                        summer.toast({
+                            msg: "请选择贷款是否逾期"
+                        });
+                        return false;
+                    }else if (!this.message.MAILING_CREDIT) {
+                        summer.toast({
+                            msg: "请选择是否有贷记卡"
+                        });
+                        return false;
+                    } else if (this.message.MAILING_CREDIT == "有" && !this.message.MAILING_CREDIT_OVERDUE) {
+                        summer.toast({
+                            msg: "请选择贷记卡是否逾期"
+                        });
+                        return false;
+                    } else if (!this.message.CR_MARRIAGE_STATE_NAME) {
+                        summer.toast({
+                            msg: "请选择婚姻状况"
                         });
                         return false;
                     } else if (this.message.EMPLOYEE_ID_CARD_ADDR == "") {
@@ -1053,13 +1150,145 @@
                             msg: "请输入单位地址"
                         });
                         return false;
-                    } else if (!this.message.PEIOU) {
+                    } else if (this.message.CR_NATU_ZIP == "") {
                         summer.toast({
-                            msg: "请选择婚姻状况"
+                            msg: "请输入家庭地址邮编"
+                        });
+                        return false;
+                    } else if (this.message.CR_NATU_POSITION_ZIPCODE == "") {
+                        summer.toast({
+                            msg: "请输入邮寄地址邮编"
+                        });
+                        return false;
+                    } else if (this.message.CR_CORP_COMPANY_ZIP == "") {
+                        summer.toast({
+                            msg: "请输入单位地址邮编"
                         });
                         return false;
                     }
                     return true;
+                },
+                // 此客户需要保存的字段信息
+                saveParams: function () {
+                    var self = this;
+                    var params = {};
+                    params.USER_ID = this.USER_ID; // 登录人ID
+                    params.CUSTOMER_ID = this.clintId; // 客户ID	
+                    params.CR_BECR_NAME = this.message.CR_BECR_NAME; // 客户姓名
+                    params.CR_NATU_IDCARD = this.message.CR_NATU_IDCARD; // 客户身份证号
+                    params.CR_NATU_MOBILE = this.message.CR_NATU_MOBILE; // 客户手机号
+                    params.CR_BECR_TYPE = this.CR_BECR_TYPE == "自然人" ? 1 : 2; // 客户类型
+                    params.CR_NATU_WORK_UNITS = this.message.CR_NATU_WORK_UNITS; // 工作单位
+                    // 客户分类
+                    if (this.totalData.CR_CUST_LEVEL_DIC.some(function (e) {return e.FLAG == self.message.CR_CUST_LEVEL_NAME})) {
+                        this.totalData.CR_CUST_LEVEL_DIC.forEach(function (e) {
+                            if (e.FLAG == self.message.CR_CUST_LEVEL_NAME) {
+                                params.CR_CUST_LEVEL = e.CODE;
+                            }
+                        });
+                    } else {
+                        params.CR_CUST_LEVEL = self.message.CR_CUST_LEVEL;
+                    }
+                    // 性别
+                    this.totalData.SEX_DIC.forEach(function (e) {
+                        if (e.FLAG == self.message.CR_NATU_SEX) {
+                            params.CR_NATU_SEX = e.CODE;
+                        }
+                    });
+                    params.EMPLOYEE_EMAIL = this.message.EMPLOYEE_EMAIL; // 电子邮箱
+                    // 证件类型
+                    if (this.totalData.CR_ID_CARD_TYPE_DIC.some(function (e) {return e.FLAG == self.message.CR_ID_CARD_TYPE_NAME})) {
+                        this.totalData.CR_ID_CARD_TYPE_DIC.forEach(function (e) {
+                            if (e.FLAG == self.message.CR_ID_CARD_TYPE_NAME) {
+                                params.CR_ID_CARD_TYPE = e.CODE;
+                            }
+                        });
+                    } else {
+                        params.CR_ID_CARD_TYPE = self.message.CR_ID_CARD_TYPE;
+                    }
+                    params.CR_BIRTH_DATE = this.message.CR_BIRTH_DATE; // 出生日期
+                    // 最高学历
+                    if (this.totalData.CR_EDUCATION_DIC.some(function (e) {return e.FLAG == self.message.CR_EDUCATION_NAME})) {
+                        this.totalData.CR_EDUCATION_DIC.forEach(function (e) {
+                            if (e.FLAG == self.message.CR_EDUCATION_NAME) {
+                                params.CR_EDUCATION = e.CODE;
+                            }
+                        });
+                    } else {
+                        params.CR_EDUCATION = self.message.CR_EDUCATION;
+                    }
+                    // 职称
+                    if (this.totalData.CR_NATU_CASTE_DIC.some(function (e) {return e.FLAG == self.message.CR_NATU_CASTE_NAME})) {
+                        this.totalData.CR_NATU_CASTE_DIC.forEach(function (e) {
+                            if (e.FLAG == self.message.CR_NATU_CASTE_NAME) {
+                                params.CR_NATU_CASTE = e.CODE;
+                            }
+                        });
+                    } else {
+                        params.CR_NATU_CASTE = self.message.CR_NATU_CASTE;
+                    }
+                    // 行业
+                    if (this.totalData.CR_TRADE_TYPE_DIC.some(function (e) {return e.FLAG == self.message.CR_TRADE_TYPE_NAME})) {
+                        this.totalData.CR_TRADE_TYPE_DIC.forEach(function (e) {
+                            if (e.FLAG == self.message.CR_TRADE_TYPE_NAME) {
+                                params.CR_TRADE_TYPE = e.CODE;
+                            }
+                        });
+                    } else {
+                        params.CR_TRADE_TYPE = self.message.CR_TRADE_TYPE;
+                    }
+                    // 职务
+                    if (this.totalData.CR_NATU_POSITION_DIC.some(function (e) {return e.FLAG == self.message.CR_NATU_POSITION_NAME})) {
+                        this.totalData.CR_NATU_POSITION_DIC.forEach(function (e) {
+                            if (e.FLAG == self.message.CR_NATU_POSITION_NAME) {
+                                params.CR_NATU_POSITION = e.CODE;
+                            }
+                        });
+                    } else {
+                        params.CR_NATU_POSITION = self.message.CR_NATU_POSITION;
+                    }
+                    // 职业类型
+                    if (this.totalData.CR_TYPE_OCCUPATION_DIC.some(function (e) {return e.FLAG == self.message.CR_TYPE_OCCUPATION_NAME})) {
+                        this.totalData.CR_TYPE_OCCUPATION_DIC.forEach(function (e) {
+                            if (e.FLAG == self.message.CR_TYPE_OCCUPATION_NAME) {
+                                params.CR_TYPE_OCCUPATION = e.CODE;
+                            }
+                        });
+                    } else {
+                        params.CR_TYPE_OCCUPATION = self.message.CR_TYPE_OCCUPATION;
+                    }
+                    // 房产类型
+                    if (this.totalData.PROPERTY_TYPE_DIC.some(function (e) {return e.FLAG == self.message.CR_NATU_MATE_PROPERTY_NAME})) {
+                        this.totalData.PROPERTY_TYPE_DIC.forEach(function (e) {
+                            if (e.FLAG == self.message.CR_NATU_MATE_PROPERTY_NAME) {
+                                params.CR_NATU_MATE_PROPERTY = e.CODE;
+                            }
+                        });
+                    } else {
+                        params.CR_NATU_MATE_PROPERTY = self.message.CR_NATU_MATE_PROPERTY;
+                    }
+                    params.MAILING_LOAN = this.message.MAILING_LOAN == "有" ? 1 : 2; // 贷款
+                    params.MAILING_LOANS_OVERDUE = this.message.MAILING_LOANS_OVERDUE == "有" ? 1 : 2; // 贷款逾期
+                    params.MAILING_CREDIT = this.message.MAILING_CREDIT == "有" ? 1 : 2; // 贷记卡
+                    params.MAILING_CREDIT_OVERDUE = this.message.MAILING_CREDIT_OVERDUE == "有" ? 1 : 2; // 贷记卡逾期
+                    params.EMPLOYEE_ID_CARD_ADDR = this.message.EMPLOYEE_ID_CARD_ADDR; // 身份证地址
+                    params.CR_NATU_HOME_ADDRESS = this.message.CR_NATU_HOME_ADDRESS; // 家庭地址
+                    params.MAILING_ADDRESS_DZ = this.message.CR_MAILING_ADDRESS; // 邮寄地址
+                    params.CR_NATU_WORK_ADDRESS = this.message.CR_NATU_WORK_ADDRESS; // 单位地址
+                    params.CR_NATU_ZIP = this.message.CR_NATU_ZIP; // 家庭地址邮编
+                    params.CR_NATU_POSITION_ZIPCODE = this.message.CR_NATU_POSITION_ZIPCODE; // 邮寄地址邮编
+                    params.CR_CORP_COMPANY_ZIP = this.message.CR_CORP_COMPANY_ZIP; // 单位地址邮编
+                    // 婚姻状况
+                    if (this.totalData.CR_MARRIAGE_STATE_DIC.some(function (e) {return e.FLAG == self.message.CR_MARRIAGE_STATE_NAME})) {
+                        this.totalData.CR_MARRIAGE_STATE_DIC.forEach(function (e) {
+                            if (e.FLAG == self.message.CR_MARRIAGE_STATE_NAME) {
+                                params.CR_MARRIAGE_STATE = e.CODE;
+                            }
+                        });
+                    } else {
+                        params.CR_MARRIAGE_STATE = self.message.CR_MARRIAGE_STATE;
+                    }
+                    return params;
                 },
                 // 保存
                 savePerson: function () {
@@ -1067,12 +1296,13 @@
                     if (!this.messageTest()) {
                         return;
                     };
+                    var paramData = this.saveParams();
+                    console.log(paramData);
+                    return;
                     summer.showProgress();
-                    var paramData = $.extend({}, self.message);
-                    console.log(self.message);
                     ajaxRequest({
                         type: 'post',
-                        url: 'appservice/customer/cstNpBscInfo/save.do',
+                        url: 'customer/saveNpCust',
                         param: paramData
                     }, function (res) {
                         summer.hideProgress();
@@ -1120,12 +1350,18 @@
                                 summer.toast({
                                     msg: "客户证件号重复,请重新录入"
                                 });
-                                return
+                            } else {
+                                summer.toast({
+                                    msg: "保存失败"
+                                });
                             }
                         }
                     }, function (err) {
                         console.log(err);
                         summer.hideProgress();
+                        summer.toast({
+                            msg: "保存失败"
+                        });
                     });
                 },
                 // 下一步
@@ -1133,6 +1369,9 @@
                     if (!this.messageTest()) {
                         return;
                     };
+                    var paramData = this.saveParams();
+                    console.log(paramData);
+                    return;
                     var self = this;
                     if (self.isAdd) {
                         summer.openWin({
@@ -1195,6 +1434,10 @@
                                 cardValues: self.slots1[0].values,
                                 // 性别
                                 sexValues: self.slots2[0].values,
+                                // 教育（学历）
+                                eduValues: self.totalData.CR_NATU_MATE_EDUCATION_DIC,
+                                // 客户信息字段
+                                prevParams: paramData
                             }
                         });
                     }
@@ -1214,6 +1457,8 @@
             var projectId = summer.pageParam.projectId;
             var type = summer.pageParam.type;
             newCreateCustom.CR_BECR_TYPE = type;
+            var USER_ID = summer.pageParam.USER_ID;
+            newCreateCustom.USER_ID = USER_ID;
             var clintId = summer.pageParam.clintId;
             var isAdd = summer.pageParam.isAdd;
             newCreateCustom.isAdd = isAdd;
