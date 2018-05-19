@@ -231,13 +231,83 @@
   							<i class="icon iconfont icon-enter"></i>
               </span>
           </li>
+          <li>
+            <b>融资额</b>
+            <span>
+              <b>{{TOPRIC_SUBFIRENT}}&nbsp;元</b>
+            </span>
+          </li>
+          <li v-if="bail_money_edit=='1'">
+              <b>保证金</b>
+              <span>
+                <b>{{BAIL_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{LEASE_BAIL}}&nbsp;元</b>
+              </span>
+          </li>
+          <li v-else @click="sureBailMoney">
+              <b>保证金</b>
+              <span>
+                <b v-if="BAIL_PERCENT">{{BAIL_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{LEASE_BAIL}}&nbsp;元</b>
+                <b v-else class="default">请选择</b>
+  							<i class="icon iconfont icon-enter"></i>
+              </span>
+          </li>
+          <template v-if="bzjclfs_status">
+            <li v-if='bzjclfs_edit=="1"'>
+              <b>保证金处理方式</b>
+              <span>
+                <b>{{BZJCLFS}}</b>
+              </span>
+            </li>
+            <li v-else @click="pickerFlag('bzjclfs')">
+              <b>保证金处理方式</b>
+              <span>
+                <b v-if="BZJCLFS">{{BZJCLFS}}</b>
+                <b v-else class="default">请选择</b>
+                <i class="icon iconfont icon-enter"></i>
+              </span>
+            </li>
+          </template>
+          <li @click="sureSxMoney">
+              <b>手续费</b>
+              <span>
+                <b v-if="SXF_RATE">{{SXF_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{SXF}}&nbsp;元</b>
+                <b v-else class="default">请选择</b>
+  							<i class="icon iconfont icon-enter"></i>
+              </span>
+          </li>
+          <li v-if="final_money_edit=='1'">
+              <b>尾款</b>
+              <span>
+                <b>{{FINAL_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{FINAL_FEE}}&nbsp;元</b>
+              </span>
+          </li>
+          <li v-else @click="sureFinalPay">
+              <b>尾款</b>
+              <span>
+                <b v-if="FINAL_RATE">{{FINAL_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{FINAL_FEE}}&nbsp;元</b>
+                <b v-else class="default">请选择</b>
+  							<i class="icon iconfont icon-enter"></i>
+              </span>
+          </li>
 
 
 
           <li>
               <b>合同总计</b>
               <span><b>{{LEASE_TOPRIC}}</b>&nbsp;元</span>
-            </li>
+          </li>
+          <li>
+              <b>首期款</b>
+              <span><b>{{totleFirstM}}</b>&nbsp;元</span>
+          </li>
+          <li>
+              <b>每期租金</b>
+              <span><b>{{MONTH_PRICE}}</b>&nbsp;元</span>
+          </li>
+          <li>
+              <b>期数</b>
+              <span><b>{{term}}</b>&nbsp;期</span>
+          </li>
 				</ul>
       </div>
 			<div class="um-footer" id="footer">
@@ -258,7 +328,7 @@
 							<b>首付款</b>
 							<span>
 								<b v-if="firstPay !==''">{{firstPay}}</b>
-								<b v-else class="default">自动计算{{firstPay !=''}}</b>&nbsp;元
+								<b v-else class="default">自动计算</b>&nbsp;元
 							</span>
 						</li>
 					</ul>
@@ -270,14 +340,104 @@
 						<li class="alertLi">当前为金额计算，<button @click="moneyToRateStatus">改为百分比计算</button></li>
 						<li>
 							<b>首付比例</b>
-							<span> <b v-if="firstPayRate">{{firstPayRate}}</b>
+							<span> <b v-if="firstPayRate !==''">{{firstPayRate}}</b>
 							<b v-else class="default">自动计算</b>&nbsp;%</span>
 						</li>
 					</ul>
 					<p><span class="fl" @click="sureFristPay">取消</span><span class="fr" @click="sureFristPay('confirm')">确定</span></p>
 				</mt-popup>
+        <!-- 保证金 -->
+				<mt-popup v-model="bailMoneyStatu" class="firstPayCont" position="bottom">
+					<ul v-if="moneyToRate">
+						<li class="input">
+							<b>保证金比例</b>
+							<span><input type="text"  @input="toMoneyToRate('bailMoney',true)" placeholder='请输入百分比' name="bailRate" v-model.trim="bailRate">&nbsp;%</span>
+						</li>
+						<li class="alertLi">当前为百分比计算，<button @click="moneyToRateStatus">改为金额计算</button></li>
+						<li class="input">
+							<b>保证金</b>
+							<span>
+								<b v-if="bailMoney !==''">{{bailMoney}}</b>
+								<b v-else class="default">自动计算</b>&nbsp;元
+							</span>
+						</li>
+					</ul>
+					<ul v-else>
+						<li class="input">
+							<b>保证金</b>
+							<span><input type="text" @input="toMoneyToRate('bailMoney',false)" placeholder="请输入您的金额" name="bailMoney" v-model.trim="bailMoney">&nbsp;元</span>
+						</li>
+						<li class="alertLi">当前为金额计算，<button @click="moneyToRateStatus">改为百分比计算</button></li>
+						<li>
+							<b>保证金比例</b>
+							<span> <b v-if="bailRate !==''">{{bailRate}}</b>
+							<b v-else class="default">自动计算</b>&nbsp;%</span>
+						</li>
+					</ul>
+					<p><span class="fl" @click="sureBailMoney">取消</span><span class="fr" @click="sureBailMoney('confirm')">确定</span></p>
+				</mt-popup>
+        <!-- 尾款 -->
+        <mt-popup v-model="finalPayStatu" class="firstPayCont" position="bottom">
+          <ul v-if="moneyToRate">
+            <li class="input">
+              <b>尾款比例</b>
+              <span><input type="text"  @input="toMoneyToRate('finalMoney',true)" placeholder='请输入百分比' name="finalMoney" v-model.trim="finalRate">&nbsp;%</span>
+            </li>
+            <li class="alertLi">当前为百分比计算，<button @click="moneyToRateStatus">改为金额计算</button></li>
+            <li class="input">
+              <b>尾款</b>
+              <span>
+                <b v-if="finalMoney !==''">{{finalMoney}}</b>
+                <b v-else class="default">自动计算</b>&nbsp;元
+              </span>
+            </li>
+          </ul>
+          <ul v-else>
+            <li class="input">
+              <b>尾款</b>
+              <span><input type="text" @input="toMoneyToRate('finalMoney',false)" placeholder="请输入您的金额" name="finalpay" v-model.trim="finalMoney">&nbsp;元</span>
+            </li>
+            <li class="alertLi">当前为金额计算，<button @click="moneyToRateStatus">改为百分比计算</button></li>
+            <li>
+              <b>尾款比例</b>
+              <span> <b v-if="finalRate!==''">{{finalRate}}</b>
+              <b v-else class="default">自动计算</b>&nbsp;%</span>
+            </li>
+          </ul>
+          <p><span class="fl" @click="sureFinalPay">取消</span><span class="fr" @click="sureFinalPay('confirm')">确定</span></p>
+        </mt-popup>
+        <!-- 手续费 -->
+        <mt-popup v-model="sxMoneyStatu" class="firstPayCont" position="bottom">
+          <ul v-if="moneyToRate">
+            <li class="input">
+              <b>手续费比例</b>
+              <span><input type="text"  @input="toMoneyToRate('sxMoney',true)" placeholder='请输入百分比' name="sxMoney" v-model.trim="sxRate">&nbsp;%</span>
+            </li>
+            <li class="alertLi">当前为百分比计算，<button @click="moneyToRateStatus">改为金额计算</button></li>
+            <li class="input">
+              <b>手续费</b>
+              <span>
+                <b v-if="sxMoney !==''">{{sxMoney}}</b>
+                <b v-else class="default">自动计算</b>&nbsp;元
+              </span>
+            </li>
+          </ul>
+          <ul v-else>
+            <li class="input">
+              <b>手续费</b>
+              <span><input type="text" @input="toMoneyToRate('sxMoney',false)" placeholder="请输入您的金额" name="sxMoney" v-model.trim="sxMoney">&nbsp;元</span>
+            </li>
+            <li class="alertLi">当前为金额计算，<button @click="moneyToRateStatus">改为百分比计算</button></li>
+            <li>
+              <b>手续费比例</b>
+              <span> <b v-if="sxRate!==''">{{sxRate}}</b>
+              <b v-else class="default">自动计算</b>&nbsp;%</span>
+            </li>
+          </ul>
+          <p><span class="fl" @click="sureSxMoney">取消</span><span class="fr" @click="sureSxMoney('confirm')">确定</span></p>
+        </mt-popup>
 
-				<div class="bButton" v-show="!pickerFlagStatus">
+				<div class="bButton" v-show="!pickerFlagStatus && !finalPayStatu && !firstPayStatu && !sxMoneyStatu && !bailMoneyStatu">
 					<button @click="quotedTest">测算</button>
 				</div>
 			</div>
@@ -405,20 +565,33 @@
 						BAIL_PERCENT:'', //保证金比例
 						bailMoney:'',
 						bailRate:'',
+						bail_money_edit:'',
+						bailMoneyStatu:false,
+						BZJCLFS:'', //保证金处理方式
+						BZJCLFS_ID:'',
+						bzjclfs_status:'',
+						bzjclfs_edit:'',
+						bzjclfs_list:[],
 						SXF:'',//手续费 =手续费比例*融资额
 						SXF_RATE:'', //手续费比例
 						sxMoney:'',
 						sxRate:'',
+						sxMoneyStatu:false,
 						FINAL_FEE:'',//尾款 =合同总计*尾款比例
 						FINAL_RATE:'', //尾款比例
 						finalMoney:'',
 						finalRate:'',
+						finalPayStatu:false,
 						final_money_edit:'',
 						final_money_limit:{
 							LIMIT_FLAG:'',    //1是 0否限制
 							LIMIT_VALUE_D:'',  //最小值
 							LIMIT_VALUE_U:''  //最大值
 						},
+						totleFirstM:'', //测算返回首期款
+						MONTH_PRICE:'', //测算返回每期租金
+						term:'', //测算返回期数
+
 
 
 
@@ -464,9 +637,9 @@
 								_this.qmclfs_list=data.QMCLFSS //期满处理方式
 								_this.gpsaz_list=data.GPSAZS  //GPS安装
 								_this.gpsaz_list=data.SFLYSS //是否留钥匙
+								_this.bzjclfs_list=data.BZJCLFSS //是否留钥匙
 
 								_this.EQU_MONEY_ALL=res.data.EQU_MONEY_ALL
-								_this.initData()
 								var projectData=res.data.datas.project
 								if(projectData){
 									_this.SCHEME_NAME=projectData.SCHEME_NAME
@@ -507,12 +680,18 @@
 									_this.GPSAZ_ID=projectData.GPSAZ
 									_this.SFLYS=projectData.NULL
 									_this.SFLYS_ID=projectData.SFLYS
-									_this.LEASE_TOPRIC=projectData.NULL //合同总计
-									_this.HEAD_HIRE=projectData.NULL //首付款
+									_this.otherMoney=projectData.NULL //其他费用 计算合同总计
 									_this.HIRE_PERCENT= projectData.NULL  //首付款比例
+									_this.FINAL_RATE= projectData.NULL  //尾款比例
+									_this.SXF_RATE= projectData.NULL  //手续费比例
+									_this.BAIL_PERCENT= projectData.NULL  //保证金比例
+									_this.BZJCLFS=projectData.NULL  //保证金处理方式
+									_this.BZJCLFS_ID=project.BZJCLFS
+									_this.totleFirstM:projectData.NULL //测算返回首期款
+									_this.MONTH_PRICE:projectData.NULL //测返每期租金
+									_this.term:projectData.NULL //测算返回期数
 
-
-
+									_this.initData()
 								}
 								summer.hideProgress()
 							},function(err){
@@ -561,6 +740,8 @@
 								this.pickerFlagList[0].values=this.gpsaz_list
 							}else if(val=='sflys'){
 								this.pickerFlagList[0].values=this.sflys_list
+							}else if(val=='bzjclfs'){
+								this.pickerFlagList[0].values=this.bzjclfs_list
 							}
 
 							this.currentName=val
@@ -635,6 +816,9 @@
 							}else if(this.currentName=='sflys'){
 								this.SFLYS=this.pickingObj.FLAG
 								this.SFLYS_ID=this.pickingObj.CODE
+							}else if(this.currentName=='bzjclfs'){
+								this.BZJCLFS=this.pickingObj.FLAG
+								this.BZJCLFS_ID=this.pickingObj.CODE
 							}
 
 						}
@@ -710,6 +894,18 @@
 									_this.first_pay_limit.LIMIT_VALUE_D=arr[i].LIMIT_VALUE_D
 									_this.first_pay_limit.LIMIT_VALUE_U=arr[i].LIMIT_VALUE_U
 									this.HEAD_HIRE=parseInt(this.LEASE_TOPRIC*this.HIRE_PERCENT*0.01)//首付款
+								}else if(arr[i].KEY_NAME_EN=='WKBL_PERCENT'){
+									_this.final_money_edit=arr[i].VALUE_STATUS
+									_this.final_money_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
+									_this.final_money_limit.LIMIT_VALUE_D=arr[i].LIMIT_VALUE_D
+									_this.final_money_limit.LIMIT_VALUE_U=arr[i].LIMIT_VALUE_U
+								}else if(arr[i].KEY_NAME_EN=='BZJBL_PERCENT'){
+									_this.BAIL_PERCENT=arr[i].VALUE_STR
+									_this.bail_money_edit=arr[i].VALUE_STATUS
+									this.LEASE_BAIL=parseInt(this.LEASE_TOPRIC*this.BAIL_PERCENT*0.01)//保证金
+								}else if(arr[i].KEY_NAME_EN=='BZJCLFS'){
+									_this.bzjclfs_status=arr[i].VALUE_STR
+									_this.bzjclfs_edit=arr[i].VALUE_STATUS
 								}
 
 
@@ -768,13 +964,57 @@
 							this.TOPRIC_SUBFIRENT=parseInt(this.LEASE_TOPRIC-(this.HEAD_HIRE || 0))//融资额
 							this.LEASE_BAIL=parseInt(this.TOPRIC_SUBFIRENT*this.BAIL_PERCENT*0.01)//保证金
 							this.SXF=parseInt(this.TOPRIC_SUBFIRENT*this.SXF_RATE*0.01) //手续费
-							this.FINAL_FEE=parseInt(this.TOPRIC_SUBFIRENT*this.FINAL_RATE*0.01)//保证金
+							this.FINAL_FEE=parseInt(this.TOPRIC_SUBFIRENT*this.FINAL_RATE*0.01)//尾款
 						}else{
 							this.firstPay = this.HEAD_HIRE
 							this.firstPayRate = this.HIRE_PERCENT
+							this.moneyToRate=true  //公用状态 点开默认输入比例
 						}
 						this.firstPayStatu=!this.firstPayStatu
-
+					},
+					sureFinalPay:function(value){
+						if(value=='confirm'){
+							this.isTest=false
+							this.FINAL_FEE=this.finalMoney
+							this.FINAL_RATE=this.finalRate
+						}else{
+							this.finalMoney=this.FINAL_FEE
+							this.finalRate=this.FINAL_RATE
+							this.moneyToRate=true  //公用状态 点开默认输入比例
+						}
+						this.finalPayStatu=!this.finalPayStatu
+					},
+					sureSxMoney(value){
+						if(this.HEAD_HIRE===''){
+							summer.toast({msg:'请先填写首付款'});
+							return;
+						}
+						if(value=='confirm'){
+							this.isTest=false
+							this.SXF=this.sxMoney
+							this.SXF_RATE=this.sxRate
+						}else{
+							this.sxMoney=this.SXF
+							this.sxRate=this.SXF_RATE
+							this.moneyToRate=true  //公用状态 点开默认输入比例
+						}
+						this.sxMoneyStatu=!this.sxMoneyStatu
+					},
+					sureBailMoney(value){
+						if(this.HEAD_HIRE===''){
+							summer.toast({msg:'请先填写首付款'});
+							return;
+						}
+						if(value=='confirm'){
+							this.isTest=false
+							this.LEASE_BAIL=this.bailMoney
+							this.BAIL_PERCENT=this.bailRate
+						}else{
+							this.bailMoney=this.LEASE_BAIL
+							this.bailRate=this.BAIL_PERCENT
+							this.moneyToRate=true  //公用状态 点开默认输入比例
+						}
+						this.bailMoneyStatu=!this.bailMoneyStatu
 					},
 					moneyToRateStatus:function(){
 						this.moneyToRate=!this.moneyToRate
@@ -806,11 +1046,70 @@
 									summer.toast({msg:'首付款不能大于合同总额且为整数'})
 								}
 							}
+						}else if(val== 'finalMoney'){
+							if(status){
+								if(this.finalRate<100&&this.checkFloatNmber(this.finalRate)){
+									if(this.final_money_limit.LIMIT_FLAG=='1'){
+										if(this.finalRate<this.final_money_limit.LIMIT_VALUE_D || this.finalRate>this.final_money_limit.LIMIT_VALUE_U){
+											this.finalRate=''
+										}
+									}
+									if(this.finalRate==''){this.finalMoney=''}else {
+										this.finalMoney=parseInt(this.finalRate*this.LEASE_TOPRIC*0.01)
+									}
+								}else {
+									this.finalRate=''
+									this.finalMoney=''
+								}
+							}else {
+								if(this.checkIntNmber(this.finalMoney) && this.finalMoney<this.LEASE_TOPRIC){
+									this.finalRate=parseFloat(100*this.finalMoney/this.LEASE_TOPRIC).toFixed(2);
+								}else {
+									this.finalMoney=''
+									this.finalRate=''
+									summer.toast({msg:'尾款不能大于合同总额且为整数'})
+								}
+							}
+						}else if(val == 'sxMoney'){
+							if(status){
+								if(this.sxRate<100 && this.checkFloatNmber(this.sxRate)){
+									if(!this.sxRate){this.sxMoney=''}else {
+										this.sxMoney=parseInt(this.sxRate*this.TOPRIC_SUBFIRENT*0.01)
+									}
+								}else {
+									this.sxMoney=''
+									this.sxRate=''
+								}
+							}else {
+								if(this.checkIntNmber(this.sxMoney)&&this.sxMoney<this.TOPRIC_SUBFIRENT){
+									this.sxRate=parseFloat(100*this.sxMoney/this.TOPRIC_SUBFIRENT).toFixed(2);
+								}else {
+									this.sxMoney=''
+									this.sxRate=''
+									summer.toast({msg:'手续费不能大于融资额且为整数'})
+								}
+							}
+						}else if(val == 'bailMoney'){
+							if(status){
+								if(this.bailRate<100&&this.checkFloatNmber(this.bailRate)){
+									if(this.bailRate==''){this.bailMoney=''}else {
+										this.bailMoney=parseInt(this.bailRate*this.TOPRIC_SUBFIRENT*0.01)
+									}
+								}else {
+									this.bailMoney=''
+									this.bailRate=''
+								}
+							}else {
+								if(this.bailMoney<this.TOPRIC_SUBFIRENT&&this.checkIntNmber(this.bailMoney)){
+									this.bailRate=parseFloat(100*this.bailMoney/this.TOPRIC_SUBFIRENT).toFixed(2);
+								}else{
+									this.bailMoney=''
+									this.bailRate=''
+									summer.toast({msg:'保证金不能大于融资额且为整数'})
+								}
+							}
 						}
-
-
 					},
-
 					checkIntNmber(val){
 						if(!/^([1-9]\d{0,9}|0)$/.test(val)||val===''||val<0){
 							return false
@@ -826,7 +1125,39 @@
 						}
 					},
 					quotedTest:function(){
+						var _this=this
+						summer.showProgress();
+						var param={
 
+						}
+						if(this.TX !='无'){param.PREMIUMS_M=this.TX_M}
+						if(this.TQGH !='否'){param.GHTIME=this.GHTIME}
+						if(this.prjId){
+							params.prjId=this.prjId
+						}else {
+							params.EQU_MONEY_ALL=this.EQU_MONEY_ALL
+						}
+						console.log(JSON.stringify(param));
+						ajaxRequest({
+							type:'POST',
+							url:'offer/toPayCalculationTest',
+							param:param
+						},function(res){
+							console.log("res",JSON.stringify(res));
+							summer.hideProgress();
+							if(res.data.flag=="1"){
+								summer.toast({msg:"测算成功"});
+								_this.isTest =true
+							}else{
+								summer.toast({
+									msg:res.data.msg
+								});
+								return;
+							}
+
+						},function(err){
+							console.log("err",err);
+						})
 					},
 					save:function(){
 						var _this=this
@@ -859,6 +1190,13 @@
 							LEASE_TOPRIC:this.LEASE_TOPRIC,
 							HEAD_HIRE:this.HEAD_HIRE,
 							HIRE_PERCENT:this.HIRE_PERCENT,
+							FINAL_FEE:this.FINAL_FEE,
+							FINAL_RATE:this.FINAL_RATE,
+							SXF:this.SXF,
+							SXF_RATE:this.SXF_RATE,
+							TOPRIC_SUBFIRENT:this.TOPRIC_SUBFIRENT,
+							BAIL_PERCENT:this.BAIL_PERCENT,
+							BZJCLFS:this.BZJCLFS_ID,
 
 
 						}
