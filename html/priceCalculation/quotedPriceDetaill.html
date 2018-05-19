@@ -51,15 +51,21 @@
 							<i class="icon iconfont icon-enter"></i>
 						</span>
 					</li>
+          <li>
+            <b>租赁年限</b>
+            <span>
+              <b>{{YEAR_LIMIT}}</b>年
+            </span>
+          </li>
           <template v-if="llpz_status">
             <li v-if='llpz_edit=="1"'>
-  						<b>利率</b>
+  						<b>利率配置</b>
   						<span>
   							<b>{{LLPZ}}</b>
   						</span>
   					</li>
             <li v-else @click="pickerFlag('llpz')">
-  						<b>利率</b>
+  						<b>利率配置</b>
   						<span>
   							<b v-if="LLPZ">{{LLPZ}}</b>
                 <b v-else class="default">请选择</b>
@@ -67,6 +73,12 @@
   						</span>
   					</li>
           </template>
+          <li>
+            <b>利率</b>
+            <span>
+							<input type="text" @blur="checkVal('yearRate')" placeholder="利率" name="YEAR_INTEREST" v-model="YEAR_INTEREST">&nbsp;元
+            </span>
+          </li>
           <li v-if='pay_way_status' @click="pickerFlag('payWay')">
 						<b>支付方式</b>
 						<span>
@@ -75,7 +87,108 @@
 							<i class="icon iconfont icon-enter"></i>
 						</span>
 					</li>
-
+          <li @click="pickerFlag('tx')">
+            <b>贴息</b>
+            <span>
+              <b v-if="TX">{{TX}}</b>
+              <b v-else class="default">请选择</b>
+              <i class="icon iconfont icon-enter"></i>
+            </span>
+          </li>
+          <li>
+            <b>贴息金额</b>
+            <span>
+              <b v-if="tx_m_edit=='1'">{{TX_M}}</b>
+							<input v-else type="text" @blur="checkVal('tx_m')" placeholder="贴息金额" name="tx_m" v-model="TX_M">&nbsp;元
+            </span>
+          </li>
+          <li v-if="fxyzb_status" @click="pickerFlag('sfxyzb')">
+            <b>牌照指标</b>
+            <span>
+              <b v-if="SFXYZB">{{SFXYZB}}</b>
+              <b v-else class="default">请选择</b>
+              <i class="icon iconfont icon-enter"></i>
+            </span>
+          </li>
+          <template v-if="rpzsf_status">
+            <li v-if='rpzsf_edit=="1"'>
+              <b>融牌照收费</b>
+              <span>
+                <b>{{RPZSF}}</b>
+              </span>
+            </li>
+            <li v-else @click="pickerFlag('rpzsf')">
+              <b>融牌照收费</b>
+              <span>
+                <b v-if="RPZSF">{{RPZSF}}</b>
+                <b v-else class="default">请选择</b>
+                <i class="icon iconfont icon-enter"></i>
+              </span>
+            </li>
+          </template>
+          <li @click="pickerFlag('bxnx')">
+            <b>保险年限</b>
+            <span>
+              <b v-if="BXNX">{{BXNX}}</b>
+              <b v-else class="default">请选择</b>
+              <i class="icon iconfont icon-enter"></i>
+            </span>
+          </li>
+          <li @click="pickerFlag('ccsnx')">
+            <b>车船税年限</b>
+            <span>
+              <b v-if="CCSNX">{{CCSNX}}</b>
+              <b v-else class="default">请选择</b>
+              <i class="icon iconfont icon-enter"></i>
+            </span>
+          </li>
+          <template v-if="fkgz_status">
+            <li v-if='fkgz_edit=="1"'>
+  						<b>放款方式</b>
+  						<span>
+  							<b>{{FKGZ}}</b>
+  						</span>
+  					</li>
+            <li v-else @click="pickerFlag('fkgz')">
+  						<b>放款方式</b>
+  						<span>
+  							<b v-if="FKGZ">{{FKGZ}}</b>
+                <b v-else class="default">请选择</b>
+  							<i class="icon iconfont icon-enter"></i>
+  						</span>
+  					</li>
+          </template>
+          <li v-if="tqgh_status" @click="pickerFlag('tqgh')">
+            <b>提前过户</b>
+            <span>
+              <b v-if="TQGH">{{TQGH}}</b>
+              <b v-else class="default">请选择</b>
+              <i class="icon iconfont icon-enter"></i>
+            </span>
+          </li>
+          <li  v-if="TQGH !='否'">
+            <b>过户期数</b>
+            <span>
+              <b v-if='ghtime_edit=="1"'>{{GHTIME}}</b>
+              <input v-else type="text" @blur="checkVal('ghtime')" placeholder="过户期数" name="ghtime" v-model="GHTIME">
+            </span>
+          </li>
+          <template v-if="qmclfs_status">
+            <li v-if='qmclfs_edit=="1"'>
+  						<b>期满处理方式</b>
+  						<span>
+  							<b>{{QMCLFS}}</b>
+  						</span>
+  					</li>
+            <li v-else @click="pickerFlag('qmclfs')">
+  						<b>期满处理方式</b>
+  						<span>
+  							<b v-if="QMCLFS">{{QMCLFS}}</b>
+                <b v-else class="default">请选择</b>
+  							<i class="icon iconfont icon-enter"></i>
+  						</span>
+  					</li>
+          </template>
 				</ul>
       </div>
 			<div class="um-footer" id="footer">
@@ -132,16 +245,64 @@
 						},
 						YEAR_LIMIT:'', // 年限
 
-						LLPZ:'', //利率
+						LLPZ:'', //利率配置
 						LLPZ_ID:'',
 						llpz_status:'',
 						llpz_edit:'',
 						llpz_list:[],
+						YEAR_INTEREST:'', //利率
 
 						PAY_WAY:'',
 						PAY_WAY_ID:'',
 						pay_way_status:'',
-						pay_way_list:[]
+						pay_way_list:[],
+
+            TX:'', //有无贴息
+            TX_ID:'',
+            tx_list:[],
+            TX_M:'',  //贴息金额
+            tx_m_edit:0,
+						tx_m_limit:{  //限制条件对象
+							LIMIT_FLAG:'',    //1是 0否限制
+							LIMIT_VALUE_D:'',  //最小值
+							LIMIT_VALUE_U:''  //最大值
+						},
+						RPZSF:'', //融牌照收费
+						RPZSF_ID:'',
+						rpzsf_status:'',
+						rpzsf_edit:'',
+						rpzsf_list:[],
+						SFXYZB:'', //牌照指标
+						SFXYZB_ID:'',
+						fxyzb_status:'',
+						sfxyzb_list:[],
+						BXNX:'',  // 保险年限
+						BXNX_ID:'',
+						bxnx_list:'',
+						CCSNX:'', //车船税年限
+						CCSNX_ID:'',
+						ccsnx_list:'',
+						FKGZ:'', //放款方式
+						FKGZ_ID:'',
+						fkgz_status:'',
+						fkgz_edit:'',
+						fkgz_list:[],
+						TQGH:'', //提前过户
+						TQGH_ID:'',
+						tqgh_status:'',
+						tqgh_list:[],
+						GHTIME:'',  // 过户期数
+						ghtime_edit:'',
+						QMCLFS:'',  //期满处理方式
+						QMCLFS_ID:'',
+						qmclfs_status:'',
+						qmclfs_edit:'',
+						qmclfs_list:[],
+
+
+						EQU_MONEY_ALL:'', //设备总价值=车辆单价
+
+
 
 					}
 				},
@@ -162,6 +323,16 @@
 								_this.lease_course_list=data.LEASE_COURSES  //租赁周期
 								_this.llpz_list=data.LLPZS  //利率配置字典
 								_this.pay_way_list=data.PAY_WAYS
+								_this.tx_list=data.PREMIUMSS  //贴息
+								_this.rpzsf_list=data.RPZSFS //融牌照收费
+								_this.sfxyzb_list=data.SFXYZBS  //牌照指标
+								_this.bxnx_list=data.BXNXS  //保险年限
+								_this.ccsnx_list=data.CCSNXS   //车船税年限
+								_this.fkgz_list=data.FKGZS    //放款方式
+								_this.tqgh_list=data.TQGHS    //提前过户
+								_this.qmclfs_list=data.QMCLFSS //期满处理方式
+
+
 
 								var projectData=res.data.datas.project
 								if(projectData){
@@ -170,8 +341,35 @@
                   _this.LEASE_TERM=projectData.LEASE_TERM
                   _this.LEASE_COURSE=projectData.NULL
                   _this.LEASE_COURSE_ID=projectData.LEASE_COURSE
+									// 计算年限
+									if(this.LEASE_TERM&&this.LEASE_COURSE_ID){
+										this.YEAR_LIMIT=(this.LEASE_TERM*LEASE_COURSE_ID/12).toFixed(2)
+									}else {
+										this.YEAR_LIMIT=''
+									}
+                  _this.LLPZ =projectData.LLPZ
+									_this.LLPZ_ID=projectData.NULL
+									_this.YEAR_INTEREST = projectData.NULL
                   _this.PAY_WAY=projectData.NULL
                   _this.PAY_WAY_ID=projectData.PAY_WAY
+									_this.TX=projectData.NULL
+									_this.TX_ID=projectData.PREMIUMS
+									_this.TX_M =projectData.PREMIUMS_M
+									_this.RPZSF=projectData.NULL
+									_this.RPZSF_ID=projectData.NUll
+									_this.SFXYZB = projectData.NULL
+									_this.SFXYZB_ID = projectData.SFXYZB
+									_this.BXNX = projectData.NULL
+									_this.BXNX_ID = projectData.NULL
+									_this.CCSNX = projectData.NULL
+									_this.CCSNX_ID = projectData.NULL
+									_this.FKGZ = projectData.NULL
+									_this.CCSNX_ID = projectData.NULL
+									_this.TQGH = projectData.NULL
+									_this.TQGH_ID=projectData.NULL
+									_this.GHTIME =projectData.NULL
+									_this.QMCLFS =projectData.NULL
+									_this.QMCLFS_ID =projectData.NULL
 
 
 								}
@@ -202,6 +400,22 @@
 								this.pickerFlagList[0].values=this.llpz_list
 							}else if(val=='payWay'){
 								this.pickerFlagList[0].values=this.pay_way_list
+							}else if(val=='tx'){
+								this.pickerFlagList[0].values=this.tx_list
+							}else if(val=='rpzsf'){
+								this.pickerFlagList[0].values=this.rpzsf_list
+							}else if(val=='sfxyzb'){
+								this.pickerFlagList[0].values=this.sfxyzb_list
+							}else if(val=='bxnx'){
+								this.pickerFlagList[0].values=this.bxnx_list
+							}else if(val=='ccsnx'){
+								this.pickerFlagList[0].values=this.ccsnx_list
+							}else if(val=='fkgz'){
+								this.pickerFlagList[0].values=this.fkgz_list
+							}else if(val=='tqgh'){
+								this.pickerFlagList[0].values=this.tqgh_list
+							}else if(val=='qmclfs'){
+								this.pickerFlagList[0].values=this.qmclfs_list
 							}
 
 							this.currentName=val
@@ -233,12 +447,42 @@
 							}else if(this.currentName=='leaseCourse'){
 								this.LEASE_COURSE=this.pickingObj.FLAG
 								this.LEASE_COURSE_ID=this.pickingObj.CODE
+								// 计算年限
+								if(this.LEASE_TERM&&this.LEASE_COURSE_ID){
+									this.YEAR_LIMIT=(this.LEASE_TERM*LEASE_COURSE_ID/12).toFixed(2)
+								}else {
+									this.YEAR_LIMIT=''
+								}
 							}else if(this.currentName=='llpz'){
 								this.LLPZ=this.pickingObj.FLAG
 								this.LLPZ_ID=this.pickingObj.CODE
 							}else if(this.currentName=='payWay'){
 								this.PAY_WAY=this.pickingObj.FLAG
 								this.PAY_WAY_ID=this.pickingObj.CODE
+							}else if(this.currentName=='tx'){
+								this.TX=this.pickingObj.FLAG
+								this.TX_ID=this.pickingObj.CODE
+							}else if(this.currentName=='rpzsf'){
+								this.RPZSF=this.pickingObj.FLAG
+								this.RPZSF_ID=this.pickingObj.CODE
+							}else if(this.currentName=='sfxyzb'){
+								this.SFXYZB=this.pickingObj.FLAG
+								this.SFXYZB_ID=this.pickingObj.CODE
+							}else if(this.currentName=='bxnx'){
+								this.BXNX=this.pickingObj.FLAG
+								this.BXNX_ID=this.pickingObj.CODE
+							}else if(this.currentName=='ccsnx'){
+								this.CCSNX=this.pickingObj.FLAG
+								this.CCSNX_ID=this.pickingObj.CODE
+							}else if(this.currentName=='fkgz'){
+								this.FKGZ=this.pickingObj.FLAG
+								this.FKGZ_ID=this.pickingObj.CODE
+							}else if(this.currentName=='tqgh'){
+								this.TQGH=this.pickingObj.FLAG
+								this.TQGH_ID=this.pickingObj.CODE
+							}else if(this.currentName=='qmclfs'){
+								this.QMCLFS=this.pickingObj.FLAG
+								this.QMCLFS_ID=this.pickingObj.CODE
 							}
 
 						}
@@ -254,10 +498,16 @@
 							param:{SCHEME_CODE:_this.SCHEME_NAME_ID}
 						},function(res){
 							console.log("res",JSON.stringify(res));
+							// 重新获取初始化的字典 start
+							var data=res.data.datas
+							_this.scheme_type_list=data.POLICY_TYPES //方案类型字典
+
+
+							//重新获取初始化的字典 over
 							var arr=res.data.datas.SCHEME
 							for(var i=0;i<arr.length;i++){
 								if(arr[i].KEY_NAME_EN=='ZLZQ'){
-									_this.LEASE_COURSE=arr[i].VALUE_STR
+									// _this.LEASE_COURSE=arr[i].VALUE_STR
 									_this.lease_course_status=arr[i].VALUE_STR
 								}else if(arr[i].KEY_NAME_EN=='ZLQS'){
 									_this.LEASE_TERM=arr[i].VALUE_STR
@@ -268,13 +518,40 @@
 									_this.lease_term_limit.LIMIT_VALUE_U=arr[i].LIMIT_VALUE_U
 									_this.checkVal('lease_term')
 								}else if(arr[i].KEY_NAME_EN=='LLPZ'){
-									_this.LLPZ=arr[i].VALUE_STR
+									// _this.LLPZ=arr[i].VALUE_STR
 									_this.llpz_status=arr[i].VALUE_STR
 									_this.llpz_edit=arr[i].VALUE_STATUS
 								}else if(arr[i].KEY_NAME_EN=='ZFFS'){
-									_this.PAY_WAY=arr[i].VALUE_STR
+									// _this.PAY_WAY=arr[i].VALUE_STR
 									_this.pay_way_status=arr[i].VALUE_STR
+								}else if(arr[i].KEY_NAME_EN=='RPZSF'){
+									// _this.RPZSF=arr[i].VALUE_STR
+									_this.rpzsf_status=arr[i].VALUE_STR
+									_this.rpzsf_edit=arr[i].VALUE_STATUS
+								}else if(arr[i].KEY_NAME_EN=='sfxyzb'){
+									// _this.SFXYZB=arr[i].VALUE_STR
+									_this.fxyzb_status=arr[i].VALUE_STR
+								}else if(arr[i].KEY_NAME_EN=='tx_m'){
+									_this.TX_M=arr[i].VALUE_STR
+									_this.tx_m_edit=arr[i].VALUE_STATUS
+									_this.tx_m_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
+									_this.tx_m_limit.LIMIT_VALUE_D=arr[i].LIMIT_VALUE_D
+									_this.tx_m_limit.LIMIT_VALUE_U=arr[i].LIMIT_VALUE_U
+								}else if(arr[i].KEY_NAME_EN=='FKGZ'){
+									_this.fkgz_status=arr[i].VALUE_STR
+									_this.fkgz_edit=arr[i].VALUE_STATUS
+								}else if(arr[i].KEY_NAME_EN=='TQGH'){
+									_this.tqgh_status=arr[i].VALUE_STR
+								}else if(arr[i].KEY_NAME_EN=='GHTIME'){
+									_this.GHTIME=arr[i].VALUE_STR || 0
+									_this.ghtime_edit=arr[i].VALUE_STATUS
+								}else if(arr[i].KEY_NAME_EN=='QMCLFS'){
+									_this.qmclfs_status=arr[i].VALUE_STR
+									_this.qmclfs_edit=arr[i].VALUE_STATUS
 								}
+
+
+
 							}
 
 							summer.hideProgress()
@@ -285,16 +562,53 @@
 					},
 					checkVal(val){
 						if(val=='lease_term'){
+							if(!this.checkIntNmber(this.LEASE_TERM)){
+								this.LEASE_TERM=''
+							}
 							if(this.lease_term_limit.LIMIT_FLAG=='1'){
 								if(this.LEASE_TERM<this.lease_term_limit.LIMIT_VALUE_D || this.LEASE_TERM>this.lease_term_limit.LIMIT_VALUE_U){
 									summer.toast({msg:'租赁期数值超出范围'})
 									this.LEASE_TERM=''
 								}
 							}
+							if(this.LEASE_TERM&&this.LEASE_COURSE_ID){
+								this.YEAR_LIMIT=(this.LEASE_TERM*LEASE_COURSE_ID/12).toFixed(2)
+							}else {
+								this.YEAR_LIMIT=''
+							}
+						}else if(val=='tx_m'){
+							if(!this.checkFloatNmber(this.TX_M)){
+								this.TX_M=''
+							}
+							if(this.tx_m_limit.LIMIT_FLAG=='1'){
+								if(this.TX_M<this.tx_m_limit.LIMIT_VALUE_D || this.TX_M>this.tx_m_limit.LIMIT_VALUE_U){
+									summer.toast({msg:'贴息金额超出范围'})
+									this.TX_M=''
+								}
+							}
+						}else if(val=='ghtime'){
+							if(!this.checkIntNmber(this.GHTIME)){this.GHTIME=''}
+						}else if(val=='yearRate'){
+							if(!this.checkIntNmber(this.YEAR_INTEREST)){this.YEAR_INTEREST=''}
 						}
+
+
 					},
 
-
+					checkIntNmber(val){
+						if(!/^([1-9]\d{0,9}|0)$/.test(val)||!val||val<0){
+							return false
+						}else {
+							return true
+						}
+					},
+					checkFloatNmber(val){
+						if(!/^([1-9]\d{0,9}|0)([.]?|(\.\d{1,2})?)$/.test(val)||!val||val<0){
+							return false
+						}else {
+							return true
+						}
+					},
 					quotedTest:function(){
 
 					},
@@ -311,7 +625,16 @@
 							POLICY:this.SCHEME_NAME_ID,
 							LEASE_TERM:this.LEASE_TERM,
 							LEASE_COURSE:this.LEASE_COURSE_ID,
+							LLPZ:this.LLPZ_ID,
+							YEAR_INTEREST:this.YEAR_INTEREST,
 							PAY_WAY:this.PAY_WAY_ID,
+							PREMIUMS:this.TX_ID,
+							PREMIUMS_M:this.TX_M,
+							RPZSF:this.RPZSF_ID,
+							QUOTA:this.SFXYZB_ID,
+							BXNX:this.BXNX_ID,
+							CCSNX:this.CCSNX_ID,
+							YEAR_INTEREST:this.YEAR_INTEREST
 
 						}
 						console.log(JSON.stringify(param));
