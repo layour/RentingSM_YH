@@ -644,7 +644,7 @@
                         textAlign: 'center'
                     }],
                     // 信息详情
-                    message: "",
+                    message: {},
                     // 全部数据
                     totalData: '',
                     // 配偶信息
@@ -671,51 +671,55 @@
                         url: 'customer/doCustomerPage',
                         param: {
                             /* 真实 */
-                            // "CUSTOMER_ID": clintId,
-                            // "CR_BECR_TYPE": CR_BECR_TYPE
+                            "CUSTOMER_ID": clintId,
+                            "CR_BECR_TYPE": CR_BECR_TYPE
                             /* 测试用 */
-                            "CUSTOMER_ID": "240634",
-                            "CR_BECR_TYPE": 1
+                            // "CUSTOMER_ID": "240634",
+                            // "CR_BECR_TYPE": 1
                         }
                     }, function (res) {
                         summer.hideProgress();
                         if (res.data.flag == 1) {
                             // 判断是否有配偶，设置navBar
-                            if (res.data.datas.custInfoDetails.CR_MARRIAGE_STATE_NAME == "已婚" || res.data.datas.custInfoDetails.CR_MARRIAGE_STATE_NAME == "复婚" || res.data.datas.custInfoDetails.CR_MARRIAGE_STATE_NAME == "再婚" || res.data.datas.custInfoDetails.CR_MARRIAGE_STATE_NAME == "初婚") {
-                                // 有配偶
-                                summer.setWinAttr({
-                                    actionBar: {
-                                        title: "客户信息",
-                                        titleColor: "#ffffff",
-                                        backgroundColor: "#039be5",
-                                        rightItems: [{
-                                            type: "text",
-                                            text: "下一步",
-                                            textColor: "#ffffff",
-                                            method: "nextStopAction()"
-                                        }]
-                                    }
-                                });
-                            } else {
-                                // 无配偶
-                                summer.setWinAttr({
-                                    actionBar: {
-                                        title: "客户信息",
-                                        titleColor: "#ffffff",
-                                        backgroundColor: "#039be5",
-                                        rightItems: [{
-                                            type: "text",
-                                            text: "保存",
-                                            textColor: "#ffffff",
-                                            method: "savePerson()"
-                                        }]
-                                    }
-                                });
+                            if (res.data.datas.custInfoDetails) {
+                                if (res.data.datas.custInfoDetails.CR_MARRIAGE_STATE_NAME == "已婚" || res.data.datas.custInfoDetails.CR_MARRIAGE_STATE_NAME == "复婚" || res.data.datas.custInfoDetails.CR_MARRIAGE_STATE_NAME == "再婚" || res.data.datas.custInfoDetails.CR_MARRIAGE_STATE_NAME == "初婚") {
+                                    // 有配偶
+                                    summer.setWinAttr({
+                                        actionBar: {
+                                            title: "客户信息",
+                                            titleColor: "#ffffff",
+                                            backgroundColor: "#039be5",
+                                            rightItems: [{
+                                                type: "text",
+                                                text: "下一步",
+                                                textColor: "#ffffff",
+                                                method: "nextStopAction()"
+                                            }]
+                                        }
+                                    });
+                                } else {
+                                    // 无配偶
+                                    summer.setWinAttr({
+                                        actionBar: {
+                                            title: "客户信息",
+                                            titleColor: "#ffffff",
+                                            backgroundColor: "#039be5",
+                                            rightItems: [{
+                                                type: "text",
+                                                text: "保存",
+                                                textColor: "#ffffff",
+                                                method: "savePerson()"
+                                            }]
+                                        }
+                                    });
+                                }
                             }
                             // 总数据
                             self.totalData = res.data.datas;
                             // 信息详情展示字段
-                            self.message = res.data.datas.custInfoDetails;
+                            if (res.data.datas.custInfoDetails) {
+                                self.message = res.data.datas.custInfoDetails;
+                            }
                             // 客户分类slots0
                             res.data.datas.CR_CUST_LEVEL_DIC.forEach(function (e) {
                                 self.slots0[0].values.push(e.FLAG);
@@ -1025,7 +1029,7 @@
                             msg: "请选择证件类型"
                         });
                         return false;
-                    } else if (this.message.CR_NATU_IDCARD == "") {
+                    } else if (!this.message.CR_NATU_IDCARD) {
                         summer.toast({
                             msg: "请输入证件号码"
                         });
@@ -1040,7 +1044,7 @@
                             msg: "请选择客户分类"
                         });
                         return false;
-                    } else if (this.message.CR_NATU_MOBILE == "") {
+                    } else if (!this.message.CR_NATU_MOBILE) {
                         summer.toast({
                             msg: "请输入手机号码"
                         });
@@ -1050,12 +1054,12 @@
                             msg: "手机号码格式有误"
                         });
                         return false;
-                    } else if (this.CR_BECR_TYPE == "") {
+                    } else if (!this.CR_BECR_TYPE) {
                         summer.toast({
                             msg: "请输入客户类型"
                         });
                         return false;
-                    } else if (this.message.CR_NATU_WORK_UNITS == "") {
+                    } else if (!this.message.CR_NATU_WORK_UNITS) {
                         summer.toast({
                             msg: "请输入工作单位"
                         });
@@ -1065,7 +1069,7 @@
                             msg: "请选择性别"
                         });
                         return false;
-                    } else if (this.message.EMPLOYEE_EMAIL == "") {
+                    } else if (!this.message.EMPLOYEE_EMAIL) {
                         summer.toast({
                             msg: "请输入电子邮箱"
                         });
@@ -1130,37 +1134,37 @@
                             msg: "请选择婚姻状况"
                         });
                         return false;
-                    } else if (this.message.EMPLOYEE_ID_CARD_ADDR == "") {
+                    } else if (!this.message.EMPLOYEE_ID_CARD_ADDR) {
                         summer.toast({
                             msg: "请输入身份证地址"
                         });
                         return false;
-                    } else if (this.message.CR_NATU_HOME_ADDRESS == "") {
+                    } else if (!this.message.CR_NATU_HOME_ADDRESS) {
                         summer.toast({
                             msg: "请输入家庭地址"
                         });
                         return false;
-                    } else if (this.message.CR_MAILING_ADDRESS == "") {
+                    } else if (!this.message.CR_MAILING_ADDRESS) {
                         summer.toast({
                             msg: "请输入邮寄地址"
                         });
                         return false;
-                    } else if (this.message.CR_NATU_WORK_ADDRESS == "") {
+                    } else if (!this.message.CR_NATU_WORK_ADDRESS) {
                         summer.toast({
                             msg: "请输入单位地址"
                         });
                         return false;
-                    } else if (this.message.CR_NATU_ZIP == "") {
+                    } else if (!this.message.CR_NATU_ZIP) {
                         summer.toast({
                             msg: "请输入家庭地址邮编"
                         });
                         return false;
-                    } else if (this.message.CR_NATU_POSITION_ZIPCODE == "") {
+                    } else if (!this.message.CR_NATU_POSITION_ZIPCODE) {
                         summer.toast({
                             msg: "请输入邮寄地址邮编"
                         });
                         return false;
-                    } else if (this.message.CR_CORP_COMPANY_ZIP == "") {
+                    } else if (!this.message.CR_CORP_COMPANY_ZIP) {
                         summer.toast({
                             msg: "请输入单位地址邮编"
                         });
@@ -1297,8 +1301,6 @@
                         return;
                     };
                     var paramData = this.saveParams();
-                    console.log(paramData);
-                    return;
                     summer.showProgress();
                     ajaxRequest({
                         type: 'post',
@@ -1370,8 +1372,6 @@
                         return;
                     };
                     var paramData = this.saveParams();
-                    console.log(paramData);
-                    return;
                     var self = this;
                     if (self.isAdd) {
                         summer.openWin({
@@ -1467,13 +1467,19 @@
             newCreateCustom.clintId = clintId;
             var customBaseMessage = summer.pageParam.personBaseMessage;
             if (sourceFrom == "newCreateCustom_verify" && customBaseMessage) {
-                /* newCreateCustom.message.genderNm = customBaseMessage.sex;
-                newCreateCustom.message.genderCd = customBaseMessage.sex == "男" ? "1" : "2";
-                newCreateCustom.message.age = customBaseMessage.age;
-                newCreateCustom.message.birthday = customBaseMessage.birth;
-                newCreateCustom.message.cstBscInfo.cstNm = customBaseMessage.cstNm;
-                newCreateCustom.message.cstBscInfo.certNo = customBaseMessage.certNo;
-                newCreateCustom.message.cstBscInfo.cstPhoneNumber = customBaseMessage.cstPhoneNumber; */
+                // 添加客户
+                // 姓名
+                newCreateCustom.message.CR_BECR_NAME = customBaseMessage.cstNm;
+                // 手机号
+                newCreateCustom.message.CR_NATU_MOBILE = customBaseMessage.cstPhoneNumber;
+                // 身份证号
+                newCreateCustom.message.CR_NATU_IDCARD = customBaseMessage.certNo;
+                // 证件类型
+                newCreateCustom.message.CR_ID_CARD_TYPE_NAME = "身份证";
+                // 性别
+                newCreateCustom.message.CR_NATU_SEX = customBaseMessage.sex;
+                // 出生日期
+                newCreateCustom.message.CR_BIRTH_DATE = customBaseMessage.birth;
             }
             // 获取信息
             newCreateCustom.getData(projectId, newCreateCustom.clintId, type);

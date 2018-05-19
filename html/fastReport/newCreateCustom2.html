@@ -374,7 +374,7 @@
                 // 校验
                 messageTest: function () {
                     var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
-                    if (this.personMes.CR_NATU_MATE_NAME == "") {
+                    if (!this.personMes.CR_NATU_MATE_NAME) {
                         summer.toast({
                             msg: "姓名不能为空"
                         });
@@ -384,7 +384,7 @@
                             msg: "请选择证件类型"
                         });
                         return false;
-                    } else if (this.personMes.CR_NATU_MATE_IDCARD == "") {
+                    } else if (!this.personMes.CR_NATU_MATE_IDCARD) {
                         summer.toast({
                             msg: "证件号码不能为空"
                         });
@@ -394,12 +394,12 @@
                             msg: "请选择性别"
                         });
                         return false;
-                    } else if (this.personMes.CR_NATU_MATE_MOBILE == "") {
+                    } else if (!this.personMes.CR_NATU_MATE_MOBILE) {
                         summer.toast({
                             msg: "手机号不能为空"
                         });
                         return false;
-                    } else if (!phoneCard.test(this.message.cstNpSocialRl.mp)) {
+                    } else if (!phoneCard.test(this.personMes.CR_NATU_MATE_MOBILE)) {
                         summer.toast({
                             msg: "手机号格式不正确"
                         });
@@ -409,27 +409,27 @@
                             msg: "请选择出生日期"
                         });
                         return false;
-                    } else if (this.personMes.CR_MATE_HOME_ADDRESS == "") {
+                    } else if (!this.personMes.CR_MATE_HOME_ADDRESS) {
                         summer.toast({
                             msg: "家庭地址不能为空"
                         });
                         return false;
-                    } else if (this.personMes.CR_NATU_MATE_WORK_UNITS == "") {
+                    } else if (!this.personMes.CR_NATU_MATE_WORK_UNITS) {
                         summer.toast({
                             msg: "工作单位不能为空"
                         });
                         return false;
-                    } else if (this.personMes.CR_NATU_MATE_IDCARD_ADDRESS == "") {
+                    } else if (!this.personMes.CR_NATU_MATE_IDCARD_ADDRESS) {
                         summer.toast({
                             msg: "身份证地址不能为空"
                         });
                         return false;
-                    } else if (this.personMes.CR_MATE_MAILING_ADDRESS_DZ == "") {
+                    } else if (!this.personMes.CR_MATE_MAILING_ADDRESS_DZ) {
                         summer.toast({
                             msg: "邮寄地址不能为空"
                         });
                         return false;
-                    } else if (this.personMes.CR_NATU_MATE_WORK_ADDRESS == "") {
+                    } else if (!this.personMes.CR_NATU_MATE_WORK_ADDRESS) {
                         summer.toast({
                             msg: "工作单位地址不能为空"
                         });
