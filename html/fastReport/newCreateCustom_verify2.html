@@ -129,7 +129,7 @@
                 <p class="pl10 pr10  um-box">
                     <span class="um-bf1">配偶证件类型</span>
                     <span class="um-bf1 tr">
-                        <span v-if='message.isHasLicenseNm' class="first">{{message.isHasLicenseNm}}</span>
+                        <span v-if="message.isHasLicenseNm" class="first">{{ message.isHasLicenseNm }}</span>
                         <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
                     </span>
@@ -150,7 +150,7 @@
             </div>
         </div>
         <mt-popup v-model="pickerIsHasLicenseStatus" position='bottom' class="pickerColor">
-            <mt-picker :slots="slots2" @change="onValuesChange2"></mt-picker>
+            <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
             <p>
                 <span class="" @click="surePickerIsHasLicense">取消</span>
                 <span class="" @click="surePickerIsHasLicense('confirm')">确定</span>
@@ -171,14 +171,11 @@
             el: '#app',
             data: function () {
                 return {
-                    cardShow: false,
-                    cardUrl: "",
-                    pickerVisible: "",
                     pickerIsHasLicenseStatus: false,
                     pickerIsHasLicense: "",
-                    slots2: [{
+                    slots: [{
                         flex: 1,
-                        values: ['身份证', '军官证'],
+                        values: [],
                         defaultIndex: 0,
                         className: 'slot1',
                         textAlign: 'center'
@@ -186,9 +183,16 @@
                     message: {
                         cstNm: '',
                         certNo: '',
+                        isHasLicenseNm: ""
                     },
-                    sourceFrom: '',
-                    personMessage: '',
+                    // 客户信息字段
+                    prevParams: "",
+                    // 全部数据
+                    totalData: "",
+                    // 性别
+                    sexValues: "",
+                    // 教育（学历）
+                    eduValues: ""
                 }
             },
             computed: {
@@ -213,6 +217,11 @@
                             msg: "姓名不能为空"
                         });
                         return false;
+                    } else if (this.message.isHasLicenseNm == "") {
+                        summer.toast({
+                            msg: "请选择证件类型"
+                        });
+                        return false;
                     } else if (this.message.certNo == "" || regCard.test(this.message.certNo) === false) {
                         summer.toast({
                             msg: "请输入正确的身份证号"
@@ -229,15 +238,21 @@
                     summer.showProgress();
                     ajaxRequest({
                         type: 'post',
-                        url: 'appservice/customer/cstbscinfo/getExistNp.do',
+                        url: 'customer/verifyCustInfo',
                         param: {
-                            cstNm: self.message.cstNm,
-                            certNo: self.message.certNo,
-                            cstTypCd: '1'
+                            // 姓名
+                            name: self.message.cstNm,
+                            // 身份证号
+                            code: self.message.certNo
                         }
                     }, function (res) {
                         summer.hideProgress();
-                        if (res.data.flag == 1) {
+                        /* if (res.data.flag == 0) {
+                            summer.toast({
+                                msg: res.data.msg
+                            });
+                        } */
+                        if (res.data.flag == 1 || res.data.flag == 0) {
                             var sponseBase = self.message;
                             sponseBase.genderNm = self.SEXCOM;
                             summer.openWin({
@@ -263,9 +278,19 @@
                                     }]
                                 },
                                 pageParam: {
-                                    personMessage: self.personMessage,
                                     sourceFrom: "newCreateCustom_verify2",
-                                    sponseBase: sponseBase
+                                    // 携带下一页面的字段（姓名，身份证号，证件类型，性别）
+                                    sponseBase: sponseBase,
+                                    // 全部数据（字典）
+                                    totalData: self.totalData,
+                                    // 性别
+                                    sexValues: self.sexValues,
+                                    // 教育
+                                    eduValues: self.eduValues,
+                                    // 客户信息字段
+                                    prevParams: self.prevParams,
+                                    // 证件类型
+                                    cardValues: self.slots[0].values
                                 }
                             });
 
@@ -284,18 +309,13 @@
                         summer.hideProgress();
                     });
                 },
-                onValuesChange2: function (picker, values) {
+                onValuesChange: function (picker, values) {
                     this.pickerIsHasLicense = values[0];
                 },
                 surePickerIsHasLicense: function (param) {
                     this.pickerIsHasLicenseStatus = !this.pickerIsHasLicenseStatus;
                     if (param == 'confirm') {
                         this.message.isHasLicenseNm = this.pickerIsHasLicense;
-                        if (this.message.isHasLicenseNm == "是") {
-                            this.message.isHasLicense = 1;
-                        } else {
-                            this.message.isHasLicense = 2;
-                        }
                     }
                 }
             }
@@ -305,20 +325,16 @@
             newCreateCustom.verifyMessage();
         }
         summerready = function () {
-            var personMessage = summer.pageParam.personMessage;
-            newCreateCustom.personMessage = personMessage;
-            var params = ["android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_COARSE_LOCATION",
-                "android.permission.CAMERA", "android.permission.FLASHLIGHT",
-                "android.permission.READ_EXTERNAL_STORAGE",
-                "android.permission.READ_PHONE_STATE",
-                "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.ACCESS_FINE_LOCATION",
-                "android.permission.ACCESS_COARSE_LOCATION"
-            ];
-            summer.getPermission(params, function (args) {
-                //alert(args); //成功返回OK
-            }, function (args) {
-                //alert(args); //失败返回illegal access
-            })
+            // 证件类型
+            newCreateCustom.slots[0].values = summer.pageParam.cardValues;
+            // 客户信息字段
+            newCreateCustom.prevParams = summer.pageParam.prevParams;
+            // 全部数据（字典）
+            newCreateCustom.totalData = summer.pageParam.totalData;
+            // 性别
+            newCreateCustom.sexValues = summer.pageParam.sexValues;
+            // 教育（学历）
+            newCreateCustom.eduValues = summer.pageParam.eduValues;
         }
     </script>
 </body>

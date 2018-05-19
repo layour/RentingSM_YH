@@ -644,7 +644,32 @@
                         textAlign: 'center'
                     }],
                     // 信息详情
-                    message: {},
+                    message: {
+                        // 证件号码
+                        CR_NATU_IDCARD: "",
+                        // 手机号码
+                        CR_NATU_MOBILE: "",
+                        // 客户类型
+                        CR_BECR_TYPE: "",
+                        // 工作单位
+                        CR_NATU_WORK_UNITS: "",
+                        // 电子邮箱
+                        EMPLOYEE_EMAIL: "",
+                        // 身份证地址
+                        EMPLOYEE_ID_CARD_ADDR: "",
+                        // 家庭地址
+                        CR_NATU_HOME_ADDRESS: "",
+                        // 邮寄地址
+                        CR_MAILING_ADDRESS: "",
+                        // 单位地址
+                        CR_NATU_WORK_ADDRESS: "",
+                        // 家庭地址邮编
+                        CR_NATU_ZIP: "",
+                        // 邮寄地址邮编
+                        CR_NATU_POSITION_ZIPCODE: "",
+                        // 单位地址邮编
+                        CR_CORP_COMPANY_ZIP: ""
+                    },
                     // 全部数据
                     totalData: '',
                     // 配偶信息
@@ -671,11 +696,11 @@
                         url: 'customer/doCustomerPage',
                         param: {
                             /* 真实 */
-                            "CUSTOMER_ID": clintId,
-                            "CR_BECR_TYPE": CR_BECR_TYPE
+                            // "CUSTOMER_ID": clintId,
+                            // "CR_BECR_TYPE": CR_BECR_TYPE
                             /* 测试用 */
-                            // "CUSTOMER_ID": "240634",
-                            // "CR_BECR_TYPE": 1
+                            "CUSTOMER_ID": "240634",
+                            "CR_BECR_TYPE": 1
                         }
                     }, function (res) {
                         summer.hideProgress();
@@ -1313,9 +1338,8 @@
                                 msg: "保存成功"
                             });
                             if (self.sourceFrom == "newCreateCustom_verify") {
-                                var clint_Id = res.data.datas.cstId;
+                                var clint_Id = res.data.datas.EMPLOYEE_ID;
                                 self.clintId = clint_Id;
-                                self.message.id = res.data.datas.npId; //保存详情id
                                 summer.openWin({
                                     id: 'setProject',
                                     url: 'html/fastReport/setProject.html',
@@ -1397,8 +1421,19 @@
                                 }]
                             },
                             pageParam: {
-                                personMessage: self.message,
-                                sourceFrom: self.sourceFrom
+                                // 全部数据
+                                totalData: self.totalData,
+                                // 信息详情
+                                // personMessage: self.message,
+                                // sourceFrom: self.sourceFrom,
+                                // 证件类型
+                                cardValues: self.slots1[0].values,
+                                // 性别
+                                sexValues: self.slots2[0].values,
+                                // 教育（学历）
+                                eduValues: self.totalData.CR_NATU_MATE_EDUCATION_DIC,
+                                // 客户信息字段
+                                prevParams: paramData
                             }
                         });
                     } else {

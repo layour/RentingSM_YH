@@ -155,14 +155,16 @@
 				</div>
 			</div>
         </div>
-        <!-- 选择法人、自然人 -->
-        <mt-popup v-model="pickerTypeShow" position="bottom" class="pickerColor">
-            <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
-            <p>
-                <span class="" @click="surePickerType">取消</span>
-                <span class="" @click="surePickerType('confirm')">确定</span>
-            </p>
-        </mt-popup>
+        <div class="um-footer">
+            <!-- 选择法人、自然人 -->
+            <mt-popup v-model="pickerTypeShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerType">取消</span>
+                    <span class="" @click="surePickerType('confirm')">确定</span>
+                </p>
+            </mt-popup>
+        </div>
 	</div>
 </body>
 <script src="../../js/summer.js"></script>

@@ -257,7 +257,24 @@
             el: '#app',
             data: function () {
                 return {
-                    personMes: '',
+                    personMes: {
+                        // 姓名
+                        CR_NATU_MATE_NAME: "",
+                        // 证件号码
+                        CR_NATU_MATE_IDCARD: "",
+                        // 手机号码
+                        CR_NATU_MATE_MOBILE: "",
+                        // 家庭地址
+                        CR_MATE_HOME_ADDRESS: "",
+                        // 工作单位
+                        CR_NATU_MATE_WORK_UNITS: "",
+                        // 身份证地址
+                        CR_NATU_MATE_IDCARD_ADDRESS: "",
+                        // 邮寄地址
+                        CR_MATE_MAILING_ADDRESS_DZ: "",
+                        // 工作单位地址
+                        CR_NATU_MATE_WORK_ADDRESS: ""
+                    },
                     totalData: '',
                     // 客户信息字段
                     prevParams: "",
@@ -591,17 +608,31 @@
             var prevParams = summer.pageParam.prevParams;
             var sponseBase = summer.pageParam.sponseBase;
             var sourceFrom = summer.pageParam.sourceFrom;
+            newCreateCustom.sourceFrom = sourceFrom;
             if (sourceFrom == "newCreateCustom_verify2") {
+                // 新增
                 if (sponseBase) {
-                    newCreateCustom.message.cstNpSocialRl.rlNm = sponseBase.cstNm;
-                    newCreateCustom.message.cstNpSocialRl.certNo = sponseBase.certNo;
-                    newCreateCustom.message.cstNpSocialRl.genderCd = sponseBase.genderNm == "男" ? "1" : "2";
+                    // 全部数据
+                    newCreateCustom.totalData = totalData;
+                    // 证件类型
+                    newCreateCustom.slots1[0].values = cardValues;
+                    // 性别
+                    newCreateCustom.slots2[0].values = sexValues;
+                    // 教育（学历）
+                    newCreateCustom.slots3[0].values = eduValues;
+                    // 客户信息字段
+                    newCreateCustom.prevParams = prevParams;
+                    // 姓名，身份证号，证件类型，性别赋值
+                    newCreateCustom.personMes.CR_NATU_MATE_NAME = sponseBase.cstNm;
+                    newCreateCustom.personMes.CR_NATU_MATE_IDCARD = sponseBase.certNo;
+                    newCreateCustom.personMes.CR_NATU_MATE_DOCUMENT_NAME = sponseBase.isHasLicenseNm;
+                    newCreateCustom.personMes.CR_NATU_MATE_SEX = sponseBase.genderNm;
                 }
             } else {
                 if (personMessage) {
                     // 全部数据
                     newCreateCustom.totalData = totalData;
-                    // 存配偶信息
+                    // 配偶信息（客户详情表）
                     newCreateCustom.personMes = personMessage;
                     // 证件类型
                     newCreateCustom.slots1[0].values = cardValues;
@@ -613,7 +644,6 @@
                     newCreateCustom.prevParams = prevParams;
                 }
             }
-            newCreateCustom.sourceFrom = sourceFrom;
         }
     </script>
 
