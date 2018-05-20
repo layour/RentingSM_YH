@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../../css/fonts/iconfont.css">
+    <script src="../../../js/font.js"></script>
+    <style>
+        input::-webkit-input-placeholder {
+            color: #DEDEDE;
+            font-size: 0.28rem;
+        }
+
+        div.item {
+            /* line-height: 0.88rem; */
+            line-height: 44px;
+            background: #ffffff;
+            border-bottom: 1px solid #f7f7f7;
+            font-size: 0.28rem;
+            height: 44px;
+        }
+        div.item.remark{
+            border-width: 0px;
+        }
+        div.item span {
+            color: #333;
+        }
+
+        div.item span i {
+            color: #dbdbdb;
+        }
+
+        .pickerColor {
+            width: 100%;
+            z-index: 10;
+            background: #ffffff;
+        }
+
+        .pickerColor>p {
+            line-height: .88rem;
+            padding: 0 .56rem;
+            color: #039BE5;
+            border-top: 1px solid #E0E0E0;
+            overflow: hidden;
+        }
+
+        .pickerColor>p span {
+            color: #34aadc;
+        }
+
+        .mint-cell-wrapper {
+            background-size: 100% 0px;
+            border-bottom: 1px solid #f7f7f7;
+        }
+
+        .pickerColor>p span:last-child {
+            float: right;
+        }
+
+        .pickerColor>p span:first-child {
+            float: left;
+        }
+
+        .item .first {
+
+            color: #333;
+        }
+
+        .item .second {
+            color: #9e9e9e;
+        }
+
+        .um-footer {
+            min-height: 0px;
+        }
+
+        .item input {
+            border: none;
+            height: .5rem;
+            width: 2.92rem;
+            text-align: right;
+            line-height: .5rem;
+            outline: none;
+            margin-top: .2rem;
+            font-size: 0.28rem;
+        }
+        #question {
+            word-break: break-all;
+            display: block;
+            width: 100%;
+            height: 1.6rem;
+            line-height: 0.4rem;
+            text-indent: 1em;
+            resize: none;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            text-align: justify;
+            outline: none;
+            border: none;
+            border-color: #fff;
+            font-size: 0.28rem;
+            }
+
+            #question::-webkit-input-placeholder {
+            text-indent: 1.1em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="um-win" id="app" v-cloak>
+        <div class="um-content">
+            <div class="item um-box pl10 pr10">
+                    <span class="um-bf1">法定代表人姓名</span>
+                    <input placeholder="请输入法定代表人姓名" type="text" v-model="message.NAME" class="um-bf3">
+                </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-bf1">身份证号</span>
+                <input placeholder="请输入您的身份证号" type="number" v-model="message.CARD_ID" class="um-bf3">
+            </div>
+            <div class="item um-box pl10 pr10">
+                    <span class="um-bf1">手机号码1</span>
+                    <input placeholder="请输入您的手机号码1" type="number" v-model="message.PHONE1" class="um-bf3">
+            </div>
+            <div class="item remark" >
+                    <p class="pl10 pr10 tr">
+                        <span class="fl">担保人能力评价</span>
+                    </p>
+                    <textarea id="question" v-model="message.ABILITY_EVALUATION" placeholder="请填写担保人能力评价" ></textarea>
+           </div>
+        </div>
+    </div>
+    <script src="../../../js/summer.js"></script>
+    <script src="../../../js/jquery.min.js"></script>
+    <script src="../../../js/vue.js"></script>
+    <script src="../../../js/mint.js"></script>
+    <script src="../../../js/common.js"></script>
+    <script src="../../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script>
+        var legalContact  = new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    message: {
+                        ID: '',//担保人ID
+                        USER_ID: '',//登陆人ID
+                        INFOR_TYPE:'2',//类型 1法人代表
+                        CREDIT_ID:'',//资信ID
+                        GUARANTOR_ID:'',//法人担保人ID
+                        NAME:'',//姓名
+                        CARD_ID:'',//身份证
+                        PHONE1:'',//联系电话1
+                        ABILITY_EVALUATION:''//担保人能力评价
+                    },
+                }
+            },
+            methods: {
+                messageTest: function () {
+                    var regCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; //身份证校验
+                    var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+                    if (this.message.NAME == "") {
+                        summer.toast({
+                            msg: "法定代表人姓名不能为空"
+                        });
+                        return false;
+                    } else if (this.message.CARD_ID == "") {
+                        summer.toast({
+                            msg: "身份证号不能为空"
+                        });
+                        return false;
+                    }  else if (this.message.PHONE1 == "") {
+                        summer.toast({
+                            msg: "联系电话1不能为空"
+                        });
+                        return false;
+                    }  else if (this.message.ABILITY_EVALUATION == "") {
+                        summer.toast({
+                            msg: "担保人能力评价不能为空"
+                        });
+                        return false;
+                    }  
+                    return true;
+                },
+                complete: function() {
+					var self=this;
+					if (!this.messageTest()) {
+						return;
+					};
+					var paramData;
+					paramData = self.message;
+					//放入登陆人ID
+					if(userId()){
+						paramData.USER_ID = userId();
+					}
+					ajaxRequest({
+						type: 'post',
+						url: 'foundproject/saveTcustInformation',
+						param: paramData
+					}, function(res) {
+						summer.hideProgress();
+						if (res.data.flag == 1) {
+								summer.toast({msg:"保存成功"});
+								summer.execScript({
+									winId: "newSponsorCompanyList",
+									script: "addRight('legalContact')"
+								});
+								summer.closeWin()
+						}
+					}, function(err) {
+						alert(err);
+						console.log(err);
+						summer.hideProgress();
+					});
+				},
+              
+            }
+        })
+        function save(){
+            legalContact.complete();
+        }
+        summerready = function () {
+             var CREDIT_ID = summer.pageParam.CREDIT_ID;
+             legalContact.message.CREDIT_ID = CREDIT_ID;
+            
+        }
+        $(function(){
+			$('body').height($('body')[0].clientHeight);
+		});
+    </script>
+</body>
+
+</html>

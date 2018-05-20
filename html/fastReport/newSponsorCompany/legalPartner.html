@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../../css/fonts/iconfont.css">
+    <script src="../../../js/font.js"></script>
+    <style>
+        input::-webkit-input-placeholder {
+            color: #DEDEDE;
+            font-size: 0.28rem;
+        }
+
+        div.remark  p {
+            /* line-height: 0.88rem; */
+            line-height: 44px;
+            background: #ffffff;
+            border-bottom: 1px solid #f7f7f7;
+            font-size: 0.28rem;
+            height: 44px;
+        }
+        div.remark{
+            border-width: 0px;
+        }
+        .remark input {
+            border: none;
+            height: 100%;
+            width: 80%;
+            outline: none;
+            font-size: 0.28rem;
+        }
+        .remark p span.add{
+            display: inline-block;
+            width: 20px;
+            height:20px;
+            text-align:center;
+            line-height:20px;
+            background:#1bb5ec;
+            border-radius: 50% 50%;
+            color: #fff;
+            font-size: 18px;
+            margin-right: 5px;
+        }
+        .remark p span.delete{
+            display: inline-block;
+            width: 20px;
+            height:20px;
+            text-align:center;
+            line-height:20px;
+            background:red;
+            border-radius: 50% 50%;
+            color: #fff;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        #question {
+            word-break: break-all;
+            display: block;
+            width: 100%;
+            height: 1.6rem;
+            line-height: 0.4rem;
+            resize: none;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            text-align: justify;
+            outline: none;
+            border: none;
+            border-color: #fff;
+            font-size: 0.28rem;
+            padding:0.2rem;
+            border-bottom:1px solid #f7f7f7;
+            margin-bottom:0.2rem;
+            }
+
+            #question::-webkit-input-placeholder {
+               color: #DEDEDE;
+           }
+    </style>
+</head>
+
+<body>
+    <div class="um-win" id="app" v-cloak>
+        <div class="um-content">
+            <div class="remark"   v-for="(item,index) in message.corpShareholderArray" :key = "index">
+                    <p class="pl10 pr10 ">
+                            <span class="delete" v-show="index>0" @click="deleteBank(index)">一</span> <span >股东成员{{index+1}}:</span>
+                    </p>
+                    <p class="pl10 pr10 "><input placeholder="请输入股东名称" type="text" v-model="item.BANK_NAME"  ></p>
+                    <p class="pl10 pr10 "><input placeholder="请输入股东出资情况" type="number" v-model="item.HOLDER_CAPITAL"  > <span class="fr">(万元)</span></p> 
+                    <p class="pl10 pr10 "><input placeholder="请输入股东出资方式" type="number" v-model="item.HOLDER_WAY"  ></p>   
+                    <p class="pl10 pr10 "><input placeholder="请输入股东比例" type="number" v-model="item.HOLDER_RATE"  > <span class="fr">%</span></p>
+                    
+                            <textarea id="question" v-model="message.HOLDER_MOME" placeholder="备注" ></textarea>
+                      
+           </div>
+           <div class="remark" @click="addBnk">
+                <p class="pl10 pr10"> <span class="add">+</span>  添加股东</p>
+           </div>
+        </div>
+    </div>
+    <script src="../../../js/summer.js"></script>
+    <script src="../../../js/jquery.min.js"></script>
+    <script src="../../../js/vue.js"></script>
+    <script src="../../../js/mint.js"></script>
+    <script src="../../../js/common.js"></script>
+    <script src="../../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script>
+        var legalPartner  = new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    message: {
+                        USER_ID: '',//登陆人ID
+                        CREDIT_ID:'',//资信ID
+                        GUARANTOR_ID:'',//法人担保人ID
+                        corpShareholderArray:[{//股东信息列表
+                            HOLDER_NAME:'',//股东名称
+                            HOLDER_CAPITAL:'',//出资情况
+                            HOLDER_WAY:'',//出资方式
+                            HOLDER_RATE:'',//股东比例
+                            HOLDER_MOME:''//备注
+                        }]
+                        
+                    },
+                }
+            },
+            methods: {
+                messageTest: function () {
+                    var regCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; //身份证校验
+                    var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+                    if (this.message.corpShareholderArray[0].HOLDER_NAME == "") {
+                        summer.toast({
+                            msg: "股东名称不能为空"
+                        });
+                        return false;
+                    } else if (this.message.corpShareholderArray[0].HOLDER_CAPITAL == "") {
+                        summer.toast({
+                            msg: "出资情况不能为空"
+                        });
+                        return false;
+                    } else if (this.message.corpShareholderArray[0].HOLDER_WAY == "") {
+                        summer.toast({
+                            msg: "出资方式不能为空"
+                        });
+                        return false;
+                    }   else if (this.message.corpShareholderArray[0].HOLDER_RATE == "") {
+                        summer.toast({
+                            msg: "股东比例不能为空"
+                        });
+                        return false;
+                    }     
+                    return true;
+                },
+                addBnk:function(){
+                    this.message.corpShareholderArray.push({//股东信息列表
+                            HOLDER_NAME:'',//股东名称
+                            HOLDER_CAPITAL:'',//出资情况
+                            HOLDER_WAY:'',//出资方式
+                            HOLDER_RATE:'',//股东比例
+                            HOLDER_MOME:''//备注
+                        });
+                },
+                deleteBank:function(index){
+                    this.message.corpShareholderArray.splice(index,1);
+                },
+                complete: function() {
+					var self=this;
+					if (!this.messageTest()) {
+						return;
+					};
+					var paramData;
+					paramData = self.message;
+					//放入登陆人ID
+					if(userId()){
+						paramData.USER_ID = userId();
+					}
+					ajaxRequest({
+						type: 'post',
+						url: 'foundproject/saveTCustCorpShareholder',
+						param: paramData
+					}, function(res) {
+						summer.hideProgress();
+						if (res.data.flag == 1) {
+								summer.toast({msg:"保存成功"});
+								summer.execScript({
+									winId: "newSponsorCompanyList",
+									script: "addRight('legalPartner')"
+								});
+								summer.closeWin()
+						}
+					}, function(err) {
+						console.log(err);
+						summer.hideProgress();
+					});
+				},
+              
+            }
+        })
+        function save(){
+            legalPartner.complete();
+        }
+        summerready = function () {
+             var CREDIT_ID = summer.pageParam.CREDIT_ID;
+             legalPartner.message.CREDIT_ID = CREDIT_ID;
+        }
+        $(function(){
+			$('body').height($('body')[0].clientHeight);
+		});
+    </script>
+</body>
+
+</html>
