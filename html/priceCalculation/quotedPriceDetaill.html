@@ -1411,6 +1411,18 @@
 					},
 					quotedTest:function(){
 						var _this=this
+						if(!this.SCHEME_NAME || this.LEASE_COURSE || !this.LLPZ || !this.PAY_WAY || !this.PREMIUMS || !this.RPZSF || !this.QUOTA || !this.BXNX || !this.CCSNX || !this.FKGZ || !this.TQGH || !this.QMCLFS || !this.GPSAZ || !this.SFLYS){
+							summer.toast({msg:'请先完善报价信息'})
+							return
+						}
+						if(!this.EQU_MONEY_ALL || !this.bxf_jrfs_name || !this.byf_jrfs_name || !this.buy_tax_jrfs_name || !this.sj_jrfs_name) || !this.jpzh_jrfs_name) || !this.ccs_jrfs_name) || !this.sh_jrfs_name) || !this.gps_jrfs_name)){
+							summer.toast({msg:'请先完善报价信息'})
+							return
+						}
+						if(this.LEASE_TERM==='' || this.YEAR_INTEREST==='' || this.GHTIME==='' || this.HEAD_HIRE==='' || this.FINAL_FEE==='' || this.SXF==='' || this.LEASE_BAIL==='' || this.BXF_PRICE==='' || this.BYF_PRICE==='' || this.BUY_TAX_PRICE==='' || this.SJ_PRICE==='' || this.JPZH_PRICE==='' || this.CCS_PRICE==='' || this.SH_MONEY==='' || this.GPS_MONEY===''){
+							summer.toast({msg:'请先完善报价信息'})
+							return
+						}
 						summer.showProgress();
 						var param={
 							SCHEME_NAME:this.SCHEME_NAME,  //方案名称
@@ -1512,7 +1524,7 @@
 							GPSAZ:this.GPSAZ_ID,  //GPS安装
 							SFLYS:this.SFLYS_ID,  //是否留钥匙
 							EQU_MONEY_ALL:this.EQU_MONEY_ALL, //设备金额
-							LEASE_TOPRIC:this.LEASE_TOPRIC,
+							LEASE_TOPRIC:this.LEASE_TOPRIC,  //总额
 							HEAD_HIRE:this.HEAD_HIRE,   //	首期租金
 							HIRE_PERCENT:this.HIRE_PERCENT, //首付比例
 							FINAL_FEE:this.FINAL_FEE,  //尾款
@@ -1520,7 +1532,7 @@
 							SXF:this.SXF,           //手续费
 							SXF_RATE:this.SXF_RATE, //手续费比列
 							TOPRIC_SUBFIRENT:this.TOPRIC_SUBFIRENT, //融资额
-							LEASE_BAIL:'', //保证金
+							LEASE_BAIL:this.LEASE_BAIL, //保证金
 							BAIL_PERCENT:this.BAIL_PERCENT, //保证金比列
 							BZJCLFS:this.BZJCLFS_ID, //保证金处理方式
 							other:[
