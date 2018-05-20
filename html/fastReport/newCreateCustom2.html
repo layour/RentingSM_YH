@@ -328,7 +328,11 @@
                         defaultIndex: 0,
                         className: 'slot1',
                         textAlign: 'center'
-                    }]
+                    }],
+                    // 客户类型
+                    type: "",
+                    // 登陆人ID
+                    USER_ID: ""
                 }
             },
             methods: {
@@ -534,7 +538,8 @@
                                 msg: "保存成功"
                             });
                             if (self.sourceFrom == "newCreateCustom_verify2") {
-                                var clint_Id = res.data.datas.cstId;
+                                // 新增客户配偶，保存成功后回到立项并携带新的客户id
+                                var clint_Id = res.data.datas.EMPLOYEE_ID;
                                 summer.openWin({
                                     id: 'setProject',
                                     url: 'html/fastReport/setProject.html',
@@ -542,7 +547,9 @@
                                     type: 'actionBar',
                                     pageParam: {
                                         source: "customer",
-                                        customId: clint_Id
+                                        customId: clint_Id,
+                                        type: self.type,
+                                        USER_ID: self.USER_ID
                                     },
                                     actionBar: {
                                         title: "快捷报单",
@@ -567,6 +574,7 @@
                                     id: "newCustom"
                                 });
                             } else if (self.sourceFrom == "setProject") {
+                                // 查看客户，配偶，从立项进，退回到立项
                                 summer.closeToWin({
                                     id: "setProject"
                                 });
@@ -611,23 +619,27 @@
             newCreateCustom.sourceFrom = sourceFrom;
             if (sourceFrom == "newCreateCustom_verify2") {
                 // 新增
-                if (sponseBase) {
-                    // 全部数据
-                    newCreateCustom.totalData = totalData;
-                    // 证件类型
-                    newCreateCustom.slots1[0].values = cardValues;
-                    // 性别
-                    newCreateCustom.slots2[0].values = sexValues;
-                    // 教育（学历）
-                    newCreateCustom.slots3[0].values = eduValues;
-                    // 客户信息字段
-                    newCreateCustom.prevParams = prevParams;
-                    // 姓名，身份证号，证件类型，性别赋值
-                    newCreateCustom.personMes.CR_NATU_MATE_NAME = sponseBase.cstNm;
-                    newCreateCustom.personMes.CR_NATU_MATE_IDCARD = sponseBase.certNo;
-                    newCreateCustom.personMes.CR_NATU_MATE_DOCUMENT_NAME = sponseBase.isHasLicenseNm;
-                    newCreateCustom.personMes.CR_NATU_MATE_SEX = sponseBase.genderNm;
-                }
+                /* if (sponseBase) {
+                } */
+                // 全部数据
+                newCreateCustom.totalData = totalData;
+                // 证件类型
+                newCreateCustom.slots1[0].values = cardValues;
+                // 性别
+                newCreateCustom.slots2[0].values = sexValues;
+                // 教育（学历）
+                newCreateCustom.slots3[0].values = eduValues;
+                // 客户信息字段
+                newCreateCustom.prevParams = prevParams;
+                // 客户类型
+                newCreateCustom.type = summer.pageParam.type;
+                // 登陆人ID
+                newCreateCustom.USER_ID = summer.pageParam.USER_ID;
+                // 姓名，身份证号，证件类型，性别赋值
+                /* newCreateCustom.personMes.CR_NATU_MATE_NAME = sponseBase.cstNm;
+                newCreateCustom.personMes.CR_NATU_MATE_IDCARD = sponseBase.certNo;
+                newCreateCustom.personMes.CR_NATU_MATE_DOCUMENT_NAME = sponseBase.isHasLicenseNm;
+                newCreateCustom.personMes.CR_NATU_MATE_SEX = sponseBase.genderNm; */
             } else {
                 if (personMessage) {
                     // 全部数据

@@ -155,17 +155,15 @@
 				</div>
 			</div>
         </div>
-        <div class="um-footer">
-            <!-- 选择法人、自然人 -->
-            <mt-popup v-model="pickerTypeShow" position="bottom" class="pickerColor">
-                <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
-                <p>
-                    <span class="" @click="surePickerType">取消</span>
-                    <span class="" @click="surePickerType('confirm')">确定</span>
-                </p>
-            </mt-popup>
-        </div>
-	</div>
+        <!-- 选择法人、自然人 -->
+        <mt-popup v-model="pickerTypeShow" position="bottom" class="pickerColor">
+            <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
+            <p>
+                <span class="" @click="surePickerType">取消</span>
+                <span class="" @click="surePickerType('confirm')">确定</span>
+            </p>
+        </mt-popup>
+    </div>
 </body>
 <script src="../../js/summer.js"></script>
 <script src="../../js/jquery.min.js"></script>
@@ -323,7 +321,8 @@
                             },
                             pageParam: {
                                 sourceFrom: "newCustom",
-                                type: self.type
+                                type: self.type,
+                                USER_ID: self.USER_ID
                             }
                         });
                     }
@@ -331,12 +330,12 @@
             },
 			completeCustom:function(id, name, type, USER_ID) {
                 var self = this;
-                /* if (type == "法人") {
+                if (type == "法人") {
                     summer.toast({
                         msg: "敬请期待"
                     });
                     return;
-                } */
+                }
 				if (self.pageSource == 'programSelect') {
 					summer.openWin({
 						id: 'setProject',

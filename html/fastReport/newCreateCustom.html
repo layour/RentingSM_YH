@@ -696,11 +696,11 @@
                         url: 'customer/doCustomerPage',
                         param: {
                             /* 真实 */
-                            // "CUSTOMER_ID": clintId,
-                            // "CR_BECR_TYPE": CR_BECR_TYPE
+                            "CUSTOMER_ID": clintId,
+                            "CR_BECR_TYPE": CR_BECR_TYPE
                             /* 测试用 */
-                            "CUSTOMER_ID": "240634",
-                            "CR_BECR_TYPE": 1
+                            // "CUSTOMER_ID": "240634",
+                            // "CR_BECR_TYPE": 1
                         }
                     }, function (res) {
                         summer.hideProgress();
@@ -1338,6 +1338,7 @@
                                 msg: "保存成功"
                             });
                             if (self.sourceFrom == "newCreateCustom_verify") {
+                                // 新增客户，保存成功后，回到立项并携带新的客户id
                                 var clint_Id = res.data.datas.EMPLOYEE_ID;
                                 self.clintId = clint_Id;
                                 summer.openWin({
@@ -1348,7 +1349,9 @@
                                     isKeep: false,
                                     pageParam: {
                                         source: "customer",
-                                        customId: clint_Id
+                                        customId: clint_Id,
+                                        type: self.CR_BECR_TYPE,
+                                        USER_ID: self.USER_ID
                                     },
                                     actionBar: {
                                         title: "快捷报单",
@@ -1369,6 +1372,7 @@
                                     }
                                 });
                             } else {
+                                // 查看客户，从立项进，回到立项
                                 summer.closeWin();
                             }
                         } else if (res.data.flag == 0) {
@@ -1396,8 +1400,14 @@
                         return;
                     };
                     var paramData = this.saveParams();
+                    var sourceFrom;
                     var self = this;
                     if (self.isAdd) {
+                        sourceFrom = "newCreateCustom_verify2";
+                    } else {
+                        sourceFrom = self.sourceFrom;
+                    }
+                    /* if (self.isAdd) {
                         summer.openWin({
                             id: 'newCreateCustom_verify2',
                             url: 'html/fastReport/newCreateCustom_verify2.html',
@@ -1475,7 +1485,48 @@
                                 prevParams: paramData
                             }
                         });
-                    }
+                    } */
+                    summer.openWin({
+                        id: 'newCreateCustom2',
+                        url: 'html/fastReport/newCreateCustom2.html',
+                        create: false,
+                        type: 'actionBar',
+                        actionBar: {
+                            title: "配偶信息",
+                            titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            backgroundColor: "#039be5",
+                            leftItem: {
+                                image: "img/back.png",
+                                method: "", //返回按钮自定义事件
+                                text: "返回",
+                                textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            },
+                            rightItems: [{
+                                type: "text",
+                                text: "保存",
+                                textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                method: "saveAllPerMessage()" //在打开的window中自定义事件
+                            }]
+                        },
+                        pageParam: {
+                            // 全部数据
+                            totalData: self.totalData,
+                            // 信息详情
+                            personMessage: self.message,
+                            sourceFrom: sourceFrom,
+                            // 证件类型
+                            cardValues: self.slots1[0].values,
+                            // 性别
+                            sexValues: self.slots2[0].values,
+                            // 教育（学历）
+                            eduValues: self.totalData.CR_NATU_MATE_EDUCATION_DIC,
+                            // 客户信息字段
+                            prevParams: paramData,
+                            // 客户类型
+                            type: self.CR_BECR_TYPE,
+                            USER_ID: self.USER_ID
+                        }
+                    });
                 }
             }
         })
