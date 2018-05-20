@@ -340,7 +340,7 @@
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
                 <span class="um-bf1">邮寄地址</span>
-                <input placeholder="请输入邮寄地址" v-model="message.CR_MAILING_ADDRESS" type="text">
+                <input placeholder="请输入邮寄地址" v-model="message.MAILING_ADDRESS_DZ" type="text">
             </div>
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
@@ -660,7 +660,7 @@
                         // 家庭地址
                         CR_NATU_HOME_ADDRESS: "",
                         // 邮寄地址
-                        CR_MAILING_ADDRESS: "",
+                        MAILING_ADDRESS_DZ: "",
                         // 单位地址
                         CR_NATU_WORK_ADDRESS: "",
                         // 家庭地址邮编
@@ -817,8 +817,8 @@
                             });
                             // 邮寄地址字典查询
                             res.data.datas.CR_MAILING_ADDRESS_DIC.forEach(function (e) {
-                                if (e.CODE == self.message.CR_MAILING_ADDRESS) {
-                                    self.message.CR_MAILING_ADDRESS = e.FLAG;
+                                if (e.CODE == self.message.MAILING_ADDRESS_DZ) {
+                                    self.message.MAILING_ADDRESS_DZ = e.FLAG;
                                 }
                             });
                         } else {
@@ -1169,7 +1169,7 @@
                             msg: "请输入家庭地址"
                         });
                         return false;
-                    } else if (!this.message.CR_MAILING_ADDRESS) {
+                    } else if (!this.message.MAILING_ADDRESS_DZ) {
                         summer.toast({
                             msg: "请输入邮寄地址"
                         });
@@ -1302,7 +1302,7 @@
                     params.MAILING_CREDIT_OVERDUE = this.message.MAILING_CREDIT_OVERDUE == "有" ? 1 : 2; // 贷记卡逾期
                     params.EMPLOYEE_ID_CARD_ADDR = this.message.EMPLOYEE_ID_CARD_ADDR; // 身份证地址
                     params.CR_NATU_HOME_ADDRESS = this.message.CR_NATU_HOME_ADDRESS; // 家庭地址
-                    params.MAILING_ADDRESS_DZ = this.message.CR_MAILING_ADDRESS; // 邮寄地址
+                    params.MAILING_ADDRESS_DZ = this.message.MAILING_ADDRESS_DZ; // 邮寄地址
                     params.CR_NATU_WORK_ADDRESS = this.message.CR_NATU_WORK_ADDRESS; // 单位地址
                     params.CR_NATU_ZIP = this.message.CR_NATU_ZIP; // 家庭地址邮编
                     params.CR_NATU_POSITION_ZIPCODE = this.message.CR_NATU_POSITION_ZIPCODE; // 邮寄地址邮编
