@@ -112,16 +112,16 @@
 						<span class="frp"> <i class="customer icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
 					</div>
 				</a>
-				<a href="javascript:void(0);" id="version" onclick="addContact()">
-					<div class="um-list-item-bodys">
-						紧急联系人
-						<span class="frp"> <i class="emergencyContract icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
-					</div>
-				</a>
 				<a href="javascript:void(0);" @click="openBaseMessage(baseMessageData)">
 					<div class="um-list-item-bodys">
 						业务基础信息
 						<span class="frp"> <i class="baseMessage icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div>
+				</a>
+				<a href="javascript:void(0);" id="version" onclick="addContact()">
+					<div class="um-list-item-bodys">
+						紧急联系人
+						<span class="frp"> <i class="emergencyContract icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
 					</div>
 				</a>
 				<a href="javascript:void(0);" onclick="checkVersion('addCarList')">
@@ -268,18 +268,18 @@
 					var self = this;
 					ajaxRequest({
 						type: 'post',
-						url: 'appservice/project/prjcstbscinfo/initList.do',
+						url: 'foundproject/queryGuarantorDetails',
 						param: {
-							"id": self.project_Id,
+							"CREDIT_ID": self.CREDIT_ID,
 						}
 					}, function(res) {
 						summer.hideProgress();
 						if (res.data.flag == 1) {
 							console.log(res.data);
 							if (res.data.datas.warTyp=="法人") {
-								openSponsor('newSponsor_company',res.data.datas.corpWarrList[0]);
+								openSponsor('newSponsor_company',res.data.datas.guarantorDetails.guarantorCorp);
 							} else {
-								openSponsor('newSponsor',res.data.datas.npWarrList[0]);
+								openSponsor('newSponsor',res.data.datas.guarantorDetails.guarantorNp);
 							}
 						}
 					}, function(err) {
@@ -681,7 +681,8 @@
 		}
 		function openSponsor(id,data) {
 			var projectId = setProgect.project_Id;
-			var clientId = setProgect.customId
+			var clientId = setProgect.customId;
+			var CREDIT_ID = setProgect.CREDIT_ID
 			summer.openWin({
 				id: id,
 				url: 'html/fastReport/' + id + '.html',
@@ -706,8 +707,9 @@
 
 				},
 				pageParam: {
-					projectId: projectId,
-					clientId: clientId,
+					projectId: projectId,//项目ID
+					clientId: clientId,//客户ID
+					CREDIT_ID:CREDIT_ID,//资信ID
 					item:data
 				}
 			});
