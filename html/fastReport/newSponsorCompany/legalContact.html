@@ -114,16 +114,16 @@
     <div class="um-win" id="app" v-cloak>
         <div class="um-content">
             <div class="item um-box pl10 pr10">
-                    <span class="um-bf1">法定代表人姓名</span>
-                    <input placeholder="请输入法定代表人姓名" type="text" v-model="message.NAME" class="um-bf3">
+                    <span class="um-bf1">联系人姓名</span>
+                    <input placeholder="请输入联系人姓名" type="text" v-model="message.NAME" class="um-bf3">
                 </div>
             <div class="item um-box pl10 pr10">
                 <span class="um-bf1">身份证号</span>
                 <input placeholder="请输入您的身份证号" type="number" v-model="message.CARD_ID" class="um-bf3">
             </div>
             <div class="item um-box pl10 pr10">
-                    <span class="um-bf1">手机号码1</span>
-                    <input placeholder="请输入您的手机号码1" type="number" v-model="message.PHONE1" class="um-bf3">
+                    <span class="um-bf1">手机号码</span>
+                    <input placeholder="请输入您的手机号码" type="number" v-model="message.PHONE1" class="um-bf3">
             </div>
             <div class="item remark" >
                     <p class="pl10 pr10 tr">
@@ -163,7 +163,7 @@
                     var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
                     if (this.message.NAME == "") {
                         summer.toast({
-                            msg: "法定代表人姓名不能为空"
+                            msg: "联系人姓名不能为空"
                         });
                         return false;
                     } else if (this.message.CARD_ID == "") {
@@ -224,6 +224,8 @@
         summerready = function () {
              var CREDIT_ID = summer.pageParam.CREDIT_ID;
              legalContact.message.CREDIT_ID = CREDIT_ID;
+             var GUARANTOR_ID = summer.pageParam.GUARANTOR_ID
+             legalContact.message.GUARANTOR_ID = GUARANTOR_ID;
             
         }
         $(function(){

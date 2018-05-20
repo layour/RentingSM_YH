@@ -231,7 +231,18 @@
         summerready = function () {
              var CREDIT_ID = summer.pageParam.CREDIT_ID;
              legalRepresent.message.CREDIT_ID = CREDIT_ID;
-            
+             var GUARANTOR_ID = summer.pageParam.GUARANTOR_ID
+             legalRepresent.message.GUARANTOR_ID = GUARANTOR_ID;
+             var itemData = summer.pageParam.itemData;
+             if(itemData){
+                legalRepresent.message.ID = itemData.ID;
+                legalRepresent.message.CREDIT_ID = itemData.CREDIT_ID;
+                legalRepresent.message.NAME = itemData.NAME;
+                legalRepresent.message.CARD_ID = itemData.CARD_ID;
+                legalRepresent.message.ADDRESS = itemData.ADDRESS;
+                legalRepresent.message.PHONE1 = itemData.PHONE1;
+                legalRepresent.message.PHONE2 = itemData.PHONE2;
+             }
         }
         $(function(){
 			$('body').height($('body')[0].clientHeight);

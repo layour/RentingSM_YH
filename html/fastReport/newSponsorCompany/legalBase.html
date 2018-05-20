@@ -284,10 +284,11 @@
 					}, function(res) {
 						summer.hideProgress();
 						if (res.data.flag == 1) {
-								summer.toast({msg:"保存成功"});
+                                summer.toast({msg:"保存成功"});
+                                var GUARANTOR_ID = res.data.datas.GUARANTOR_ID;
 								summer.execScript({
 									winId: "newSponsorCompanyList",
-									script: "addRight('legalBase')"
+									script: "addRight('legalBase',"+GUARANTOR_ID+")"
 								});
 								summer.closeWin()
 						}
@@ -306,6 +307,22 @@
         summerready = function () {
              var CREDIT_ID = summer.pageParam.CREDIT_ID;
              newCreateCustom.message.CREDIT_ID = CREDIT_ID;
+             var itemData = summer.pageParam.itemData;
+             if(itemData){
+                newCreateCustom.message.ID = itemData.ID;
+                newCreateCustom.message.CREDIT_ID = itemData.CREDIT_ID;
+                newCreateCustom.message.UNIT_NAME = itemData.UNIT_NAME;
+                newCreateCustom.message.BUSINESS_NUMBER = itemData.BUSINESS_NUMBER;
+                newCreateCustom.message.OPERATING_PERIOD = itemData.OPERATING_PERIOD;
+                newCreateCustom.message.ORGANIZATION_CODE = itemData.ORGANIZATION_CODE;
+                newCreateCustom.message.REGISTRATION_NUMBER = itemData.REGISTRATION_NUMBER;
+                newCreateCustom.message.DATE_ESTABLISHMENT = itemData.DATE_ESTABLISHMENT;
+                newCreateCustom.message.REGISTERED_CAPITAL = itemData.REGISTERED_CAPITAL;
+                newCreateCustom.message.PAID_CAPITAL = itemData.PAID_CAPITAL;
+                newCreateCustom.message.COMPANY_REGISTERED_ADDRESS = itemData.COMPANY_REGISTERED_ADDRESS;
+                newCreateCustom.message.PRODUCTS = itemData.PRODUCTS;
+                newCreateCustom.message.REMARK = itemData.REMARK;
+             }
             
         }
         $(function(){

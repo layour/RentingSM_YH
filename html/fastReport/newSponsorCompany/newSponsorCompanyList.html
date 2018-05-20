@@ -154,8 +154,13 @@
                 return {
                     projectId: '',//项目ID
                     clientId: '',//客户ID
-                    CREDIT_ID:'',//资信ID
-                    item:''//二次查看保存的法人担保人信息
+					CREDIT_ID:'',//资信ID
+					GUARANTOR_ID:'',//法人担保人ID
+					item:'',//二次查看保存的法人担保人信息
+					guarantorCorpBase:'',//法人担保人基本信息
+					tCustBankAccountList:'',//银行户
+					legalRepresentInfo:'',//法人代表
+					tCustCorpHareHolderList:''//
                 }
             },
             methods:{
@@ -164,6 +169,43 @@
                 },
                 openCompony:function(id,title){
 					var self = this;
+					var itemData;
+					 
+					if(id == 'legalBase'){
+						itemData = self.guarantorCorpBase;
+					}else if(id == 'legalRepresent'){
+						if(!self.GUARANTOR_ID){
+							summer.toast({
+								msg:'请先完善法人基本信息'
+							});
+							return;
+						}
+						itemData = self.legalRepresentInfo;
+					}else if(id == 'legalContact'){
+						if(!self.GUARANTOR_ID){
+							summer.toast({
+								msg:'请先完善法人基本信息'
+							});
+							return;
+						}
+						itemData = self.legalRepresentInfo;
+					}else if(id == 'legalBank'){
+						if(!self.GUARANTOR_ID){
+							summer.toast({
+								msg:'请先完善法人基本信息'
+							});
+							return;
+						}
+						itemData = self.tCustBankAccountList;
+					}else if(id == 'legalPartner'){
+						if(!self.GUARANTOR_ID){
+							summer.toast({
+								msg:'请先完善法人基本信息'
+							});
+							return;
+						}
+						itemData = self.tCustCorpHareHolderList;
+					}
                     summer.openWin({
                         id: id,
                         url: "html/fastReport/newSponsorCompany/"+id+".html",
@@ -171,7 +213,9 @@
                         type: 'actionBar',
                         pageParam: {
                             projectId: self.projectId,
-                            CREDIT_ID: self.CREDIT_ID
+							CREDIT_ID: self.CREDIT_ID,
+							itemData:itemData,
+							GUARANTOR_ID:self.GUARANTOR_ID
                         },
                         actionBar: {
                             title: title,
@@ -205,12 +249,26 @@
             var item= summer.pageParam.item;
             if(item){
 				item = item[0];
+				newSponsorCompanyList.guarantorCorpBase = item.guarantorCorpBase;//法人担保人基本信息
+				newSponsorCompanyList.tCustBankAccountList = item.tCustBankAccountList;//银行卡列表
+				newSponsorCompanyList.legalRepresentInfo = item.legalRepresentInfo;//法人代表
+				newSponsorCompanyList.tCustCorpHareHolderList = item.tCustCorpHareHolderList;//股东信息
 				console.log(item);
                 //将信息保存
             }
 		}
-		function addRight(param) {
+		function addRight(param,GUARANTOR_ID) {
 			$("." + param).addClass('active').siblings('i').addClass("active");
+			if(GUARANTOR_ID){
+				newSponsorCompanyList.GUARANTOR_ID = GUARANTOR_ID;
+			}
+		}
+		function complete(){
+			summer.execScript({
+				winId: "setProject",
+				script: "addRight('sponsor')"
+			});
+			summer.closeWin()
 		}
     </script>
 </body>

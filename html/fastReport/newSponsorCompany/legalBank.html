@@ -164,6 +164,12 @@
         summerready = function () {
              var CREDIT_ID = summer.pageParam.CREDIT_ID;
              legalBank.message.CREDIT_ID = CREDIT_ID;
+             var GUARANTOR_ID = summer.pageParam.GUARANTOR_ID
+             legalBank.message.GUARANTOR_ID = GUARANTOR_ID;
+             var itemData = summer.pageParam.itemData;
+             if(itemData){
+                legalBank.message.custBankArray = itemData;
+             }
         }
         $(function(){
 			$('body').height($('body')[0].clientHeight);
