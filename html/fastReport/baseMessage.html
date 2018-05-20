@@ -22,7 +22,7 @@
 						</li>
 						<li class="item" >
 								<p class="pl10 pr10 tr" @click="selectAllCity">
-										<span class="um-red mr5 fl">*</span><span class="fl">区域</span>
+									<span class="fl">区域</span>
 									<span class="">
 										<span class="first">{{message.AREA_NM}}</span>
 										<i class="icon iconfont icon-enter"></i>
@@ -43,18 +43,18 @@
 							 <span class="right"><span v-if='message.PROJECT_TYPE_NM' class="first">{{message.PROJECT_TYPE_NM}}</span><span v-else class="second">请选择</span> <i class="icon iconfont icon-enter"></i></span>
 						</p>
 					</li>
-					<li class="item um-box pl10 pr10" >
+					<!-- <li class="item um-box pl10 pr10" >
 						<span class="um-bf1">融资租赁公司</span><input  placeholder="请输入融资租赁公司" type="number"    v-model="message.FHFA_ID" class="um-bf3">
-				</li>
-					<!-- <li class="item" >
+				</li> -->
+					<li class="item" >
 						<p class="pl10 pr10 tr" @click="selectCompany">
-								<span class="um-red mr5 fl">*</span><span class="fl">融资租赁公司</span>
+ 							<span class="fl">融资租赁公司</span>
 							<span class="">
-								<span class="first">{{message.FHFA_ID}}</span>
+								<span class="first">{{message.SHORT_NAME}}</span>
 								<i class="icon iconfont icon-enter"></i>
 							</span>
 						</p>
-					</li> -->
+					</li>
 					<li @click="surePickerTargettype"   >
 							<p class="pl10 pr10 tr">
 								<span class="fl">指标类型</span>
@@ -202,6 +202,7 @@
 						PROJECT_TYPE:'',//项目类型
 						PROJECT_TYPE_NM:'',
 						FHFA_ID:'',//融资租赁公司
+						SHORT_NAME:'',//租赁公司名字
 						ZBLX:'',//指标类型
 
 						ZBLX_NM:'',
@@ -391,7 +392,7 @@
 						summer.toast({msg:"项目类型不能为空"});
 						return;
 					}
-					if(this.message.FHFA_ID==""){
+					if(this.message.SHORT_NAME==""){
 						summer.toast({msg:"融资租赁公司不能为空"});
 						return;
 					}

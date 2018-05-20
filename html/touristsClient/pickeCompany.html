@@ -9,6 +9,11 @@
 		<link rel="stylesheet" href="../../css/fonts/iconfont.css">
 		<link rel="stylesheet" href="./car.min.css">
 	</head>
+	<style>
+			ul.dealerList.companyList li{
+				padding:0.15rem 0.56rem;
+			}
+		</style>
 	<body>
 		<div class="um-win" id="pickerModels" v-cloak>
 			<div class="um-content addCar">
@@ -62,28 +67,7 @@
             }
           },
 					methods:{
-						// getData(val){
-						// 	var _this=this;
-						// 	console.log(this.id);
-						// 	ajaxRequest({
-						// 		type:'get',
-						// 		url:'appservice/foundproject/queryCarBrand',
-						// 		param:{
-						// 			BRAND_NAME:val,
-						// 			COMPANY_ID:_this.id
-						// 		}
-						// 	},function(res){
-						// 		console.log("res",res);
-						// 		if(res.data.datas.length==0){
-						// 			createNull("pickerModels")
-						// 		}else {
-						// 			_this.modelsList=res.data.datas
-						// 		}
-						//
-						// 	},function(err){
-						// 		console.log("err",err);
-						// 	})
-						// },
+					 
 						pickerCarModels:function(it){
 							summer.setStorage('pickerCompany',JSON.stringify(it));
 							summer.execScript({
