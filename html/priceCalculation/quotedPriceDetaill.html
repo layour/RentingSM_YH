@@ -281,7 +281,7 @@
                 <b>{{FINAL_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{FINAL_FEE}}&nbsp;元</b>
               </span>
           </li>
-          <li v-else @click="sureFinalPay">
+          <li v-else @click="sureFinalPay" class="spec">
               <b>尾款</b>
               <span>
                 <b v-if="FINAL_RATE">{{FINAL_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{FINAL_FEE}}&nbsp;元</b>
@@ -292,7 +292,7 @@
 
 
 
-          <li>
+          <li class="spec">
               <b>合同总计</b>
               <span><b>{{LEASE_TOPRIC}}</b>&nbsp;元</span>
           </li>
@@ -591,10 +591,45 @@
 						totleFirstM:'', //测算返回首期款
 						MONTH_PRICE:'', //测算返回每期租金
 						term:'', //测算返回期数
-
-
-
-
+						BXF_PRICE:'', //保险费
+						bxf_edit:'',
+						bxf_list:[],
+						bxf_jrfs_name:'',
+						bxf_jrfs_code:'',
+						BYF_PRICE:'', //保养费
+						byf_edit:'',
+						byf_list:[],
+						byf_jrfs_name:'',
+						byf_jrfs_code:'',
+						BUY_TAX_PRICE:'', //购置税
+						buy_tax_edit:'',
+						buy_tax_list:[],
+						buy_tax_jrfs_name:'',
+						buy_tax_jrfs_code:'',
+						SJ_PRICE:'', //上牌税
+						sj_edit:'',
+						sj_list:'',
+						sj_jrfs_name:'',
+						sj_jrfs_code:'',
+						JPZH_PRICE:'', //精品装潢
+						jpzh_edit:'',
+						jpzh_list:[],
+						jpzh_jrfs_name:'',
+						jpzh_jrfs_code:'',
+						CCS_PRICE:'', //车船税
+						ccs_edit:'',
+						ccs_list:[],
+						ccs_jrfs_name:'',
+						ccs_jrfs_code:'',
+						SJ_MONEY:'', // 上海牌照费
+						sj_edit:'',
+						sj_list:[],
+						sj_jrfs_name:'',
+						sj_jrfs_code:'',
+						GPS_MONEY:'', //GPS费
+						gps_list:[],
+						gps_jrfs_name:'',
+						gps_jrfs_code:''
 					}
 				},
 				watch:{
@@ -687,9 +722,9 @@
 									_this.BAIL_PERCENT= projectData.NULL  //保证金比例
 									_this.BZJCLFS=projectData.NULL  //保证金处理方式
 									_this.BZJCLFS_ID=project.BZJCLFS
-									_this.totleFirstM:projectData.NULL //测算返回首期款
-									_this.MONTH_PRICE:projectData.NULL //测返每期租金
-									_this.term:projectData.NULL //测算返回期数
+									_this.totleFirstM=projectData.NULL //测算返回首期款
+									_this.MONTH_PRICE=projectData.NULL //测返每期租金
+									_this.term=projectData.NULL //测算返回期数
 
 									_this.initData()
 								}
@@ -1020,7 +1055,6 @@
 						this.moneyToRate=!this.moneyToRate
 					},
 					toMoneyToRate:function(val,status){
-						console.log(val,status)
 						if(val == 'firstPay'){
 							if(status){  // status=true比例改变 计算金额
 								if(this.firstPayRate<100 && this.checkFloatNmber(this.firstPayRate)){
