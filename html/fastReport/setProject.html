@@ -184,7 +184,7 @@
 		summerready = function() {
 			var sourceId = summer.pageParam.source;
             setProgect.sourceFrom = sourceId;
-            var USER_ID = summer.pageParam.USER_ID; 
+            var USER_ID = summer.pageParam.USER_ID;
             setProgect.USER_ID = USER_ID;
             var type = summer.pageParam.type;
             setProgect.type = type;
@@ -526,10 +526,8 @@
 					create: false,
 					type: 'actionBar',
 					pageParam: {
-						id: setProgect.project_Id,
-						SCHEME_ID: setProgect.SCHEME_ID,//方案ID
-						CREDIT_ID: setProgect.CREDIT_ID,//资信ID
-						PLATFORM: setProgect.PLATFORM//业务类型
+						// id: setProgect.project_Id,
+						id: 23030, //方便调试 写死了
 					},
 					actionBar: {
 						title: title,

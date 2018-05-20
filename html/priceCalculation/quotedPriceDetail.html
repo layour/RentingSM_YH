@@ -863,6 +863,10 @@
 					},
 					pickerFlag:function(val,status){
 						console.log(val,status,this.currentName,JSON.stringify(this.pickingObj))
+            if((val!='schemeType' && val!='schemeName')&& !this.SCHEME_NAME){
+              summer.toast({msg:'请先选择商务政策'})
+              return
+            }
 						if(!status){  // 打开/取消
 							if(val=='schemeType'){
 								this.pickerFlagList[0].values=this.scheme_type_list
@@ -1168,6 +1172,10 @@
 						}
 					},
 					checkVal:function(val){
+            if(!this.SCHEME_NAME){
+              summer.toast({msg:'请先选择商务政策'})
+              return
+            }
 						this.isTest=false
 						if(val=='lease_term'){
 							if(!this.checkIntNmber(this.LEASE_TERM)){
@@ -1415,7 +1423,7 @@
 							summer.toast({msg:'请先完善报价信息'})
 							return
 						}
-						if(!this.EQU_MONEY_ALL || !this.bxf_jrfs_name || !this.byf_jrfs_name || !this.buy_tax_jrfs_name || !this.sj_jrfs_name) || !this.jpzh_jrfs_name) || !this.ccs_jrfs_name) || !this.sh_jrfs_name) || !this.gps_jrfs_name)){
+						if(!this.EQU_MONEY_ALL || !this.bxf_jrfs_name || !this.byf_jrfs_name || !this.buy_tax_jrfs_name || !this.sj_jrfs_name || !this.jpzh_jrfs_name || !this.ccs_jrfs_name || !this.sh_jrfs_name || !this.gps_jrfs_name){
 							summer.toast({msg:'请先完善报价信息'})
 							return
 						}
