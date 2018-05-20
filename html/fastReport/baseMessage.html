@@ -237,17 +237,16 @@
 								 self.message.PLATFORM = baseMessageData.PLATFORM;
 								 self.message.PLATFORM_NM = baseMessageData.PLATFORM;
 								 self.message.FHFA_ID = baseMessageData.FHFA_ID;
+								 self.message.SHORT_NAME = baseMessageData.SHORT_NAME;
 								 self.message.ZBLX = baseMessageData.ZBLX;
 								 self.message.ZBLX_NM = baseMessageData.ZBLX;
-
 								 self.message.CLLX = baseMessageData.CLLX;
 								 self.message.CLLX_NM = baseMessageData.CLLX;
-
 								 self.message.LARGE_AREA = baseMessageData.LARGE_AREA;
 								 self.message.AREA1 = baseMessageData.AREA1;
-
 								 self.message.AREA2 = baseMessageData.AREA2;
 								 self.message.ZBLX_NM = baseMessageData.ZBLX;
+								 self.message.AREA_NM = baseMessageData.LARGE_AREA +' '+baseMessageData.AREA1+' '+baseMessageData.AREA2
 
 						 }
 					 }, function(err) {
