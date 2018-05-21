@@ -849,6 +849,8 @@
 			var clintId = setProgect.customId;
             // 客户类型
             var type = setProgect.type;
+            // 登陆人id
+            var USER_ID = setProgect.USER_ID;
             summer.openWin({
 				id: 'bankList',
 				url: 'html/fastReport/bankList.html',
@@ -873,7 +875,8 @@
 				},
 				pageParam: {
                     clintId: clintId,
-                    type: type
+                    type: type,
+                    USER_ID: USER_ID
 				}
 			});
 		}
