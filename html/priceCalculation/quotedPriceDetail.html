@@ -805,13 +805,13 @@
 								_this.bzjclfs_list=data.BZJCLFSS //是否留钥匙
 
 								_this.EQU_MONEY_ALL=data.EQU_MONEY_ALL
-								var projectData=res.data.datas.project
+								var projectData=res.data.datas.scheme
 								if(projectData){
-									_this.SCHEME_NAME=projectData.SCHEME_NAME
-                  _this.SCHEME_NAME_ID=projectData.SCHEME_ID
+									_this.SCHEME_NAME=projectData.POLICY_NAME
+                  _this.SCHEME_NAME_ID=projectData.POLICY
 									_this.checkDate()
                   _this.LEASE_TERM=projectData.LEASE_TERM
-                  _this.LEASE_COURSE=projectData.NULL
+                  _this.LEASE_COURSE=projectData.LEASE_COURSE_NM
                   _this.LEASE_COURSE_ID=projectData.LEASE_COURSE
 									// 计算年限
 									if(this.LEASE_TERM&&this.LEASE_COURSE_ID){
@@ -819,43 +819,46 @@
 									}else {
 										this.YEAR_LIMIT=''
 									}
-                  _this.LLPZ =projectData.LLPZ
-									_this.LLPZ_ID=projectData.NULL
-									_this.YEAR_INTEREST = projectData.NULL
-                  _this.PAY_WAY=projectData.NULL
+                  _this.LLPZ =projectData.LLPZ_NM
+									_this.LLPZ_ID=projectData.LLPZ
+									_this.YEAR_INTEREST = projectData.YEAR_INTEREST
+                  _this.PAY_WAY=projectData.PAY_WAY_NM
                   _this.PAY_WAY_ID=projectData.PAY_WAY
-									_this.TX=projectData.NULL
+									_this.TX=projectData.PREMIUMS_NM
 									_this.TX_ID=projectData.PREMIUMS
 									_this.TX_M =projectData.PREMIUMS_M
-									_this.RPZSF=projectData.NULL
-									_this.RPZSF_ID=projectData.NULL
-									_this.SFXYZB = projectData.NULL
+									_this.RPZSF=projectData.RPZSF_NM
+									_this.RPZSF_ID=projectData.RPZSF
+									_this.SFXYZB = projectData.SFXYZB_NM
 									_this.SFXYZB_ID = projectData.SFXYZB
-									_this.BXNX = projectData.NULL
+									_this.BXNX = projectData.BXNX_NM
 									_this.BXNX_ID = projectData.BXNX
-									_this.CCSNX = projectData.NULL
+									_this.CCSNX = projectData.BXNX_NM
 									_this.CCSNX_ID = projectData.CCSNX
-									_this.FKGZ = projectData.NULL
+									_this.FKGZ = projectData.FKGZ_NM
 									_this.FKGZ_ID = projectData.FKGZ
-									_this.TQGH = projectData.NULL
+									_this.TQGH = projectData.TQGH_NM
 									_this.TQGH_ID=projectData.TQGH
-									_this.GHTIME =projectData.NULL
-									_this.QMCLFS =projectData.NULL
+									_this.GHTIME =projectData.GHTIME
+									_this.QMCLFS =projectData.QMCLFS_NM
 									_this.QMCLFS_ID =projectData.QMCLFS
-									_this.GPSAZ=projectData.NULL
+									_this.GPSAZ=projectData.QMCLFS_NM
 									_this.GPSAZ_ID=projectData.GPSAZ
-									_this.SFLYS=projectData.NULL
+									_this.SFLYS=projectData.SFLYS_NM
 									_this.SFLYS_ID=projectData.SFLYS
-									_this.otherMoney=projectData.NULL //其他费用 计算合同总计
-									_this.HIRE_PERCENT= projectData.NULL  //首付款比例
-									_this.FINAL_RATE= projectData.NULL  //尾款比例
-									_this.SXF_RATE= projectData.NULL  //手续费比例
-									_this.BAIL_PERCENT= projectData.NULL  //保证金比例
-									_this.BZJCLFS=projectData.NULL  //保证金处理方式
+									_this.HIRE_PERCENT= projectData.HIRE_PERCENT  //首付款比例
+									_this.FINAL_RATE= projectData.FINAL_RATE  //尾款比例
+									_this.SXF_RATE= projectData.SXF_RATE  //手续费比例
+									_this.BAIL_PERCENT= projectData.BAIL_PERCENT  //保证金比例
+									_this.BZJCLFS=projectData.BZJCLFS_NM  //保证金处理方式
 									_this.BZJCLFS_ID=project.BZJCLFS
+
+									_this.SCHEME_TYPE=projectData.NULL //商务类型
 									_this.totleFirstM=projectData.NULL //测算返回首期款
 									_this.MONTH_PRICE=projectData.NULL //测返每期租金
 									_this.term=projectData.NULL //测算返回期数
+									_this.otherMoney=projectData.NULL //其他费用 计算合同总计
+
 									// 其他费用的逻辑 没整
 
 									_this.initData()
@@ -1465,7 +1468,6 @@
 							return
 						}
 						var param={
-							SCHEME_NAME:this.SCHEME_NAME,  //方案名称
 							POLICY:this.SCHEME_NAME_ID,   //方案编号
 							LEASE_TERM:this.LEASE_TERM,   //期数
 							LEASE_COURSE:this.LEASE_COURSE_ID,  //租赁周期
@@ -1479,7 +1481,6 @@
 							CCSNX:this.CCSNX_ID, //车船税年限
 							FKGZ:this.FKGZ_ID,  //放款方式
 							TQGH:this.TQGH_ID,  //提前过户
-							GHTIME:this.GHTIME,  // 过户期数
 							QMCLFS:this.QMCLFS_ID, //期满处理方式
 							GPSAZ:this.GPSAZ_ID,  //GPS安装
 							SFLYS:this.SFLYS_ID,  //是否留钥匙
@@ -1492,7 +1493,7 @@
 							SXF:this.SXF,           //手续费
 							SXF_RATE:this.SXF_RATE, //手续费比列
 							TOPRIC_SUBFIRENT:this.TOPRIC_SUBFIRENT, //融资额
-							LEASE_BAIL:'', //保证金
+							LEASE_BAIL:this.LEASE_BAIL, //保证金
 							BAIL_PERCENT:this.BAIL_PERCENT, //保证金比列
 							BZJCLFS:this.BZJCLFS_ID, //保证金处理方式
 							other:[
@@ -1606,7 +1607,7 @@
 							url:'offer/toPayCalculationTest',
 							param:param
 						},function(res){
-							console.log("res",JSON.stringify(res));
+							console.log("Test---res",JSON.stringify(res));
 							summer.hideProgress();
 							if(res.data.flag=="1"){
 								summer.toast({msg:"测算成功"});
@@ -1634,7 +1635,6 @@
 						summer.showProgress();
 						var param={
 							PROJECT_ID:this.prjId, //
-							SCHEME_NAME:this.SCHEME_NAME,  //方案名称
 							POLICY:this.SCHEME_NAME_ID,   //方案编号
 							LEASE_TERM:this.LEASE_TERM,   //期数
 							LEASE_COURSE:this.LEASE_COURSE_ID,  //租赁周期
@@ -1648,7 +1648,6 @@
 							CCSNX:this.CCSNX_ID, //车船税年限
 							FKGZ:this.FKGZ_ID,  //放款方式
 							TQGH:this.TQGH_ID,  //提前过户
-							GHTIME:this.GHTIME,  // 过户期数
 							QMCLFS:this.QMCLFS_ID, //期满处理方式
 							GPSAZ:this.GPSAZ_ID,  //GPS安装
 							SFLYS:this.SFLYS_ID,  //是否留钥匙
@@ -1695,7 +1694,7 @@
 							url:'offer/saveProjectScheme',
 							param:param
 						},function(res){
-							console.log("res",JSON.stringify(res));
+							console.log("save--res",JSON.stringify(res));
 							summer.hideProgress();
 							if(res.data.flag=="1"){
 								summer.toast({msg:"保存成功"});
