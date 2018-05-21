@@ -118,11 +118,11 @@
     <div class="um-win" id="addCarList" v-cloak>
         <div class="um-content addCarList">
             <ul>
-                <li v-for="(item,index) in bankList" @click="gotoDetail(item.PCCBA_ID, item.STATE)" :key="index">
-                    <mt-cell-swipe :title="item.BANK_NAME" :label="item.BANK_ACCOUNT" :right="[{content: '&nbsp;&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'2.4rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index, item.PCCBA_ID)}}]">
+                <li v-for="(item,index) in childList" @click="gotoDetail(item.CULM_ID)" :key="index">
+                    <mt-cell-swipe :title="item.LINK_NAME" :label="item.LINK_IDCARD" :right="[{content: '&nbsp;&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'2.4rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index, item.CULM_ID)}}]">
                         <div class="price">
-                            <p>姓名：{{ item.OTHER_RELATION_NAME || item.OPEN_ACCOUNT_NAME }}</p>
-                            <p>账户类型：{{ item.STATE == "0" ? "基本账户" : "其他账户" }}</p>
+                            <p>姓名：{{ item.LINK_NAME}}</p>
+                            <p>身份证号：{{ item.LINK_IDCARD }}</p>
                         </div>
                         <div class="fr">
                             <i class="icon iconfont icon-enter"></i>
@@ -130,9 +130,9 @@
                     </mt-cell-swipe>
                 </li>
             </ul>
-            <div id="noData" class="alignCenter" v-if="bankList.length==0">
+            <div id="noData" class="alignCenter" v-if="childList.length==0">
                 <img src="../../img/empty.png" alt="">
-                <p>暂无开户行</p>
+                <p>暂无子女信息</p>
             </div>
         </div>
     </div>
@@ -145,16 +145,16 @@
     <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
     <script>
         summerready = function () {
-            vueTemplate.CLIENT_ID = summer.pageParam.clintId;
-            vueTemplate.type = summer.pageParam.type;
-            vueTemplate.USER_ID = summer.pageParam.USER_ID;
-            vueTemplate.getData();
+            childrenList.CLIENT_ID = summer.pageParam.clintId;
+            childrenList.type = summer.pageParam.type;
+            childrenList.USER_ID = summer.pageParam.USER_ID;
+            childrenList.getData();
         }
-        var vueTemplate = new Vue({
+        var childrenList = new Vue({
             el: '#addCarList',
             data: function () {
                 return {
-                    bankList: [],
+                    childList: [],
                     CLIENT_ID: "",
                     type: "",
                     paymentType: "",
@@ -208,20 +208,20 @@
                     }, function (res) {
                         summer.hideProgress();
                         if (res.data.flag == 1) {
-                            var bankList = res.data.datas.openBankList;
-                            if (bankList.length > 0) {
-                                _this.bankList = bankList;
+                            var childList = res.data.datas.childList;
+                            if (childList.length > 0) {
+                                _this.childList = childList;
                             }
                         } else {
                             summer.toast({
-                                msg: '获取开户行信息失败'
+                                msg: '获取子女信息失败'
                             })
                         }
                     }, function (err) {
                         summer.hideProgress();
                         console.log("err", err);
                         summer.toast({
-                            msg: '获取开户行信息失败'
+                            msg: '获取子女信息失败'
                         })
                     })
                 },
@@ -238,7 +238,7 @@
                     }, function (res) {
                         summer.hideProgress();
                         if (res.data.flag == 1) {
-                            _this.bankList.splice(index, 1);
+                            _this.childList.splice(index, 1);
                             summer.toast({
                                 msg: '删除成功'
                             })
@@ -258,8 +258,8 @@
                 addBank: function () {
                     var _this = this;
                     var state;
-                    if (this.bankList.length) {
-                        if (this.bankList.some(function (e) {return e.STATE == "0"})) {
+                    if (this.childList.length) {
+                        if (this.childList.some(function (e) {return e.STATE == "0"})) {
                             state = 1;
                         } else {
                             state = 0;
@@ -301,7 +301,7 @@
         });
         // 添加
         function addBank() {
-            vueTemplate.addBank();
+            childrenList.addBank();
         }
     </script>
 </body>

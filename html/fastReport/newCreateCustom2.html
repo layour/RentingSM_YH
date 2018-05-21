@@ -207,7 +207,7 @@
             </div>
             <div class="item um-box pl10 pr10">
                 <span class="um-bf1">备注</span>
-                <input placeholder="请输入备注" v-model="remark" type="text">
+                <input placeholder="请输入备注" v-model="personMes.EMPLOYEE_MEMO" type="text">
             </div>
         </div>
         <!-- 证件类型 -->
@@ -273,13 +273,13 @@
                         // 邮寄地址
                         CR_MATE_MAILING_ADDRESS_DZ: "",
                         // 工作单位地址
-                        CR_NATU_MATE_WORK_ADDRESS: ""
+                        CR_NATU_MATE_WORK_ADDRESS: "",
+                        // 备注
+                        EMPLOYEE_MEMO: ""
                     },
                     totalData: '',
                     // 客户信息字段
                     prevParams: "",
-                    // 备注
-                    remark: "",
                     message: {
                         cstNpSocialRl: {
                             rlNm: '',
@@ -514,7 +514,7 @@
                         peiou.CR_NATU_MATE_EDUCATION = self.personMes.CR_NATU_MATE_EDUCATION;
                     }
                     // 备注
-                    peiou.EMPLOYEE_MEMO = this.remark;
+                    peiou.EMPLOYEE_MEMO = this.personMes.EMPLOYEE_MEMO;
                     resultObj = $.extend({}, prev, peiou);
                     return resultObj;
                 },

@@ -124,6 +124,18 @@
 						<span class="frp"> <i class="emergencyContract icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
 					</div>
 				</a>
+				<a href="javascript:void(0);" id="version" onclick="addSharePerson()">
+						<div class="um-list-item-bodys">
+							共承人
+							<span class="frp"> <i class="sharePerson icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+						</div>
+				</a>
+				<a href="javascript:void(0);" id="version" onclick="addChildrens()">
+						<div class="um-list-item-bodys">
+							子女信息
+							<span class="frp"> <i class="children  icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+						</div>
+				</a>
 				<a href="javascript:void(0);" onclick="checkVersion('addCarList')">
 					<div class="um-list-item-bodys">
 						添加车辆
@@ -259,7 +271,7 @@
 						if (sponsorType == "个人") {
 							openSponsor('newSponsor');
 						} else {
-							openSponsor('newSponsor_company');
+							openSponsor('newSponsorCompanyList');
 						}
 
 					}
@@ -276,10 +288,12 @@
 						summer.hideProgress();
 						if (res.data.flag == 1) {
 							console.log(res.data);
-							if (res.data.datas.warTyp=="法人") {
-								openSponsor('newSponsor_company',res.data.datas.guarantorDetails.guarantorCorp);
-							} else {
-								openSponsor('newSponsor',res.data.datas.guarantorDetails.guarantorNp);
+							var guarantorCorp = res.data.datas.guarantorDetails.guarantorCorp;//法人
+							var guarantorNp = res.data.datas.guarantorDetails.guarantorNp;//自然人
+							if(guarantorCorp){
+								openSponsor('newSponsorCompanyList',guarantorCorp);
+							}else{
+								openSponsor('newSponsor',guarantorNp);
 							}
 						}
 					}, function(err) {
@@ -682,6 +696,39 @@
 			var projectId = setProgect.project_Id;
 			var clientId = setProgect.customId;
 			var CREDIT_ID = setProgect.CREDIT_ID
+			if(id == "newSponsorCompanyList"){
+				summer.openWin({
+					id: id,
+					url: 'html/fastReport/newSponsorCompany/' + id + '.html',
+					create: false,
+					type: 'actionBar',
+					actionBar: {
+						title: "添加法人担保人",
+						titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+						backgroundColor: "#039BE5",
+						leftItem: {
+							image: "img/back.png",
+							method: "", //返回按钮自定义事件
+							text: "返回",
+							textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+						},
+						rightItems: [{
+							type: "text",
+							text: "保存",
+							textColor: "#ffffff",
+							method: "complete()"
+						}]
+
+					},
+					pageParam: {
+						projectId: projectId,
+						clientId: clientId,
+						CREDIT_ID:CREDIT_ID,
+						item:data
+					}
+				});
+				 
+		  }else{
 			summer.openWin({
 				id: id,
 				url: 'html/fastReport/' + id + '.html',
@@ -706,12 +753,13 @@
 
 				},
 				pageParam: {
-					projectId: projectId,//项目ID
-					clientId: clientId,//客户ID
-					CREDIT_ID:CREDIT_ID,//资信ID
+					projectId: projectId,
+					clientId: clientId,
+					CREDIT_ID:CREDIT_ID,
 					item:data
 				}
 			});
+		}
 
 		}
 		function nextStopInput() {
@@ -808,11 +856,85 @@
 				}
 			});
 		}
+		function addSharePerson(){
+			// 客户id
+			var clintId = setProgect.customId;
+			 // 客户类型
+			 var type = setProgect.type;
+            // 登陆人id
+            var USER_ID = setProgect.USER_ID;
+            summer.openWin({
+				id: 'bankList',
+				url: 'html/fastReport/sharePeopleList.html',
+				create: false,
+				type: 'actionBar',
+				actionBar: {
+					title: "共承人列表",
+					titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+					backgroundColor: "#039be5",
+					leftItem: {
+						image: "img/back.png",
+						method: "", //返回按钮自定义事件
+						text: "返回",
+						textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+					},
+					rightItems: [{
+						type: "text",
+						text: "添加",
+						textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+						method: "addSharePeople()" //在打开的window中自定义事件
+					}]
+				},
+				pageParam: {
+                    clintId: clintId,
+                    type: type,
+                    USER_ID: USER_ID
+				}
+			});
+		}
+		function addChildrens(){
+			// 客户id
+			var clintId = setProgect.customId;
+			 // 客户类型
+			 var type = setProgect.type;
+            // 登陆人id
+            var USER_ID = setProgect.USER_ID;
+            summer.openWin({
+				id: 'bankList',
+				url: 'html/fastReport/childrenList.html',
+				create: false,
+				type: 'actionBar',
+				actionBar: {
+					title: "子女列表",
+					titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+					backgroundColor: "#039be5",
+					leftItem: {
+						image: "img/back.png",
+						method: "", //返回按钮自定义事件
+						text: "返回",
+						textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+					},
+					rightItems: [{
+						type: "text",
+						text: "添加",
+						textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+						method: "addChildren()" //在打开的window中自定义事件
+					}]
+				},
+				pageParam: {
+                    clintId: clintId,
+                    type: type,
+                    USER_ID: USER_ID
+				}
+			});
+		}
 		function openBank(){
 			// 客户id
 			var clintId = setProgect.customId;
             // 客户类型
             var type = setProgect.type;
+            // 登陆人id
+            var USER_ID = setProgect.USER_ID;
             summer.openWin({
 				id: 'bankList',
 				url: 'html/fastReport/bankList.html',
@@ -837,7 +959,8 @@
 				},
 				pageParam: {
                     clintId: clintId,
-                    type: type
+                    type: type,
+                    USER_ID: USER_ID
 				}
 			});
 		}
