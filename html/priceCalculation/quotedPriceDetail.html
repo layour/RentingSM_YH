@@ -755,6 +755,7 @@
 				},
 				watch:{
           otherMoney:function(){
+						console.log("watch------>changeRZE")
             this.initData()
           }
         },
@@ -765,7 +766,8 @@
 						this.TOPRIC_SUBFIRENT=parseInt(this.LEASE_TOPRIC-(this.HEAD_HIRE || 0))//融资额
 						this.LEASE_BAIL=parseInt(this.TOPRIC_SUBFIRENT*this.BAIL_PERCENT*0.01)//保证金
 						this.SXF=parseInt(this.TOPRIC_SUBFIRENT*this.SXF_RATE*0.01) //手续费
-						this.FINAL_FEE=parseInt(this.TOPRIC_SUBFIRENT*this.FINAL_RATE*0.01)//保证金
+						this.FINAL_FEE=parseInt(this.TOPRIC_SUBFIRENT*this.FINAL_RATE*0.01)//尾款
+						console.log('this.SXF===>',this.SXF)
 					},
 					getData:function(){
 						console.log("prjId==>"+this.prjId);
@@ -1000,30 +1002,48 @@
 							}else if(this.currentName=='bxf'){
 								this.bxf_jrfs_name=this.pickingObj.FLAG
 								this.bxf_jrfs_code=this.pickingObj.CODE
+								this.changRze()
 							}else if(this.currentName=='byf'){
 								this.byf_jrfs_name=this.pickingObj.FLAG
 								this.byf_jrfs_code=this.pickingObj.CODE
+								this.changRze()
 							}else if(this.currentName=='buy_tax'){
 								this.buy_tax_jrfs_name=this.pickingObj.FLAG
 								this.buy_tax_jrfs_code=this.pickingObj.CODE
+								this.changRze()
 							}else if(this.currentName=='sj_price'){
 								this.sj_jrfs_name=this.pickingObj.FLAG
 								this.sj_jrfs_code=this.pickingObj.CODE
+								this.changRze()
 							}else if(this.currentName=='jpzh'){
 								this.jpzh_jrfs_name=this.pickingObj.FLAG
 								this.jpzh_jrfs_code=this.pickingObj.CODE
+								this.changRze()
 							}else if(this.currentName=='ccs'){
 								this.ccs_jrfs_name=this.pickingObj.FLAG
 								this.ccs_jrfs_code=this.pickingObj.CODE
+								this.changRze()
 							}else if(this.currentName=='sh_price'){
 								this.sh_jrfs_name=this.pickingObj.FLAG
 								this.sh_jrfs_code=this.pickingObj.CODE
+								this.changRze()
 							}else if(this.currentName=='gps_price'){
 								this.gps_jrfs_name=this.pickingObj.FLAG
 								this.gps_jrfs_code=this.pickingObj.CODE
+								this.changRze()
 							}
 						}
 						this.pickerFlagStatus=!this.pickerFlagStatus
+					},
+					changRze:function(){
+						this.otherMoney=
+							(this.bxf_jrfs_code=='JRRZE'?Number(this.BXF_PRICE):0) +
+							(this.byf_jrfs_code=='JRRZE'?Number(this.BYF_PRICE):0) + (this.buy_tax_jrfs_code=='JRRZE'?Number(this.BUY_TAX_PRICE):0) + (this.sj_jrfs_code=='JRRZE'?Number(this.SJ_PRICE):0) +
+							(this.jpzh_jrfs_code=='JRRZE'?Number(this.JPZH_PRICE):0) +
+							(this.ccs_jrfs_code=='JRRZE'?Number(this.CCS_PRICE):0) +
+							(this.sh_jrfs_code=='JRRZE'?Number(this.SH_MONEY):0) +
+							(this.gps_jrfs_code=='JRRZE'?Number(this.GPS_MONEY):0)
+							console.log("changeRZE")
 					},
 					checkDate:function(){
 						var _this=this;
