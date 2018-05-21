@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
+    <style>
+        .addCarList>ul li {
+            background: #fff;
+            margin-bottom: .2rem;
+            height: 2.4rem;
+            position: relative;
+        }
+
+        .price {
+            color: #333;
+            font-size: 14px;
+            line-height: .4rem;
+            position: absolute;
+            left: 0;
+            bottom: .3rem;
+        }
+
+        .mint-cell-swipe {
+            height: 2.4rem;
+            padding-left: .54rem;
+            background: #fff;
+        }
+
+        .mint-cell-wrapper {
+            height: 2.4rem;
+            padding-left: 0;
+            background: none;
+        }
+
+        .mint-cell-right {
+            height: 2.4rem;
+            font-size: 14px;
+        }
+
+        .mint-cell-title {
+            margin-bottom: .6rem;
+        }
+
+        .mint-cell-title span {
+            display: block;
+            margin-bottom: .2rem;
+        }
+
+        .mint-cell-title span:first-child {
+            margin-bottom: .1rem;
+        }
+
+        .title,
+        .mint-cell-text {
+            font-size: 16px;
+            color: #039BE5;
+        }
+
+        .normal,
+        .mint-cell-label {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .um-footer {
+            background: inherit;
+        }
+
+        .um-footer button {
+            height: .9rem;
+            border: none;
+            outline: none;
+            width: 100%;
+            line-height: .9rem;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .alignCenter {
+
+            position: absolute;
+            ;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            text-align: center;
+
+        }
+
+        .alignCenter p {
+            padding-top: 20px;
+            font-size: 14px;
+            color: #CBCBCB;
+        }
+
+        .alignCenter img {
+            width: 3rem;
+        }
+
+        .icon-enter {
+            color: #DBDBDB;
+            margin-top: .5rem;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="um-win" id="addCarList" v-cloak>
+        <div class="um-content addCarList">
+            <ul>
+                <li v-for="(item,index) in bankList" @click="gotoDetail(item.PCCBA_ID, item.STATE)" :key="index">
+                    <mt-cell-swipe :title="item.BANK_NAME" :label="item.BANK_ACCOUNT" :right="[{content: '&nbsp;&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'2.4rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index, item.PCCBA_ID)}}]">
+                        <div class="price">
+                            <p>姓名：{{ item.OTHER_RELATION_NAME || item.OPEN_ACCOUNT_NAME }}</p>
+                            <p>账户类型：{{ item.STATE == "0" ? "基本账户" : "其他账户" }}</p>
+                        </div>
+                        <div class="fr">
+                            <i class="icon iconfont icon-enter"></i>
+                        </div>
+                    </mt-cell-swipe>
+                </li>
+            </ul>
+            <div id="noData" class="alignCenter" v-if="bankList.length==0">
+                <img src="../../img/empty.png" alt="">
+                <p>暂无开户行</p>
+            </div>
+        </div>
+    </div>
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/mint.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script>
+        summerready = function () {
+            vueTemplate.CLIENT_ID = summer.pageParam.clintId;
+            vueTemplate.type = summer.pageParam.type;
+            vueTemplate.USER_ID = summer.pageParam.USER_ID;
+            vueTemplate.getData();
+        }
+        var vueTemplate = new Vue({
+            el: '#addCarList',
+            data: function () {
+                return {
+                    bankList: [],
+                    CLIENT_ID: "",
+                    type: "",
+                    paymentType: "",
+                    USER_ID: ""
+                }
+            },
+            methods: {
+                gotoDetail: function (bankId, state) {
+                    var _this = this;
+                    summer.openWin({
+                        id: 'bankInfo',
+                        url: 'html/fastReport/bankInfo.html',
+                        create: false,
+                        type: 'actionBar',
+                        pageParam: {
+                            "BECR_TYPE": _this.type,
+                            "BECR_ID": _this.CLIENT_ID,
+                            "EMPLOYEE_ID": _this.USER_ID,
+                            "bankId": bankId,
+                            "state": state
+                        },
+                        actionBar: {
+                            title: '开户行信息',
+                            titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            backgroundColor: "#039BE5",
+                            leftItem: {
+                                image: "img/back.png",
+                                method: '', //返回按钮自定义事件
+                                text: "返回",
+                                textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            },
+                            rightItems: [{
+                                type: "text",
+                                text: "保存",
+                                method: 'saveBankInfo()',
+                                textColor: "#ffffff"
+                            }]
+                        }
+                    })
+                },
+                getData: function () {
+                    var _this = this;
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'customer/queryCustLinkManList',
+                        param: {
+                            BECR_ID: _this.CLIENT_ID,
+                            BECR_TYPE: _this.type == "法人" ? 2 : 1
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            var bankList = res.data.datas.openBankList;
+                            if (bankList.length > 0) {
+                                _this.bankList = bankList;
+                            }
+                        } else {
+                            summer.toast({
+                                msg: '获取开户行信息失败'
+                            })
+                        }
+                    }, function (err) {
+                        summer.hideProgress();
+                        console.log("err", err);
+                        summer.toast({
+                            msg: '获取开户行信息失败'
+                        })
+                    })
+                },
+                deleteItem: function (index, bankId) {
+                    var _this = this;
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'customer/deleteCustOpenbank',
+                        param: {
+                            PCCBA_ID: bankId,
+                            EMPLOYEE_ID: _this.USER_ID
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            _this.bankList.splice(index, 1);
+                            summer.toast({
+                                msg: '删除成功'
+                            })
+                        } else {
+                            summer.toast({
+                                msg: '删除失败'
+                            })
+                        }
+                    }, function (err) {
+                        summer.hideProgress();
+                        console.log("err", err);
+                        summer.toast({
+                            msg: '删除失败'
+                        })
+                    })
+                },
+                addBank: function () {
+                    var _this = this;
+                    var state;
+                    if (this.bankList.length) {
+                        if (this.bankList.some(function (e) {return e.STATE == "0"})) {
+                            state = 1;
+                        } else {
+                            state = 0;
+                        }
+                    } else {
+                        state = 0;
+                    }
+                    summer.openWin({
+                        id: 'bankInfo',
+                        url: 'html/fastReport/bankInfo.html',
+                        create: false,
+                        type: 'actionBar',
+                        pageParam: {
+                            "BECR_TYPE": _this.type,
+                            "BECR_ID": _this.CLIENT_ID,
+                            "EMPLOYEE_ID": _this.USER_ID,
+                            "state": state
+                        },
+                        actionBar: {
+                            title: '开户行信息',
+                            titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            backgroundColor: "#039BE5",
+                            leftItem: {
+                                image: "img/back.png",
+                                method: '', //返回按钮自定义事件
+                                text: "返回",
+                                textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            },
+                            rightItems: [{
+                                type: "text",
+                                text: "保存",
+                                method: 'saveBankInfo()',
+                                textColor: "#ffffff"
+                            }]
+                        }
+                    })
+                }
+            }
+        });
+        // 添加
+        function addBank() {
+            vueTemplate.addBank();
+        }
+    </script>
+</body>
+
+</html>
