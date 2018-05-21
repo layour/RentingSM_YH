@@ -76,7 +76,7 @@
           <li>
             <b>利率</b>
             <span>
-							<input type="text" @input="checkVal('yearRate')" placeholder="利率" name="YEAR_INTEREST" v-model="YEAR_INTEREST">&nbsp;元
+							<input type="text" @input="checkVal('yearRate')" placeholder="利率" name="YEAR_INTEREST" v-model="YEAR_INTEREST">&nbsp;%
             </span>
           </li>
           <li v-if='pay_way_status' @click="pickerFlag('payWay')">
@@ -293,7 +293,7 @@
   							<i class="icon iconfont icon-enter"></i>
               </span>
           </li>
-          <li>
+          <li v-if="bxf_status">
             <b>保险费</b>
             <span>
               <b v-if="bxf_edit=='1'">{{BXF_PRICE}}</b>
@@ -301,7 +301,7 @@
               &nbsp;元
             </span>
           </li>
-          <li @click="pickerFlag('bxf')">
+          <li  v-if="bxf_status" @click="pickerFlag('bxf')">
             <b>保险费计入方式</b>
             <span>
               <b v-if="bxf_jrfs_name">{{bxf_jrfs_name}}</b>
@@ -309,14 +309,14 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
-          <li>
+          <li v-if="byf_status">
             <b>保养费</b>
             <span>
               <b v-if="byf_edit=='1'">{{BYF_PRICE}}</b>
               <input v-else type="text" @input="checkVal('byf')" placeholder="保养费" name="byf" v-model="BYF_PRICE">&nbsp;元
             </span>
           </li>
-          <li @click="pickerFlag('byf')">
+          <li  v-if="byf_status" @click="pickerFlag('byf')">
             <b>保养费计入方式</b>
             <span>
               <b v-if="byf_jrfs_name">{{byf_jrfs_name}}</b>
@@ -324,14 +324,14 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
-          <li>
+          <li  v-if="buy_tax_status">
             <b>购置税</b>
             <span>
               <b v-if="byf_edit=='1'">{{BUY_TAX_PRICE}}</b>
               <input v-else type="text" @input="checkVal('buy_tax')" placeholder="购置税" name="buy_tax" v-model="BUY_TAX_PRICE">&nbsp;元
             </span>
           </li>
-          <li @click="pickerFlag('buy_tax')">
+          <li v-if="buy_tax_status" @click="pickerFlag('buy_tax')">
             <b>购置税计入方式</b>
             <span>
               <b v-if="buy_tax_jrfs_name">{{buy_tax_jrfs_name}}</b>
@@ -339,14 +339,14 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
-          <li>
+          <li v-if="sj_status">
             <b>上牌税</b>
             <span>
               <b v-if="sj_edit=='1'">{{SJ_PRICE}}</b>
               <input v-else type="text" @input="checkVal('sj_price')" placeholder="上牌税" name="sj_price" v-model="SJ_PRICE">&nbsp;元
             </span>
           </li>
-          <li @click="pickerFlag('sj_price')">
+          <li v-if="sj_status" @click="pickerFlag('sj_price')">
             <b>上牌税计入方式</b>
             <span>
               <b v-if="sj_jrfs_name">{{sj_jrfs_name}}</b>
@@ -354,14 +354,14 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
-          <li>
+          <li v-if="jpzh_status">
             <b>精品装潢</b>
             <span>
               <b v-if="jpzh_edit=='1'">{{JPZH_PRICE}}</b>
               <input v-else type="text" @input="checkVal('jpzh')" placeholder="精品装潢" name="jpzh" v-model="JPZH_PRICE">&nbsp;元
             </span>
           </li>
-          <li @click="pickerFlag('jpzh')">
+          <li  v-if="jpzh_status" @click="pickerFlag('jpzh')">
             <b>精品装潢计入方式</b>
             <span>
               <b v-if="jpzh_jrfs_name">{{jpzh_jrfs_name}}</b>
@@ -369,14 +369,14 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
-          <li>
+          <li  v-if="ccs_status">
             <b>车船税</b>
             <span>
               <b v-if="ccs_edit=='1'">{{CCS_PRICE}}</b>
               <input v-else type="text" @input="checkVal('ccs')" placeholder="车船税" name="ccs" v-model="CCS_PRICE">&nbsp;元
             </span>
           </li>
-          <li @click="pickerFlag('ccs')">
+          <li  v-if="ccs_status" @click="pickerFlag('ccs')">
             <b>车船税计入方式</b>
             <span>
               <b v-if="ccs_jrfs_name">{{ccs_jrfs_name}}</b>
@@ -384,14 +384,14 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
-          <li class="input">
+          <li  v-if="sh_status" class="input">
             <b>上海牌照费</b>
             <span>
               <b v-if="sh_edit=='1'">{{SH_MONEY}}</b>
               <input v-else type="text" @input="checkVal('sh_price')" placeholder="上海牌照费" name="sh_price" v-model="SH_MONEY">&nbsp;元
             </span>
           </li>
-          <li @click="pickerFlag('sh_price')">
+          <li  v-if="sh_status" @click="pickerFlag('sh_price')">
             <b>上海牌照费计入方式</b>
             <span>
               <b v-if="sh_jrfs_name">{{sh_jrfs_name}}</b>
@@ -715,40 +715,48 @@
 						BXF_PRICE:'', //保险费
 						bxf_edit:'',
 						bxf_list:[],
+						bxf_status:false,
 						bxf_jrfs_name:'',
 						bxf_jrfs_code:'',
 						BYF_PRICE:'', //保养费
 						byf_edit:'',
 						byf_list:[],
+						byf_status:false,
 						byf_jrfs_name:'',
 						byf_jrfs_code:'',
 						BUY_TAX_PRICE:'', //购置税
 						buy_tax_edit:'',
 						buy_tax_list:[],
+						buy_tax_status:false,
 						buy_tax_jrfs_name:'',
 						buy_tax_jrfs_code:'',
 						SJ_PRICE:'', //上牌税
 						sj_edit:'',
 						sj_list:[],
+						sj_status:false,
 						sj_jrfs_name:'',
 						sj_jrfs_code:'',
 						JPZH_PRICE:'', //精品装潢
 						jpzh_edit:'',
 						jpzh_list:[],
+						jpzh_status:false,
 						jpzh_jrfs_name:'',
 						jpzh_jrfs_code:'',
 						CCS_PRICE:'', //车船税
 						ccs_edit:'',
 						ccs_list:[],
+						ccs_status:false,
 						ccs_jrfs_name:'',
 						ccs_jrfs_code:'',
 						SH_MONEY:'', // 上海牌照费
 						sh_edit:'',
 						sh_list:[],
+						sh_status:false,
 						sh_jrfs_name:'',
 						sh_jrfs_code:'',
 						GPS_MONEY:'', //GPS费
 						gps_list:[],
+						gps_status:false,
 						gps_jrfs_name:'',
 						gps_jrfs_code:''
 					}
@@ -762,12 +770,11 @@
 				methods: {
 					initData:function(){
 						this.LEASE_TOPRIC=parseInt(this.EQU_MONEY_ALL+Number(this.otherMoney)) //合同总计
-						this.HEAD_HIRE=parseInt(this.LEASE_TOPRIC*this.HIRE_PERCENT*0.01) //首付款
+						this.HEAD_HIRE=this.HIRE_PERCENT===''?'':parseInt(this.LEASE_TOPRIC*this.HIRE_PERCENT*0.01) //首付款
 						this.TOPRIC_SUBFIRENT=parseInt(this.LEASE_TOPRIC-(this.HEAD_HIRE || 0))//融资额
-						this.LEASE_BAIL=parseInt(this.TOPRIC_SUBFIRENT*this.BAIL_PERCENT*0.01)//保证金
-						this.SXF=parseInt(this.TOPRIC_SUBFIRENT*this.SXF_RATE*0.01) //手续费
-						this.FINAL_FEE=parseInt(this.TOPRIC_SUBFIRENT*this.FINAL_RATE*0.01)//尾款
-						console.log('this.SXF===>',this.SXF)
+						this.LEASE_BAIL=this.BAIL_PERCENT===''?'':parseInt(this.TOPRIC_SUBFIRENT*this.BAIL_PERCENT*0.01)//保证金
+						this.SXF=this.SXF_RATE===''?'':parseInt(this.TOPRIC_SUBFIRENT*this.SXF_RATE*0.01) //手续费
+						this.FINAL_FEE=this.FINAL_RATE===''?'':parseInt(this.LEASE_TOPRIC*this.FINAL_RATE*0.01)//尾款
 					},
 					getData:function(){
 						console.log("prjId==>"+this.prjId);
@@ -797,7 +804,7 @@
 								_this.gpsaz_list=data.SFLYSS //是否留钥匙
 								_this.bzjclfs_list=data.BZJCLFSS //是否留钥匙
 
-								_this.EQU_MONEY_ALL=res.data.EQU_MONEY_ALL
+								_this.EQU_MONEY_ALL=data.EQU_MONEY_ALL
 								var projectData=res.data.datas.project
 								if(projectData){
 									_this.SCHEME_NAME=projectData.SCHEME_NAME
@@ -931,6 +938,10 @@
 								this.SCHEME_TYPE=this.pickingObj.FLAG
 								var _this=this
 								summer.showProgress();
+								console.log(JSON.stringify({
+									PROJECT_ID:_this.prjId,
+									POLICY_TYPE:_this.SCHEME_TYPE
+								}))
 								ajaxRequest({
 									type:'POST',
 									url:"offer/getSchList",
@@ -939,7 +950,7 @@
 										POLICY_TYPE:_this.SCHEME_TYPE
 									}
 								},function(res){
-									console.log("res",JSON.stringify(res));
+									console.log("getSchList",JSON.stringify(res));
 									_this.scheme_name_list=res.data.datas.SCHEME_LIST //方案类型字典
 									summer.hideProgress()
 								},function(err){
@@ -956,7 +967,7 @@
 								this.LEASE_COURSE_ID=this.pickingObj.CODE
 								// 计算年限
 								if(this.LEASE_TERM&&this.LEASE_COURSE_ID){
-									this.YEAR_LIMIT=(this.LEASE_TERM*LEASE_COURSE_ID/12).toFixed(2)
+									this.YEAR_LIMIT=(this.LEASE_TERM*this.LEASE_COURSE_ID/12).toFixed(2)
 								}else {
 									this.YEAR_LIMIT=''
 								}
@@ -1070,7 +1081,7 @@
 							_this.tqgh_list=data.TQGHS    //提前过户
 							_this.qmclfs_list=data.QMCLFSS //期满处理方式
 							_this.gpsaz_list=data.GPSAZS  //GPS安装
-							_this.gpsaz_list=data.SFLYSS //是否留钥匙
+							_this.sflys_list=data.SFLYSS //是否留钥匙
 							_this.bzjclfs_list=data.BZJCLFSS //是否留钥匙
 
 							//重新获取初始化的字典 over
@@ -1127,16 +1138,18 @@
 									_this.first_pay_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
 									_this.first_pay_limit.LIMIT_VALUE_D=arr[i].LIMIT_VALUE_D
 									_this.first_pay_limit.LIMIT_VALUE_U=arr[i].LIMIT_VALUE_U
-									this.HEAD_HIRE=parseInt(this.LEASE_TOPRIC*this.HIRE_PERCENT*0.01)//首付款
+									this.HEAD_HIRE=_this.HIRE_PERCENT===''?'':parseInt(this.LEASE_TOPRIC*this.HIRE_PERCENT*0.01)//首付款
 								}else if(arr[i].KEY_NAME_EN=='WKBL_PERCENT'){
 									_this.final_money_edit=arr[i].VALUE_STATUS
+									_this.FINAL_RATE=arr[i].VALUE_STR || 0
 									_this.final_money_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
 									_this.final_money_limit.LIMIT_VALUE_D=arr[i].LIMIT_VALUE_D
 									_this.final_money_limit.LIMIT_VALUE_U=arr[i].LIMIT_VALUE_U
+									this.FINAL_FEE=_this.FINAL_RATE===''?'':parseInt(this.LEASE_TOPRIC*this.FINAL_RATE*0.01)//尾款款
 								}else if(arr[i].KEY_NAME_EN=='BZJBL_PERCENT'){
 									_this.BAIL_PERCENT=arr[i].VALUE_STR
 									_this.bail_money_edit=arr[i].VALUE_STATUS
-									this.LEASE_BAIL=parseInt(this.LEASE_TOPRIC*this.BAIL_PERCENT*0.01)//保证金
+									this.LEASE_BAIL=_this.BAIL_PERCENT===''?'':parseInt(this.TOPRIC_SUBFIRENT*this.BAIL_PERCENT*0.01)//保证金
 								}else if(arr[i].KEY_NAME_EN=='BZJCLFS'){
 									_this.bzjclfs_status=arr[i].VALUE_STR
 									_this.bzjclfs_edit=arr[i].VALUE_STATUS
@@ -1146,36 +1159,44 @@
 							var otherArr=res.data.datas.OTHER_FEE
 							for(var i=0;i<otherArr.length;i++){
 								if(otherArr[i].KEY_NAME_EN=='BXF_PRICE'){
+									_this.bxf_status=true
 									_this.BXF_PRICE=otherArr[i].VALUE_STR || 0
 									_this.bxf_edit=otherArr[i].VALUE_STATUS
 									_this.bxf_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='BYF_PRICE'){
+									_this.byf_status=true
 									_this.BYF_PRICE=otherArr[i].VALUE_STR || 0
 									_this.byf_edit=otherArr[i].VALUE_STATUS
 									_this.byf_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='BUY_TAX_PRICE'){
+									_this.buy_tax_status=true
 									_this.BUY_TAX_PRICE=otherArr[i].VALUE_STR || 0
 									_this.buy_tax_edit=otherArr[i].VALUE_STATUS
 									_this.buy_tax_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='SJ_PRICE'){
+									_this.sj_status=true
 									_this.SJ_PRICE=otherArr[i].VALUE_STR || 0
 									_this.sj_edit=otherArr[i].VALUE_STATUS
 									_this.sj_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='JPZH_PRICE'){
+									_this.jpzh_status=true
 									_this.JPZH_PRICE=otherArr[i].VALUE_STR || 0
 									_this.jpzh_edit=otherArr[i].VALUE_STATUS
 									_this.jpzh_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='CCS_PRICE'){
+									_this.ccs_status=true
 									_this.CCS_PRICE=otherArr[i].VALUE_STR || 0
 									_this.ccs_edit=otherArr[i].VALUE_STATUS
 									_this.ccs_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='SJ_MONEY'){
+									_this.sh_status=true
 									_this.SH_MONEY=otherArr[i].VALUE_STR || 0
 									_this.sh_edit=otherArr[i].VALUE_STATUS
 									_this.sh_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}
 							}
 							_this.gps_list=_this.checkFlagCode('')
+							_this.initData()
 							summer.hideProgress()
 						},function(err){
 							console.log("err",err);
@@ -1188,7 +1209,7 @@
 						}else if(valStr.indexOf('JRRZE')==-1 && valStr.indexOf('JRSQK')>-1){
 							return [{FLAG:'计入首期款',CODE:'JRSQK'}]
 						}else{
-							return [{FLAG:'计入首期款',CODE:'JRSQK'},{FLAG:'计入首期款',CODE:'JRSQK'}]
+							return [{FLAG:'计入融资额',CODE:'JRRZE'},{FLAG:'计入首期款',CODE:'JRSQK'}]
 						}
 					},
 					checkVal:function(val){
@@ -1439,19 +1460,10 @@
 					},
 					quotedTest:function(){
 						var _this=this
-						if(!this.SCHEME_NAME || this.LEASE_COURSE || !this.LLPZ || !this.PAY_WAY || !this.PREMIUMS || !this.RPZSF || !this.QUOTA || !this.BXNX || !this.CCSNX || !this.FKGZ || !this.TQGH || !this.QMCLFS || !this.GPSAZ || !this.SFLYS){
+						if(!this.EQU_MONEY_ALL || !this.SCHEME_NAME || !this.BXNX || !this.CCSNX|| !this.SFLYS || !this.gps_jrfs_name){
 							summer.toast({msg:'请先完善报价信息'})
 							return
 						}
-						if(!this.EQU_MONEY_ALL || !this.bxf_jrfs_name || !this.byf_jrfs_name || !this.buy_tax_jrfs_name || !this.sj_jrfs_name || !this.jpzh_jrfs_name || !this.ccs_jrfs_name || !this.sh_jrfs_name || !this.gps_jrfs_name){
-							summer.toast({msg:'请先完善报价信息'})
-							return
-						}
-						if(this.LEASE_TERM==='' || this.YEAR_INTEREST==='' || this.GHTIME==='' || this.HEAD_HIRE==='' || this.FINAL_FEE==='' || this.SXF==='' || this.LEASE_BAIL==='' || this.BXF_PRICE==='' || this.BYF_PRICE==='' || this.BUY_TAX_PRICE==='' || this.SJ_PRICE==='' || this.JPZH_PRICE==='' || this.CCS_PRICE==='' || this.SH_MONEY==='' || this.GPS_MONEY===''){
-							summer.toast({msg:'请先完善报价信息'})
-							return
-						}
-						summer.showProgress();
 						var param={
 							SCHEME_NAME:this.SCHEME_NAME,  //方案名称
 							POLICY:this.SCHEME_NAME_ID,   //方案编号
@@ -1494,8 +1506,97 @@
 								{O_OTHER_NAME:'GPS费',O_OTHER_MONEY:this.GPS_MONEY,O_TYPE_MONEY:this.gps_jrfs_code}
 							]
 						}
-						if(this.TX !='无'){param.PREMIUMS_M=this.TX_M}
-						if(this.TQGH !='否'){param.GHTIME=this.GHTIME}
+						if(this.lease_course_status&& !this.LEASE_COURSE ){
+							summer.toast({msg:'租赁周期不能为空'})
+							return
+						}
+						if(this.lease_term_status&& !this.LEASE_TERM ){
+							summer.toast({msg:'租赁期数不能为空'})
+							return
+						}
+						if(this.llpz_status&& !this.LLPZ ){
+							summer.toast({msg:'利率配置不能为空'})
+							return
+						}
+						if(this.pay_way_status&& !this.PAY_WAY ){
+							summer.toast({msg:'支付方式不能为空'})
+							return
+						}
+						if(this.rpzsf_status&& !this.RPZSF ){
+							summer.toast({msg:'融牌照收费不能为空'})
+							return
+						}
+						if(this.fxyzb_status&& !this.SFXYZB ){
+							summer.toast({msg:'牌照指标不能为空'})
+							return
+						}
+						if(this.fkgz_status&& !this.FKGZ ){
+							summer.toast({msg:'放款方式不能为空'})
+							return
+						}
+						if(this.tqgh_status&& !this.TQGH ){
+							summer.toast({msg:'提前过户不能为空'})
+							return
+						}
+						if(this.qmclfs_status&& !this.QMCLFS ){
+							summer.toast({msg:'期满处理方式不能为空'})
+							return
+						}
+						if(this.gpsaz_status&& !this.GPSAZ ){
+							summer.toast({msg:'GPS安装不能为空'})
+							return
+						}
+						if(this.bzjclfs_status&& !this.BZJCLFS ){
+							summer.toast({msg:'保证金处理方式不能为空'})
+							return
+						}
+						if(this.bxf_status&&(!this.bxf_jrfs_name || this.BXF_PRICE==='')){
+							summer.toast({msg:'保险费不能为空'})
+							return
+						}
+						if(this.byf_status&&(!this.byf_jrfs_name || this.BYF_PRICE==='')){
+							summer.toast({msg:'保养费不能为空'})
+							return
+						}
+						if(this.buy_tax_status&&(!this.buy_tax_jrfs_name || this.BUY_TAX_PRICE==='')){
+							summer.toast({msg:'购置税不能为空'})
+							return
+						}
+						if(this.sj_status&&(!this.sj_jrfs_name || this.SJ_PRICE==='')){
+							summer.toast({msg:'上牌税不能为空'})
+							return
+						}
+						if(this.jpzh_status&&(!this.jpzh_jrfs_name || this.JPZH_PRICE==='')){
+							summer.toast({msg:'精品装潢不能为空'})
+							return
+						}
+						if(this.ccs_status&&(!this.ccs_jrfs_name || this.CCS_PRICE==='')){
+							summer.toast({msg:'车船税不能为空'})
+							return
+						}
+						if(this.sh_status&&(!this.sh_jrfs_name || this.SH_MONEY==='')){
+							summer.toast({msg:'上海牌照费不能为空'})
+							return
+						}
+						if(this.YEAR_INTEREST==='' || this.HEAD_HIRE==='' || this.FINAL_FEE==='' || this.LEASE_BAIL==='' || this.GPS_MONEY===''){
+							summer.toast({msg:'请先完善报价信息'})
+							return
+						}
+						summer.showProgress();
+						if(this.TX !='无'){
+							param.PREMIUMS_M=this.TX_M
+							if(!this.TX_M){
+								summer.toast({msg:'贴息金额不能为空'})
+								return
+							}
+						}
+						if(this.TQGH !='否'){
+							param.GHTIME=this.GHTIME
+							if(!this.GHTIME){
+								summer.toast({msg:'过户期数不能为空'})
+								return
+							}
+						}
 						if(this.prjId){
 							param.PROJECT_ID=this.prjId
 						}
@@ -1574,8 +1675,20 @@
 								{O_OTHER_NAME:'GPS费',O_OTHER_MONEY:this.GPS_MONEY,O_TYPE_MONEY:this.gps_jrfs_code}
 							]
 						}
-						if(this.TX !='无'){param.PREMIUMS_M=this.TX_M}
-						if(this.TQGH !='否'){param.GHTIME=this.GHTIME}
+						if(this.TX !='无'){
+							param.PREMIUMS_M=this.TX_M
+							if(!this.TX_M){
+								summer.toast({msg:'贴息金额不能为空'})
+								return
+							}
+						}
+						if(this.TQGH !='否'){
+							param.GHTIME=this.GHTIME
+							if(!this.GHTIME){
+								summer.toast({msg:'过户期数不能为空'})
+								return
+							}
+						}
 						console.log(JSON.stringify(param));
 						ajaxRequest({
 							type:'POST',
