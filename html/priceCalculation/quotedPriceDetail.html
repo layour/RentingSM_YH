@@ -786,7 +786,7 @@
 								url:"offer/toProjectScheme",
 								param:{PROJECT_ID:_this.prjId}
 							},function(res){
-								console.log("toProjectScheme",JSON.stringify(res));
+								console.log("查询",JSON.stringify(res));
 								var data=res.data.datas
 								_this.scheme_type_list=data.POLICY_TYPES //方案类型字典
 								_this.lease_course_list=data.LEASE_COURSES  //租赁周期
@@ -814,10 +814,10 @@
                   _this.LEASE_COURSE=projectData.LEASE_COURSE_NM
                   _this.LEASE_COURSE_ID=projectData.LEASE_COURSE
 									// 计算年限
-									if(this.LEASE_TERM&&this.LEASE_COURSE_ID){
-										this.YEAR_LIMIT=(this.LEASE_TERM*LEASE_COURSE_ID/12).toFixed(2)
+									if(_this.LEASE_TERM&&_this.LEASE_COURSE_ID){
+										_this.YEAR_LIMIT=(_this.LEASE_TERM*_this.LEASE_COURSE_ID/12).toFixed(2)
 									}else {
-										this.YEAR_LIMIT=''
+										_this.YEAR_LIMIT=''
 									}
                   _this.LLPZ =projectData.LLPZ_NM
 									_this.LLPZ_ID=projectData.LLPZ
@@ -851,17 +851,89 @@
 									_this.SXF_RATE= projectData.SXF_RATE  //手续费比例
 									_this.BAIL_PERCENT= projectData.BAIL_PERCENT  //保证金比例
 									_this.BZJCLFS=projectData.BZJCLFS_NM  //保证金处理方式
-									_this.BZJCLFS_ID=project.BZJCLFS
+									_this.BZJCLFS_ID=projectData.BZJCLFS
 
-									_this.SCHEME_TYPE=projectData.NULL //商务类型
-									_this.totleFirstM=projectData.NULL //测算返回首期款
-									_this.MONTH_PRICE=projectData.NULL //测返每期租金
-									_this.term=projectData.NULL //测算返回期数
-									_this.otherMoney=projectData.NULL //其他费用 计算合同总计
-
+									_this.SCHEME_TYPE=projectData.POLICY_TYPE //商务
+									_this.totleFirstM=projectData.FIRST_RENT?(projectData.FIRST_RENT).toFixed(2):'' //测算返回首期款
+									_this.MONTH_PRICE=projectData.MONTH_PRICE?(projectData.MONTH_PRICE).toFixed(2):'' //测返每期租金
+									_this.term=projectData.LEASE_TERM //测算返回期数
 									// 其他费用的逻辑 没整
+									var array=res.data.datas.otherFee
+									for (var i = 0; i < array.length; i++) {
+										if(array[i].O_OTHER_NAME=='保险费'){
+											_this.BXF_PRICE=array[i].O_OTHER_MONEY
+											_this.bxf_jrfs_code=array[i].O_TYPE_MONEY
+											if(_this.bxf_jrfs_code=='JRRZE'){
+												_this.bxf_jrfs_name='计入融资额'
+											}else{
+												_this.bxf_jrfs_name='计入首期款'
 
+											}
+											// console.log(_this.BXF_PRICE,_this.bxf_jrfs_name)
+										}else if(array[i].O_OTHER_NAME=='保养费'){
+											_this.BYF_PRICE=array[i].O_OTHER_MONEY
+											_this.byf_jrfs_code=array[i].O_TYPE_MONEY
+											if(_this.byf_jrfs_code=='JRRZE'){
+												_this.byf_jrfs_name='计入融资额'
+											}else{
+												_this.byf_jrfs_name='计入首期款'
+
+											}
+										}else if(array[i].O_OTHER_NAME=='购置税'){
+											_this.BUY_TAX_PRICE=array[i].O_OTHER_MONEY
+											_this.buy_tax_jrfs_code=array[i].O_TYPE_MONEY
+											if(_this.buy_tax_jrfs_code=='JRRZE'){
+												_this.buy_tax_jrfs_name='计入融资额'
+											}else{
+												_this.buy_tax_jrfs_name='计入首期款'
+
+											}
+										}else if(array[i].O_OTHER_NAME=='上牌税'){
+											_this.SJ_PRICE=array[i].O_OTHER_MONEY
+											_this.sj_jrfs_code=array[i].O_TYPE_MONEY
+											if(_this.sj_jrfs_code=='JRRZE'){
+												_this.sj_jrfs_name='计入融资额'
+											}else{
+												_this.sj_jrfs_name='计入首期款'
+
+											}
+										}else if(array[i].O_OTHER_NAME=='精品装潢'){
+											_this.JPZH_PRICE=array[i].O_OTHER_MONEY
+											_this.jpzh_jrfs_code=array[i].O_TYPE_MONEY
+											if(_this.jpzh_jrfs_code=='JRRZE'){
+												_this.jpzh_jrfs_name='计入融资额'
+											}else{
+												_this.jpzh_jrfs_name='计入首期款'
+											}
+										}else if(array[i].O_OTHER_NAME=='车船税'){
+											_this.CCS_PRICE=array[i].O_OTHER_MONEY
+											_this.ccs_jrfs_code=array[i].O_TYPE_MONEY
+											if(_this.ccs_jrfs_code=='JRRZE'){
+												_this.ccs_jrfs_name='计入融资额'
+											}else{
+												_this.ccs_jrfs_name='计入首期款'
+											}
+										}else if(array[i].O_OTHER_NAME=='上海牌照费'){
+											_this.SH_MONEY=array[i].O_OTHER_MONEY
+											_this.sh_jrfs_code=array[i].O_TYPE_MONEY
+											if(_this.sh_jrfs_code=='JRRZE'){
+												_this.sh_jrfs_name='计入融资额'
+											}else{
+												_this.sh_jrfs_name='计入首期款'
+											}
+										}else if(array[i].O_OTHER_NAME=='GPS费'){
+											_this.GPS_MONEY=array[i].O_OTHER_MONEY
+											_this.gps_jrfs_code=array[i].O_TYPE_MONEY
+											if(_this.gps_jrfs_code=='JRRZE'){
+												_this.gps_jrfs_name='计入融资额'
+											}else{
+												_this.gps_jrfs_name='计入首期款'
+											}
+										}
+									}
+									_this.changRze() //其他费用 计算合同总计
 									_this.initData()
+									_this.checkDate()
 								}
 								summer.hideProgress()
 							},function(err){
@@ -1068,7 +1140,7 @@
 							url:'offer/getPolicyScheme',
 							param:{SCHEME_CODE:_this.SCHEME_NAME_ID}
 						},function(res){
-							console.log("res",JSON.stringify(res));
+							console.log("checkData",JSON.stringify(res));
 							// 重新获取初始化的字典 start
 							var data=res.data.datas
 							_this.scheme_type_list=data.POLICY_TYPES //方案类型字典
@@ -1094,7 +1166,7 @@
 									// _this.LEASE_COURSE=arr[i].VALUE_STR
 									_this.lease_course_status=arr[i].VALUE_STR
 								}else if(arr[i].KEY_NAME_EN=='ZLQS'){
-									_this.LEASE_TERM=arr[i].VALUE_STR
+									if(_this.LEASE_TERM===''){_this.LEASE_TERM=arr[i].VALUE_STR}
 									_this.lease_term_status=arr[i].VALUE_STR
 									_this.lease_term_edit=arr[i].VALUE_STATUS
 									_this.lease_term_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
@@ -1116,7 +1188,7 @@
 									// _this.SFXYZB=arr[i].VALUE_STR
 									_this.fxyzb_status=arr[i].VALUE_STR
 								}else if(arr[i].KEY_NAME_EN=='tx_m'){
-									_this.TX_M=arr[i].VALUE_STR
+									if(_this.TX_M===''){_this.TX_M=arr[i].VALUE_STR}
 									_this.tx_m_edit=arr[i].VALUE_STATUS
 									_this.tx_m_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
 									_this.tx_m_limit.LIMIT_VALUE_D=arr[i].LIMIT_VALUE_D
@@ -1127,7 +1199,7 @@
 								}else if(arr[i].KEY_NAME_EN=='TQGH'){
 									_this.tqgh_status=arr[i].VALUE_STR
 								}else if(arr[i].KEY_NAME_EN=='GHTIME'){
-									_this.GHTIME=arr[i].VALUE_STR || 0
+									if(_this.GHTIME===''){_this.GHTIME=arr[i].VALUE_STR || 0}
 									_this.ghtime_edit=arr[i].VALUE_STATUS
 								}else if(arr[i].KEY_NAME_EN=='QMCLFS'){
 									_this.qmclfs_status=arr[i].VALUE_STR
@@ -1136,7 +1208,7 @@
 									_this.gpsaz_status=arr[i].VALUE_STR
 									_this.gpsaz_edit=arr[i].VALUE_STATUS
 								}else if(arr[i].KEY_NAME_EN=='START_PERCENT'){
-									_this.HIRE_PERCENT=arr[i].VALUE_STR
+									if(_this.HIRE_PERCENT===''){_this.HIRE_PERCENT=arr[i].VALUE_STR}
 									_this.first_pay_edit=arr[i].VALUE_STATUS
 									_this.first_pay_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
 									_this.first_pay_limit.LIMIT_VALUE_D=arr[i].LIMIT_VALUE_D
@@ -1144,13 +1216,13 @@
 									this.HEAD_HIRE=_this.HIRE_PERCENT===''?'':parseInt(this.LEASE_TOPRIC*this.HIRE_PERCENT*0.01)//首付款
 								}else if(arr[i].KEY_NAME_EN=='WKBL_PERCENT'){
 									_this.final_money_edit=arr[i].VALUE_STATUS
-									_this.FINAL_RATE=arr[i].VALUE_STR || 0
+									if(_this.FINAL_RATE===''){_this.FINAL_RATE=arr[i].VALUE_STR || 0}
 									_this.final_money_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
 									_this.final_money_limit.LIMIT_VALUE_D=arr[i].LIMIT_VALUE_D
 									_this.final_money_limit.LIMIT_VALUE_U=arr[i].LIMIT_VALUE_U
 									this.FINAL_FEE=_this.FINAL_RATE===''?'':parseInt(this.LEASE_TOPRIC*this.FINAL_RATE*0.01)//尾款款
 								}else if(arr[i].KEY_NAME_EN=='BZJBL_PERCENT'){
-									_this.BAIL_PERCENT=arr[i].VALUE_STR
+									if(_this.BAIL_PERCENT===''){_this.BAIL_PERCENT=arr[i].VALUE_STR}
 									_this.bail_money_edit=arr[i].VALUE_STATUS
 									this.LEASE_BAIL=_this.BAIL_PERCENT===''?'':parseInt(this.TOPRIC_SUBFIRENT*this.BAIL_PERCENT*0.01)//保证金
 								}else if(arr[i].KEY_NAME_EN=='BZJCLFS'){
@@ -1163,37 +1235,37 @@
 							for(var i=0;i<otherArr.length;i++){
 								if(otherArr[i].KEY_NAME_EN=='BXF_PRICE'){
 									_this.bxf_status=true
-									_this.BXF_PRICE=otherArr[i].VALUE_STR || 0
+									if(_this.BXF_PRICE===''){_this.BXF_PRICE=otherArr[i].VALUE_STR || 0}
 									_this.bxf_edit=otherArr[i].VALUE_STATUS
 									_this.bxf_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='BYF_PRICE'){
 									_this.byf_status=true
-									_this.BYF_PRICE=otherArr[i].VALUE_STR || 0
+									if(_this.BYF_PRICE===''){_this.BYF_PRICE=otherArr[i].VALUE_STR || 0}
 									_this.byf_edit=otherArr[i].VALUE_STATUS
 									_this.byf_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='BUY_TAX_PRICE'){
 									_this.buy_tax_status=true
-									_this.BUY_TAX_PRICE=otherArr[i].VALUE_STR || 0
+									if(_this.BUY_TAX_PRICE===''){_this.BUY_TAX_PRICE=otherArr[i].VALUE_STR || 0}
 									_this.buy_tax_edit=otherArr[i].VALUE_STATUS
 									_this.buy_tax_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='SJ_PRICE'){
 									_this.sj_status=true
-									_this.SJ_PRICE=otherArr[i].VALUE_STR || 0
+									if(_this.SJ_PRICE===''){_this.SJ_PRICE=otherArr[i].VALUE_STR || 0}
 									_this.sj_edit=otherArr[i].VALUE_STATUS
 									_this.sj_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='JPZH_PRICE'){
 									_this.jpzh_status=true
-									_this.JPZH_PRICE=otherArr[i].VALUE_STR || 0
+									if(_this.JPZH_PRICE===''){_this.JPZH_PRICE=otherArr[i].VALUE_STR || 0}
 									_this.jpzh_edit=otherArr[i].VALUE_STATUS
 									_this.jpzh_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='CCS_PRICE'){
 									_this.ccs_status=true
-									_this.CCS_PRICE=otherArr[i].VALUE_STR || 0
+									if(_this.CCS_PRICE===''){_this.CCS_PRICE=otherArr[i].VALUE_STR || 0}
 									_this.ccs_edit=otherArr[i].VALUE_STATUS
 									_this.ccs_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='SJ_MONEY'){
 									_this.sh_status=true
-									_this.SH_MONEY=otherArr[i].VALUE_STR || 0
+									if(_this.SH_MONEY===''){_this.SH_MONEY=otherArr[i].VALUE_STR || 0}
 									_this.sh_edit=otherArr[i].VALUE_STATUS
 									_this.sh_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}
@@ -1232,7 +1304,7 @@
 								}
 							}
 							if(this.LEASE_TERM&&this.LEASE_COURSE_ID){
-								this.YEAR_LIMIT=(this.LEASE_TERM*LEASE_COURSE_ID/12).toFixed(2)
+								this.YEAR_LIMIT=(this.LEASE_TERM*this.LEASE_COURSE_ID/12).toFixed(2)
 							}else {
 								this.YEAR_LIMIT=''
 							}
@@ -1249,7 +1321,7 @@
 						}else if(val=='ghtime'){
 							if(!this.checkIntNmber(this.GHTIME)){this.GHTIME=''}
 						}else if(val=='yearRate'){
-							if(!this.checkIntNmber(this.YEAR_INTEREST)){this.YEAR_INTEREST=''}
+							if(!this.checkFloatNmber(this.YEAR_INTEREST)){this.YEAR_INTEREST=''}
 						}else if(val=='bxf'){
 							if(!this.checkIntNmber(this.BXF_PRICE)){this.BXF_PRICE=''}
 							if(Number(this.BXF_PRICE)+Number(this.BUY_TAX_PRICE)+Number(this.JPZH_PRICE)>parseInt(this.EQU_MONEY_ALL*0.2)){
@@ -1612,9 +1684,9 @@
 							if(res.data.flag=="1"){
 								summer.toast({msg:"测算成功"});
 								_this.isTest =true
-								_this.totleFirstM=res.data.datas.totleFirstM
-								_this.term=res.data.datas.totleMonth
-								_this.MONTH_PRICE=res.data.datas.list[0].MONTH_PRICE
+								_this.totleFirstM=(res.data.datas.totleFirstM).toFixed(2)
+								_this.term=res.data.datas.LEASE_TERM || _this.LEASE_TERM
+								_this.MONTH_PRICE=(res.data.datas.totleMonthM).toFixed(2)
 							}else{
 								summer.toast({
 									msg:res.data.msg
@@ -1672,7 +1744,9 @@
 								{O_OTHER_NAME:'车船税',O_OTHER_MONEY:this.CCS_PRICE,O_TYPE_MONEY:this.ccs_jrfs_code},
 								{O_OTHER_NAME:'上海牌照费',O_OTHER_MONEY:this.SH_MONEY,O_TYPE_MONEY:this.sh_jrfs_code},
 								{O_OTHER_NAME:'GPS费',O_OTHER_MONEY:this.GPS_MONEY,O_TYPE_MONEY:this.gps_jrfs_code}
-							]
+							],
+							FIRST_RENT:this.totleFirstM,
+							MONTH_PRICE:this.MONTH_PRICE
 						}
 						if(this.TX !='无'){
 							param.PREMIUMS_M=this.TX_M
