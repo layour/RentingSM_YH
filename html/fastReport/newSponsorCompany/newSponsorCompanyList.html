@@ -248,6 +248,7 @@
 			newSponsorCompanyList.CREDIT_ID=CREDIT_ID;
             var item= summer.pageParam.item;
             if(item){
+				$(".legalBase").addClass('active').siblings('i').addClass("active");
 				item = item[0];
 				newSponsorCompanyList.guarantorCorpBase = item.guarantorCorpBase;//法人担保人基本信息
 				newSponsorCompanyList.tCustBankAccountList = item.tCustBankAccountList;//银行卡列表
