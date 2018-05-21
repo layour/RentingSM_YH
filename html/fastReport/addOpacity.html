@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <style>
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+
+        html {
+            background-color: transparent !important;
+        }
+
+        .um-win {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .popover-box {
+            position: fixed;
+            bottom: 0;
+            list-style: none;
+            border-radius: 0.04rem;
+            width: 100%;
+            z-index: 999;
+            background-color: #f8f8f8;
+        }
+
+        .popover-item {
+            height: 0.88rem;
+            line-height: 0.88rem;
+            background-color: #fff;
+            margin-bottom: 0.2rem;
+        }
+
+        .popover-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .popover-icon {
+            font-size: 0.3rem;
+        }
+
+        .popover-text {
+            font-size: 0.28rem;
+            color: #333;
+            letter-spacing: 0;
+            margin-left: 0.12rem;
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css" />
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css" />
+</head>
+
+<body>
+    <div class="um-win pr" id="wrap">
+        <div class="um-content pr"></div>
+        <ul class="popover-box">
+            <li class="popover-item faren tc">
+                <span class="popover-text">法人</span>
+            </li>
+            <li class="popover-item ziranren tc">
+                <span class="popover-text">自然人</span>
+            </li>
+            <li class="popover-item go-cacel tc">
+                <span class="popover-text">取消</span>
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="../../js/font.js"></script>
+<script src="../../js/jquery.min.js"></script>
+<script src="../../js/summer.js"></script>
+<script src="../../js/common.js"></script>
+<script>
+    summerready = function () {
+        var USER_ID = summer.pageParam.USER_ID;
+        // 关闭弹层
+        $('.um-content').on('touchstart', function () {
+            closeOpacity();
+        });
+        // 法人
+        $('.faren').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            summer.toast({
+                msg: "敬请期待"
+            });
+            closeOpacity();
+        });
+        // 自然人
+        $('.ziranren').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            summer.openWin({
+                id: 'newCreateCustom_verify',
+                url: 'html/fastReport/newCreateCustom_verify.html',
+                create: false,
+                type: 'actionBar',
+                actionBar: {
+                    title: "客户信息",
+                    titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                    backgroundColor: "#039be5",
+                    leftItem: {
+                        image: "img/back.png",
+                        method: "", //返回按钮自定义事件
+                        text: "返回",
+                        textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                    },
+                    rightItems: [{
+                        type: "text",
+                        text: "验证",
+                        textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                        method: "verifyMessage()" //在打开的window中自定义事件
+                    }]
+                },
+                pageParam: {
+                    sourceFrom: "newCustom",
+                    type: "自然人",
+                    USER_ID: USER_ID
+                }
+            });
+            closeOpacity();
+        });
+        // 取消
+        $('.go-cacel').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            closeOpacity();
+        });
+    };
+
+    // 关闭当前
+    function closeOpacity() {
+        summer.closeFrame({
+            id: "addOpacity"
+        });
+    }
+</script>
+
+</html>

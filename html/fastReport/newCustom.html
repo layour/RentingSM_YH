@@ -409,7 +409,22 @@
 	});
     // 点击添加
 	function newCreateCustom() {
-        newCustom.surePickerType();
+        // newCustom.surePickerType();
+        summer.openFrame({
+            id : 'addOpacity',
+            url : 'html/fastReport/addOpacity.html',
+            position : {
+                top : 0,
+                left : 0,
+                bottom : 0,
+                right : 0
+            },
+            opaque : false,
+            pageParam : {
+                sourceFrom: "newCustom",
+                USER_ID: newCustom.USER_ID
+            }
+        });
 	}
 
 	function opensearch() {

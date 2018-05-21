@@ -1029,21 +1029,22 @@
 				},
                 handleConfirm: function (pickerValue) {
                     this.pickerValue = pickerValue;
-                    this.message.CR_BIRTH_DATE = getFormatDate(pickerValue);
-                    function getFormatDate(date) {
-                        var date = new Date(date),
-                            seperator1 = "-";
-                        var year = date.getFullYear(),
-                            month = date.getMonth() + 1,
-                            strDate = date.getDate();
-                        if (month >= 1 && month <= 9) {
-                            month = "0" + month;
-                        }
-                        if (strDate >= 0 && strDate <= 9) {
-                            strDate = "0" + strDate;
-                        }
-                        return year + '-' + month + '-' + strDate;
+                    var result = this.getFormatDate(pickerValue);
+                    this.message.CR_BIRTH_DATE = result;
+                },
+                getFormatDate: function (date) {
+                    var date = new Date(date),
+                        seperator1 = "-";
+                    var year = date.getFullYear(),
+                        month = date.getMonth() + 1,
+                        strDate = date.getDate();
+                    if (month >= 1 && month <= 9) {
+                        month = "0" + month;
                     }
+                    if (strDate >= 0 && strDate <= 9) {
+                        strDate = "0" + strDate;
+                    }
+                    return year + '-' + month + '-' + strDate;
                 },
                 // 校验（true/false）
                 messageTest: function () {
