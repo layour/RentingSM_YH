@@ -6,7 +6,7 @@
  * 4、兼容获取权限：getPermission(["android.permission.ACCESS_FINE_LOCATION","android.permission.ACCESS_COARSE_LOCATION"], successFn)
  */
 // 易汇测试地址
-window.G_COMMON_URL = "http://106.15.55.173:8080/appservice-yh/";
+window.G_COMMON_URL = "http://39.107.231.240:8080/appservice-yh/";
 
 function userId() {
 	var userinfo = summer.getStorage("userinfo");
