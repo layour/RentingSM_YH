@@ -246,7 +246,15 @@
 							param.E_CCS_M=this.onePrice;
 							param.E_BX_M=this.safePrice;
 							param.STAYBUY_PRICE=this.holdPrice;
-							console.log("param",JSON.stringify(param));
+							console.log("param",JSON.stringify({
+								BUSINESS_HEAD_ID:this.PROJECT_ID,
+								equipObjList:[param],
+								SUPPLIERS_ID:JSON.parse(summer.getStorage('pickerDealer')).SUPPLIERS_ID,
+								CUSTOMER_ID:this.newID.CUSTOMER_ID,
+								SCHEME_ID : this.newID.SCHEME_ID,//方案ID
+								CREDIT_HEAD_ID : this.newID.CREDIT_ID,//资信ID
+								PLATFORM : this.newID.PLATFORM//业务类型
+							}));
 							var _this=this;
 							summer.showProgress()
 							ajaxRequest({

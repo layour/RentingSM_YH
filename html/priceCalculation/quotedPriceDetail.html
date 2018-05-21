@@ -434,7 +434,7 @@
 			<div class="um-footer" id="footer">
 				<!-- 选择报价方案 -->
 				<mt-popup v-model="pickerFlagStatus" class="pickerPrice"  position='bottom' >
-					<mt-picker value-key="schemeName" :slots="pickerFlagList" @change="pickerFlagChange"></mt-picker>
+					<mt-picker value-key="FLAG" :slots="pickerFlagList" @change="pickerFlagChange"></mt-picker>
 					<p><span class="fl" @click="pickerFlag(false,false)">取消</span><span class="fr" @click="pickerFlag(false,true)">确定</span></p>
 				</mt-popup>
         <!-- 首付款 -->
@@ -779,7 +779,7 @@
 								url:"offer/toProjectScheme",
 								param:{PROJECT_ID:_this.prjId}
 							},function(res){
-								console.log("res",JSON.stringify(res));
+								console.log("toProjectScheme",JSON.stringify(res));
 								var data=res.data.datas
 								_this.scheme_type_list=data.POLICY_TYPES //方案类型字典
 								_this.lease_course_list=data.LEASE_COURSES  //租赁周期
@@ -865,7 +865,7 @@
 					},
 					pickerFlag:function(val,status){
 						console.log(val,status,this.currentName,JSON.stringify(this.pickingObj))
-            if((val!='schemeType' && val!='schemeName')&& !this.SCHEME_NAME){
+            if(val&&(val!='schemeType' && val!='schemeName')&& !this.SCHEME_NAME){
               summer.toast({msg:'请先选择商务政策'})
               return
             }
@@ -933,7 +933,7 @@
 								summer.showProgress();
 								ajaxRequest({
 									type:'POST',
-									url:"offer/toProjectScheme",
+									url:"offer/getSchList",
 									param:{
 										PROJECT_ID:_this.prjId,
 										POLICY_TYPE:_this.SCHEME_TYPE

@@ -486,10 +486,10 @@
 						// SCHEME_ID: setProgect.SCHEME_ID,//方案ID
 						// CREDIT_ID: setProgect.CREDIT_ID,//资信ID
 						// PLATFORM: setProgect.PLATFORM//业务类型
-						id: 23030, //方便调试 写死了
-						CUSTOMER_ID:240622,
-						SCHEME_ID: 29762,//方案ID
-						CREDIT_ID: 32119,//资信ID
+						id: 23054, //方便调试 写死了
+						CUSTOMER_ID:240667,
+						SCHEME_ID: 29786,//方案ID
+						CREDIT_ID: 32143,//资信ID
 						PLATFORM: "直租"//业务类
 					},
 					actionBar: {
@@ -514,12 +514,13 @@
 			} else if (param == 'quotedPriceList') {
 				url = "html/priceCalculation/quotedPriceDetail.html";
 				title = "报价方案"
-				if(!$(".addCarList").hasClass('active')){
-					summer.toast({
-						msg: '请先添加车辆信息'
-					});
-					return
-				}
+				// 临时屏蔽 调试用
+				// if(!$(".addCarList").hasClass('active')){
+				// 	summer.toast({
+				// 		msg: '请先添加车辆信息'
+				// 	});
+				// 	return
+				// }
 				summer.openWin({
 					id: id,
 					url: url,
@@ -527,7 +528,7 @@
 					type: 'actionBar',
 					pageParam: {
 						// id: setProgect.project_Id,
-						id: 23030, //方便调试 写死了
+						id: 23054, //方便调试 写死了
 					},
 					actionBar: {
 						title: title,
@@ -566,7 +567,7 @@
 					type: 'actionBar',
 					pageParam: {
 						// id: setProgect.project_Id  方便调试 写死了
-						id:23030
+						id:23054
 
 					},
 					actionBar: {
