@@ -260,8 +260,12 @@
                     personMes: {
                         // 姓名
                         CR_NATU_MATE_NAME: "",
+                        // 证件类型
+                        CR_NATU_MATE_DOCUMENT_NAME: "",
                         // 证件号码
                         CR_NATU_MATE_IDCARD: "",
+                        // 性别
+                        CR_NATU_MATE_SEX: "",
                         // 手机号码
                         CR_NATU_MATE_MOBILE: "",
                         // 家庭地址
@@ -274,6 +278,8 @@
                         CR_MATE_MAILING_ADDRESS_DZ: "",
                         // 工作单位地址
                         CR_NATU_MATE_WORK_ADDRESS: "",
+                        // 教育
+                        CR_NATU_MATE_EDUCATION_NAME: "",
                         // 备注
                         EMPLOYEE_MEMO: "",
                         // 出生日期
@@ -527,6 +533,9 @@
                             if (self.sourceFrom == "newCreateCustom_verify2") {
                                 // 新增客户配偶，保存成功后回到立项并携带新的客户id
                                 var clint_Id = res.data.datas.EMPLOYEE_ID;
+                                summer.closeWin({
+                                    id: 'newCreateCustom'
+                                });
                                 summer.openWin({
                                     id: 'setProject',
                                     url: 'html/fastReport/setProject.html',

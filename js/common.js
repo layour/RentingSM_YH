@@ -176,7 +176,7 @@ function ajaxRequest(paramObj, successCallback, errorCallback) {
 		if (Object.prototype.toString.call(response.data) === '[object String]') {
 			response.data = JSON.parse(response.data);
 		}
-		if (response.data.flag == '0') {
+		if (response.data.flag && response.data.flag == '0') {
 			summer.hideProgress();
 			successCallback(response);
 			summer.toast({
