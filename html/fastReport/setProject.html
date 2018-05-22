@@ -483,28 +483,28 @@
 			if (param == 'addCarList') {
 				url='html/touristsClient/addCar.html';
 				title="添加车辆";
-				// if (!setProgect.project_Id) {
-				// 	summer.toast({
-				// 		msg: '请先完善业务基础信息'
-				// 	});
-				// 	return
-				// }
+				if (!setProgect.project_Id) {
+					summer.toast({
+						msg: '请先完善业务基础信息'
+					});
+					return
+				}
 				summer.openWin({
 					id: 'addCar',
 					url: url,
 					create: false,
 					type: 'actionBar',
 					pageParam: {
-						// id: setProgect.project_Id,
-						// CUSTOMER_ID: setProgect.customId,
-						// SCHEME_ID: setProgect.SCHEME_ID,//方案ID
-						// CREDIT_ID: setProgect.CREDIT_ID,//资信ID
-						// PLATFORM: setProgect.PLATFORM//业务类型
-						id: 23054, //方便调试 写死了
-						CUSTOMER_ID:240667,
-						SCHEME_ID: 29786,//方案ID
-						CREDIT_ID: 32143,//资信ID
-						PLATFORM: "直租"//业务类
+						id: setProgect.project_Id,
+						CUSTOMER_ID: setProgect.customId,
+						SCHEME_ID: setProgect.SCHEME_ID,//方案ID
+						CREDIT_ID: setProgect.CREDIT_ID,//资信ID
+						PLATFORM: setProgect.PLATFORM//业务类型
+						// id: 23054, //方便调试 写死了
+						// CUSTOMER_ID:240667,
+						// SCHEME_ID: 29786,//方案ID
+						// CREDIT_ID: 32143,//资信ID
+						// PLATFORM: "直租"//业务类
 					},
 					actionBar: {
 						title: title,
@@ -529,20 +529,20 @@
 				url = "html/priceCalculation/quotedPriceDetail.html";
 				title = "报价方案"
 				// 临时屏蔽 调试用
-				// if(!$(".addCarList").hasClass('active')){
-				// 	summer.toast({
-				// 		msg: '请先添加车辆信息'
-				// 	});
-				// 	return
-				// }
+				if(!$(".addCarList").hasClass('active')){
+					summer.toast({
+						msg: '请先添加车辆信息'
+					});
+					return
+				}
 				summer.openWin({
 					id: id,
 					url: url,
 					create: false,
 					type: 'actionBar',
 					pageParam: {
-						// id: setProgect.project_Id,
-						id: 23054, //方便调试 写死了
+						id: setProgect.project_Id,
+						// id: 23054, //方便调试 写死了
 					},
 					actionBar: {
 						title: title,
@@ -565,12 +565,12 @@
 				return
 			} else if (param == 'uploadImg') {
 				// 不需要用户ID了 CLIENT_ID: setProgect.customId
-				// if(!$(".price").hasClass('active')){
-				// 	summer.toast({
-				// 		msg: '请先选择报价方案'
-				// 	});
-				// 	return
-				// }
+				if(!$(".price").hasClass('active')){
+					summer.toast({
+						msg: '请先选择报价方案'
+					});
+					return
+				}
 				id="uploadImg"
 				url = "html/fastReport/uploadImgList.html";
 				title = '资料上传';
@@ -580,9 +580,8 @@
 					create: false,
 					type: 'actionBar',
 					pageParam: {
-						// id: setProgect.project_Id  方便调试 写死了
-						id:23054
-
+						id: setProgect.project_Id
+						// id:23054  //方便调试 写死了
 					},
 					actionBar: {
 						title: title,
@@ -727,7 +726,7 @@
 						item:data
 					}
 				});
-				 
+
 		  }else{
 			summer.openWin({
 				id: id,
