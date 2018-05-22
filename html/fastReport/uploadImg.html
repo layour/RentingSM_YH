@@ -214,8 +214,8 @@
 						}
 					}, function (res) {
 						console.log(JSON.stringify(res));
-						if (res.data.list.length > 0) {
-							_this.oldImgList = res.data.list
+						if (res.data.datas.list.length > 0) {
+							_this.oldImgList = res.data.datas.list
 							for (var i = 0; i < _this.oldImgList.length; i++) {
 								_this.oldImgList[i].filePath = window.G_COMMON_URL + "business/downloadCoreFiles?PATH=" + _this.oldImgList[i].FILE_URL
 							}
@@ -295,23 +295,23 @@
 							summer.showProgress();
 							that.compressImg(0, args, length);
 
-							function compressImg(i) {
-								CommonUtil.watermark({
-									srcImage: args.imgPaths[i].imgPath,
-									targetImage: args.imgPaths[i].imgPath,
-									name: that.param.name,
-									callback: function (res) {
-										// console.log(i + "水印后的" + res.target)
-										that.imgList.push(res.target);
-										if (i < length - 1) {
-											// console.log("第" + i + "次回掉");
-											compressImg(i + 1)
-										} else {
-											summer.hideProgress();
-										}
-									}
-								});
-							}
+							// function compressImg(i) {
+							// 	CommonUtil.watermark({
+							// 		srcImage: args.imgPaths[i].imgPath,
+							// 		targetImage: args.imgPaths[i].imgPath,
+							// 		name: that.param.name,
+							// 		callback: function (res) {
+							// 			// console.log(i + "水印后的" + res.target)
+							// 			that.imgList.push(res.target);
+							// 			if (i < length - 1) {
+							// 				// console.log("第" + i + "次回掉");
+							// 				compressImg(i + 1)
+							// 			} else {
+							// 				summer.hideProgress();
+							// 			}
+							// 		}
+							// 	});
+							// }
 						}
 					});
 				},
@@ -325,6 +325,7 @@
 						callback: function (res) {
 							// console.log("第" + i + "次水印后的" + res.target)
 							that.imgList.push(res.target);
+							console.log(i,length-1)
 							if (i < length - 1) {
 								that.compressImg(i + 1, args, length)
 							} else {
@@ -379,7 +380,7 @@
 						fileArray: that.uploadImgArr,
 						params: dataParams,
 						// headers :{"Content-Type" : "application/json"},
-						SERVER: window.G_COMMON_URL + "appservice/business/newUploadloadFiles",
+						SERVER: window.G_COMMON_URL + "business/newUploadloadFiles",
 						timeout: 10
 					}, "multiUploadCallback()", "multiUploadErrCallback()");
 				},
@@ -417,7 +418,7 @@
 							fileArray: that.uploadImgArr,
 							params: dataParams,
 							// headers :{"Content-Type" : "application/json"},
-							SERVER: window.G_COMMON_URL + "appservice/project/prjbscinfo/upload.do",
+							SERVER: window.G_COMMON_URL + "business/uploadCoreFiles",
 							timeout: 10
 						}, "multiUploadCallback_repay()", "multiUploadErrCallback()");
 					} else {
@@ -425,7 +426,7 @@
 							fileArray: that.uploadImgArr,
 							params: dataParams,
 							// headers :{"Content-Type" : "application/json"},
-							SERVER: window.G_COMMON_URL + "appservice/project/prjbscinfo/upload.do",
+							SERVER: window.G_COMMON_URL + "business/uploadCoreFiles",
 							timeout: 10
 						}, "multiUploadCallback()", "multiUploadErrCallback()");
 					}
