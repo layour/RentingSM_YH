@@ -211,6 +211,10 @@
                             var bankList = res.data.datas.openBankList;
                             if (bankList.length > 0) {
                                 _this.bankList = bankList;
+                                summer.execScript({
+                                    winId: 'setProject',
+                                    script: "addRight('bank')"
+                                });
                             }
                         } else {
                             summer.toast({

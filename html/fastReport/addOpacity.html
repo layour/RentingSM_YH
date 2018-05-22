@@ -85,17 +85,14 @@
         });
         // 法人
         $('.faren').on('click', function () {
-            /* e.preventDefault();
-            e.stopPropagation(); */
+            closeOpacity();
             summer.toast({
                 msg: "敬请期待"
             });
-            closeOpacity();
         });
         // 自然人
         $('.ziranren').on('click', function () {
-            /* e.preventDefault();
-            e.stopPropagation(); */
+            closeOpacity();
             summer.openWin({
                 id: 'newCreateCustom_verify',
                 url: 'html/fastReport/newCreateCustom_verify.html',
@@ -124,12 +121,9 @@
                     USER_ID: USER_ID
                 }
             });
-            closeOpacity();
         });
         // 取消
         $('.go-cacel').on('click', function () {
-            /* e.preventDefault();
-            e.stopPropagation(); */
             closeOpacity();
         });
     };
