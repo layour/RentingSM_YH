@@ -530,12 +530,12 @@
                             summer.toast({
                                 msg: "保存成功"
                             });
-                            if (self.sourceFrom == "newCreateCustom_verify2") {
+                            if (self.sourceFrom == "programSelect") {
                                 // 新增客户配偶，保存成功后回到立项并携带新的客户id
                                 var clint_Id = res.data.datas.EMPLOYEE_ID;
-                                summer.closeWin({
+                                /* summer.closeWin({
                                     id: 'newCreateCustom'
-                                });
+                                }); */
                                 summer.openWin({
                                     id: 'setProject',
                                     url: 'html/fastReport/setProject.html',
@@ -566,7 +566,7 @@
                                         }]
                                     }
                                 });
-                            } else if (self.sourceFrom == "newCustom") {
+                            } else if (self.sourceFrom == "newCustom" || self.sourceFrom == "index") {
                                 summer.closeToWin({
                                     id: "newCustom"
                                 });
@@ -614,7 +614,8 @@
             var sponseBase = summer.pageParam.sponseBase;
             var sourceFrom = summer.pageParam.sourceFrom;
             newCreateCustom2.sourceFrom = sourceFrom;
-            if (sourceFrom == "newCreateCustom_verify2") {
+            var add = summer.pageParam.add;
+            if ((sourceFrom == "programSelect" || sourceFrom == "index") && add == true) {
                 // 新增
                 /* if (sponseBase) {
                 } */

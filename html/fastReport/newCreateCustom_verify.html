@@ -182,7 +182,7 @@
                         certNo: '',
                         cstPhoneNumber: ''
                     },
-                    sourceFrom: '',
+                    pageSource: '',
                     // 客户类型
                     cusType: "",
                     USER_ID: ""
@@ -321,7 +321,7 @@
                                 },
                                 pageParam: {
                                     personBaseMessage: totalMessage,
-                                    sourceFrom: "newCreateCustom_verify",
+                                    sourceFrom: self.pageSource, //"newCreateCustom_verify",
                                     isAdd: true,
                                     type: self.cusType,
                                     USER_ID: self.USER_ID
@@ -353,6 +353,9 @@
             // USER_ID
             var USER_ID = summer.pageParam.USER_ID;
             newCreateCustomVerify.USER_ID = USER_ID;
+            // 页面来源
+            var pageSource = summer.pageParam.sourceFrom;
+            newCreateCustomVerify.pageSource = pageSource;
         }
     </script>
 </body>

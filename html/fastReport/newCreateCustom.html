@@ -1394,7 +1394,7 @@
                             summer.toast({
                                 msg: "保存成功"
                             });
-                            if (self.sourceFrom == "newCreateCustom_verify") {
+                            if (self.sourceFrom == "programSelect") {
                                 // 新增客户，保存成功后，回到立项并携带新的客户id
                                 var clint_Id = res.data.datas.EMPLOYEE_ID;
                                 self.clintId = clint_Id;
@@ -1459,11 +1459,11 @@
                     var paramData = this.saveParams();
                     var sourceFrom;
                     var self = this;
-                    if (self.isAdd) {
+                    /* if (self.isAdd) {
                         sourceFrom = "newCreateCustom_verify2";
                     } else {
-                        sourceFrom = self.sourceFrom;
-                    }
+                    } */
+                    sourceFrom = self.sourceFrom;
                     /* if (self.isAdd) {
                         summer.openWin({
                             id: 'newCreateCustom_verify2',
@@ -1571,6 +1571,7 @@
                             // 信息详情
                             personMessage: self.message,
                             sourceFrom: sourceFrom,
+                            add: self.isAdd,
                             // 证件类型
                             cardValues: self.slots1[0].values,
                             // 性别
@@ -1609,7 +1610,7 @@
             newCreateCustom.sourceFrom = sourceFrom;
             newCreateCustom.clintId = clintId;
             var customBaseMessage = summer.pageParam.personBaseMessage;
-            if (sourceFrom == "newCreateCustom_verify" && customBaseMessage) {
+            if ((sourceFrom == "programSelect" || sourceFrom == "index") && customBaseMessage) {
                 // 添加客户
                 // 姓名
                 newCreateCustom.message.CR_BECR_NAME = customBaseMessage.cstNm;

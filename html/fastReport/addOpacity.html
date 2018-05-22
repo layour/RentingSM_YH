@@ -79,6 +79,7 @@
 <script>
     summerready = function () {
         var USER_ID = summer.pageParam.USER_ID;
+        var pageSource = summer.pageParam.pageSource;
         // 关闭弹层
         $('.um-content').on('touchstart', function () {
             closeOpacity();
@@ -116,7 +117,7 @@
                     }]
                 },
                 pageParam: {
-                    sourceFrom: "newCustom",
+                    sourceFrom: pageSource,
                     type: "自然人",
                     USER_ID: USER_ID
                 }
