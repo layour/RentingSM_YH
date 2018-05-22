@@ -253,7 +253,7 @@
     <script src="../../js/common.js"></script>
     <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
     <script>
-        var newCreateCustom = new Vue({
+        var newCreateCustom2 = new Vue({
             el: '#app',
             data: function () {
                 return {
@@ -275,26 +275,13 @@
                         // 工作单位地址
                         CR_NATU_MATE_WORK_ADDRESS: "",
                         // 备注
-                        EMPLOYEE_MEMO: ""
+                        EMPLOYEE_MEMO: "",
+                        // 出生日期
+                        CR_MATE_BIRTH_DATE: "",
                     },
                     totalData: '',
                     // 客户信息字段
                     prevParams: "",
-                    message: {
-                        cstNpSocialRl: {
-                            rlNm: '',
-                            certNo: '',
-                            certTypCd: '1',
-                            genderCd: '',
-                            idAddr: '',
-                            workPlc: '',
-                            mp: '',
-                            id: '', //配偶id，修改需要带上
-                            majorInTypCd: '',
-                            majorInTypCdName: '',
-                            afterTaxYearIn: ''
-                        }
-                    },
                     sourceFrom: '',
                     // 证件类型
                     pickerZJTypeShow: false,
@@ -602,7 +589,7 @@
         })
 
         function saveAllPerMessage() {
-            newCreateCustom.savePerson();
+            newCreateCustom2.savePerson();
         }
         summerready = function () {
             var personMessage = summer.pageParam.personMessage;
@@ -616,44 +603,44 @@
             var prevParams = summer.pageParam.prevParams;
             var sponseBase = summer.pageParam.sponseBase;
             var sourceFrom = summer.pageParam.sourceFrom;
-            newCreateCustom.sourceFrom = sourceFrom;
+            newCreateCustom2.sourceFrom = sourceFrom;
             if (sourceFrom == "newCreateCustom_verify2") {
                 // 新增
                 /* if (sponseBase) {
                 } */
                 // 全部数据
-                newCreateCustom.totalData = totalData;
+                newCreateCustom2.totalData = totalData;
                 // 证件类型
-                newCreateCustom.slots1[0].values = cardValues;
+                newCreateCustom2.slots1[0].values = cardValues;
                 // 性别
-                newCreateCustom.slots2[0].values = sexValues;
+                newCreateCustom2.slots2[0].values = sexValues;
                 // 教育（学历）
-                newCreateCustom.slots3[0].values = eduValues;
+                newCreateCustom2.slots3[0].values = eduValues;
                 // 客户信息字段
-                newCreateCustom.prevParams = prevParams;
+                newCreateCustom2.prevParams = prevParams;
                 // 客户类型
-                newCreateCustom.type = summer.pageParam.type;
+                newCreateCustom2.type = summer.pageParam.type;
                 // 登陆人ID
-                newCreateCustom.USER_ID = summer.pageParam.USER_ID;
+                newCreateCustom2.USER_ID = summer.pageParam.USER_ID;
                 // 姓名，身份证号，证件类型，性别赋值
-                /* newCreateCustom.personMes.CR_NATU_MATE_NAME = sponseBase.cstNm;
-                newCreateCustom.personMes.CR_NATU_MATE_IDCARD = sponseBase.certNo;
-                newCreateCustom.personMes.CR_NATU_MATE_DOCUMENT_NAME = sponseBase.isHasLicenseNm;
-                newCreateCustom.personMes.CR_NATU_MATE_SEX = sponseBase.genderNm; */
+                /* newCreateCustom2.personMes.CR_NATU_MATE_NAME = sponseBase.cstNm;
+                newCreateCustom2.personMes.CR_NATU_MATE_IDCARD = sponseBase.certNo;
+                newCreateCustom2.personMes.CR_NATU_MATE_DOCUMENT_NAME = sponseBase.isHasLicenseNm;
+                newCreateCustom2.personMes.CR_NATU_MATE_SEX = sponseBase.genderNm; */
             } else {
                 if (personMessage) {
                     // 全部数据
-                    newCreateCustom.totalData = totalData;
+                    newCreateCustom2.totalData = totalData;
                     // 配偶信息（客户详情表）
-                    newCreateCustom.personMes = personMessage;
+                    newCreateCustom2.personMes = personMessage;
                     // 证件类型
-                    newCreateCustom.slots1[0].values = cardValues;
+                    newCreateCustom2.slots1[0].values = cardValues;
                     // 性别
-                    newCreateCustom.slots2[0].values = sexValues;
+                    newCreateCustom2.slots2[0].values = sexValues;
                     // 教育（学历）
-                    newCreateCustom.slots3[0].values = eduValues;
+                    newCreateCustom2.slots3[0].values = eduValues;
                     // 客户信息字段
-                    newCreateCustom.prevParams = prevParams;
+                    newCreateCustom2.prevParams = prevParams;
                 }
             }
         }

@@ -155,14 +155,6 @@
 				</div>
 			</div>
         </div>
-        <!-- 选择法人、自然人 -->
-        <mt-popup v-model="pickerTypeShow" position="bottom" class="pickerColor">
-            <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
-            <p>
-                <span class="" @click="surePickerType">取消</span>
-                <span class="" @click="surePickerType('confirm')">确定</span>
-            </p>
-        </mt-popup>
     </div>
 </body>
 <script src="../../js/summer.js"></script>
@@ -228,18 +220,7 @@
 				totalPage: '',
 				pageSource: '',
                 marginTop0: "marginTop0",
-                USER_ID: "",
-                // 法人、自然人
-                pickerTypeShow: false,
-                pickerType: "",
-                slots: [{
-                    flex: 1,
-                    values: ["法人", "自然人"],
-                    defaultIndex: 0,
-                    className: 'slot1',
-                    textAlign: 'center'
-                }],
-                type: ""
+                USER_ID: ""
 			}
 		},
 		methods: {
@@ -277,56 +258,9 @@
 						console.log(self.dataSource);
 					}
 				}, function (err) {
-					//alert(err);
 					console.log(err);
 					summer.hideProgress();
 				});
-            },
-            // 法人、自然人更改
-            onValuesChange: function (picker, values) {
-                this.pickerType = values[0];
-            },
-            surePickerType: function (param) {
-                var self = this;
-                this.pickerTypeShow = !this.pickerTypeShow;
-                if (param == 'confirm') {
-                    this.type = this.pickerType;
-                    if (this.type == "法人") {
-                        summer.toast({
-                            msg: "敬请期待"
-                        });
-                        return false;
-                    } else {
-                        summer.openWin({
-                            id: 'newCreateCustom_verify',
-                            url: 'html/fastReport/newCreateCustom_verify.html',
-                            create: false,
-                            type: 'actionBar',
-                            actionBar: {
-                                title: "客户信息",
-                                titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
-                                backgroundColor: "#039be5",
-                                leftItem: {
-                                    image: "img/back.png",
-                                    method: "", //返回按钮自定义事件
-                                    text: "返回",
-                                    textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-                                },
-                                rightItems: [{
-                                    type: "text",
-                                    text: "验证",
-                                    textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-                                    method: "verifyMessage()" //在打开的window中自定义事件
-                                }]
-                            },
-                            pageParam: {
-                                sourceFrom: "newCustom",
-                                type: self.type,
-                                USER_ID: self.USER_ID
-                            }
-                        });
-                    }
-                }
             },
 			completeCustom:function(id, name, type, USER_ID) {
                 var self = this;
@@ -409,7 +343,6 @@
 	});
     // 点击添加
 	function newCreateCustom() {
-        // newCustom.surePickerType();
         summer.openFrame({
             id : 'addOpacity',
             url : 'html/fastReport/addOpacity.html',
