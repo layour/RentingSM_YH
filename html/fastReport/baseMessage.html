@@ -140,8 +140,7 @@
 			}
 			var baseMessage=new Vue({
 			el:'#baseMessageElement',
-			data:function() {
-				return {
+			data: {
 					contractStatus : 'electron',
 					GroupStatus : 'no',
 					programStyle : '',
@@ -214,7 +213,6 @@
 						AREA_NM:'',
 						SCHEME_ID:''
 					 }
-				}
 			},
 			 methods: {
 				 getData:function(id){

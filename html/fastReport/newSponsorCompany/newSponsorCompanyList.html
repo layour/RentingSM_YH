@@ -160,7 +160,8 @@
 					guarantorCorpBase:'',//法人担保人基本信息
 					tCustBankAccountList:'',//银行户
 					legalRepresentInfo:'',//法人代表
-					tCustCorpHareHolderList:''//
+					tCustCorpHareHolderList:'',//股东信息
+					theContactInfor:""//联系人信息
                 }
             },
             methods:{
@@ -188,7 +189,7 @@
 							});
 							return;
 						}
-						itemData = self.legalRepresentInfo;
+						itemData = self.theContactInfor;
 					}else if(id == 'legalBank'){
 						if(!self.GUARANTOR_ID){
 							summer.toast({
@@ -254,6 +255,7 @@
 				newSponsorCompanyList.tCustBankAccountList = item.tCustBankAccountList;//银行卡列表
 				newSponsorCompanyList.legalRepresentInfo = item.legalRepresentInfo;//法人代表
 				newSponsorCompanyList.tCustCorpHareHolderList = item.tCustCorpHareHolderList;//股东信息
+				newSponsorCompanyList.theContactInfor = item.theContactInfor;//联系人信息
 				console.log(item);
                 //将信息保存
             }

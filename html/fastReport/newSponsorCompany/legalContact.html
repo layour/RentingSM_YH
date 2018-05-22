@@ -226,6 +226,15 @@
              legalContact.message.CREDIT_ID = CREDIT_ID;
              var GUARANTOR_ID = summer.pageParam.GUARANTOR_ID
              legalContact.message.GUARANTOR_ID = GUARANTOR_ID;
+             var itemData = summer.pageParam.itemData;
+             if(itemData){ 
+                    legalContact.message.CREDIT_ID =  itemData.CREDIT_ID     
+                    legalContact.message.NAME =  itemData.NAME   
+                    legalContact.message.CARD_ID =  itemData.CARD_ID   
+                    legalContact.message.PHONE1 =  itemData.PHONE1   
+                    legalContact.message.ABILITY_EVALUATION =  itemData.ABILITY_EVALUATION   
+             }
+            
             
         }
         $(function(){
