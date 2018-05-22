@@ -27,22 +27,22 @@
 			<div id="content"></div>
 			<div class="list customList um-bgc-white" v-for="(item,index) in dataList"  v-bind:class="[index==0 ? marginTop0 : '']">
 				<p class="pl10 title pr10">
-					{{item.cstNm}}
+					{{item.CR_BECR_NAME}}
 					<span class="status fr">
-						<i class="iconfont icon-customer mr5"></i>{{item.cstMgrNm}}</span>
+						<i class="iconfont icon-customer mr5"></i>{{item.CLERK_NAME}}</span>
 				</p>
 				<div class="center" @click="openDetail(item.id,item.JBPM_ID)">
 					<p class="type pl10">
-						<span>{{item.cstId?item.cstId.cstTypCdNm:" "}} </span> |
-						<span>{{item.bizTypNm}}</span>
+						<span>{{item.CR_BECR_TYPE}} </span> |
+						<span>{{item.PROJECT_TYPE}}</span>
 					</p>
 					<p class="type card pl10 status h20">
-						{{item.lsCntNo}}
-						<span class="fr">{{item.prjStsCdNm}}</span>
+						{{item.PROJECT_NAME}}
+						<span class="fr">{{item.STATUS}}</span>
 					</p>
 					<p class="time pl10 pr10">
 						<span>创建时间：
-							<span>{{item.createDate}}</span>
+							<span>{{item.CREATE_TIME}}</span>
 						</span>
 					</p>
 				</div>
@@ -129,12 +129,12 @@
 				getData:function(pageNum, flag) {
 					var self = this;
 					ajaxRequest({
-						type: 'get',
-						url: 'appservice/project/prjbscinfo/initList.do',
+						type: 'post',
+						url: 'foundproject/projectList',
 						param: {
 							"pageNo": pageNum,
 							"pageSize": 10,
-							"prjStsCd": ""
+							"type": "4"
 						}
 					}, function (res) {
 						//alert(res);
@@ -146,7 +146,7 @@
 							Data = res.data;
 						}
 						if (Data.flag == 1) {
-							self.totalPage = Data.datas.last;
+							self.totalPage = Data.datas.totalPage;
 							if (flag) {
 								if (Data.datas.list.length < 1) {
 									createNull("content", "../../img/empty.png");
