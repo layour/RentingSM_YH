@@ -170,7 +170,7 @@
     <script src="../../js/common.js"></script>
     <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
     <script>
-        var newCreateCustom = new Vue({
+        var newCreateCustomVerify = new Vue({
             el: '#app',
             data: function () {
                 return {
@@ -301,7 +301,7 @@
                                 url: 'html/fastReport/newCreateCustom.html',
                                 create: false,
                                 type: 'actionBar',
-                                isKeep: false,
+                                // isKeep: false,
                                 actionBar: {
                                     title: "客户信息",
                                     titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
@@ -344,15 +344,15 @@
         })
         // 验证
         function verifyMessage() {
-            newCreateCustom.verifyMessage();
+            newCreateCustomVerify.verifyMessage();
         }
         summerready = function () {
             // 客户类型
             var cusType = summer.pageParam.type;
-            newCreateCustom.cusType = cusType;
+            newCreateCustomVerify.cusType = cusType;
             // USER_ID
             var USER_ID = summer.pageParam.USER_ID;
-            newCreateCustom.USER_ID = USER_ID;
+            newCreateCustomVerify.USER_ID = USER_ID;
         }
     </script>
 </body>
