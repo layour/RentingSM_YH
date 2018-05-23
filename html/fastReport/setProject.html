@@ -856,14 +856,14 @@
 			});
 		}
 		function addSharePerson(){
-			// 客户id
-			var clintId = setProgect.customId;
-			 // 客户类型
-			 var type = setProgect.type;
-            // 登陆人id
-            var USER_ID = setProgect.USER_ID;
+            if(!$(".baseMessage").hasClass('active')){
+				summer.toast({msg:"请完善业务基本信息"});
+				return;
+			}
+            // 资信ID
+            var CREDIT_ID = setProgect.CREDIT_ID
             summer.openWin({
-				id: 'bankList',
+				id: 'sharePeopleList',
 				url: 'html/fastReport/sharePeopleList.html',
 				create: false,
 				type: 'actionBar',
@@ -885,9 +885,7 @@
 					}]
 				},
 				pageParam: {
-                    clintId: clintId,
-                    type: type,
-                    USER_ID: USER_ID
+                    CREDIT_ID: CREDIT_ID
 				}
 			});
 		}
