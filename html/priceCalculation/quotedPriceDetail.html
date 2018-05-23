@@ -806,10 +806,9 @@
 
 								_this.EQU_MONEY_ALL=data.EQU_MONEY_ALL
 								var projectData=res.data.datas.scheme
-								if(projectData){
-									_this.SCHEME_NAME=projectData.POLICY_NAME
-                  _this.SCHEME_NAME_ID=projectData.POLICY
-									_this.checkDate()
+								_this.SCHEME_NAME=projectData.POLICY_NAME
+								_this.SCHEME_NAME_ID=projectData.POLICY
+								if(projectData&&_this.SCHEME_NAME_ID){
                   _this.LEASE_TERM=projectData.LEASE_TERM
                   _this.LEASE_COURSE=projectData.LEASE_COURSE_NM
                   _this.LEASE_COURSE_ID=projectData.LEASE_COURSE
@@ -1026,8 +1025,9 @@
 									}
 								},function(res){
 									console.log("getSchList",JSON.stringify(res));
-									_this.scheme_name_list=res.data.datas.SCHEME_LIST //方案类型字典
 									summer.hideProgress()
+									if(res.data.flag==0){summer.toast({res.data.msg})}
+									_this.scheme_name_list=res.data.datas.SCHEME_LIST //方案类型字典
 								},function(err){
 									console.log("err",JSON.stringify(err))
 									summer.hideProgress()
@@ -1141,6 +1141,8 @@
 							param:{SCHEME_CODE:_this.SCHEME_NAME_ID}
 						},function(res){
 							console.log("checkData",JSON.stringify(res));
+							summer.hideProgress()
+							if(res.data.flag==0){summer.toast({res.data.msg})}
 							// 重新获取初始化的字典 start
 							var data=res.data.datas
 							_this.scheme_type_list=data.POLICY_TYPES //方案类型字典
@@ -1272,7 +1274,6 @@
 							}
 							_this.gps_list=_this.checkFlagCode('')
 							_this.initData()
-							summer.hideProgress()
 						},function(err){
 							console.log("err",err);
 							summer.hideProgress()
