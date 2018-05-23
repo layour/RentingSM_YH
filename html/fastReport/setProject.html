@@ -772,7 +772,7 @@
 				id: "programSelect"
 			});*/
 
-			/* if(!$(".baseMessage").hasClass('active')){
+			if(!$(".baseMessage").hasClass('active')){
 				summer.toast({msg:"请完善业务基本信息"});
 				return;
 			}else if(!$(".addCarList").hasClass('active')){
@@ -787,7 +787,7 @@
 			}else if(!$(".emergencyContract").hasClass('active')){
 				summer.toast({msg:"请添加紧急联系人"});
 				return;
-			} */
+			}
 
             /*else if(!$(".sponsor").hasClass('active')){
 				summer.toast({msg:"请添加担保人"});
@@ -835,7 +835,13 @@
 							method : "",
 							text : "返回",
 							textColor : "#ffffff"
-						}
+                        },
+                        rightItems: [{
+                            type: "text",
+                            text: "提交",
+                            textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            method: "selectableList.submit()" //在打开的window中自定义事件
+                        }]
 					},
 					pageParam:{
 						PROJECT_ID:	setProgect.project_Id,

@@ -5,8 +5,127 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
     <meta charset="UTF-8">
     <title>selectableList</title>
+    <style>
+        input::-webkit-input-placeholder {
+            color: #DEDEDE;
+            font-size: 0.28rem;
+        }
+
+        .topheader {
+            position: relative;
+            height: 180px;
+            background-image: url("img/cardBgc.png");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .topheader img {
+            margin-top: 0.8rem;
+            width: 2.8rem;
+            height: 1.8rem;
+        }
+
+        .mint-field-core {
+            text-align: right;
+        }
+
+        .mint-cell-wrapper {
+            color: #333;
+            font-size: 0.28rem;
+        }
+
+        .mint-cell {
+            min-height: 40px;
+            /* height: 0.88rem; */
+            height: 44px;
+            color: #333;
+            font-size: 0.28rem;
+        }
+
+        div.item {
+            /* line-height: 0.88rem; */
+            line-height: 44px;
+            background: #ffffff;
+            border-bottom: 1px solid #f7f7f7;
+            font-size: 0.28rem;
+            height: 44px;
+        }
+
+        div.item span {
+            color: #333;
+        }
+
+        div.item span.um-red {
+            color: red;
+        }
+
+        div.item span i {
+            color: #dbdbdb;
+        }
+
+        .pickerColor {
+            width: 100%;
+            z-index: 10;
+            background: #ffffff;
+        }
+
+        .pickerColor>p {
+            line-height: .88rem;
+            padding: 0 .56rem;
+            color: #039BE5;
+            border-top: 1px solid #E0E0E0;
+            overflow: hidden;
+        }
+
+        .pickerColor>p span {
+            color: #34aadc;
+        }
+
+        .mint-cell-wrapper {
+            background-size: 100% 0px;
+            border-bottom: 1px solid #f7f7f7;
+        }
+
+        .pickerColor>p span:last-child {
+            float: right;
+        }
+
+        .pickerColor>p span:first-child {
+            float: left;
+        }
+
+        .item .first {
+
+            color: #333;
+        }
+
+        .item .second {
+            color: #9e9e9e;
+        }
+
+        .um-footer {
+            min-height: 0px;
+        }
+
+        .item input {
+            border: none;
+            height: .5rem;
+            width: 4.6rem;
+            text-align: right;
+            line-height: .5rem;
+            outline: none;
+            margin-top: .2rem;
+            font-size: 0.28rem;
+        }
+        .um-bf2.tr {
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+    </style>
     <link rel="stylesheet" href="../../css/iuapmobile.um.css">
     <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
     <script src="../../js/font.js"></script>
     <link rel="stylesheet" href="css/fraCommon.css">
 </head>
@@ -14,16 +133,51 @@
 <body>
     <div class="um-frame" id="fra_total" v-cloak>
         <div class="um-content">
-            <div id="content"></div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-bf1">行业</span>
+                <span class="um-bf3 tr">{{ tradeType.FLAG }}</span>
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-bf1">行业对应模版</span>
+                <span class="um-bf3 tr">{{ contractPlate.PLATE_NAME }}</span>
+            </div>
+            <div @click="surePickerKehuType" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-bf1">请选择流程</span>
+                    <span class="um-bf1 tr">
+                        <span v-if="picked" class="first">{{ picked }}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
+            <!-- 客户分类 -->
+            <mt-popup v-model="pickerKehuTypeShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots0" @change="onValuesChange0"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerKehuType">取消</span>
+                    <span class="" @click="surePickerKehuType('confirm')">确定</span>
+                </p>
+            </mt-popup>
         </div>
     </div>
     <script src="../../js/summer.js"></script>
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/vue.js"></script>
+    <script src="../../js/mint.js"></script>
     <script src="../../js/common.js"></script>
     <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
     <script>
         summerready = function () {
+            var userinfo = summer.getStorage("userinfo");
+            if (userinfo) {
+                if (userinfo.EMPLOYEE_NAME) {
+                    selectableList.EMPLOYEE_NAME = userinfo.EMPLOYEE_NAME;
+                }
+                if (userinfo.EMPLOYEE_CODE) {
+                    selectableList.EMPLOYEE_CODE = userinfo.EMPLOYEE_CODE;
+                }
+            }
             var PROJECT_ID = summer.pageParam.PROJECT_ID;
             var BECR_ID = summer.pageParam.BECR_ID;
             selectableList.PROJECT_ID = PROJECT_ID;
@@ -33,15 +187,17 @@
                 type: 'post',
                 url: 'offer/getJbpmList',
                 param: {
-                    /* "PROJECT_ID": PROJECT_ID,
-                    "BECR_ID": BECR_ID */
-                    "PROJECT_ID": 23080,
-                    "BECR_ID": 240730
+                    "PROJECT_ID": PROJECT_ID,
+                    "BECR_ID": BECR_ID
                 }
             }, function (res) {
                 summer.hideProgress();
                 if (res.data.flag == 1) {
-                    
+                    var result = res.data.datas;
+                    selectableList.slots0[0].values = result.deploymentList;
+                    selectableList.PROJECT_NAME = result.PROJECT_NAME;
+                    selectableList.tradeType = result.tradeType;
+                    selectableList.contractPlate = result.contractPlate;
                 } else {
                     summer.toast({
                         msg: "获取流程列表失败"
@@ -57,14 +213,91 @@
         };
         var selectableList = new Vue({
             el: "#fra_total",
-            data:function() {
+            data: function() {
                 return {
+                    // 登录人姓名
+                    EMPLOYEE_NAME: "",
+                    // 登录人code
+                    EMPLOYEE_CODE: "",
+                    // 项目ID
                     PROJECT_ID: "",
-                    BECR_ID: ""
+                    // 客户ID
+                    BECR_ID: "",
+                    // 项目名称
+                    PROJECT_NAME: "",
+                    // 行业信息（字典）
+                    tradeType: "",
+                    // 行业对应模板信息（字典）
+                    contractPlate: "",
+                    // 选择的流程
+                    picked: "",
+                    pickerKehuTypeShow: false,
+                    pickerKehuType: "",
+                    slots0: [{
+                        flex: 1,
+                        values: ['111', '222'],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
                 }
             },
             methods: {
-                
+                // 提交（发起流程）
+                submit: function () {
+                    if (this.picked == "") {
+                        summer.toast({
+                            msg: "请选择流程"
+                        });
+                        return;
+                    }
+                    var self = this;
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'offer/startJbpm',
+                        param: {
+                            "PROJECT_ID": self.PROJECT_ID,
+                            "BECR_ID": self.BECR_ID,
+                            "PROCESSID": self.picked,
+                            "contractPlate": self.contractPlate.ID,
+                            "TRADE_TYPE": self.tradeType.CR_TRADE_TYPE,
+                            "EMPLOYEE_NAME": self.EMPLOYEE_NAME,
+                            "EMPLOYEE_CODE": self.EMPLOYEE_CODE
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            summer.toast({
+                                msg: "发起流程成功"
+                            });
+                            summer.closeToWin({
+                                id: 'programSelect'
+                            });
+                        } else {
+                            summer.toast({
+                                msg: "发起流程失败"
+                            });
+                        }
+                    }, function (err) {
+                        summer.hideProgress();
+                        console.log(err);
+                        summer.toast({
+                            msg: "发起流程失败"
+                        });
+                    });
+                },
+                // 客户分类更改
+                onValuesChange0: function (picker, values) {
+                    this.pickerKehuType = values[0];
+                },
+                surePickerKehuType: function (param) {
+                    var self = this;
+                    this.pickerKehuTypeShow = !this.pickerKehuTypeShow;
+                    if (param == 'confirm') {
+                        this.picked = this.pickerKehuType;
+                    }
+                }
             }
         });
     </script>
