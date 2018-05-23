@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title>selectableList</title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <script src="../../js/font.js"></script>
+    <link rel="stylesheet" href="css/fraCommon.css">
+</head>
+
+<body>
+    <div class="um-frame" id="fra_total" v-cloak>
+        <div class="um-content">
+            <div id="content"></div>
+        </div>
+    </div>
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script>
+        summerready = function () {
+            var PROJECT_ID = summer.pageParam.PROJECT_ID;
+            var BECR_ID = summer.pageParam.BECR_ID;
+            selectableList.PROJECT_ID = PROJECT_ID;
+            selectableList.BECR_ID = BECR_ID;
+            summer.showProgress();
+            ajaxRequest({
+                type: 'post',
+                url: 'offer/getJbpmList',
+                param: {
+                    /* "PROJECT_ID": PROJECT_ID,
+                    "BECR_ID": BECR_ID */
+                    "PROJECT_ID": 23080,
+                    "BECR_ID": 240730
+                }
+            }, function (res) {
+                summer.hideProgress();
+                if (res.data.flag == 1) {
+                    
+                } else {
+                    summer.toast({
+                        msg: "获取流程列表失败"
+                    });
+                }
+            }, function (err) {
+                summer.hideProgress();
+                console.log(err);
+                summer.toast({
+                    msg: "获取流程列表失败"
+                });
+            });
+        };
+        var selectableList = new Vue({
+            el: "#fra_total",
+            data:function() {
+                return {
+                    PROJECT_ID: "",
+                    BECR_ID: ""
+                }
+            },
+            methods: {
+                
+            }
+        });
+    </script>
+</body>
+
+</html>

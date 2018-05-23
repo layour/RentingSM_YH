@@ -771,7 +771,8 @@
 			summer.closeToWin({
 				id: "programSelect"
 			});*/
-			if(!$(".baseMessage").hasClass('active')){
+
+			/* if(!$(".baseMessage").hasClass('active')){
 				summer.toast({msg:"请完善业务基本信息"});
 				return;
 			}else if(!$(".addCarList").hasClass('active')){
@@ -786,11 +787,13 @@
 			}else if(!$(".emergencyContract").hasClass('active')){
 				summer.toast({msg:"请添加紧急联系人"});
 				return;
-			}/*else if(!$(".sponsor").hasClass('active')){
+			} */
+
+            /*else if(!$(".sponsor").hasClass('active')){
 				summer.toast({msg:"请添加担保人"});
 				return;
 			}*/
-			summer.openWin({
+			/* summer.openWin({
 					id : "submitSure",
 					url : "html/fastReport/submitSure.html",
 					create : false,
@@ -816,6 +819,28 @@
 						project_Id:	setProgect.project_Id
 					}
 
+				}) */
+            
+                summer.openWin({
+					id : "selectableList",
+					url : "html/fastReport/selectableList.html",
+					create : false,
+					type : 'actionBar',
+					actionBar : {
+						title : "可选流程列表",
+						titleColor : "#ffffff",
+						backgroundColor : "#039BE5",
+						leftItem : {
+							image : "img/back.png",
+							method : "",
+							text : "返回",
+							textColor : "#ffffff"
+						}
+					},
+					pageParam:{
+						PROJECT_ID:	setProgect.project_Id,
+                        BECR_ID: setProgect.customId
+					}
 				})
 		}
 
