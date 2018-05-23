@@ -119,10 +119,10 @@
         <div class="um-content addCarList">
             <ul>
                 <li v-for="(item,index) in childList" @click="gotoDetail(item.CULM_ID)" :key="index">
-                    <mt-cell-swipe :title="item.LINK_NAME" :label="item.LINK_IDCARD" :right="[{content: '&nbsp;&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'2.4rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index, item.CULM_ID)}}]">
+                    <mt-cell-swipe :title="item.LINK_NAME" :label="item.LINK_SEX" :right="[{content: '&nbsp;&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'2.4rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index, item.CULM_ID)}}]">
                         <div class="price">
-                            <p>姓名：{{ item.LINK_NAME}}</p>
-                            <p>身份证号：{{ item.LINK_IDCARD }}</p>
+                            <p>子女身份证号：{{ item.LINK_IDCARD}}</p>
+                            <p>工作单位：{{ item.LINK_WORK_UNITS }}</p>
                         </div>
                         <div class="fr">
                             <i class="icon iconfont icon-enter"></i>
@@ -147,7 +147,6 @@
         summerready = function () {
             childrenList.CLIENT_ID = summer.pageParam.clintId;
             childrenList.type = summer.pageParam.type;
-            childrenList.USER_ID = summer.pageParam.USER_ID;
             childrenList.getData();
         }
         var childrenList = new Vue({
@@ -156,28 +155,23 @@
                 return {
                     childList: [],
                     CLIENT_ID: "",
-                    type: "",
-                    paymentType: "",
-                    USER_ID: ""
+                    type: ""
                 }
             },
             methods: {
-                gotoDetail: function (bankId, state) {
+                gotoDetail: function (CULM_ID) {
                     var _this = this;
                     summer.openWin({
-                        id: 'bankInfo',
-                        url: 'html/fastReport/bankInfo.html',
+                        id: 'childrenInfo',
+                        url: 'html/fastReport/childrenInfo.html',
                         create: false,
                         type: 'actionBar',
                         pageParam: {
-                            "BECR_TYPE": _this.type,
-                            "BECR_ID": _this.CLIENT_ID,
-                            "EMPLOYEE_ID": _this.USER_ID,
-                            "bankId": bankId,
-                            "state": state
+                            "CULM_ID": CULM_ID,
+                            "BECR_ID": _this.CLIENT_ID
                         },
                         actionBar: {
-                            title: '开户行信息',
+                            title: '子女信息',
                             titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
                             backgroundColor: "#039BE5",
                             leftItem: {
@@ -189,7 +183,7 @@
                             rightItems: [{
                                 type: "text",
                                 text: "保存",
-                                method: 'saveBankInfo()',
+                                method: 'saveChildrenInfo()',
                                 textColor: "#ffffff"
                             }]
                         }
@@ -211,6 +205,10 @@
                             var childList = res.data.datas.childList;
                             if (childList.length > 0) {
                                 _this.childList = childList;
+                                summer.execScript({
+                                    winId: 'setProject',
+                                    script: "addRight('children')"
+                                });
                             }
                         } else {
                             summer.toast({
@@ -225,15 +223,14 @@
                         })
                     })
                 },
-                deleteItem: function (index, bankId) {
+                deleteItem: function (index, CULM_ID) {
                     var _this = this;
                     summer.showProgress();
                     ajaxRequest({
                         type: 'post',
-                        url: 'customer/deleteCustOpenbank',
+                        url: 'customer/updateLinkmanStatus',
                         param: {
-                            PCCBA_ID: bankId,
-                            EMPLOYEE_ID: _this.USER_ID
+                            CULM_ID: CULM_ID
                         }
                     }, function (res) {
                         summer.hideProgress();
@@ -255,31 +252,19 @@
                         })
                     })
                 },
-                addBank: function () {
+                addChildren: function () {
                     var _this = this;
-                    var state;
-                    if (this.childList.length) {
-                        if (this.childList.some(function (e) {return e.STATE == "0"})) {
-                            state = 1;
-                        } else {
-                            state = 0;
-                        }
-                    } else {
-                        state = 0;
-                    }
                     summer.openWin({
-                        id: 'bankInfo',
-                        url: 'html/fastReport/bankInfo.html',
+                        id: 'childrenInfo',
+                        url: 'html/fastReport/childrenInfo.html',
                         create: false,
                         type: 'actionBar',
                         pageParam: {
-                            "BECR_TYPE": _this.type,
-                            "BECR_ID": _this.CLIENT_ID,
-                            "EMPLOYEE_ID": _this.USER_ID,
-                            "state": state
+                            "CULM_ID": "",
+                            "BECR_ID": _this.CLIENT_ID
                         },
                         actionBar: {
-                            title: '开户行信息',
+                            title: '添加子女信息',
                             titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
                             backgroundColor: "#039BE5",
                             leftItem: {
@@ -291,7 +276,7 @@
                             rightItems: [{
                                 type: "text",
                                 text: "保存",
-                                method: 'saveBankInfo()',
+                                method: 'saveChildrenInfo()',
                                 textColor: "#ffffff"
                             }]
                         }
@@ -300,8 +285,8 @@
             }
         });
         // 添加
-        function addBank() {
-            childrenList.addBank();
+        function addChildren() {
+            childrenList.addChildren();
         }
     </script>
 </body>

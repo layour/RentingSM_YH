@@ -23,30 +23,30 @@
         <div class="um-content" v-cloak>
             <ul class="loanList">
                 <li>
-                    <span>共承人姓名：</span>
+                    <span>共承人姓名</span>
                     <input v-model="name" type="text" placeholder="请输入共承人姓名" />
                 </li>
                 <li>
-                    <span>类型：</span>
+                    <span>类型</span>
                     <div @click="sureType">
 						<span class="iconfont icon-enter"></span>
 						<i v-bind:style="[insurerType == '请选择' ? {'color':'#9e9e9e'} : {'color':'#333'}]">{{ insurerType }}</i>
 					</div>
                 </li>
                 <li>
-                    <span>身份证号：</span>
+                    <span>身份证号</span>
                     <input v-model="CODE" type="text" placeholder="请输入身份证号" />
                 </li>
                 <li>
-                    <span>联系电话：</span>
+                    <span>联系电话</span>
                     <input v-model="PHONE" type="number" placeholder="请输入联系电话" />
                 </li>
                 <li>
-                    <span>联系地址：</span>
+                    <span>联系地址</span>
                     <input v-model="ADDRESS" type="text" placeholder="请输入联系地址" />
                 </li>
                 <li>
-                    <span>法人代表：</span>
+                    <span>法人代表</span>
                     <input v-model="LEGAL_REPRESENTATIVE" type="text" placeholder="请输入法人代表" />
                 </li>
             </ul>

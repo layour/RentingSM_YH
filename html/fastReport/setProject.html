@@ -892,12 +892,10 @@
 		function addChildrens(){
 			// 客户id
 			var clintId = setProgect.customId;
-			 // 客户类型
-			 var type = setProgect.type;
-            // 登陆人id
-            var USER_ID = setProgect.USER_ID;
+			// 客户类型
+			var type = setProgect.type;
             summer.openWin({
-				id: 'bankList',
+				id: 'childrenList',
 				url: 'html/fastReport/childrenList.html',
 				create: false,
 				type: 'actionBar',
@@ -920,8 +918,7 @@
 				},
 				pageParam: {
                     clintId: clintId,
-                    type: type,
-                    USER_ID: USER_ID
+                    type: type
 				}
 			});
 		}
