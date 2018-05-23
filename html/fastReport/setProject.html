@@ -968,6 +968,9 @@
 				setProgect.CREDIT_ID = baseMessageReturn.CREDIT_ID;//资信ID
 				setProgect.PLATFORM = baseMessageReturn.PLATFORM;//业务类型
 			}
+        }
+        function removeRight(param) {
+			$("." + param).removeClass('active').siblings('i').removeClass("active");
 		}
 	</script>
 </body>

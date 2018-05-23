@@ -238,11 +238,17 @@
                             _this.childList.splice(index, 1);
                             summer.toast({
                                 msg: '删除成功'
-                            })
+                            });
+                            if (!_this.childList.length) {
+                                summer.execScript({
+                                    winId: 'setProject',
+                                    script: "removeRight('children')"
+                                });
+                            }
                         } else {
                             summer.toast({
                                 msg: '删除失败'
-                            })
+                            });
                         }
                     }, function (err) {
                         summer.hideProgress();

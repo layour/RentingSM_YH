@@ -236,11 +236,17 @@
                             _this.peopleList.splice(index, 1);
                             summer.toast({
                                 msg: '删除成功'
-                            })
+                            });
+                            if (!_this.peopleList.length) {
+                                summer.execScript({
+                                    winId: 'setProject',
+                                    script: "removeRight('sharePerson')"
+                                });
+                            }
                         } else {
                             summer.toast({
                                 msg: '删除失败'
-                            })
+                            });
                         }
                     }, function (err) {
                         summer.hideProgress();

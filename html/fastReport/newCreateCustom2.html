@@ -533,9 +533,11 @@
                             if (self.sourceFrom == "programSelect") {
                                 // 新增客户配偶，保存成功后回到立项并携带新的客户id
                                 var clint_Id = res.data.datas.EMPLOYEE_ID;
-                                /* summer.closeWin({
-                                    id: 'newCreateCustom'
-                                }); */
+                                if ($summer.os == "ios") {
+                                    summer.closeWin({
+                                        id: 'newCreateCustom'
+                                    });
+                                }
                                 summer.openWin({
                                     id: 'setProject',
                                     url: 'html/fastReport/setProject.html',
