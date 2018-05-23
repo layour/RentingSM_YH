@@ -41,17 +41,17 @@
 					</p>
 					<p class="time pl10 pr10">
 						<span>创建时间：
-							<span>{{item.CREATE_TIME}}</span>
+							<span>{{item.CREATE_DATE}}</span>
 						</span>
 					</p>
 				</div>
-				<p class=" select um-box" v-if="item.prjStsCdNm=='未评审'">
+				<p class=" select um-box" v-if="item.STATUS =='0'">
 					<!--<span class="um-bf1   tc" @click="upload(item.ID)"><i class="iconfont icon-Upload mr5"></i>上传资料</span>-->
 					<!--<span class="um-bf1  tc" @click="submit(item.ID)"><i class="iconfont icon-submit mr5"></i>提交</span>-->
-					<span class="um-bf1   tc" @click="edit(item.id)">
-						<i class="iconfont icon-modify mr5"></i>修改</span>
-					<span class="um-bf1  tc" @click="openOpacity(item.id)">
-						<i class="iconfont icon-nav_delete mr5"></i>删除</span>
+					<span class="um-bf1 tc" @click="edit(item.ID)">
+					<i class="iconfont icon-modify mr5"></i>修改</span>
+					<span class="um-bf1 tc" @click="openOpacity(item.ID)">
+					<i class="iconfont icon-nav_delete mr5"></i>删除</span>
 				</p>
 				<p v-else></p>
 			</div>
@@ -86,7 +86,6 @@
 				textUp: '松开刷新...',
 				showTime: true
 			}, function (ret, err) {
-				//通常在这里从服务器加载数据，t
 				getData(1, true);
 				_endNum = 1;
 			});
@@ -99,7 +98,6 @@
 				textUp: '松开刷新...',
 				showTime: true
 			}, function (ret, err) {
-				//通常在这里从服务器加载数据，
 				_endNum += 1;
 				// if (_endNum > fra_total.totalPage) {
 				// 	summer.toast({
@@ -136,7 +134,6 @@
 							"type": "4"
 						}
 					}, function (res) {
-						//alert(res);
 						summer.hideProgress();
 						var Data;
 						if (Object.prototype.toString.call(res.data) === '[object String]') {
