@@ -184,7 +184,6 @@
 					</div>
 					<div class="list listContent">
 						<p class="title pl10">报价方案</p> 
-						 <!-- <p class="pl10 pr10">产品方案<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.lsPd:""}}-没找到</span></p>  -->
 						<p class="pl10 pr10">还款期限<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.lsPd:""}}</span></p>
 						<p class="pl10 pr10">还款期限单位<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.lsPdUntNm:""}}</span></p>
 						<p class="pl10 pr10">贷款年利率(%)<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.defAnnIntRatePct:""}}</span></p>
@@ -268,17 +267,15 @@
 				var self = this;
 				ajaxRequest({
 					type: 'post',
-					url: 'appservice/project/prjbscinfo/getById.do',
+					url: 'foundproject/loadProjectPage',
 					param: {
-						"id": id,
+						"PROJECT_ID": id,
 					}
 				}, function(res) {
 					summer.hideProgress();
 					if (res.data.flag == 1) {
 						self.dataList = res.data.datas;
-					self.dataDetail=res.data.datas.prjBscInfo.prjQuatPrps?res.data.datas.prjBscInfo.prjQuatPrps.prjQuatPrpsFeeList:[]
-						//self.getSchemeData(self.project_id);
-						console.log(self.dataList);
+					self.dataDetail=response.data.datas.projectinfo;
 					}
 				}, function(err) {
 					alert(err);

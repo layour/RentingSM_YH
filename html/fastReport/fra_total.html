@@ -31,13 +31,12 @@
 					<span class="status fr">
 						<i class="iconfont icon-customer mr5"></i>{{item.CLERK_NAME}}</span>
 				</p>
-				<div class="center" @click="openDetail(item.id,item.JBPM_ID)">
+				<div class="center" @click="openDetail(item.ID)">
 					<p class="type pl10">
-						<span>{{item.CR_BECR_TYPE}} </span> |
-						<span>{{item.PROJECT_TYPE}}</span>
+						<span>{{item.CR_BECR_TYPE=="2"?"法人":"自然人"}} </span> |
+						<span>{{item.PLATFORM}}</span>
 					</p>
 					<p class="type card pl10 status h20">
-						{{item.PROJECT_NAME}}
 						<span class="fr">{{item.STATUS}}</span>
 					</p>
 					<p class="time pl10 pr10">
@@ -102,13 +101,13 @@
 			}, function (ret, err) {
 				//通常在这里从服务器加载数据，
 				_endNum += 1;
-				if (_endNum > fra_total.totalPage) {
-					summer.toast({
-						msg: "没有更多了"
-					});
-					summer.refreshFooterLoadDone(); //加载完成后调用方法恢复组件到默认状态
-					return;
-				}
+				// if (_endNum > fra_total.totalPage) {
+				// 	summer.toast({
+				// 		msg: "没有更多了"
+				// 	});
+				// 	summer.refreshFooterLoadDone(); //加载完成后调用方法恢复组件到默认状态
+				// 	return;
+				// }
 				getData(_endNum, false);
 			});
 		}
@@ -146,7 +145,7 @@
 							Data = res.data;
 						}
 						if (Data.flag == 1) {
-							self.totalPage = Data.datas.totalPage;
+							//self.totalPage = Data.datas.totalPage;
 							if (flag) {
 								if (Data.datas.list.length < 1) {
 									createNull("content", "../../img/empty.png");
@@ -156,6 +155,12 @@
 									self.dataList = Data.datas.list;
 								}
 							} else {
+								if(Data.datas.list.length == 0){
+									summer.toast({
+										msg:"没有更多了"
+									});
+									return;
+								}
 								self.dataList = self.dataList.concat(Data.datas.list);
 							}
 
