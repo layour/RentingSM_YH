@@ -31,13 +31,13 @@
 					<span class="status fr">
 						<i class="iconfont icon-customer mr5"></i>{{item.CLERK_NAME}}</span>
 				</p>
-				<div class="center" @click="openDetail(item.ID)">
+				<div class="center" @click="openDetail(item.ID, item.CR_BECR_TYPE, item.SCHEME_ID)">
 					<p class="type pl10">
 						<span>{{item.CR_BECR_TYPE=="2"?"法人":"自然人"}} </span> |
 						<span>{{item.PLATFORM}}</span>
 					</p>
 					<p class="type card pl10 status h20">
-						<span class="fr">{{item.STATUS}}</span>
+						<span class="fr">{{item.STATUS_NM}}</span>
 					</p>
 					<p class="time pl10 pr10">
 						<span>创建时间：
@@ -48,7 +48,7 @@
 				<p class=" select um-box" v-if="item.STATUS =='0'">
 					<!--<span class="um-bf1   tc" @click="upload(item.ID)"><i class="iconfont icon-Upload mr5"></i>上传资料</span>-->
 					<!--<span class="um-bf1  tc" @click="submit(item.ID)"><i class="iconfont icon-submit mr5"></i>提交</span>-->
-					<span class="um-bf1 tc" @click="edit(item.ID)">
+					<span class="um-bf1 tc" @click="edit(item.ID, item.EMPLOYEE_ID, item.CR_BECR_TYPE)">
 					<i class="iconfont icon-modify mr5"></i>修改</span>
 					<span class="um-bf1 tc" @click="openOpacity(item.ID)">
 					<i class="iconfont icon-nav_delete mr5"></i>删除</span>
@@ -192,8 +192,8 @@
 						}
 					})
 				},
-				openDetail:function(id, JBPM_ID) {
-					console.log(id);
+				openDetail:function(id, type, SCHEME_ID) {
+					console.log(id, type, SCHEME_ID);
 					summer.openWin({
 						id: 'programDetail',
 						url: 'html/fastReport/programDetail.html',
@@ -211,8 +211,9 @@
 							}
 						},
 						pageParam: {
-							id: id,
-							JBPM_ID: JBPM_ID
+                            id: id,
+                            type: type == "自然人" ? 1 : 2,
+                            SCHEME_ID: SCHEME_ID
 						}
 					});
 				},
@@ -289,7 +290,7 @@
 						}
 					});*/
 				},
-				edit:function(id) {
+				edit:function(id, customId, CR_BECR_TYPE) {
 					summer.openWin({
 						id: 'setProject',
 						url: 'html/fastReport/setProject.html',
@@ -315,7 +316,9 @@
 						pageParam: {
 							projectId: id,
 							source: "programSelect",
-							isEdit: true
+                            isEdit: true,
+                            customId: customId,
+                            type: CR_BECR_TYPE == "自然人" ? 1 : 2
 						}
 					});
 				}
