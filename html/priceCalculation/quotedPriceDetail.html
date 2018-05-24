@@ -952,12 +952,14 @@
 						this.pickingObj=values[0]
 					},
 					pickerFlag:function(val,status){
-						console.log(val,status,this.currentName,JSON.stringify(this.pickingObj))
             if(val&&(val!='schemeType' && val!='schemeName')&& !this.SCHEME_NAME){
               summer.toast({msg:'请先选择商务政策'})
               return
             }
 						if(!status){  // 打开/取消
+							this.currentName=val
+							this.pickingObj=''
+							this.pickerFlagList[0].values.splice(0,this.pickerFlagList[0].values.length)
 							if(val=='schemeType'){
 								this.pickerFlagList[0].values=this.scheme_type_list
 							}else if(val=='schemeName'){
@@ -1012,8 +1014,12 @@
 								this.pickerFlagList[0].values=this.gps_list
 							}
 
-							this.currentName=val
+							console.log(val,this.currentName,JSON.stringify(this.pickingObj))
 						}else{  // 确认选中
+							if(!this.pickingObj || !this.pickingObj.FLAG){
+								summer.toast({msg:'请先选择'})
+								return
+							}
 							this.isTest=false
 							if(this.currentName=='schemeType'){
 								this.SCHEME_TYPE=this.pickingObj.FLAG
@@ -1125,6 +1131,7 @@
 								this.gps_jrfs_code=this.pickingObj.CODE
 								this.changRze()
 							}
+							console.log(this.currentName,JSON.stringify(this.pickingObj))
 						}
 						this.pickerFlagStatus=!this.pickerFlagStatus
 					},
@@ -1193,10 +1200,10 @@
 									// _this.RPZSF=arr[i].VALUE_STR
 									_this.rpzsf_status=arr[i].VALUE_STR
 									_this.rpzsf_edit=arr[i].VALUE_STATUS
-								}else if(arr[i].KEY_NAME_EN=='sfxyzb'){
+								}else if(arr[i].KEY_NAME_EN=='SFXYZB'){
 									// _this.SFXYZB=arr[i].VALUE_STR
 									_this.fxyzb_status=arr[i].VALUE_STR
-								}else if(arr[i].KEY_NAME_EN=='tx_m'){
+								}else if(arr[i].KEY_NAME_EN=='TX_M'){
 									if(_this.TX_M===''){_this.TX_M=arr[i].VALUE_STR}
 									_this.tx_m_edit=arr[i].VALUE_STATUS
 									_this.tx_m_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
