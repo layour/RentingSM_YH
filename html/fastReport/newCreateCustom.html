@@ -1407,7 +1407,7 @@
                                     pageParam: {
                                         source: "customer",
                                         customId: clint_Id,
-                                        type: self.CR_BECR_TYPE,
+                                        type: self.CR_BECR_TYPE == "自然人" ? 1 : 2,
                                         USER_ID: self.USER_ID
                                     },
                                     actionBar: {
