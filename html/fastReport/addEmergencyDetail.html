@@ -201,8 +201,9 @@
 							<span class="um-bf1">身份证地址</span>
 							<input type="text" class="um-bf3" v-model="LINK_IDCARD_ADDRESS  " placeholder="请输入身份证地址">
 						</li>
+						<li></li>
 					</ul>
-					<p><button class="btn"  @click="addItem">取消</button><button class="fr btn" @click="sureAdd">确定</button></p>
+					<!-- <p><button class="btn"  @click="addItem">取消</button><button class="fr btn" @click="sureAdd">确定</button></p> -->
 				</div>
       </div>
 			<div class="footer"id="footer">
@@ -372,7 +373,7 @@
 									summer.hideProgress()
 									summer.execScript({
 										  winId: "emergencyContract",
-										  script: "addRight('getData')"
+										  script: "getData()"
 									});
 									summer.execScript({
 										  winId: "setProject",
@@ -386,8 +387,8 @@
 						}
 					}
         });
-				function addEmergencyContract(){
-					vueTemplate.addItem()
+				function save(){
+					vueTemplate.sureAdd()
 				}
 
     </script>
