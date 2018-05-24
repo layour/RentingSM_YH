@@ -151,7 +151,7 @@
                     </span>
                 </p>
             </div>
-            <!-- 客户分类 -->
+            <!-- 可选流程 -->
             <mt-popup v-model="pickerKehuTypeShow" position="bottom" class="pickerColor">
                 <mt-picker :slots="slots0" @change="onValuesChange0"></mt-picker>
                 <p>
@@ -194,10 +194,10 @@
                 summer.hideProgress();
                 if (res.data.flag == 1) {
                     var result = res.data.datas;
-                    selectableList.slots0[0].values = result.deploymentList;
                     selectableList.PROJECT_NAME = result.PROJECT_NAME;
-                    selectableList.tradeType = result.tradeType;
-                    selectableList.contractPlate = result.contractPlate;
+                    selectableList.slots0[0].values = result.deploymentList ? result.deploymentList : [];
+                    selectableList.tradeType = result.tradeType ? result.tradeType : "";
+                    selectableList.contractPlate = result.contractPlate ? result.contractPlate : "";
                 } else {
                     summer.toast({
                         msg: "获取流程列表失败"
@@ -235,11 +235,11 @@
                     pickerKehuType: "",
                     slots0: [{
                         flex: 1,
-                        values: ['111', '222'],
+                        values: [],
                         defaultIndex: 0,
                         className: 'slot1',
                         textAlign: 'center'
-                    }],
+                    }]
                 }
             },
             methods: {
@@ -287,11 +287,17 @@
                         });
                     });
                 },
-                // 客户分类更改
+                // 选择流程
                 onValuesChange0: function (picker, values) {
                     this.pickerKehuType = values[0];
                 },
                 surePickerKehuType: function (param) {
+                    if (!this.slots0[0].values.length) {
+                        summer.toast({
+                            msg: "暂无可选流程"
+                        });
+                        return;
+                    }
                     var self = this;
                     this.pickerKehuTypeShow = !this.pickerKehuTypeShow;
                     if (param == 'confirm') {

@@ -642,6 +642,12 @@
 		}
 
 		function addContact() {
+            if (!setProgect.customId) {
+                summer.toast({
+					msg: '请先完善客户信息'
+				});
+				return
+            }
 			summer.openWin({
 				id: 'emergencyContract',
 				url: "html/fastReport/addEmergencyContact.html",

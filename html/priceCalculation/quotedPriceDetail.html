@@ -1026,7 +1026,7 @@
 								},function(res){
 									console.log("getSchList",JSON.stringify(res));
 									summer.hideProgress()
-									if(res.data.flag==0){summer.toast({res.data.msg})}
+									if(res.data.flag==0){summer.toast({msg: res.data.msg})}
 									_this.scheme_name_list=res.data.datas.SCHEME_LIST //方案类型字典
 								},function(err){
 									console.log("err",JSON.stringify(err))
@@ -1142,7 +1142,7 @@
 						},function(res){
 							console.log("checkData",JSON.stringify(res));
 							summer.hideProgress()
-							if(res.data.flag==0){summer.toast({res.data.msg})}
+							if(res.data.flag==0){summer.toast({msg: res.data.msg})}
 							// 重新获取初始化的字典 start
 							var data=res.data.datas
 							_this.scheme_type_list=data.POLICY_TYPES //方案类型字典
