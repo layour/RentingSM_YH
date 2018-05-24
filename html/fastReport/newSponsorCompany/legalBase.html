@@ -22,9 +22,11 @@
             font-size: 0.28rem;
             height: 44px;
         }
-        div.item.remark{
+
+        div.item.remark {
             border-width: 0px;
         }
+
         div.item span {
             color: #333;
         }
@@ -87,6 +89,7 @@
             margin-top: .2rem;
             font-size: 0.28rem;
         }
+
         #question {
             word-break: break-all;
             display: block;
@@ -102,9 +105,9 @@
             border: none;
             border-color: #fff;
             font-size: 0.28rem;
-            }
+        }
 
-            #question::-webkit-input-placeholder {
+        #question::-webkit-input-placeholder {
             text-indent: 1.1em;
         }
     </style>
@@ -116,13 +119,13 @@
             <div class="item um-box pl10 pr10">
                 <span class="um-bf1">担保人类型</span>
                 <p class="tr">
-                        <span>法人</span>
+                    <span>法人</span>
                 </p>
             </div>
             <div class="item um-box pl10 pr10">
-                    <span class="um-bf1">姓名</span>
-                    <input placeholder="请输入您的姓名" type="text" v-model="message.UNIT_NAME" class="um-bf3">
-                </div>
+                <span class="um-bf1">姓名</span>
+                <input placeholder="请输入您的姓名" type="text" v-model="message.UNIT_NAME" class="um-bf3">
+            </div>
             <div class="item um-box pl10 pr10">
                 <span class="um-bf1">营业执照注册号</span>
                 <input placeholder="请输入您的营业执照注册号" type="text" v-model="message.BUSINESS_NUMBER" class="um-bf3">
@@ -131,52 +134,76 @@
             <div class="item um-box pl10 pr10">
                 <span class="um-bf1">营业期限</span>
                 <p class="um-bf3 tr">
-                        <input placeholder="请输入您的营业期限" type="text" v-model="message.OPERATING_PERIOD" ><span>(年)</span>
+                    <input placeholder="请输入您的营业期限" type="text" v-model="message.OPERATING_PERIOD">
+                    <span>(年)</span>
                 </p>
-                
+
             </div>
             <div class="item um-box pl10 pr10">
-                    <span class="um-bf1">组织机构代码</span>
-                    <input placeholder="请输入您的组织机构代码" type="text" v-model="message.ORGANIZATION_CODE" class="um-bf3">
+                <span class="um-bf1">组织机构代码</span>
+                <input placeholder="请输入您的组织机构代码" type="text" v-model="message.ORGANIZATION_CODE" class="um-bf3">
             </div>
 
             <div class="item um-box pl10 pr10">
-                    <span class="um-bf1">税务登记号</span>
-                    <input placeholder="请输入您的税务登记号" type="text" v-model="message.REGISTRATION_NUMBER" class="um-bf3">
+                <span class="um-bf1">税务登记号</span>
+                <input placeholder="请输入您的税务登记号" type="text" v-model="message.REGISTRATION_NUMBER" class="um-bf3">
             </div>
-            <div class="item um-box pl10 pr10">
+            <div class="item " @click="surePickerBirthday">
+                <p class="pl10 pr10  um-box">
                     <span class="um-bf1">成立日期</span>
-                    <input placeholder="请输入您的成立日期" type="text" v-model="message.DATE_ESTABLISHMENT" class="um-bf3">
-            </div>
-            <div class="item um-box pl10 pr10">
-                    <span class="um-bf1">注册资本</span>
-                    <p class="um-bf3 tr">
-                            <input placeholder="请输入您的注册资本" type="text" v-model="message.REGISTERED_CAPITAL" > <span>(万元)</span>
-                    </p>
-            </div>
-            <div class="item um-box pl10 pr10">
-                    <span class="um-bf1">实收资本</span>
-                    <p class="um-bf3 tr">
-                            <input placeholder="请输入您的实收资本" type="text" v-model="message.PAID_CAPITAL" > <span>(万元)</span>
-                    </p>
-            </div>
-            <div class="item um-box pl10 pr10">
-                    <span class="um-bf1">工商注册地址</span>
-                    <input placeholder="请输入您的工商注册地址" type="text" v-model="message.COMPANY_REGISTERED_ADDRESS" class="um-bf3">
-            </div>
-            <div class="item um-box pl10 pr10">
-                    <span class="um-bf1">经营范围</span>
-                    <input placeholder="请输入您的经营范围" type="text" v-model="message.PRODUCTS" class="um-bf3">
-            </div>
-            <div class="item remark" >
-                    <p class="pl10 pr10 tr">
-                        <span class="fl">备注</span>
-                    </p>
-                    <textarea id="question" v-model="message.REMARK" placeholder="请填写备注信息" ></textarea>
-           </div>
+                    <span class="um-bf1 tr">
+                        <span v-if="message.DATE_ESTABLISHMENT" class="first">{{ message.DATE_ESTABLISHMENT }}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
 
-             
-            
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-bf1">注册资本</span>
+                <p class="um-bf3 tr">
+                    <input placeholder="请输入您的注册资本" type="text" v-model="message.REGISTERED_CAPITAL">
+                    <span>(万元)</span>
+                </p>
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-bf1">实收资本</span>
+                <p class="um-bf3 tr">
+                    <input placeholder="请输入您的实收资本" type="text" v-model="message.PAID_CAPITAL">
+                    <span>(万元)</span>
+                </p>
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-bf1">工商注册地址</span>
+                <input placeholder="请输入您的工商注册地址" type="text" v-model="message.COMPANY_REGISTERED_ADDRESS" class="um-bf3">
+            </div>
+            <div class="item um-box pl10 pr10">
+                <span class="um-bf1">经营范围</span>
+                <input placeholder="请输入您的经营范围" type="text" v-model="message.PRODUCTS" class="um-bf3">
+            </div>
+            <div class="item remark">
+                <p class="pl10 pr10 tr">
+                    <span class="fl">备注</span>
+                </p>
+                <textarea id="question" v-model="message.REMARK" placeholder="请填写备注信息"></textarea>
+            </div>
+
+
+
+        </div>
+        <div class="um-footer">
+             <!-- 出生日期 -->
+             <mt-datetime-picker 
+             ref="picker" 
+             v-model="pickerValue" 
+             type="date" 
+             cancel-text='取消' 
+             confirm-text='确定' 
+             :start-date='new Date("1950-01-01")'
+             :end-date="new Date()" 
+             @confirm="handleConfirm"
+         ></mt-datetime-picker>
+
         </div>
     </div>
     <script src="../../../js/summer.js"></script>
@@ -190,22 +217,24 @@
             el: '#app',
             data: function () {
                 return {
+                    pickerBirthday: false,
+                    pickerValue: new Date(),
                     message: {
-                        ID: '',//担保人ID
-                        USER_ID: '',//登陆人ID
-                        GUARANTOR_TYPE:'2',//担保人类型 2 法人
-                        CREDIT_ID:'',//资信ID
-                        UNIT_NAME:'',//姓名
-                        BUSINESS_NUMBER:'',//营业执照注册号
-                        OPERATING_PERIOD:'',//营业期限
-                        ORGANIZATION_CODE:'',//组织机构代码
-                        REGISTRATION_NUMBER :'',//税务登记号
-                        DATE_ESTABLISHMENT:'',//成立日期
-                        REGISTERED_CAPITAL:'',//注册资本
-                        PAID_CAPITAL:'',//实收资本
-                        COMPANY_REGISTERED_ADDRESS:'',//工商注册地址
-                        PRODUCTS :"",//经营范围
-                        REMARK:''//备注
+                        ID: '', //担保人ID
+                        USER_ID: '', //登陆人ID
+                        GUARANTOR_TYPE: '2', //担保人类型 2 法人
+                        CREDIT_ID: '', //资信ID
+                        UNIT_NAME: '', //姓名
+                        BUSINESS_NUMBER: '', //营业执照注册号
+                        OPERATING_PERIOD: '', //营业期限
+                        ORGANIZATION_CODE: '', //组织机构代码
+                        REGISTRATION_NUMBER: '', //税务登记号
+                        DATE_ESTABLISHMENT: '', //成立日期
+                        REGISTERED_CAPITAL: '', //注册资本
+                        PAID_CAPITAL: '', //实收资本
+                        COMPANY_REGISTERED_ADDRESS: '', //工商注册地址
+                        PRODUCTS: "", //经营范围
+                        REMARK: '' //备注
                     },
                 }
             },
@@ -223,92 +252,119 @@
                             msg: "营业执照注册号不能为空"
                         });
                         return false;
-                    }  else if (this.message.OPERATING_PERIOD == "") {
+                    } else if (this.message.OPERATING_PERIOD == "") {
                         summer.toast({
                             msg: "营业期限不能为空"
                         });
                         return false;
-                    }  else if (this.message.ORGANIZATION_CODE == "") {
+                    } else if (this.message.ORGANIZATION_CODE == "") {
                         summer.toast({
                             msg: "组织机构代码不能为空"
                         });
                         return false;
-                    }  else if (this.message.REGISTRATION_NUMBER == "") {
+                    } else if (this.message.REGISTRATION_NUMBER == "") {
                         summer.toast({
                             msg: "税务登记号不能为空"
                         });
                         return false;
-                    }  else if (this.message.DATE_ESTABLISHMENT == "") {
+                    } else if (this.message.DATE_ESTABLISHMENT == "") {
                         summer.toast({
                             msg: "成立日期不能为空"
                         });
                         return false;
-                    }  else if (this.message.REGISTERED_CAPITAL == "") {
+                    } else if (this.message.REGISTERED_CAPITAL == "") {
                         summer.toast({
                             msg: "注册资本不能为空"
                         });
                         return false;
-                    }  else if (this.message.PAID_CAPITAL == "") {
+                    } else if (this.message.PAID_CAPITAL == "") {
                         summer.toast({
                             msg: "实收资本不能为空"
                         });
                         return false;
-                    }  else if (this.message.COMPANY_REGISTERED_ADDRESS == "") {
+                    } else if (this.message.COMPANY_REGISTERED_ADDRESS == "") {
                         summer.toast({
                             msg: "工商注册地址不能为空"
                         });
                         return false;
-                    }  else if (this.message.PRODUCTS == "") {
+                    } else if (this.message.PRODUCTS == "") {
                         summer.toast({
                             msg: "经营范围不能为空"
                         });
                         return false;
-                    }   
+                    }
                     return true;
                 },
-                complete: function() {
-					var self=this;
-					if (!this.messageTest()) {
-						return;
-					};
-					var paramData;
-					paramData = self.message;
-					//放入登陆人ID
-					if(userId()){
-						paramData.USER_ID = userId();
-					}
-					ajaxRequest({
-						type: 'post',
-						url: 'foundproject/saveGuarantorInfo',
-						param: paramData
-					}, function(res) {
-						summer.hideProgress();
-						if (res.data.flag == 1) {
-                                summer.toast({msg:"保存成功"});
-                                var GUARANTOR_ID = res.data.datas.GUARANTOR_ID;
-								summer.execScript({
-									winId: "newSponsorCompanyList",
-									script: "addRight('legalBase',"+GUARANTOR_ID+")"
-								});
-								summer.closeWin()
-						}
-					}, function(err) {
-						alert(err);
-						console.log(err);
-						summer.hideProgress();
-					});
-				},
-              
+                // 日期更改
+                surePickerBirthday: function () {
+                    this.pickerBirthday = !this.pickerBirthday;
+                    this.$refs.picker.open();
+                },
+                handleConfirm: function (pickerValue) {
+                    this.pickerValue = pickerValue;
+                    this.message.DATE_ESTABLISHMENT = getFormatDate(pickerValue);
+
+                    function getFormatDate(date) {
+                        var date = new Date(date),
+                            seperator1 = "-";
+                        var year = date.getFullYear(),
+                            month = date.getMonth() + 1,
+                            strDate = date.getDate();
+                        if (month >= 1 && month <= 9) {
+                            month = "0" + month;
+                        }
+                        if (strDate >= 0 && strDate <= 9) {
+                            strDate = "0" + strDate;
+                        }
+                        return year + '-' + month + '-' + strDate;
+                    }
+                },
+                complete: function () {
+                    var self = this;
+                    if (!this.messageTest()) {
+                        return;
+                    };
+                    var paramData;
+                    paramData = self.message;
+                    //放入登陆人ID
+                    if (userId()) {
+                        paramData.USER_ID = userId();
+                    }
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'foundproject/saveGuarantorInfo',
+                        param: paramData
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            summer.toast({
+                                msg: "保存成功"
+                            });
+                            var GUARANTOR_ID = res.data.datas.GUARANTOR_ID;
+                            summer.execScript({
+                                winId: "newSponsorCompanyList",
+                                script: "addRight('legalBase'," + GUARANTOR_ID + ")"
+                            });
+                            summer.closeWin()
+                        }
+                    }, function (err) {
+                        alert(err);
+                        console.log(err);
+                        summer.hideProgress();
+                    });
+                },
+
             }
         })
-        function save(){
+
+        function save() {
             newCreateCustom.complete();
         }
         summerready = function () {
-             var CREDIT_ID = summer.pageParam.CREDIT_ID;
-             newCreateCustom.message.CREDIT_ID = CREDIT_ID;
-             var itemData = summer.pageParam.itemData;
-             if(itemData){
+            var CREDIT_ID = summer.pageParam.CREDIT_ID;
+            newCreateCustom.message.CREDIT_ID = CREDIT_ID;
+            var itemData = summer.pageParam.itemData;
+            if (itemData) {
                 newCreateCustom.message.ID = itemData.ID;
                 newCreateCustom.message.CREDIT_ID = itemData.CREDIT_ID;
                 newCreateCustom.message.UNIT_NAME = itemData.UNIT_NAME;
@@ -322,12 +378,12 @@
                 newCreateCustom.message.COMPANY_REGISTERED_ADDRESS = itemData.COMPANY_REGISTERED_ADDRESS;
                 newCreateCustom.message.PRODUCTS = itemData.PRODUCTS;
                 newCreateCustom.message.REMARK = itemData.REMARK;
-             }
-            
+            }
+
         }
-        $(function(){
-			$('body').height($('body')[0].clientHeight);
-		});
+        $(function () {
+            $('body').height($('body')[0].clientHeight);
+        });
     </script>
 </body>
 
