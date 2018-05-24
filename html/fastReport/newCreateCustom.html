@@ -1600,7 +1600,11 @@
         summerready = function () {
             var projectId = summer.pageParam.projectId;
             var type = summer.pageParam.type;
-            newCreateCustom.CR_BECR_TYPE = type;
+            if (typeof type == "number") {
+                newCreateCustom.CR_BECR_TYPE = type == 1 ? "自然人" : "法人";
+            } else {
+                newCreateCustom.CR_BECR_TYPE = type;
+            }
             var USER_ID = summer.pageParam.USER_ID;
             newCreateCustom.USER_ID = USER_ID;
             var clintId = summer.pageParam.clintId;
@@ -1626,7 +1630,7 @@
                 newCreateCustom.message.CR_BIRTH_DATE = customBaseMessage.birth;
             }
             // 获取信息
-            newCreateCustom.getData(projectId, newCreateCustom.clintId, type);
+            newCreateCustom.getData(projectId, newCreateCustom.clintId, newCreateCustom.CR_BECR_TYPE);
         }
         $(function () {
             $('body').height($('body')[0].clientHeight);

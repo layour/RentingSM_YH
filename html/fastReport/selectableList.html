@@ -274,6 +274,10 @@
                             summer.closeToWin({
                                 id: 'programSelect'
                             });
+                        } else if (res.data.flag == 0) {
+                            summer.toast({
+                                msg: res.data.msg
+                            });
                         } else {
                             summer.toast({
                                 msg: "发起流程失败"

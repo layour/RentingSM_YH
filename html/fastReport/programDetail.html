@@ -2,239 +2,335 @@
 <html>
 
 <head>
-	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
-	<meta charset="UTF-8">
-	<title></title>
-	<link rel="stylesheet" href="../../css/iuapmobile.um.css">
-	<link rel="stylesheet" href="../../css/fonts/iconfont.css">
-	<script src="../../js/font.js"></script>
-	<style>
-		div.Artical>div {
-			display: none;
-			color: #555;
-		}
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <script src="../../js/font.js"></script>
+    <style>
+        div.Artical>div {
+            display: none;
+            color: #555;
+        }
 
-		.um-tabbar.um-tabbar-underline {
-			background-color: white;
-		}
+        .um-tabbar.um-tabbar-underline {
+            background-color: white;
+        }
 
-		div.Artical>div.active {
-			display: block;
-		}
+        div.Artical>div.active {
+            display: block;
+        }
 
-		.flow p.title {
-			font-size: 0.28rem;
-			color: #333;
-			padding:0.2rem 0.2rem;
-		}
+        .flow p.title {
+            font-size: 0.28rem;
+            color: #333;
+            padding: 0.2rem 0.2rem;
+        }
 
-		.contentFlow {
-			margin-top: 0.2rem;
-			padding-left: 0.6rem;
-			overflow: hidden;
-		}
+        .contentFlow {
+            margin-top: 0.2rem;
+            padding-left: 0.6rem;
+            overflow: hidden;
+        }
 
-		.contentFlow .listItem {
-			border-left: 2px dotted #ddd;
-			margin-left: 0.34rem;
-			min-height: 2rem;
-			padding-right:0.3rem;
-		}
+        .contentFlow .listItem {
+            border-left: 2px dotted #ddd;
+            margin-left: 0.34rem;
+            min-height: 2rem;
+            padding-right: 0.3rem;
+        }
 
-		.contentFlow .listItem:last-child {
-			border-left: 0px dotted #ddd;
+        .contentFlow .listItem:last-child {
+            border-left: 0px dotted #ddd;
 
-		}
+        }
 
-		.contentFlow .listItem:first-child {
-			margin-top: 0.4rem;
-		}
+        .contentFlow .listItem:first-child {
+            margin-top: 0.4rem;
+        }
 
-		.contentFlow .listItem p.top {
-			color: #039be5;
-			font-size: 0.32rem;
-			padding-left: 0.24rem;
-		}
+        .contentFlow .listItem p.top {
+            color: #039be5;
+            font-size: 0.32rem;
+            padding-left: 0.24rem;
+        }
 
-		.contentFlow .listItem .inside {
-			position: relative;
-			padding-bottom: 0.32rem;
-			border-bottom: 1px solid #f7f7f7;
-		}
+        .contentFlow .listItem .inside {
+            position: relative;
+            padding-bottom: 0.32rem;
+            border-bottom: 1px solid #f7f7f7;
+        }
 
-		.contentFlow .listItem .inside img.true {
-			position: absolute;
-			z-index: 100;
-			top: 0.06rem;
-			left: -0.14rem;
-			width: 0.28rem;
-		}
+        .contentFlow .listItem .inside img.true {
+            position: absolute;
+            z-index: 100;
+            top: 0.06rem;
+            left: -0.14rem;
+            width: 0.28rem;
+        }
 
-		.contentFlow .listItem:first-child .inside img.true {
-			top: 0.02rem;
-		}
+        .contentFlow .listItem:first-child .inside img.true {
+            top: 0.02rem;
+        }
 
-		.contentFlow .listItem p.content {
-			color: #9e9e9e;
-			font-size: 0.28rem;
-			padding-left: 0.24rem;
-		}
+        .contentFlow .listItem p.content {
+            color: #9e9e9e;
+            font-size: 0.28rem;
+            padding-left: 0.24rem;
+        }
 
-		ul.um-tabbar li a {
-			display: inline-block;
-			line-height: 0.7rem;
-			height: 0.7rem;
-		}
+        ul.um-tabbar li a {
+            display: inline-block;
+            line-height: 0.7rem;
+            height: 0.7rem;
+        }
 
-		.listContent:first-child {
-			margin-top: 0px;
-		}
+        .listContent:first-child {
+            margin-top: 0px;
+        }
 
-		.listContent {
-			border-radius: 5px;
-			margin-top: 0.2rem;
-			background: #fff;
-		}
+        .listContent {
+            border-radius: 5px;
+            margin-top: 0.2rem;
+            background: #fff;
+        }
 
-		.listContent p.title {
-			color: #333;
-			font-size: 0.36rem;
-			position: relative;
-			line-height: 0.9rem;
-			padding-left: 0.5rem;
-		}
+        .listContent p.title {
+            color: #333;
+            font-size: 0.36rem;
+            position: relative;
+            line-height: 0.9rem;
+            padding-left: 0.5rem;
+        }
 
-		.listContent p {
-			padding: 0 0.54rem;
-			font-size: 0.28rem;
-			line-height: 0.9rem;
+        .listContent p {
+            padding: 0 0.54rem;
+            font-size: 0.28rem;
+            line-height: 0.9rem;
 
-		}
+        }
 
-		.listContent p span {
-			color: #424242;
-		}
+        .listContent p span {
+            color: #424242;
+        }
 
-		.um-tabbar-underline>li.active {
-			color: #039be5;
-			border-color: #039be5;
-		}
+        .um-tabbar-underline>li.active {
+            color: #039be5;
+            border-color: #039be5;
+        }
 
-		.listContent p.title:before {
-			content: "";
-			width: 3px;
-			height: 0.32rem;
-			background: #039be5;
-			position: absolute;
-			left: 0.4rem;
-			top: 0.26rem;
-		}
+        .listContent p.title:before {
+            content: "";
+            width: 3px;
+            height: 0.32rem;
+            background: #039be5;
+            position: absolute;
+            left: 0.4rem;
+            top: 0.26rem;
+        }
 
-		.um-tabbar-underline>li.active>a {
-			color: #039be5;
-		}
+        .um-tabbar-underline>li.active>a {
+            color: #039be5;
+        }
 
-		.listContent p {
-			line-height: 0.9rem;
-			border-bottom: 1px solid #f7f7f7;
-			color: #666;
-			font-size: 0.32rem;
-		}
-	</style>
+        .listContent p {
+            line-height: 0.9rem;
+            border-bottom: 1px solid #f7f7f7;
+            color: #666;
+            font-size: 0.32rem;
+        }
+    </style>
 
 </head>
 
 <body>
-	<div class="um-win" id="programDetail">
-		<ul class="um-tabbar um-tabbar-underline um-tabbar-switch">
-			<li data-tar='.base' class="active tc"><a>基本信息</a></li>
-			<li class=" tc" data-tar='.flow'><a>评审流程</a></li>
-		</ul>
-		<div class="um-content">
-			<div class="Artical">
-				<div class="base  active">
-					<div class="list listContent">
+    <div class="um-win" id="programDetail">
 
-						<p class="title">基本信息</p>
-						<p class="pl10 pr10">客户信息<span class="fr">{{dataList?dataList.prjBscInfo.cstNm:""}}</span></p>
-						<p class="pl10 pr10">合同编号<span class="fr">{{dataList?dataList.prjBscInfo.lsCntNo:""}}</span></p>
-						<p class="pl10 pr10">业务类型<span class="fr">{{dataList?dataList.prjBscInfo.bizTypNm:""}}</span></p>
-						<p class="pl10 pr10">业务类型<span class="fr">{{dataList?dataList.prjBscInfo.prjTypCdNm:""}}</span></p>
-						<!-- <p class="pl10 pr10">放款规则<span class="fr">{{dataList?dataList.prjBscInfo.prjTypCdNm:""}}</span></p> -->
-						<p class="pl10 pr10">客户经理<span class="fr">{{dataList?dataList.prjBscInfo.cstMgrNm:""}}</span></p>
-					</div>
-					<div class="list listContent"  >
-						<p class="title pl10">车辆信息</p>
-						<p class="pl10 pr10">经销商<span class="fr">{{dataList?dataList.prjBscInfo.prjEquBscInfo.splNm:""}}</span></p>
-						<p class="pl10 pr10">品牌类型<span class="fr">{{dataList&&(dataList.prjBscInfo.prjEquBscInfo.isNew=="1")?"二手车":"新车"}}</span></p>
-						<p class="pl10 pr10">品牌<span class="fr">{{dataList?dataList.prjBscInfo.prjEquBscInfo.braNm:""}}</span></p>
-						<p class="pl10 pr10">车系<span class="fr">{{dataList?dataList.prjBscInfo.prjEquBscInfo.equSet:""}}</span></p>
-						<p class="pl10 pr10">车型号<span class="fr">{{dataList?dataList.prjBscInfo.prjEquBscInfo.equMdl:""}}</span></p>
-						<p class="pl10 pr10">车辆识别代号<span class="fr">{{dataList?dataList.prjBscInfo.prjEqiDtlCar.vinNo:""}}</span></p>
-						<p class="pl10 pr10">发动机号<span class="fr">{{dataList?dataList.prjBscInfo.prjEqiDtlCar.engNo:""}}</span></p>
-						<p class="pl10 pr10">是否二手车<span class="fr">{{dataList&&(dataList.prjBscInfo.prjEquBscInfo.isNew=="1")?"是":"否"}}</span></p>
-						<!-- <p class="pl10 pr10">二手车里程数(公里)<span class="fr">{{dataList?dataList.prjBscInfo.prjEqiDtlCar.usedCarMil:""}}</span></p> -->
-						<!-- <p class="pl10 pr10">二手车首次登记日期<span class="fr">{{dataList?new Date(dataList.prjBscInfo.prjEqiDtlCar.usedCarReg).format("yyyy-MM-dd"):""}}</span></p> -->
-						<p class="pl10 pr10" v-if="dataList.prjBscInfo.prjEquBscInfo.isNew == 1">交易城市<span class="fr">{{dataList?dataList.prjBscInfo.rgnReCd.name:""}}-{{dataList?dataList.prjBscInfo.rgnPrCd.name:""}}-{{dataList?dataList.prjBscInfo.rgnCyCd.name:""}}-{{dataList?dataList.prjBscInfo.rgnToCd.name:""}}</span></p>
-						<p class="pl10 pr10" v-if="dataList.prjBscInfo.prjEquBscInfo.isNew == 1">卖家姓名<span class="fr">{{dataList?dataList.prjBscInfo.prjEqiDtlCar.sellerNm:""}}</span></p>
-						<p class="pl10 pr10" v-if="dataList.prjBscInfo.prjEquBscInfo.isNew == 1">卖家证件号<span class="fr">{{dataList?dataList.prjBscInfo.prjEqiDtlCar.idCardNo:""}}</span></p>
-						<p class="pl10 pr10">车身颜色<span class="fr">{{dataList?dataList.prjBscInfo.prjEqiDtlCar.carClName:""}}</span></p>
-						<p class="pl10 pr10">车辆单价<span class="fr">{{dataList?dataList.prjBscInfo.prjEquBscInfo.equAmt:""}}</span></p>
-						<!-- <p class="pl10 pr10">留购价<span class="fr">{{dataList?dataList.prjBscInfo.prjEquBscInfo.rsrvPc:""}}</span></p> -->
-					</div>
-					<div class="list listContent">
-						<p class="title pl10">报价方案</p> 
-						<p class="pl10 pr10">还款期限<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.lsPd:""}}</span></p>
-						<p class="pl10 pr10">还款期限单位<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.lsPdUntNm:""}}</span></p>
-						<p class="pl10 pr10">贷款年利率(%)<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.defAnnIntRatePct:""}}</span></p>
-						<p class="pl10 pr10">支付方式<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.payWay:""}}</span></p>
-						<p class="pl10 pr10">首付款比例(%)<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.hirePct:""}}</span></p>
-						<p class="pl10 pr10">首付款<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.hirePct*(dataList.prjBscInfo.prjQuatPrps.totLsItmAmt)/100:""}}</span></p>
-						<p class="pl10 pr10">保证金比例(%)<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.bailPct:""}}</span></p>
-						<p class="pl10 pr10">保证金<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.bailPct*(dataList.prjBscInfo.prjQuatPrps.totLsItmAmt)/100:""}}</span></p>
-						<p class="pl10 pr10">贴息金额<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.txJe:""}}</span></p>
-						<p class="pl10 pr10">GPS是否安装<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.gpsInsNm:""}}</span></p>
-						<div v-for="item in dataDetail">
-								<p class="pl10 pr10" v-if="item.feeTypCd=='04'">咨询服务费<span class="fr">{{item.feeAmt}} </span></p>
-								<p class="pl10 pr10"  v-else-if="item.feeTypCd=='10'">GPS费<span class="fr">{{item.feeAmt}}</span></p>
-						<p class="pl10 pr10"   v-else-if="item.feeTypCd=='30'">购置税<span class="fr">{{item.feeAmt}}</span></p>
-						<p class="pl10 pr10"   v-else-if="item.feeTypCd=='32'">保险费<span class="fr">{{item.feeAmt}}</span></p>
-						<p class="pl10 pr10"   v-else-if="item.feeTypCd=='51'">精品装潢<span class="fr">{{item.feeAmt}}</span></p>
-						<p class="pl10 pr10"   v-else > </p>
-						<!-- <p class="pl10 pr10">每期租金<span class="fr">{{dataList?dataList.prjQuatProps.prjQuatPrpsPaySchList[0].rntAmt:""}}</span></p> -->	 
-						</div>
-						<!-- <p class="pl10 pr10">GPS类型<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.lsPdUntNm:""}}--只有2，3</span></p>
-						
-						<p class="pl10 pr10">GPS费<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.lsPdUntNm:""}}--未找到</span></p>
-						<p class="pl10 pr10">购置税<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.lsPdUntNm:""}}--未找到</span></p>
-						<p class="pl10 pr10">保险费<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.lsPdUntNm:""}}--未找到</span></p>
-						<p class="pl10 pr10">精品装潢<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.lsPdUntNm:""}}--未找到</span></p>
-						<p class="pl10 pr10">每期租金<span class="fr">{{dataList?dataList.prjBscInfo.prjQuatPrps.lsPdUntNm:""}}--未找到</span></p> -->
+        <!-- 头部页签（信息、流程切换） -->
+        <!-- <ul class="um-tabbar um-tabbar-underline um-tabbar-switch">
+            <li data-tar='.base' class="active tc">
+                <a>基本信息</a>
+            </li>
+            <li class=" tc" data-tar='.flow'>
+                <a>评审流程</a>
+            </li>
+        </ul> -->
 
+        <div class="um-content">
+            <div class="Artical">
+                <div class="base  active">
+                    <div class="list listContent">
 
-						 
-					</div>
-				</div>
-				<div class="flow" >
-					<div id="flowContent"></div>
-					<p class="title  um-bgc-white" v-show="JBPM_ID" >流程ID：{{JBPM_ID.pdNo}} </p>
-					<div class="contentFlow um-bgc-white">
-						<div class="listItem" v-for="(item,index) in JBPM_ID.histoicFlowList">
-							<div class="inside">
-								<img src="../../img/true.png" class="true" alt="" />
-								<p class="top">{{item.assigneeName}}</p>
-								<!-- <p class="content"> {{item.assigneeName}} </p> -->
-									<p class="content">审批意见：{{item.comment?item.comment:"无"}}  </p>
-								<p class="content">任务历时： {{item.durationTime}}</p>
-							</div>
-						</div>
-					</div>
+                        <p class="title">基本信息</p>
+                        <p class="pl10 pr10">项目名称
+                            <span class="fr">{{ projectinfo.PROJECT_NAME ? projectinfo.PROJECT_NAME : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">手机号
+                            <span class="fr">{{ clientInfo.PHONE ? clientInfo.PHONE : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">区域
+                            <span class="fr">{{ projectinfo.LARGE_AREA ? projectinfo.LARGE_AREA : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">业务类型
+                            <span class="fr">{{ projectinfo.PLATFORM ? projectinfo.PLATFORM : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">项目类型
+                            <span class="fr">{{ projectinfo.PROJECT_TYPE_NM ? projectinfo.PROJECT_TYPE_NM : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">公司
+                            <span class="fr">{{ projectinfo.SHORT_NAME ? projectinfo.SHORT_NAME : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">指标类型
+                            <span class="fr">{{ projectinfo.ZBLX ? projectinfo.ZBLX : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">车辆类型
+                            <span class="fr">{{ projectinfo.CLLX ? projectinfo.CLLX : "" }}</span>
+                        </p>
+                    </div>
+                    <div class="list listContent">
+                        <p class="title pl10">车辆信息</p>
+                        <p class="pl10 pr10">经销商
+                            <span class="fr">{{ equiList.SUPPLIERS_NAME ? equiList.SUPPLIERS_NAME : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">选择品牌
+                            <span class="fr">{{ equiList.COMPANY_NAME ? equiList.COMPANY_NAME : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">选择车系
+                            <span class="fr">{{ equiList.THING_NAME ? equiList.THING_NAME : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">选择型号
+                            <span class="fr">{{ equiList.MODEL_SPEC ? equiList.MODEL_SPEC : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">指导价
+                            <span class="fr">{{ equiList.UNIT_PRICE_ZD ? equiList.UNIT_PRICE_ZD : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">零售价
+                            <span class="fr">{{ equiList.UNIT_PRICE ? equiList.UNIT_PRICE : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">数量（台）
+                            <span class="fr">{{ equiList.AMOUNT ? equiList.AMOUNT : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">留购价
+                            <span class="fr">{{ equiList.STAYBUY_PRICE ? equiList.STAYBUY_PRICE : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">保险
+                            <span class="fr">{{ equiList.E_BX_M ? equiList.E_BX_M : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">车船税
+                            <span class="fr">{{ equiList.E_CCS_M ? equiList.E_CCS_M : "" }}</span>
+                        </p>
+                    </div>
+                    <div class="list listContent">
+                        <p class="title pl10">商务政策</p>
+                        <p class="pl10 pr10">商务政策
+                            <span class="fr">{{ schemeInfo.POLICY_NAME ? schemeInfo.POLICY_NAME : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">租赁期数
+                            <span class="fr">{{ schemeInfo.LEASE_TERM ? schemeInfo.LEASE_TERM : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">租赁周期
+                            <span class="fr">{{ schemeInfo.LEASE_COURSE_NM ? schemeInfo.LEASE_COURSE_NM : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">年限
+                            <span class="fr">{{  }}</span>
+                        </p>
+                        <p class="pl10 pr10">租赁年利率(%)
+                            <span class="fr">{{ schemeInfo.YEAR_INTEREST ? schemeInfo.YEAR_INTEREST : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">支付方式
+                            <span class="fr">{{ schemeInfo.PAY_WAY_NM ? schemeInfo.PAY_WAY_NM : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">贴息金额
+                            <span class="fr">{{ schemeInfo.PREMIUMS_M ? schemeInfo.PREMIUMS_M : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">牌照指标
+                            <span class="fr">{{ schemeInfo.RPZSF_NM ? schemeInfo.RPZSF_NM : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">融牌照收费
+                            <span class="fr">{{  }}</span>
+                        </p>
+                        <p class="pl10 pr10">保险年限
+                            <span class="fr">{{ schemeInfo.BXNX_NM ? schemeInfo.BXNX_NM : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">车船税年限
+                            <span class="fr">{{ schemeInfo.CCSNX_NM ? schemeInfo.CCSNX_NM : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">放款方式
+                            <span class="fr">{{ schemeInfo.FKGZ_NM ? schemeInfo.FKGZ_NM : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">保证金处理
+                            <span class="fr">{{ schemeInfo.BZJCLFS_NM ? schemeInfo.BZJCLFS_NM : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">提前过户
+                            <span class="fr">{{ schemeInfo.TQGH_NM ? schemeInfo.TQGH_NM : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">过户期数
+                            <span class="fr">{{ schemeInfo.GHTIME ? schemeInfo.GHTIME : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">是否留钥匙
+                            <span class="fr">{{ schemeInfo.SFLYS_NM ? schemeInfo.SFLYS_NM : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">实际成交价
+                            <span class="fr">{{ schemeInfo.EQU_MONEY_ALL ? schemeInfo.EQU_MONEY_ALL : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">合同总计
+                            <span class="fr">{{ schemeInfo.LEASE_TOPRIC ? schemeInfo.LEASE_TOPRIC : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">首付
+                            <span class="fr">{{  }}</span>
+                        </p>
+                        <p class="pl10 pr10">保证金
+                            <span class="fr">{{ schemeInfo.LEASE_BAIL ? schemeInfo.LEASE_BAIL : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">尾款
+                            <span class="fr">{{ schemeInfo.FINAL_FEE ? schemeInfo.FINAL_FEE : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">手续费比率
+                            <span class="fr">{{ schemeInfo.SXF_RATE ? schemeInfo.SXF_RATE : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">期满处理方式
+                            <span class="fr">{{ schemeInfo.QMCLFS_NM ? schemeInfo.QMCLFS_NM : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">GPS安装
+                            <span class="fr">{{ schemeInfo.GPSAZ_NM ? schemeInfo.GPSAZ_NM : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">融资额
+                            <span class="fr">{{ schemeInfo.TOPRIC_SUBFIRENT ? schemeInfo.TOPRIC_SUBFIRENT : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">其他费用
+                            <span class="fr">{{  }}</span>
+                        </p>
+                        <p class="pl10 pr10">首期款
+                            <span class="fr">{{ schemeInfo.FIRST_RENT ? schemeInfo.FIRST_RENT : "" }}</span>
+                        </p>
+                        <p class="pl10 pr10">每期租金
+                            <span class="fr">{{  }}</span>
+                        </p>
+                        <p class="pl10 pr10">期数
+                            <span class="fr">{{ schemeInfo.LEASE_TERM ? schemeInfo.LEASE_TERM : "" }}</span>
+                        </p>
+                    </div>
+                </div>
 
-
-				</div>
-			</div>
-		</div>
-	</div>
+                <!-- 流程主体 -->
+                <!-- <div class="flow">
+                    <div id="flowContent"></div>
+                    <p class="title  um-bgc-white" v-show="JBPM_ID">流程ID：{{JBPM_ID.pdNo}} </p>
+                    <div class="contentFlow um-bgc-white">
+                        <div class="listItem" v-for="(item,index) in JBPM_ID.histoicFlowList">
+                            <div class="inside">
+                                <img src="../../img/true.png" class="true" alt="" />
+                                <p class="top">{{item.assigneeName}}</p>
+                                <p class="content">审批意见：{{item.comment?item.comment:"无"}} </p>
+                                <p class="content">任务历时： {{item.durationTime}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
 </body>
 <script src="../../js/summer.js"></script>
 <script src="../../js/jquery.min.js"></script>
@@ -242,105 +338,102 @@
 <script src="../../js/common.js"></script>
 <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
 <script>
-	summerready = function() {
-		var detailId = summer.pageParam.id;
-	//	var JBPM_ID= summer.pageParam.JBPM_ID;
-		programDetail.project_id=detailId;
-		programDetail.getData(detailId);
-		programDetail.getJBPMData(detailId);
-		//	programDetail.getSchemeData(detailId);
-	};
-	var programDetail = new Vue({
-		el: '#programDetail',
-		data:function() {
-			return {
-				dataList: "",
-				dataSchemeList:"",
-				project_id:"",
-				JBPM_ID_NM:"",
-				JBPM_ID:"",
-				dataDetail:[]
-			}
-		},
-		methods: {
-			getData:function(id) {
-				var self = this;
-				ajaxRequest({
-					type: 'post',
-					url: 'foundproject/loadProjectPage',
-					param: {
-						"PROJECT_ID": id,
-					}
-				}, function(res) {
-					summer.hideProgress();
-					if (res.data.flag == 1) {
-						self.dataList = res.data.datas;
-					self.dataDetail=response.data.datas.projectinfo;
-					}
-				}, function(err) {
-					alert(err);
-					console.log(err);
-					summer.hideProgress();
-				});
+    summerready = function () {
+        programDetail.project_id = summer.pageParam.id;
+        programDetail.type = summer.pageParam.type;
+        programDetail.SCHEME_ID = summer.pageParam.SCHEME_ID;
+        programDetail.getData();
+    };
+    var programDetail = new Vue({
+        el: '#programDetail',
+        data: function () {
+            return {
+                // 项目id
+                project_id: "",
+                // 客户类型(code)
+                type: "",
+                // 方案id
+                SCHEME_ID: "",
+                // 基本信息
+                projectinfo: {},
+                // 方案信息
+                schemeInfo: {},
+                // 车辆信息
+                equiList: {},
+                // 客户信息
+                clientInfo: {}
+            }
+        },
+        methods: {
+            getData: function () {
+                var self = this;
+                summer.showProgress();
+                ajaxRequest({
+                    type: 'post',
+                    url: 'foundproject/projectBaseInfo',
+                    param: {
+                        "PROJECT_ID": self.project_id,
+                        "SCHEME_ID": self.SCHEME_ID,
+                        "TYPE": self.type
+                    }
+                }, function (res) {
+                    summer.hideProgress();
+                    if (res.data.flag == 1) {
+                        self.projectinfo = res.data.datas.projectinfo ? res.data.datas.projectinfo : {};
+                        self.schemeInfo = res.data.datas.schemeInfo ? res.data.datas.schemeInfo : {};
+                        self.equiList = res.data.datas.equiList ? res.data.datas.equiList : {};
+                        self.clientInfo = res.data.datas.clientInfo ? res.data.datas.clientInfo : {};
+                    } else {
+                        summer.toast({
+                            msg: "获取项目详情失败"
+                        });
+                    }
+                }, function (err) {
+                    console.log(err);
+                    summer.hideProgress();
+                    summer.toast({
+                        msg: "获取项目详情失败"
+                    });
+                });
 
-			},
-		  getJBPMData:function(id){
-				var self = this;
-					ajaxRequest({
-						type: 'get',
-						url: 'appservice/project/prjbscinfo/showPrjAct.do',
-						param: {
-							"id": id,
-						}
-					}, function(res) {
-						summer.hideProgress();
-						if (res.data.flag == 1) {
-							self.JBPM_ID=res.data.datas;
-							console.log(res);
-						}
-					}, function(err) {
-						alert(err);
-						console.log(err);
-						summer.hideProgress();
-					});
+            }
+        }
+    });
 
-			}
-		}
-	});
-	$(function() {
-		/*导航更换js*/
-		$('ul.um-tabbar-switch  li').click(function() {
-			$(this).addClass('active').siblings('.active').removeClass('active');
-			var tar = $(this).attr('data-tar');
-			$(tar).addClass('active').siblings('.active').removeClass('active');
-		});
-	});
+    /* $(function () {
+        // 导航更换js
+        $('ul.um-tabbar-switch  li').click(function () {
+            $(this).addClass('active').siblings('.active').removeClass('active');
+            var tar = $(this).attr('data-tar');
+            $(tar).addClass('active').siblings('.active').removeClass('active');
+        });
+    }); */
 
-	function newCreateCustom() {
-		summer.openWin({
-			id: 'newCreateCustom',
-			url: 'html/fastReport/newCreateCustom.html',
-			create: false,
-			type: 'actionBar',
-			actionBar: {
-				title: "客户信息",
-				titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
-				backgroundColor: "#039be5",
-				leftItem: {
-					image: "img/back.png",
-					method: "", //返回按钮自定义事件
-					text: "返回",
-					textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-				},
-				rightItems: [{
-					type: "text",
-					text: "下一步",
-					textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-					method: "nextStopAction()" //在打开的window中自定义事件
-				}]
-			}
-		});
-	}
+    function newCreateCustom() {
+        summer.openWin({
+            id: 'newCreateCustom',
+            url: 'html/fastReport/newCreateCustom.html',
+            create: false,
+            type: 'actionBar',
+            actionBar: {
+                title: "客户信息",
+                titleColor: "#ffffff",
+                backgroundColor: "#039be5",
+                leftItem: {
+                    image: "img/back.png",
+                    method: "",
+                    text: "返回",
+                    textColor: "#ffffff"
+                },
+                rightItems: [{
+                    type: "text",
+                    text: "下一步",
+                    textColor: "#ffffff",
+                    method: "nextStopAction()"
+                }]
+            }
+        });
+    }
 </script>
 
 </html>
