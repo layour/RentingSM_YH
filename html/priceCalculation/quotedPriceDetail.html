@@ -713,42 +713,49 @@
 						MONTH_PRICE:'', //测算返回每期租金
 						term:'', //测算返回期数
 						BXF_PRICE:'', //保险费
+						BXF_DK:'',
 						bxf_edit:'',
 						bxf_list:[],
 						bxf_status:false,
 						bxf_jrfs_name:'',
 						bxf_jrfs_code:'',
 						BYF_PRICE:'', //保养费
+						BYF_DK:'',
 						byf_edit:'',
 						byf_list:[],
 						byf_status:false,
 						byf_jrfs_name:'',
 						byf_jrfs_code:'',
 						BUY_TAX_PRICE:'', //购置税
+						BUY_TAX_DK:'',
 						buy_tax_edit:'',
 						buy_tax_list:[],
 						buy_tax_status:false,
 						buy_tax_jrfs_name:'',
 						buy_tax_jrfs_code:'',
 						SJ_PRICE:'', //上牌税
+						SJ_DK:'',
 						sj_edit:'',
 						sj_list:[],
 						sj_status:false,
 						sj_jrfs_name:'',
 						sj_jrfs_code:'',
 						JPZH_PRICE:'', //精品装潢
+						JPZH_DK:'',
 						jpzh_edit:'',
 						jpzh_list:[],
 						jpzh_status:false,
 						jpzh_jrfs_name:'',
 						jpzh_jrfs_code:'',
 						CCS_PRICE:'', //车船税
+						CCS_DK:'',
 						ccs_edit:'',
 						ccs_list:[],
 						ccs_status:false,
 						ccs_jrfs_name:'',
 						ccs_jrfs_code:'',
 						SH_MONEY:'', // 上海牌照费
+						SH_DK:'',
 						sh_edit:'',
 						sh_list:[],
 						sh_status:false,
@@ -1237,36 +1244,43 @@
 							for(var i=0;i<otherArr.length;i++){
 								if(otherArr[i].KEY_NAME_EN=='BXF_PRICE'){
 									_this.bxf_status=true
+									_this.BXF_DK=otherArr[i].DK
 									if(_this.BXF_PRICE===''){_this.BXF_PRICE=otherArr[i].VALUE_STR || 0}
 									_this.bxf_edit=otherArr[i].VALUE_STATUS
 									_this.bxf_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='BYF_PRICE'){
 									_this.byf_status=true
+									_this.BYF_DK=otherArr[i].DK
 									if(_this.BYF_PRICE===''){_this.BYF_PRICE=otherArr[i].VALUE_STR || 0}
 									_this.byf_edit=otherArr[i].VALUE_STATUS
 									_this.byf_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='BUY_TAX_PRICE'){
 									_this.buy_tax_status=true
+									_this.BUY_TAX_DK=otherArr[i].DK
 									if(_this.BUY_TAX_PRICE===''){_this.BUY_TAX_PRICE=otherArr[i].VALUE_STR || 0}
 									_this.buy_tax_edit=otherArr[i].VALUE_STATUS
 									_this.buy_tax_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='SJ_PRICE'){
+									_this.SJ_DK=otherArr[i].DK
 									_this.sj_status=true
 									if(_this.SJ_PRICE===''){_this.SJ_PRICE=otherArr[i].VALUE_STR || 0}
 									_this.sj_edit=otherArr[i].VALUE_STATUS
 									_this.sj_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='JPZH_PRICE'){
 									_this.jpzh_status=true
+									_this.JPZH_DK=otherArr[i].DK
 									if(_this.JPZH_PRICE===''){_this.JPZH_PRICE=otherArr[i].VALUE_STR || 0}
 									_this.jpzh_edit=otherArr[i].VALUE_STATUS
 									_this.jpzh_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='CCS_PRICE'){
 									_this.ccs_status=true
+									_this.CCS_DK=otherArr[i].DK
 									if(_this.CCS_PRICE===''){_this.CCS_PRICE=otherArr[i].VALUE_STR || 0}
 									_this.ccs_edit=otherArr[i].VALUE_STATUS
 									_this.ccs_list=_this.checkFlagCode(otherArr[i].FYGS)
 								}else if(otherArr[i].KEY_NAME_EN=='SJ_MONEY'){
 									_this.sh_status=true
+									_this.SH_DK=otherArr[i].DK
 									if(_this.SH_MONEY===''){_this.SH_MONEY=otherArr[i].VALUE_STR || 0}
 									_this.sh_edit=otherArr[i].VALUE_STATUS
 									_this.sh_list=_this.checkFlagCode(otherArr[i].FYGS)
@@ -1570,14 +1584,14 @@
 							BAIL_PERCENT:this.BAIL_PERCENT, //保证金比列
 							BZJCLFS:this.BZJCLFS_ID, //保证金处理方式
 							other:[
-								{O_OTHER_NAME:'保险费',O_OTHER_MONEY:this.BXF_PRICE,O_TYPE_MONEY:this.bxf_jrfs_code},
-								{O_OTHER_NAME:'保养费',O_OTHER_MONEY:this.BYF_PRICE,O_TYPE_MONEY:this.byf_jrfs_code},
-								{O_OTHER_NAME:'购置税',O_OTHER_MONEY:this.BUY_TAX_PRICE,O_TYPE_MONEY:this.buy_tax_jrfs_code},
-								{O_OTHER_NAME:'上牌税',O_OTHER_MONEY:this.SJ_PRICE,O_TYPE_MONEY:this.sj_jrfs_code},
-								{O_OTHER_NAME:'精品装潢',O_OTHER_MONEY:this.JPZH_PRICE,O_TYPE_MONEY:this.jpzh_jrfs_code},
-								{O_OTHER_NAME:'车船税',O_OTHER_MONEY:this.CCS_PRICE,O_TYPE_MONEY:this.ccs_jrfs_code},
-								{O_OTHER_NAME:'上海牌照费',O_OTHER_MONEY:this.SH_MONEY,O_TYPE_MONEY:this.sh_jrfs_code},
-								{O_OTHER_NAME:'GPS费',O_OTHER_MONEY:this.GPS_MONEY,O_TYPE_MONEY:this.gps_jrfs_code}
+								{O_OTHER_NAME:'保险费',O_OTHER_MONEY:this.BXF_PRICE,O_TYPE_MONEY:this.bxf_jrfs_code,O_DED:this.BXF_DK},
+								{O_OTHER_NAME:'保养费',O_OTHER_MONEY:this.BYF_PRICE,O_TYPE_MONEY:this.byf_jrfs_code,O_DED:this.BYF_DK},
+								{O_OTHER_NAME:'购置税',O_OTHER_MONEY:this.BUY_TAX_PRICE,O_TYPE_MONEY:this.buy_tax_jrfs_code,O_DED:this.BUY_TAX_DK},
+								{O_OTHER_NAME:'上牌税',O_OTHER_MONEY:this.SJ_PRICE,O_TYPE_MONEY:this.sj_jrfs_code,O_DED:this.SJ_DK},
+								{O_OTHER_NAME:'精品装潢',O_OTHER_MONEY:this.JPZH_PRICE,O_TYPE_MONEY:this.jpzh_jrfs_code},O_DED:this.JPZH_DK,
+								{O_OTHER_NAME:'车船税',O_OTHER_MONEY:this.CCS_PRICE,O_TYPE_MONEY:this.ccs_jrfs_code,O_DED:this.CCS_DK},
+								{O_OTHER_NAME:'上海牌照费',O_OTHER_MONEY:this.SH_MONEY,O_TYPE_MONEY:this.sh_jrfs_code,O_DED:this.SH_DK},
+								{O_OTHER_NAME:'GPS费',O_OTHER_MONEY:this.GPS_MONEY,O_TYPE_MONEY:this.gps_jrfs_code,O_DED:KDK}
 							]
 						}
 						if(this.lease_course_status&& !this.LEASE_COURSE ){
@@ -1737,14 +1751,14 @@
 							BAIL_PERCENT:this.BAIL_PERCENT, //保证金比列
 							BZJCLFS:this.BZJCLFS_ID, //保证金处理方式
 							other:[
-								{O_OTHER_NAME:'保险费',O_OTHER_MONEY:this.BXF_PRICE,O_TYPE_MONEY:this.bxf_jrfs_code},
-								{O_OTHER_NAME:'保养费',O_OTHER_MONEY:this.BYF_PRICE,O_TYPE_MONEY:this.byf_jrfs_code},
-								{O_OTHER_NAME:'购置税',O_OTHER_MONEY:this.BUY_TAX_PRICE,O_TYPE_MONEY:this.buy_tax_jrfs_code},
-								{O_OTHER_NAME:'上牌税',O_OTHER_MONEY:this.SJ_PRICE,O_TYPE_MONEY:this.sj_jrfs_code},
-								{O_OTHER_NAME:'精品装潢',O_OTHER_MONEY:this.JPZH_PRICE,O_TYPE_MONEY:this.jpzh_jrfs_code},
-								{O_OTHER_NAME:'车船税',O_OTHER_MONEY:this.CCS_PRICE,O_TYPE_MONEY:this.ccs_jrfs_code},
-								{O_OTHER_NAME:'上海牌照费',O_OTHER_MONEY:this.SH_MONEY,O_TYPE_MONEY:this.sh_jrfs_code},
-								{O_OTHER_NAME:'GPS费',O_OTHER_MONEY:this.GPS_MONEY,O_TYPE_MONEY:this.gps_jrfs_code}
+								{O_OTHER_NAME:'保险费',O_OTHER_MONEY:this.BXF_PRICE,O_TYPE_MONEY:this.bxf_jrfs_code,O_DED:this.BXF_DK},
+								{O_OTHER_NAME:'保养费',O_OTHER_MONEY:this.BYF_PRICE,O_TYPE_MONEY:this.byf_jrfs_code,O_DED:this.BYF_DK},
+								{O_OTHER_NAME:'购置税',O_OTHER_MONEY:this.BUY_TAX_PRICE,O_TYPE_MONEY:this.buy_tax_jrfs_code,O_DED:this.BUY_TAX_DK},
+								{O_OTHER_NAME:'上牌税',O_OTHER_MONEY:this.SJ_PRICE,O_TYPE_MONEY:this.sj_jrfs_code,O_DED:this.SJ_DK},
+								{O_OTHER_NAME:'精品装潢',O_OTHER_MONEY:this.JPZH_PRICE,O_TYPE_MONEY:this.jpzh_jrfs_code},O_DED:this.JPZH_DK,
+								{O_OTHER_NAME:'车船税',O_OTHER_MONEY:this.CCS_PRICE,O_TYPE_MONEY:this.ccs_jrfs_code,O_DED:this.CCS_DK},
+								{O_OTHER_NAME:'上海牌照费',O_OTHER_MONEY:this.SH_MONEY,O_TYPE_MONEY:this.sh_jrfs_code,O_DED:this.SH_DK},
+								{O_OTHER_NAME:'GPS费',O_OTHER_MONEY:this.GPS_MONEY,O_TYPE_MONEY:this.gps_jrfs_code,O_DED:KDK}
 							],
 							FIRST_RENT:this.totleFirstM,
 							MONTH_PRICE:this.MONTH_PRICE,
