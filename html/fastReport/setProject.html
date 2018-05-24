@@ -207,7 +207,9 @@
 			//setProgect.getProjectId(__projectid);//此处应为从业务列表进来修改准备
 			console.log(JSON.stringify(summer.pageParam));
 			if (sourceId == "programSelect") {
-				setProgect.getProjectId(__projectid);
+				var CREDIT_ID = summer.pageParam.CREDIT_ID;
+				setProgect.CREDIT_ID = CREDIT_ID
+				setProgect.getProjectId(__projectid,CREDIT_ID);
 				//setProgect.project_Id = __projectid;
 			}
 			setProgect.customId = customId;
@@ -326,13 +328,14 @@
 						summer.hideProgress();
 					});
 				},
-				getProjectId: function(__projectid) {
+				getProjectId: function(__projectid,CREDIT_ID) {
 					var self = this;
 					ajaxRequest({
 						type: 'post',
-						url: 'appservice/project/prjbscinfo/prjInfoExist.do',
+						url: 'foundproject/prjInfoExist',
 						param: {
-							"id": __projectid,
+							"PROJECT_ID": __projectid,
+							"CREDIT_ID":CREDIT_ID,
 						}
 					}, function(res) {
 						summer.hideProgress();
@@ -342,34 +345,30 @@
 							// 	self.getCompleteStatus(self.customId,self.project_Id);
 							// }
 							 var finanlData=res.data.datas;
-							if (finanlData.jjlFlag) {
+							if (finanlData.guarFlag =="1") {
+							 	addRight('sponsor');
+							}
+							if (finanlData.linkFlag =="1") {
 							 	addRight('emergencyContract');
 							}
+							if (finanlData.cstFlag =="1") {
+							 	addRight('customer');
+							}
+							if (finanlData.prdInfoFlag =="1") {
+							 	addRight('addCarList');
+							}
+							if (finanlData.bscInfoFlag =="1") {
+							 	addRight('baseMessage');
+							}
+							if (finanlData.imgFlag =="1") {
+							 	addRight('uploadImg');
+							}
+
 							// if (finanlData.scheme_id) {
 							//  	addRight('price');
 							// }
-							if (finanlData.prdInfoFlag) {
-							 	addRight('addCarList');
-							}
-							if (finanlData.guarFlag) {
-							 	addRight('sponsor');
-							}
-							if (finanlData.imgFlag) {
-							 	addRight('uploadImg');
-							}
-							if(finanlData.cstFlag){
-								addRight('customer');
-							}
-							if(finanlData.bscInfoFlag){
-								addRight('baseMessage');
-							}
-							if (finanlData.bankFlag) {
-							 	addRight('bank');
-							}
-							if (finanlData.quatFlag) {
-							 	addRight('price');
-							}
-							self.customId = finanlData.CST_ID;
+							 
+							//self.customId = finanlData.CST_ID;
 
 						}
 					}, function(err) {
