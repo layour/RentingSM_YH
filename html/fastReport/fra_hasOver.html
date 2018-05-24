@@ -255,7 +255,7 @@
 						}
 					});
 				},
-				edit:function(id) {
+				edit:function(id, customId, CR_BECR_TYPE) {
 					summer.openWin({
 						id: 'setProject',
 						url: 'html/fastReport/setProject.html',
@@ -280,7 +280,9 @@
 						},
 						pageParam: {
 							projectId: id,
-							source: "programSelect"
+                            source: "programSelect",
+                            customId: customId,
+                            type: CR_BECR_TYPE == "自然人" ? 1 : 2
 						}
 					});
 				}
