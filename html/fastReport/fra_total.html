@@ -48,7 +48,7 @@
 				<p class=" select um-box" v-if="item.STATUS =='0'">
 					<!--<span class="um-bf1   tc" @click="upload(item.ID)"><i class="iconfont icon-Upload mr5"></i>上传资料</span>-->
 					<!--<span class="um-bf1  tc" @click="submit(item.ID)"><i class="iconfont icon-submit mr5"></i>提交</span>-->
-					<span class="um-bf1 tc" @click="edit(item.ID, item.EMPLOYEE_ID, item.CR_BECR_TYPE,item.CREDIT_ID)">
+					<span class="um-bf1 tc" @click="edit(item.ID, item.EMPLOYEE_ID, item.CR_BECR_TYPE, item.CREDIT_ID, item.SCHEME_ID)">
 					<i class="iconfont icon-modify mr5"></i>修改</span>
 					<span class="um-bf1 tc" @click="openOpacity(item.ID)">
 					<i class="iconfont icon-nav_delete mr5"></i>删除</span>
@@ -296,7 +296,7 @@
 						}
 					});*/
 				},
-				edit:function(id, customId, CR_BECR_TYPE,CREDIT_ID) {
+				edit:function(id, customId, CR_BECR_TYPE, CREDIT_ID, SCHEME_ID) {
                     if (CR_BECR_TYPE == "法人") {
                         summer.toast({
                             msg: "敬请期待"
@@ -331,7 +331,8 @@
                             isEdit: true,
                             customId: customId,
 							type: CR_BECR_TYPE == "自然人" ? 1 : 2,
-							CREDIT_ID:CREDIT_ID
+                            CREDIT_ID: CREDIT_ID,
+                            SCHEME_ID: SCHEME_ID
 						}
 					});
 				}
