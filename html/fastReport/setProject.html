@@ -209,7 +209,7 @@
 			if (sourceId == "programSelect") {
 				var CREDIT_ID = summer.pageParam.CREDIT_ID;
 				setProgect.CREDIT_ID = CREDIT_ID
-				setProgect.getProjectId(__projectid,CREDIT_ID);
+				setProgect.getProjectId();
 				//setProgect.project_Id = __projectid;
 			}
 			setProgect.customId = customId;
@@ -328,36 +328,38 @@
 						summer.hideProgress();
 					});
 				},
-				getProjectId: function(__projectid,CREDIT_ID) {
+				getProjectId: function() {
 					var self = this;
 					ajaxRequest({
 						type: 'post',
 						url: 'foundproject/prjInfoExist',
 						param: {
-							"PROJECT_ID": __projectid,
-							"CREDIT_ID":CREDIT_ID,
+							"PROJECT_ID": self.project_Id,
+							"CREDIT_ID": self.CREDIT_ID,
+                            "BECR_ID": self.customId
 						}
 					}, function(res) {
 						summer.hideProgress();
 						if (res.data.flag == 1) {
-							// self.customId = res.data.datas.ProjectObj.CLIENT_ID;
-							// if (self.sourceFrom=="programSelect") {
-							// 	self.getCompleteStatus(self.customId,self.project_Id);
-							// }
-							 var finanlData=res.data.datas;
+							var finanlData=res.data.datas;
 							if (finanlData.guarFlag =="1") {
+                                // 担保人
 							 	addRight('sponsor');
 							}
 							if (finanlData.linkFlag =="1") {
+                                // 紧急联系人
 							 	addRight('emergencyContract');
 							}
 							if (finanlData.cstFlag =="1") {
+                                // 客户信息
 							 	addRight('customer');
 							}
 							if (finanlData.prdInfoFlag =="1") {
+                                // 车辆信息
 							 	addRight('addCarList');
 							}
 							if (finanlData.bscInfoFlag =="1") {
+                                // 	项目基本信息
 							 	addRight('baseMessage');
 							}
 							if (finanlData.imgFlag =="1") {

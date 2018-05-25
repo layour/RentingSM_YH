@@ -1429,6 +1429,12 @@
                                 });
                             } else {
                                 // 查看客户，从立项进，回到立项
+                                if (self.sourceFrom == "setProject") {
+                                    summer.execScript({
+                                        winId: 'setProject',
+                                        script: "setProgect.getProjectId()"
+                                    });
+                                }
                                 summer.closeWin();
                             }
                         } else if (res.data.flag == 0) {

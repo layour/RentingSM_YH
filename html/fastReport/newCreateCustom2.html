@@ -574,6 +574,10 @@
                                 });
                             } else if (self.sourceFrom == "setProject") {
                                 // 查看客户，配偶，从立项进，退回到立项
+                                summer.execScript({
+                                    winId: 'setProject',
+                                    script: "setProgect.getProjectId()"
+                                });
                                 summer.closeToWin({
                                     id: "setProject"
                                 });
