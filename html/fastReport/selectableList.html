@@ -127,11 +127,10 @@
     <link rel="stylesheet" href="../../css/fonts/iconfont.css">
     <link rel="stylesheet" href="../../css/mint.css">
     <script src="../../js/font.js"></script>
-    <link rel="stylesheet" href="css/fraCommon.css">
 </head>
 
 <body>
-    <div class="um-frame" id="fra_total" v-cloak>
+    <div class="um-win" id="fra_total" v-cloak>
         <div class="um-content">
             <div class="item um-box pl10 pr10">
                 <span class="um-bf1">行业</span>
@@ -195,9 +194,10 @@
                 if (res.data.flag == 1) {
                     var result = res.data.datas;
                     selectableList.PROJECT_NAME = result.PROJECT_NAME;
-                    selectableList.slots0[0].values = result.deploymentList ? result.deploymentList : [];
+                    // selectableList.slots0[0].values = result.deploymentList ? result.deploymentList : [];
                     selectableList.tradeType = result.tradeType ? result.tradeType : "";
                     selectableList.contractPlate = result.contractPlate ? result.contractPlate : "";
+                    alert(result.deploymentList);
                 } else {
                     summer.toast({
                         msg: "获取流程列表失败"
@@ -235,7 +235,7 @@
                     pickerKehuType: "",
                     slots0: [{
                         flex: 1,
-                        values: [],
+                        values: ['111', '222', '333'],
                         defaultIndex: 0,
                         className: 'slot1',
                         textAlign: 'center'
