@@ -146,6 +146,11 @@
 								summer.execScript({
 									winId: "newSponsorCompanyList",
 									script: "addRight('legalBank')"
+                                });
+                                var messageData = JSON.stringify(self.message);
+                                summer.execScript({
+									winId: "newSponsorCompanyList",
+									script: "renewMessage('tCustBankAccountList','"+messageData+"')"
 								});
 								summer.closeWin()
 						}
@@ -168,7 +173,7 @@
              legalBank.message.GUARANTOR_ID = GUARANTOR_ID;
              var itemData = summer.pageParam.itemData;
              if(itemData){
-                legalBank.message.custBankArray = itemData;
+                legalBank.message = itemData;
              }
         }
         $(function(){

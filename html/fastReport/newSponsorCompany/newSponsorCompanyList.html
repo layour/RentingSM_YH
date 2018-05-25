@@ -267,8 +267,19 @@
             }
 
 		});
-		function renewMessage(){
-			newSponsorCompanyList.getData();
+		function renewMessage(id,message){
+			if(id =="guarantorCorpBase"){
+				newSponsorCompanyList.guarantorCorpBase = JSON.parse(message);
+			}else if(id == "tCustBankAccountList"){
+				newSponsorCompanyList.tCustBankAccountList = JSON.parse(message);
+			}else if(id == "legalRepresentInfo"){
+				newSponsorCompanyList.legalRepresentInfo = JSON.parse(message);
+			}else if(id == "tCustCorpHareHolderList"){
+				newSponsorCompanyList.tCustCorpHareHolderList = JSON.parse(message);
+			}else if(id == "theContactInfor"){
+				newSponsorCompanyList.theContactInfor = JSON.parse(message);
+			}
+			 
 		}
         summerready = function(){
             var projectId = summer.pageParam.projectId;
@@ -314,6 +325,36 @@
 			}
 		}
 		function complete(){
+			if(!$(".legalBase").hasClass('active')){
+					summer.toast({
+						msg: '请完善法人基本信息'
+					});
+					return
+				}
+				if(!$(".legalRepresent").hasClass('active')){
+					summer.toast({
+						msg: '请完善法人代表'
+					});
+					return
+				}
+				if(!$(".legalContact").hasClass('active')){
+					summer.toast({
+						msg: '请完善联系人信息'
+					});
+					return
+				}
+				if(!$(".legalBank").hasClass('active')){
+					summer.toast({
+						msg: '请完善开户银行'
+					});
+					return
+				}
+				if(!$(".legalPartner").hasClass('active')){
+					summer.toast({
+						msg: '请完善公司股东及份额'
+					});
+					return
+				}
 			summer.execScript({
 				winId: "setProject",
 				script: "addRight('sponsor')"
