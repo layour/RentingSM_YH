@@ -261,6 +261,12 @@
 						compressionRatio: 0.5,
 						callback: function (args) {
 							console.log(JSON.stringify(args));
+							// if (that.imgList.length > 8) {
+							// 	summer.toast({
+							// 		msg: "最多上传9张图片"
+							// 	})
+							// 	return
+							// }
 							// 水印
 							CommonUtil.watermark({
 								srcImage: args.compressImgPath,
@@ -285,12 +291,12 @@
 						callback: function (args) {
 							// console.log(JSON.stringify(args));
 							var length = args.imgPaths.length;
-							if (that.imgList.length + length > 9) {
-								summer.toast({
-									msg: "最多上传9张图片"
-								})
-								return
-							}
+							// if (that.imgList.length + length > 9) {
+							// 	summer.toast({
+							// 		msg: "最多上传9张图片"
+							// 	})
+							// 	return
+							// }
 							// console.log("开始添加水印,图片个数" + length);
 							summer.showProgress();
 							that.compressImg(0, args, length);
@@ -317,13 +323,13 @@
 				},
 				compressImg:function(i, args, length) {
 					var that = this;
-					// console.log("第" + i + "次添加水印")
+					console.log("第" + i + "次添加水印")
 					CommonUtil.watermark({
 						srcImage: args.imgPaths[i].imgPath,
 						targetImage: args.imgPaths[i].imgPath,
 						name: that.param.name,
 						callback: function (res) {
-							// console.log("第" + i + "次水印后的" + res.target)
+							console.log("第" + i + "次水印后的" + res.target)
 							that.imgList.push(res.target);
 							console.log(i,length-1)
 							if (i < length - 1) {
@@ -333,7 +339,7 @@
 							}
 						}
 					});
-					// console.log("程序还在执行")
+					console.log("程序还在执行")
 				},
 				takeVideo:function() {
 					var _this = this

@@ -44,12 +44,18 @@
 					methods:{
 						getData:function(){
 							var _this=this
+							var PROJECT_ID=summer.getStorage('addCarProjectId')
+							console.log('param==>',JSON.stringify({
+								SUPPLIERS_NAME:_this.searchVal,
+								PROJECT_ID:PROJECT_ID
+							}))
 							if(_this.searchVal){
 								ajaxRequest({
 									type:'POST',
 									url:'foundproject/getSupplierByName',
 									param:{
-										SUPPLIERS_NAME:_this.searchVal
+										SUPPLIERS_NAME:_this.searchVal,
+										PROJECT_ID:PROJECT_ID
 									}
 								},function(res){
 									console.log("res",res);
@@ -89,7 +95,7 @@
         })
 				function getData(val){
 					pickerDealerVue.searchVal=val
-					pickerDealerVue.getData();
+					pickerDealerVue.getData()
 				}
 				// summerready=function(){
 				// 	pickerDealerVue.getData();

@@ -134,6 +134,14 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
+					<li  @click="pickerFlag('sflys')">
+							<b>是否留钥匙</b>
+							<span>
+								<b v-if="SFLYS">{{SFLYS}}</b>
+								<b v-else class="default">请选择</b>
+								<i class="icon iconfont icon-enter"></i>
+							</span>
+					</li>
           <li @click="pickerFlag('ccsnx')">
             <b>车船税年限</b>
             <span>
@@ -166,6 +174,7 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
+
           <li  v-if="TQGH !='否'">
             <b>过户期数</b>
             <span>
@@ -205,14 +214,6 @@
   						</span>
   					</li>
           </template>
-          <li  @click="pickerFlag('sflys')">
-  						<b>是否留钥匙</b>
-  						<span>
-  							<b v-if="SFLYS">{{SFLYS}}</b>
-                <b v-else class="default">请选择</b>
-  							<i class="icon iconfont icon-enter"></i>
-  						</span>
-  				</li>
           <li>
               <b>实际成交价</b>
               <span>
@@ -815,6 +816,7 @@
 								var projectData=res.data.datas.scheme
 								_this.SCHEME_NAME=projectData.POLICY_NAME
 								_this.SCHEME_NAME_ID=projectData.POLICY
+								console.log('res.data.datas.scheme.SFXYZB_NM===>',res.data.datas.scheme.SFXYZB_NM)
 								if(projectData&&_this.SCHEME_NAME_ID){
                   _this.LEASE_TERM=projectData.LEASE_TERM
                   _this.LEASE_COURSE=projectData.LEASE_COURSE_NM
@@ -958,8 +960,6 @@
             }
 						if(!status){  // 打开/取消
 							this.currentName=val
-							this.pickingObj=''
-							this.pickerFlagList[0].values.splice(0,this.pickerFlagList[0].values.length)
 							if(val=='schemeType'){
 								this.pickerFlagList[0].values=this.scheme_type_list
 							}else if(val=='schemeName'){
@@ -1014,7 +1014,7 @@
 								this.pickerFlagList[0].values=this.gps_list
 							}
 
-							console.log(val,this.currentName,JSON.stringify(this.pickingObj))
+							console.log('当前打开的'+val,this.currentName,'暂时选中的'+JSON.stringify(this.pickingObj),'待选的'+JSON.stringify(this.pickerFlagList[0].values))
 						}else{  // 确认选中
 							if(!this.pickingObj || !this.pickingObj.FLAG){
 								summer.toast({msg:'请先选择'})
@@ -1131,7 +1131,7 @@
 								this.gps_jrfs_code=this.pickingObj.CODE
 								this.changRze()
 							}
-							console.log(this.currentName,JSON.stringify(this.pickingObj))
+							console.log('确认=》'+this.currentName,'选中的'+JSON.stringify(this.pickingObj))
 						}
 						this.pickerFlagStatus=!this.pickerFlagStatus
 					},
