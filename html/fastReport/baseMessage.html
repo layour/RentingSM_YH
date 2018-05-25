@@ -146,18 +146,20 @@
             baseMessage.totalData = baseData;
             baseMessage.companyList = baseData.companyList; //融资租赁公司列表
             baseMessage.project_Id = _project_Id;
-            baseData.PLATFORM.map(function (e, i) {
-                baseMessage.slots1[0].values.push(e.FLAG);
-            })
-            baseData.PROJECT_TYPE.map(function (e, i) {
-                baseMessage.slots2[0].values.push(e.FLAG);
-            })
-            baseData.ZBLX.map(function (e, i) {
-                baseMessage.slots3[0].values.push(e.FLAG);
-            })
-            baseData.CLLX.map(function (e, i) {
-                baseMessage.slots4[0].values.push(e.FLAG);
-            })
+            if (baseData) {
+                baseData.PLATFORM.map(function (e, i) {
+                    baseMessage.slots1[0].values.push(e.FLAG);
+                })
+                baseData.PROJECT_TYPE.map(function (e, i) {
+                    baseMessage.slots2[0].values.push(e.FLAG);
+                })
+                baseData.ZBLX.map(function (e, i) {
+                    baseMessage.slots3[0].values.push(e.FLAG);
+                })
+                baseData.CLLX.map(function (e, i) {
+                    baseMessage.slots4[0].values.push(e.FLAG);
+                })
+            }
 
         }
 
@@ -251,7 +253,8 @@
                         param: {
                             "PROJECT_ID": id,
                             "SCHEME_ID": self.SCHEME_ID,
-                            "TYPE": self.TYPE
+                            "TYPE": self.TYPE,
+                            "BECR_ID": self.message.BECR_ID
                         }
                     }, function (res) {
                         summer.hideProgress();
