@@ -200,31 +200,18 @@
             setProgect.USER_ID = USER_ID;
             var type = summer.pageParam.type;
             setProgect.type = type;
-						console.log('type',type)
 			var customId = summer.pageParam.customId;
 			var __projectid = summer.pageParam.projectId;
 			setProgect.project_Id = __projectid;
-			//setProgect.getProjectId(__projectid);//此处应为从业务列表进来修改准备
-			console.log(JSON.stringify(summer.pageParam));
+			setProgect.customId = customId;
+			setProgect.carName = summer.pageParam.carName;
 			if (sourceId == "programSelect") {
 				var CREDIT_ID = summer.pageParam.CREDIT_ID;
 				setProgect.CREDIT_ID = CREDIT_ID
 				setProgect.getProjectId();
-				//setProgect.project_Id = __projectid;
 			}
-			setProgect.customId = customId;
-			setProgect.carName = summer.pageParam.carName;
 			setProgect.getData(__projectid);
 			$("." + sourceId).addClass('active').siblings('i').addClass("active");
-			//从后台判断有没有填写 为了调试上传图片 暂时加上车辆的 start
-			// if(summer.pageParam.isEdit){
-			// 	$(".customer").addClass('active').siblings('i').addClass("active");
-			// 	$(".addCarList").addClass('active').siblings('i').addClass("active");
-			// 	$(".baseMessage").addClass('active').siblings('i').addClass("active");
-			// 	summer.setStorage('carType',"重卡")
-			// }
-
-			//从后台判断有没有填写 为了调试上传图片 暂时加上车辆的 over
 		}
 		var setProgect = new Vue({
 			el: '#app',
@@ -363,16 +350,26 @@
                                 // 	项目基本信息
 							 	addRight('baseMessage');
 							}
-							if (finanlData.imgFlag =="1") {
+							if (finanlData.comFlag =="1") {
+                                // 共承人
+							 	addRight('sharePerson');
+							}
+                            if (finanlData.childFlag =="1") {
+                                // 子女
+							 	addRight('children');
+							}
+                            /* if (finanlData.childFlag =="1") {
+                                // 报价方案
+							 	addRight('children');
+							} */
+                            if (finanlData.bankFlag =="1") {
+                                // 银行
+							 	addRight('bank');
+							}
+                            if (finanlData.imgFlag =="1") {
+                                // 风控资料
 							 	addRight('uploadImg');
 							}
-
-							// if (finanlData.scheme_id) {
-							//  	addRight('price');
-							// }
-
-							//self.customId = finanlData.CST_ID;
-
 						}
 					}, function(err) {
 						alert(err);

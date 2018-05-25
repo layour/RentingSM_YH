@@ -33,7 +33,7 @@
 				</p>
 				<div class="center" @click="openDetail(item.ID, item.CR_BECR_TYPE, item.SCHEME_ID)">
 					<p class="type pl10">
-						<span>{{item.CR_BECR_TYPE=="2"?"法人":"自然人"}} </span> |
+						<span>{{item.CR_BECR_TYPE}} </span> |
 						<span>{{item.PLATFORM}}</span>
 					</p>
 					<p class="type card pl10 status h20">
@@ -180,6 +180,12 @@
 				},
 				openDetail:function(id, type, SCHEME_ID) {
 					console.log(id,JBPM_ID);
+                    if (type == "法人") {
+                        summer.toast({
+                            msg: "敬请期待"
+                        });
+                        return;
+                    }
 					summer.openWin({
 						id: 'programDetail',
 						url: 'html/fastReport/programDetail.html',

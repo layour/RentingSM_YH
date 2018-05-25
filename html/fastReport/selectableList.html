@@ -194,10 +194,9 @@
                 if (res.data.flag == 1) {
                     var result = res.data.datas;
                     selectableList.PROJECT_NAME = result.PROJECT_NAME;
-                    // selectableList.slots0[0].values = result.deploymentList ? result.deploymentList : [];
+                    selectableList.slots0[0].values = result.deploymentList ? result.deploymentList : [];
                     selectableList.tradeType = result.tradeType ? result.tradeType : "";
                     selectableList.contractPlate = result.contractPlate ? result.contractPlate : "";
-                    alert(result.deploymentList);
                 } else {
                     summer.toast({
                         msg: "获取流程列表失败"
@@ -235,7 +234,7 @@
                     pickerKehuType: "",
                     slots0: [{
                         flex: 1,
-                        values: ['111', '222', '333'],
+                        values: [],
                         defaultIndex: 0,
                         className: 'slot1',
                         textAlign: 'center'
