@@ -1155,27 +1155,27 @@
 					},
 					computedRate:function(){
 						var _this=this
-						var mountedRate=(_this.LEASE_COURSE_ID*_this.LEASE_TERM).toFixed(2)
+						var mountedRate=Number((_this.LEASE_COURSE_ID*_this.LEASE_TERM).toFixed(2))
 						var hasVal=false
 						for (var i = 0; i < _this.rate_list.length; i++) {
-							if(mountedRate>_this.rate_list[i].LEASE_TERM_S && mountedRate<_this.rate_list[i].LEASE_TERM_E){
+							if(mountedRate>=_this.rate_list[i].LEASE_TERM_S && mountedRate<=_this.rate_list[i].LEASE_TERM_E){
 								hasVal=true
 								_this.SXF_RATE=_this.SXF_RATE==''?_this.rate_list[i].SXF_RATE:_this.SXF_RATE
 								_this.YEAR_INTEREST=_this.YEAR_INTEREST==''?_this.rate_list[i].YEAR_RATE:_this.YEAR_INTEREST
 								this.SXF=this.SXF_RATE===''?'':parseInt(this.TOPRIC_SUBFIRENT*this.SXF_RATE*0.01) //手续费
 							}
-							//gps
-							for (var i = 0; i < _this.gps_money_list.length; i++) {
-								if(mountedRate>_this.gps_money_list[i].LEASE_TERM_S && mountedRate<_this.gps_money_list[i].LEASE_TERM_E){
-									hasVal=true
-									_this.GPS_MONEY=_this.GPS_MONEY==''?(_this.gps_money_list[i].GPS || 0):_this.GPS_MONEY
-								 //手续费
-								}
 						}
+						//gps
+						for (var i = 0; i < _this.gps_money_list.length; i++) {
+							if(mountedRate>=_this.gps_money_list[i].LEASE_TERM_S && mountedRate<=_this.gps_money_list[i].LEASE_TERM_E){
+								_this.GPS_MONEY=_this.GPS_MONEY==''?(_this.gps_money_list[i].GPS || 0):_this.GPS_MONEY
+							}
+						}
+						console.log(mountedRate,JSON.stringify(_this.rate_list),hasVal)
 						return hasVal
 					},
 					checkDate:function(){
-						var _this=this;
+						var _this=this
 						summer.showProgress();
 						console.log("schemeCode======>"+_this.SCHEME_NAME_ID);
 						ajaxRequest({
@@ -1259,7 +1259,8 @@
 								_this.BZJCLFS=data.BZJCLFSS[0].FLAG
 								_this.BZJCLFS_ID=data.BZJCLFSS[0].CODE
 							}
-
+							_this.rate_list=res.data.datas.LISTYEARRATE
+							_this.gps_money_list=res.data.datas.FEELIST
 							//重新获取初始化的字典 over
 							var arr=res.data.datas.SCHEME
 							for(var i=0;i<arr.length;i++){
@@ -1413,9 +1414,6 @@
 							_this.changRze()  //重新计算其他费用
 
 							// 年利率 手续费 限制条件 Gps默认值
-							_this.rate_list=res.data.datas.LISTYEARRATE
-							_this.gps_money_list=res.data.datas.FEELIST
-
 							if(_this.LEASE_COURSE_ID!=''&&_this.LEASE_TERM!=''){
 								// 没有符合条件的
 								if(!_this.computedRate()){
@@ -1470,6 +1468,7 @@
 								this.TX_M=''
 							}
 							if(this.tx_m_limit.LIMIT_FLAG=='1'){
+								this.TX_M=Number(this.TX_M)
 								if(this.TX_M<this.tx_m_limit.LIMIT_VALUE_D || this.TX_M>this.tx_m_limit.LIMIT_VALUE_U){
 									summer.toast({msg:'贴息金额超出范围'})
 									this.TX_M=''
@@ -1604,7 +1603,7 @@
 								}
 							}else { // status=false  金额改变 计算比例
 								var money=this.firstPay
-								if(this.checkIntNmber(money) && money<this.LEASE_TOPRIC){
+								if(this.checkIntNmber(money) && money<=this.LEASE_TOPRIC){
 									this.firstPayRate=parseFloat(100*this.firstPay/this.LEASE_TOPRIC).toFixed(2);
 								}else {
 									this.firstPay=''
@@ -1628,7 +1627,7 @@
 									this.finalMoney=''
 								}
 							}else {
-								if(this.checkIntNmber(this.finalMoney) && this.finalMoney<this.LEASE_TOPRIC){
+								if(this.checkIntNmber(this.finalMoney) && this.finalMoney<=this.LEASE_TOPRIC){
 									this.finalRate=parseFloat(100*this.finalMoney/this.LEASE_TOPRIC).toFixed(2);
 								}else {
 									this.finalMoney=''
@@ -1647,7 +1646,7 @@
 									this.sxRate=''
 								}
 							}else {
-								if(this.checkIntNmber(this.sxMoney)&&this.sxMoney<this.TOPRIC_SUBFIRENT){
+								if(this.checkIntNmber(this.sxMoney)&&this.sxMoney<=this.TOPRIC_SUBFIRENT){
 									this.sxRate=parseFloat(100*this.sxMoney/this.TOPRIC_SUBFIRENT).toFixed(2);
 								}else {
 									this.sxMoney=''
@@ -1666,7 +1665,7 @@
 									this.bailRate=''
 								}
 							}else {
-								if(this.bailMoney<this.TOPRIC_SUBFIRENT&&this.checkIntNmber(this.bailMoney)){
+								if(this.bailMoney<=this.TOPRIC_SUBFIRENT&&this.checkIntNmber(this.bailMoney)){
 									this.bailRate=parseFloat(100*this.bailMoney/this.TOPRIC_SUBFIRENT).toFixed(2);
 								}else{
 									this.bailMoney=''
