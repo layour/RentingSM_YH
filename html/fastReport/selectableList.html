@@ -270,8 +270,26 @@
                             summer.toast({
                                 msg: "发起流程成功"
                             });
-                            summer.closeToWin({
-                                id: 'programSelect'
+                            var JBPM_ID = res.data.datas.JBPM_ID;
+                            summer.openWin({
+                                id : "finanlSubmit",
+                                url : "html/fastReport/finanlSubmit.html",
+                                create : false,
+                                type : 'actionBar',
+                                actionBar : {
+                                    title : "提交评审",
+                                    titleColor : "#ffffff",
+                                    backgroundColor : "#039BE5",
+                                    leftItem : {
+                                        image: "img/back.png",
+										method: "keyBack()",
+										text: "关闭",
+										textColor: "#ffffff"
+                                    }
+                                },
+                                pageParam:{
+                                    JBPM_ID: JBPM_ID
+                                }
                             });
                         } else if (res.data.flag == 0) {
                             summer.toast({

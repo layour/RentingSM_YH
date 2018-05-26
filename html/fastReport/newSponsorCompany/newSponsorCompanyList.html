@@ -156,6 +156,7 @@
                     clientId: '',//客户ID
 					CREDIT_ID:'',//资信ID
 					GUARANTOR_ID:'',//法人担保人ID
+					guarantorCorp:'',//法人担保人全部信息
 					item:'',//二次查看保存的法人担保人信息
 					guarantorCorpBase:'',//法人担保人基本信息
 					tCustBankAccountList:'',//银行户
@@ -166,7 +167,33 @@
             },
             methods:{
                 getData:function(){
-
+					let self = this;
+					ajaxRequest({
+						type: 'post',
+						url: 'foundproject/queryGuarantorDetails',
+						param: {
+							"CREDIT_ID": self.CREDIT_ID,
+						}
+					}, function(res) {
+						summer.hideProgress();
+						if (res.data.flag == 1) {
+							console.log(res.data);
+							self.guarantorCorp = res.data.datas.guarantorDetails.guarantorCorp;//法人
+							self.guarantorCorpBase = self.guarantorCorp.guarantorCorpBase;//法人担保人基本信息
+							self.tCustBankAccountList = self.guarantorCorp.tCustBankAccountList;//银行卡列表
+							self.legalRepresentInfo = self.guarantorCorp.legalRepresentInfo;//法人代表
+							self.tCustCorpHareHolderList = self.guarantorCorp.tCustCorpHareHolderList;//股东信息
+							self.theContactInfor = self.guarantorCorp.theContactInfor;//联系人信息
+						}else{
+							summer.toast({
+								msg:res.data.msg
+							});
+						}
+					}, function(err) {
+						alert(err);
+						console.log(err);
+						summer.hideProgress();
+					});
                 },
                 openCompony:function(id,title){
 					var self = this;
@@ -239,7 +266,21 @@
                 }
             }
 
-        });
+		});
+		function renewMessage(id,message){
+			if(id =="guarantorCorpBase"){
+				newSponsorCompanyList.guarantorCorpBase = JSON.parse(message);
+			}else if(id == "tCustBankAccountList"){
+				newSponsorCompanyList.tCustBankAccountList = JSON.parse(message);
+			}else if(id == "legalRepresentInfo"){
+				newSponsorCompanyList.legalRepresentInfo = JSON.parse(message);
+			}else if(id == "tCustCorpHareHolderList"){
+				newSponsorCompanyList.tCustCorpHareHolderList = JSON.parse(message);
+			}else if(id == "theContactInfor"){
+				newSponsorCompanyList.theContactInfor = JSON.parse(message);
+			}
+			 
+		}
         summerready = function(){
             var projectId = summer.pageParam.projectId;
 			newSponsorCompanyList.projectId=projectId;
@@ -249,14 +290,31 @@
 			newSponsorCompanyList.CREDIT_ID=CREDIT_ID;
             var item= summer.pageParam.item;
             if(item){
-				$(".legalBase").addClass('active').siblings('i').addClass("active");
+
 				item = item[0];
+				if(item.guarantorCorpBase){
+					$(".legalBase").addClass('active').siblings('i').addClass("active");
+				}
+				if(item.tCustBankAccountList.length>0){
+					$(".legalBank").addClass('active').siblings('i').addClass("active");
+				}
+				if(item.tCustCorpHareHolderList.length>0){
+					$(".legalPartner").addClass('active').siblings('i').addClass("active");
+				}
+				if(item.legalRepresentInfo){
+					$(".legalRepresent").addClass('active').siblings('i').addClass("active");
+				}
+				if(item.theContactInfor){
+					$(".legalContact").addClass('active').siblings('i').addClass("active");
+				}
 				newSponsorCompanyList.guarantorCorpBase = item.guarantorCorpBase;//法人担保人基本信息
 				newSponsorCompanyList.tCustBankAccountList = item.tCustBankAccountList;//银行卡列表
 				newSponsorCompanyList.legalRepresentInfo = item.legalRepresentInfo;//法人代表
 				newSponsorCompanyList.tCustCorpHareHolderList = item.tCustCorpHareHolderList;//股东信息
 				newSponsorCompanyList.theContactInfor = item.theContactInfor;//联系人信息
 				console.log(item);
+				newSponsorCompanyList.GUARANTOR_ID = item.guarantorCorpBase.ID;
+				
                 //将信息保存
             }
 		}
@@ -267,6 +325,36 @@
 			}
 		}
 		function complete(){
+			if(!$(".legalBase").hasClass('active')){
+					summer.toast({
+						msg: '请完善法人基本信息'
+					});
+					return
+				}
+				if(!$(".legalRepresent").hasClass('active')){
+					summer.toast({
+						msg: '请完善法人代表'
+					});
+					return
+				}
+				if(!$(".legalContact").hasClass('active')){
+					summer.toast({
+						msg: '请完善联系人信息'
+					});
+					return
+				}
+				if(!$(".legalBank").hasClass('active')){
+					summer.toast({
+						msg: '请完善开户银行'
+					});
+					return
+				}
+				if(!$(".legalPartner").hasClass('active')){
+					summer.toast({
+						msg: '请完善公司股东及份额'
+					});
+					return
+				}
 			summer.execScript({
 				winId: "setProject",
 				script: "addRight('sponsor')"

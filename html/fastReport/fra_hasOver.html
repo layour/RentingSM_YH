@@ -31,7 +31,7 @@
 					<span class="status fr">
 						<i class="iconfont icon-customer mr5"></i>{{item.CLERK_NAME}}</span>
 				</p>
-				<div class="center" @click="openDetail(item.ID, item.CR_BECR_TYPE, item.SCHEME_ID)">
+				<div class="center" @click="openDetail(item.ID, item.CR_BECR_TYPE, item.SCHEME_ID, item.BECR_ID)">
 					<p class="type pl10">
 						<span>{{item.CR_BECR_TYPE}} </span> |
 						<span>{{item.PLATFORM}}</span>
@@ -178,7 +178,7 @@
 						}
 					})
 				},
-				openDetail:function(id, type, SCHEME_ID) {
+				openDetail:function(id, type, SCHEME_ID, BECR_ID) {
 					console.log(id,JBPM_ID);
                     if (type == "法人") {
                         summer.toast({
@@ -205,7 +205,8 @@
 						pageParam: {
 							id: id,
                             type: type == "自然人" ? 1 : 2,
-                            SCHEME_ID: SCHEME_ID
+                            SCHEME_ID: SCHEME_ID,
+                            BECR_ID: BECR_ID
 						}
 					});
 				},

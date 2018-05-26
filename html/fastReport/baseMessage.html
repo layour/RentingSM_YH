@@ -1,460 +1,518 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
-		<meta charset="UTF-8">
-		<title>基本信息</title>
-		<link rel="stylesheet" href="../../css/iuapmobile.um.css">
-		<link rel="stylesheet" href="../../css/fonts/iconfont.css">
-		<link rel="stylesheet" href="../../css/mint.css">
-		<link rel="stylesheet" href="css/baseMessage.css">
-	</head>
-	<body>
-		<div class="um-win" id="baseMessageElement" v-cloak>
-			<div class="um-content baseMessage">
 
-				<ul>
-						<li class="item um-box pl10 pr10" >
-								<span class="um-bf1">项目名称</span><input  placeholder="请输入项目名称" type="text"    v-model="message.PROJECT_NAME" class="um-bf3">
-						</li>
-						<li class="item um-box pl10 pr10" >
-								<span class="um-bf1">手机号</span><input  placeholder="请输入手机号" type="number"    v-model="message.CR_CORP_COMPANY_PHONE" class="um-bf3">
-						</li>
-						<li class="item" >
-								<p class="pl10 pr10 tr" @click="selectAllCity">
-									<span class="fl">区域</span>
-									<span class="">
-										<span class="first">{{message.AREA_NM}}</span>
-										<i class="icon iconfont icon-enter"></i>
-									</span>
-								</p>
-							</li>
-					<li @click="surePickerTasktype" >
-						<p class="pl10 pr10 tr">
-							<span class="fl">业务类型</span>
-							 <span class="right"><span v-if='message.PLATFORM_NM' class="first">{{message.PLATFORM_NM}}</span><span v-else class="second">请选择</span> <i class="icon iconfont icon-enter"></i></span>
-						</p>
-					</li>
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title>基本信息</title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
+    <link rel="stylesheet" href="css/baseMessage.css">
+</head>
+
+<body>
+    <div class="um-win" id="baseMessageElement" v-cloak>
+        <div class="um-content baseMessage">
+
+            <ul>
+                <li class="item um-box pl10 pr10">
+                    <span class="um-bf1">项目名称</span>
+                    <input placeholder="请输入项目名称" type="text" v-model="message.PROJECT_NAME" class="um-bf3">
+                </li>
+                <li class="item um-box pl10 pr10">
+                    <span class="um-bf1">手机号</span>
+                    <input placeholder="请输入手机号" type="number" v-model="message.CR_CORP_COMPANY_PHONE" class="um-bf3">
+                </li>
+                <li class="item">
+                    <p class="pl10 pr10 tr" @click="selectAllCity">
+                        <span class="fl">区域</span>
+                        <span class="">
+                            <span class="first">{{message.AREA_NM}}</span>
+                            <i class="icon iconfont icon-enter"></i>
+                        </span>
+                    </p>
+                </li>
+                <li @click="surePickerTasktype">
+                    <p class="pl10 pr10 tr">
+                        <span class="fl">业务类型</span>
+                        <span class="right">
+                            <span v-if='message.PLATFORM_NM' class="first">{{message.PLATFORM_NM}}</span>
+                            <span v-else class="second">请选择</span>
+                            <i class="icon iconfont icon-enter"></i>
+                        </span>
+                    </p>
+                </li>
 
 
-					<li @click="surePickerProgramtype"   >
-						<p class="pl10 pr10 tr">
-							<span class="fl">项目类型</span>
-							 <span class="right"><span v-if='message.PROJECT_TYPE_NM' class="first">{{message.PROJECT_TYPE_NM}}</span><span v-else class="second">请选择</span> <i class="icon iconfont icon-enter"></i></span>
-						</p>
-					</li>
-					<!-- <li class="item um-box pl10 pr10" >
+                <li @click="surePickerProgramtype">
+                    <p class="pl10 pr10 tr">
+                        <span class="fl">项目类型</span>
+                        <span class="right">
+                            <span v-if='message.PROJECT_TYPE_NM' class="first">{{message.PROJECT_TYPE_NM}}</span>
+                            <span v-else class="second">请选择</span>
+                            <i class="icon iconfont icon-enter"></i>
+                        </span>
+                    </p>
+                </li>
+                <!-- <li class="item um-box pl10 pr10" >
 						<span class="um-bf1">融资租赁公司</span><input  placeholder="请输入融资租赁公司" type="number"    v-model="message.FHFA_ID" class="um-bf3">
 				</li> -->
-					<li class="item" >
-						<p class="pl10 pr10 tr" @click="selectCompany">
- 							<span class="fl">融资租赁公司</span>
-							<span class="">
-								<span class="first">{{message.SHORT_NAME}}</span>
-								<i class="icon iconfont icon-enter"></i>
-							</span>
-						</p>
-					</li>
-					<li @click="surePickerTargettype"   >
-							<p class="pl10 pr10 tr">
-								<span class="fl">指标类型</span>
-								 <span class="right"><span v-if='message.ZBLX_NM' class="first">{{message.ZBLX_NM}}</span><span v-else class="second">请选择</span> <i class="icon iconfont icon-enter"></i></span>
-							</p>
-						</li>
-					<li @click="surePickerCartype"    >
-						<p class="pl10 pr10 tr">
-							<span class="fl">车辆类型</span>
-							 <span class="right"><span v-if='message.CLLX_NM' class="first">{{message.CLLX_NM}}</span><span v-else class="second">请选择</span> <i class="icon iconfont icon-enter"></i></span>
-						</p>
-					</li>
-				</ul>
-			</div>
-			<div class="um-footer">
-				<mt-popup v-model="pickerTasktypeStatus" position='bottom' class="pickerColor">
-						<mt-picker :slots="slots1" @change="onValuesChange1"></mt-picker>
-						<p>
-							<span class="fl" @click="surePickerTasktype">取消</span><span class="fr" @click="surePickerTasktype('confirm')">确定</span>
-						</p>
-				</mt-popup>
-				<mt-popup v-model="pickerProgramtypeStatus" position='bottom' class="pickerColor">
-					<mt-picker :slots="slots2" @change="onValuesChange2"></mt-picker>
-					<p>
-						<span class="fl" @click="surePickerProgramtype">取消</span><span class="fr" @click="surePickerProgramtype('confirm')">确定</span>
-					</p>
-			</mt-popup>
-			<mt-popup v-model="pickerTargettypeStatus" position='bottom' class="pickerColor">
-				<mt-picker :slots="slots3" @change="onValuesChange3"></mt-picker>
-				<p>
-					<span class="fl" @click="surePickerTargettype">取消</span><span class="fr" @click="surePickerTargettype('confirm')">确定</span>
-				</p>
-		</mt-popup>
-		<mt-popup v-model="pickerCartypeStatus" position='bottom' class="pickerColor">
-			<mt-picker :slots="slots4" @change="onValuesChange4"></mt-picker>
-			<p>
-				<span class="fl" @click="surePickerCartype">取消</span><span class="fr" @click="surePickerCartype('confirm')">确定</span>
-			</p>
-	</mt-popup>
+                <li class="item">
+                    <p class="pl10 pr10 tr" @click="selectCompany">
+                        <span class="fl">融资租赁公司</span>
+                        <span class="">
+                            <span class="first">{{message.SHORT_NAME}}</span>
+                            <i class="icon iconfont icon-enter"></i>
+                        </span>
+                    </p>
+                </li>
+                <li @click="surePickerTargettype">
+                    <p class="pl10 pr10 tr">
+                        <span class="fl">指标类型</span>
+                        <span class="right">
+                            <span v-if='message.ZBLX_NM' class="first">{{message.ZBLX_NM}}</span>
+                            <span v-else class="second">请选择</span>
+                            <i class="icon iconfont icon-enter"></i>
+                        </span>
+                    </p>
+                </li>
+                <li @click="surePickerCartype">
+                    <p class="pl10 pr10 tr">
+                        <span class="fl">车辆类型</span>
+                        <span class="right">
+                            <span v-if='message.CLLX_NM' class="first">{{message.CLLX_NM}}</span>
+                            <span v-else class="second">请选择</span>
+                            <i class="icon iconfont icon-enter"></i>
+                        </span>
+                    </p>
+                </li>
+            </ul>
+        </div>
+        <div class="um-footer">
+            <mt-popup v-model="pickerTasktypeStatus" position='bottom' class="pickerColor">
+                <mt-picker :slots="slots1" @change="onValuesChange1"></mt-picker>
+                <p>
+                    <span class="fl" @click="surePickerTasktype">取消</span>
+                    <span class="fr" @click="surePickerTasktype('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <mt-popup v-model="pickerProgramtypeStatus" position='bottom' class="pickerColor">
+                <mt-picker :slots="slots2" @change="onValuesChange2"></mt-picker>
+                <p>
+                    <span class="fl" @click="surePickerProgramtype">取消</span>
+                    <span class="fr" @click="surePickerProgramtype('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <mt-popup v-model="pickerTargettypeStatus" position='bottom' class="pickerColor">
+                <mt-picker :slots="slots3" @change="onValuesChange3"></mt-picker>
+                <p>
+                    <span class="fl" @click="surePickerTargettype">取消</span>
+                    <span class="fr" @click="surePickerTargettype('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <mt-popup v-model="pickerCartypeStatus" position='bottom' class="pickerColor">
+                <mt-picker :slots="slots4" @change="onValuesChange4"></mt-picker>
+                <p>
+                    <span class="fl" @click="surePickerCartype">取消</span>
+                    <span class="fr" @click="surePickerCartype('confirm')">确定</span>
+                </p>
+            </mt-popup>
 
-			</div>
-		</div>
-		<script src="../../js/summer.js" ></script>
-		<script src="../../js/jquery.min.js" ></script>
-		<script src="../../js/font.js" ></script>
-		<script src="../../js/vue.js" ></script>
-		<script src="../../js/mint.js" ></script>
-		<script src="../../js/Frameworks/iuapmobile.frameworks.ui.js" ></script>
-		<script src="../../js/common.js" ></script>
-		<script>
-		  summerready=function(){
-			  var baseData=summer.pageParam.baseData;
-			  var customId=summer.pageParam.customId;
-			  baseMessage.message.BECR_ID=customId;
-			  var _project_Id=summer.pageParam.project_Id;
-			  if (userId()){
-				baseMessage.message.USER_ID=userId();
-			  }
-			  if(_project_Id){
-				  baseMessage.hasProjectId=true;
-					baseMessage.getData(_project_Id);
-			  }
-			  baseMessage.totalData=baseData;
-			  baseMessage.companyList=baseData.companyList;//融资租赁公司列表
-			  baseMessage.project_Id=_project_Id;
-			  baseData.PLATFORM.map(function(e,i){
-					baseMessage.slots1[0].values.push(e.FLAG);
-			  })
-			  baseData.PROJECT_TYPE.map(function(e,i){
-					baseMessage.slots2[0].values.push(e.FLAG);
-			  })
-			  baseData.ZBLX.map(function(e,i){
-					baseMessage.slots3[0].values.push(e.FLAG);
-			  })
-			  baseData.CLLX.map(function(e,i){
-					baseMessage.slots4[0].values.push(e.FLAG);
-			  })
+        </div>
+    </div>
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/mint.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script src="../../js/common.js"></script>
+    <script>
+        summerready = function () {
+            baseMessage.SCHEME_ID = summer.pageParam.SCHEME_ID;
+            baseMessage.TYPE = summer.pageParam.TYPE;
+            var baseData = summer.pageParam.baseData;
+            var customId = summer.pageParam.customId;
+            baseMessage.message.BECR_ID = customId;
+            var _project_Id = summer.pageParam.project_Id;
+            if (userId()) {
+                baseMessage.message.USER_ID = userId();
+            }
+            if (_project_Id) {
+                baseMessage.hasProjectId = true;
+                baseMessage.getData(_project_Id);
+            }
+            baseMessage.totalData = baseData;
+            baseMessage.companyList = baseData.companyList; //融资租赁公司列表
+            baseMessage.project_Id = _project_Id;
+            if (baseData) {
+                baseData.PLATFORM.map(function (e, i) {
+                    baseMessage.slots1[0].values.push(e.FLAG);
+                })
+                baseData.PROJECT_TYPE.map(function (e, i) {
+                    baseMessage.slots2[0].values.push(e.FLAG);
+                })
+                baseData.ZBLX.map(function (e, i) {
+                    baseMessage.slots3[0].values.push(e.FLAG);
+                })
+                baseData.CLLX.map(function (e, i) {
+                    baseMessage.slots4[0].values.push(e.FLAG);
+                })
+            }
 
-		  }
+        }
 
-			function save(){
-				baseMessage.save();
-			}
-			var baseMessage=new Vue({
-			el:'#baseMessageElement',
-			data: {
-					contractStatus : 'electron',
-					GroupStatus : 'no',
-					programStyle : '',
-					taskStyle : '',
-					lendRuleStyle : '',
-					holdPrice : 100,
-					pickerTasktypeStatus:false,
-					pickerTasktype:'',
-					pickerProgramtypeStatus:false,
-					pickerProgramtype:'',
-					pickerTargettypeStatus:false,
-					pickerTargettype:'',
-					pickerCartypeStatus:false,
-					pickerCartype:'',
-					slots1 : [{
-						flex : 1,
-						values : [],
-						defaultIndex :0,
-						className : 'slot1',
-						textAlign : 'center'
-					}],
-					slots2 : [{
-						flex : 1,
-						//values : ["大客户","零售"],
-						values : [],
-						defaultIndex :0,
-						className : 'slot1',
-						textAlign : 'center'
-					}],
-					slots3 : [{
-						flex : 1,
-						//values : ["先放款后抵押","先抵押后放款"],
-						values : [],
-						defaultIndex :0,
-						className : 'slot1',
-						textAlign : 'center'
-					}],
-					slots4 : [{
-						flex : 1,
-						//values : ["先放款后抵押","先抵押后放款"],
-						values : [],
-						defaultIndex :0,
-						className : 'slot1',
-						textAlign : 'center'
-					}],
-					companyList:'',//融资租赁公司列表
-					totalData:'',//基本信息所有字典
-					project_Id:'',//保存基本信息后返回的项目ID
-					 message:{
-						CREDIT_ID:'',//资信ID需传到立项
-						BECR_ID:'',//承租人ID（客户ID）
-						USER_ID:'',
-						PROJECT_ID:'',
-						PROJECT_NAME:'',//项目名称
-						CR_CORP_COMPANY_PHONE:'',//手机号
-						PLATFORM:'',//业务类型
-						PLATFORM_NM:'',
-						PROJECT_TYPE:'',//项目类型
-						PROJECT_TYPE_NM:'',
-						FHFA_ID:'',//融资租赁公司
-						SHORT_NAME:'',//租赁公司名字
-						ZBLX:'',//指标类型
+        function save() {
+            baseMessage.save();
+        }
+        var baseMessage = new Vue({
+            el: '#baseMessageElement',
+            data: {
+                SCHEME_ID: "",
+                TYPE: "",
+                contractStatus: 'electron',
+                GroupStatus: 'no',
+                programStyle: '',
+                taskStyle: '',
+                lendRuleStyle: '',
+                holdPrice: 100,
+                pickerTasktypeStatus: false,
+                pickerTasktype: '',
+                pickerProgramtypeStatus: false,
+                pickerProgramtype: '',
+                pickerTargettypeStatus: false,
+                pickerTargettype: '',
+                pickerCartypeStatus: false,
+                pickerCartype: '',
+                slots1: [{
+                    flex: 1,
+                    values: [],
+                    defaultIndex: 0,
+                    className: 'slot1',
+                    textAlign: 'center'
+                }],
+                slots2: [{
+                    flex: 1,
+                    //values : ["大客户","零售"],
+                    values: [],
+                    defaultIndex: 0,
+                    className: 'slot1',
+                    textAlign: 'center'
+                }],
+                slots3: [{
+                    flex: 1,
+                    //values : ["先放款后抵押","先抵押后放款"],
+                    values: [],
+                    defaultIndex: 0,
+                    className: 'slot1',
+                    textAlign: 'center'
+                }],
+                slots4: [{
+                    flex: 1,
+                    //values : ["先放款后抵押","先抵押后放款"],
+                    values: [],
+                    defaultIndex: 0,
+                    className: 'slot1',
+                    textAlign: 'center'
+                }],
+                companyList: '', //融资租赁公司列表
+                totalData: '', //基本信息所有字典
+                project_Id: '', //保存基本信息后返回的项目ID
+                message: {
+                    CREDIT_ID: '', //资信ID需传到立项
+                    BECR_ID: '', //承租人ID（客户ID）
+                    USER_ID: '',
+                    PROJECT_ID: '',
+                    PROJECT_NAME: '', //项目名称
+                    CR_CORP_COMPANY_PHONE: '', //手机号
+                    PLATFORM: '', //业务类型
+                    PLATFORM_NM: '',
+                    PROJECT_TYPE: '', //项目类型
+                    PROJECT_TYPE_NM: '',
+                    FHFA_ID: '', //融资租赁公司
+                    SHORT_NAME: '', //租赁公司名字
+                    ZBLX: '', //指标类型
 
-						ZBLX_NM:'',
-						CLLX:'',//车辆类型
-						CLLX_NM:'',
-						LARGE_AREA:'',//大区
-						AREA1:'',//省
-						AREA2:'',//市
-						AREA_NM:'',
-						SCHEME_ID:''
-					 }
-			},
-			 methods: {
-				 getData:function(id){
-					 var self=this;
-					 ajaxRequest({
-						 type: 'POST',
-						 url: 'foundproject/projectBaseInfo',
-						 param: {
-							  "PROJECT_ID":id
-						 }
-					 }, function(res) {
-						 summer.hideProgress();
-						 if (res.data.flag == 1) {
-								 var baseMessageData = res.data.datas.projectinfo;
-								 self.message.PROJECT_ID = baseMessageData.PROJECT_ID;
-								 self.message.PROJECT_NAME = baseMessageData.PROJECT_NAME;
-								 self.message.CR_CORP_COMPANY_PHONE = baseMessageData.CR_CORP_COMPANY_PHONE;
-								 self.message.PROJECT_TYPE = baseMessageData.PROJECT_TYPE;
-								 self.message.PROJECT_TYPE_NM = baseMessageData.PROJECT_TYPE;
-								 self.message.PLATFORM = baseMessageData.PLATFORM;
-								 self.message.PLATFORM_NM = baseMessageData.PLATFORM;
-								 self.message.FHFA_ID = baseMessageData.FHFA_ID;
-								 self.message.SHORT_NAME = baseMessageData.SHORT_NAME;
-								 self.message.ZBLX = baseMessageData.ZBLX;
-								 self.message.ZBLX_NM = baseMessageData.ZBLX;
-								 self.message.CLLX = baseMessageData.CLLX;
-								 self.message.CLLX_NM = baseMessageData.CLLX;
-								 self.message.LARGE_AREA = baseMessageData.LARGE_AREA;
-								 self.message.AREA1 = baseMessageData.AREA1;
-								 self.message.AREA2 = baseMessageData.AREA2;
-								 self.message.ZBLX_NM = baseMessageData.ZBLX;
-								 self.message.AREA_NM = baseMessageData.LARGE_AREA +' '+baseMessageData.AREA1+' '+baseMessageData.AREA2
+                    ZBLX_NM: '',
+                    CLLX: '', //车辆类型
+                    CLLX_NM: '',
+                    LARGE_AREA: '', //大区
+                    AREA1: '', //省
+                    AREA2: '', //市
+                    AREA_NM: '',
+                    SCHEME_ID: ''
+                }
+            },
+            methods: {
+                getData: function (id) {
+                    var self = this;
+                    ajaxRequest({
+                        type: 'POST',
+                        url: 'foundproject/projectBaseInfo',
+                        param: {
+                            "PROJECT_ID": id,
+                            "SCHEME_ID": self.SCHEME_ID,
+                            "TYPE": self.TYPE,
+                            "BECR_ID": self.message.BECR_ID
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            var baseMessageData = res.data.datas.projectinfo;
+                            self.message.PROJECT_ID = baseMessageData.PROJECT_ID;
+                            self.message.PROJECT_NAME = baseMessageData.PROJECT_NAME;
+                            self.message.CR_CORP_COMPANY_PHONE = res.data.datas.clientInfo ? res.data
+                                .datas.clientInfo.PHONE : "";
+                            self.message.PROJECT_TYPE = baseMessageData.PROJECT_TYPE;
+                            self.message.PROJECT_TYPE_NM = baseMessageData.PROJECT_TYPE;
+                            self.message.PLATFORM = baseMessageData.PLATFORM;
+                            self.message.PLATFORM_NM = baseMessageData.PLATFORM;
+                            self.message.FHFA_ID = baseMessageData.FHFA_ID;
+                            self.message.SHORT_NAME = baseMessageData.SHORT_NAME;
+                            self.message.ZBLX = baseMessageData.ZBLX;
+                            self.message.ZBLX_NM = baseMessageData.ZBLX;
+                            self.message.CLLX = baseMessageData.CLLX;
+                            self.message.CLLX_NM = baseMessageData.CLLX;
+                            self.message.LARGE_AREA = baseMessageData.LARGE_AREA;
+                            self.message.AREA1 = baseMessageData.AREA1;
+                            self.message.AREA2 = baseMessageData.AREA2;
+                            self.message.ZBLX_NM = baseMessageData.ZBLX;
+                            self.message.AREA_NM = baseMessageData.LARGE_AREA + ' ' +
+                                baseMessageData.AREA1 + ' ' + baseMessageData.AREA2
 
-						 }
-					 }, function(err) {
-						 console.log(err);
-						 summer.hideProgress();
-					 });
-				 },
-				 selectCompany:function(){
-					 var self = this;
-					summer.openWin({
-							id: 'pickeCompany',
-							url: 'html/touristsClient/pickeCompany.html',
-							create: false,
-							type: 'actionBar',
-							pageParam: {
-								list: JSON.stringify(self.companyList)
-							},
-							actionBar: {
-								title: "选择公司",
-								titleColor: "#ffffff",
-								backgroundColor: "#039BE5",
-								leftItem: {
-									image: "img/back.png",
-									method: '',
-									text: "返回",
-									textColor: "#ffffff"
-								}
-							}
-						})
-				 },
-				 selectAllCity:function(){
-					var selectParam={
-						id:'baseMessage',
-						dataSource:'baseMessageCity'
-					}
-					summer.setStorage('fromToSelectCityId',selectParam)
-					var self=this
-						summer.openWin({
-							id: 'pickerDealCity',
-							url: 'html/touristsClient/pickerDealCity.html',
-							create: false,
-							type: 'actionBar',
-							pageParam: {
-								list: JSON.stringify(self.totalData.LARGE_AREA)
-							},
-							actionBar: {
-								title: "选择大区",
-								titleColor: "#ffffff",
-								backgroundColor: "#039BE5",
-								leftItem: {
-									image: "img/back.png",
-									method: '',
-									text: "返回",
-									textColor: "#ffffff"
-								}
-							}
-						})
-				},
-				goBack:function() {
-					summer.closeWin();
-				},
+                        }
+                    }, function (err) {
+                        console.log(err);
+                        summer.hideProgress();
+                    });
+                },
+                selectCompany: function () {
+                    var self = this;
+                    summer.openWin({
+                        id: 'pickeCompany',
+                        url: 'html/touristsClient/pickeCompany.html',
+                        create: false,
+                        type: 'actionBar',
+                        pageParam: {
+                            list: JSON.stringify(self.companyList)
+                        },
+                        actionBar: {
+                            title: "选择公司",
+                            titleColor: "#ffffff",
+                            backgroundColor: "#039BE5",
+                            leftItem: {
+                                image: "img/back.png",
+                                method: '',
+                                text: "返回",
+                                textColor: "#ffffff"
+                            }
+                        }
+                    })
+                },
+                selectAllCity: function () {
+                    var selectParam = {
+                        id: 'baseMessage',
+                        dataSource: 'baseMessageCity'
+                    }
+                    summer.setStorage('fromToSelectCityId', selectParam)
+                    var self = this
+                    summer.openWin({
+                        id: 'pickerDealCity',
+                        url: 'html/touristsClient/pickerDealCity.html',
+                        create: false,
+                        type: 'actionBar',
+                        pageParam: {
+                            list: JSON.stringify(self.totalData.LARGE_AREA)
+                        },
+                        actionBar: {
+                            title: "选择大区",
+                            titleColor: "#ffffff",
+                            backgroundColor: "#039BE5",
+                            leftItem: {
+                                image: "img/back.png",
+                                method: '',
+                                text: "返回",
+                                textColor: "#ffffff"
+                            }
+                        }
+                    })
+                },
+                goBack: function () {
+                    summer.closeWin();
+                },
 
-				onValuesChange1:function(picker, values) {
-					this.pickerTasktype = values[0];
-				},
-				surePickerTasktype:function(param) {
-					var self = this;
-					this.pickerTasktypeStatus = !this.pickerTasktypeStatus;
-					if (param == 'confirm') {
-						this.message.PLATFORM_NM = this.pickerTasktype;
-					}
-					this.totalData.PLATFORM.map(function(e,i){
-						if(e.FLAG == self.message.PLATFORM_NM){
-							self.message.PLATFORM = e.CODE;
-						}
-			  		})
-				},
-				onValuesChange2:function(picker, values) {
-					this.pickerProgramtype = values[0];
-				},
-				surePickerProgramtype:function(param) {
-					var self = this;
-					this.pickerProgramtypeStatus = !this.pickerProgramtypeStatus;
-					if (param == 'confirm') {
-						this.message.PROJECT_TYPE_NM = this.pickerProgramtype;
-					}
-					this.totalData.PROJECT_TYPE.map(function(e,i){
-						if(e.FLAG == self.message.PROJECT_TYPE_NM){
-							self.message.PROJECT_TYPE = e.FLAG;
-						}
-			  		})
-				},
-				onValuesChange3:function(picker, values) {
-					this.pickerTargettype = values[0];
-				},
-				surePickerTargettype:function(param) {
-					var self = this;
-					this.pickerTargettypeStatus = !this.pickerTargettypeStatus;
-					if (param == 'confirm') {
-						this.message.ZBLX_NM = this.pickerTargettype;
-					}
-					this.totalData.ZBLX.map(function(e,i){
-						if(e.FLAG == self.message.ZBLX_NM){
-							self.message.ZBLX = e.CODE;
-						}
-			  		})
-				},
-				onValuesChange4:function(picker, values) {
-					this.pickerCartype = values[0];
-				},
-				surePickerCartype:function(param) {
-					var self = this;
-					this.pickerCartypeStatus = !this.pickerCartypeStatus;
-					if (param == 'confirm') {
-						this.message.CLLX_NM = this.pickerCartype;
-					}
-					this.totalData.CLLX.map(function(e,i){
-						if(e.FLAG == self.message.CLLX_NM){
-							self.message.CLLX = e.CODE;
-						}
-			  		})
-				},
+                onValuesChange1: function (picker, values) {
+                    this.pickerTasktype = values[0];
+                },
+                surePickerTasktype: function (param) {
+                    var self = this;
+                    this.pickerTasktypeStatus = !this.pickerTasktypeStatus;
+                    if (param == 'confirm') {
+                        this.message.PLATFORM_NM = this.pickerTasktype;
+                    }
+                    this.totalData.PLATFORM.map(function (e, i) {
+                        if (e.FLAG == self.message.PLATFORM_NM) {
+                            self.message.PLATFORM = e.CODE;
+                        }
+                    })
+                },
+                onValuesChange2: function (picker, values) {
+                    this.pickerProgramtype = values[0];
+                },
+                surePickerProgramtype: function (param) {
+                    var self = this;
+                    this.pickerProgramtypeStatus = !this.pickerProgramtypeStatus;
+                    if (param == 'confirm') {
+                        this.message.PROJECT_TYPE_NM = this.pickerProgramtype;
+                    }
+                    this.totalData.PROJECT_TYPE.map(function (e, i) {
+                        if (e.FLAG == self.message.PROJECT_TYPE_NM) {
+                            self.message.PROJECT_TYPE = e.FLAG;
+                        }
+                    })
+                },
+                onValuesChange3: function (picker, values) {
+                    this.pickerTargettype = values[0];
+                },
+                surePickerTargettype: function (param) {
+                    var self = this;
+                    this.pickerTargettypeStatus = !this.pickerTargettypeStatus;
+                    if (param == 'confirm') {
+                        this.message.ZBLX_NM = this.pickerTargettype;
+                    }
+                    this.totalData.ZBLX.map(function (e, i) {
+                        if (e.FLAG == self.message.ZBLX_NM) {
+                            self.message.ZBLX = e.CODE;
+                        }
+                    })
+                },
+                onValuesChange4: function (picker, values) {
+                    this.pickerCartype = values[0];
+                },
+                surePickerCartype: function (param) {
+                    var self = this;
+                    this.pickerCartypeStatus = !this.pickerCartypeStatus;
+                    if (param == 'confirm') {
+                        this.message.CLLX_NM = this.pickerCartype;
+                    }
+                    this.totalData.CLLX.map(function (e, i) {
+                        if (e.FLAG == self.message.CLLX_NM) {
+                            self.message.CLLX = e.CODE;
+                        }
+                    })
+                },
 
-				save:function() {
-					if(this.message.PROJECT_NAME==""){
-						summer.toast({msg:"项目名称不能为空"});
-						return;
-					}
-					if(this.message.CR_CORP_COMPANY_PHONE==""){
-						summer.toast({msg:"手机号不能为空"});
-						return;
-					}
-					if(this.message.AREA_NM==""){
-						summer.toast({msg:"区域不能为空"});
-						return;
-					}
-					if(this.message.PLATFORM_NM==""){
-						summer.toast({msg:"业务类型不能为空"});
-						return;
-					}
-					if(this.message.PROJECT_TYPE_NM==""){
-						summer.toast({msg:"项目类型不能为空"});
-						return;
-					}
-					if(this.message.SHORT_NAME==""){
-						summer.toast({msg:"融资租赁公司不能为空"});
-						return;
-					}
-					if(this.message.ZBLX_NM==""){
-						summer.toast({msg:"指标类型不能为空"});
-						return;
-					}
-					if(this.message.CLLX_NM==""){
-						summer.toast({msg:"车辆类型不能为空"});
-						return;
-					}
-					//此时需要调后端的ajax请求数据
-					var self = this;
-					var param = self.message
-					//  var param = JSON.parse(JSON.stringify(self.message));
-					summer.showProgress();
-					ajaxRequest({
-						  type: 'post',
-						  url: 'foundproject/addProject',
-						  param: param
-					 }, function (res) {
-							  if(res.data.flag==1){
-								  console.log(res);
-								  var projectId=res.data.datas.parameter.PROJECT_ID;
-								  self.message.PROJECT_ID  = projectId;//项目ID
-								  self.message.SCHEME_ID  = res.data.datas.parameter.SCHEME_ID;//方案ID
-								  self.message.CREDIT_ID  = res.data.datas.parameter.CREDIT_ID;
-								  //CREDIT_ID 资信ID
-								  var baseMessageReturn=JSON.stringify({
-										PROJECT_ID:projectId,//项目ID
-										SCHEME_ID:self.message.SCHEME_ID,//方案ID
-										CREDIT_ID:self.message.CREDIT_ID,//资信ID
-										PLATFORM:self.message.PLATFORM//业务类型
-								  });
+                save: function () {
+                    if (this.message.PROJECT_NAME == "") {
+                        summer.toast({
+                            msg: "项目名称不能为空"
+                        });
+                        return;
+                    }
+                    if (this.message.CR_CORP_COMPANY_PHONE == "") {
+                        summer.toast({
+                            msg: "手机号不能为空"
+                        });
+                        return;
+                    }
+                    if (this.message.AREA_NM == "") {
+                        summer.toast({
+                            msg: "区域不能为空"
+                        });
+                        return;
+                    }
+                    if (this.message.PLATFORM_NM == "") {
+                        summer.toast({
+                            msg: "业务类型不能为空"
+                        });
+                        return;
+                    }
+                    if (this.message.PROJECT_TYPE_NM == "") {
+                        summer.toast({
+                            msg: "项目类型不能为空"
+                        });
+                        return;
+                    }
+                    if (this.message.SHORT_NAME == "") {
+                        summer.toast({
+                            msg: "融资租赁公司不能为空"
+                        });
+                        return;
+                    }
+                    if (this.message.ZBLX_NM == "") {
+                        summer.toast({
+                            msg: "指标类型不能为空"
+                        });
+                        return;
+                    }
+                    if (this.message.CLLX_NM == "") {
+                        summer.toast({
+                            msg: "车辆类型不能为空"
+                        });
+                        return;
+                    }
+                    //此时需要调后端的ajax请求数据
+                    var self = this;
+                    var param = self.message
+                    //  var param = JSON.parse(JSON.stringify(self.message));
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'foundproject/addProject',
+                        param: param
+                    }, function (res) {
+                        if (res.data.flag == 1) {
+                            console.log(res);
+                            var projectId = res.data.datas.parameter.PROJECT_ID;
+                            self.message.PROJECT_ID = projectId; //项目ID
+                            self.message.SCHEME_ID = res.data.datas.parameter.SCHEME_ID; //方案ID
+                            self.message.CREDIT_ID = res.data.datas.parameter.CREDIT_ID;
+                            //CREDIT_ID 资信ID
+                            var baseMessageReturn = JSON.stringify({
+                                PROJECT_ID: projectId, //项目ID
+                                SCHEME_ID: self.message.SCHEME_ID, //方案ID
+                                CREDIT_ID: self.message.CREDIT_ID, //资信ID
+                                PLATFORM: self.message.PLATFORM //业务类型
+                            });
 
-								  summer.hideProgress();
-								  summer.toast({msg:"保存成功"});
-									summer.execScript({
-									    winId: "setProject",
-									    script: "addRight('baseMessage','"+baseMessageReturn+"')"
-									});
-									summer.closeWin()
-							  }
-						 }, function (err) {
-							alert(err);
-							 console.log(err);
-								 summer.hideProgress();
-						});
-				}
-			}
-			});
-			function getCity(dataSource) {
-				if(dataSource=="baseMessageCity"){
-					baseMessage.message.LARGE_AREA =JSON.parse(summer.getStorage("pickerDealCity1")).FLAG;
-					baseMessage.message.AREA1 =JSON.parse(summer.getStorage("pickerDealCity2")).NAME;
-					baseMessage.message.AREA2 =JSON.parse(summer.getStorage("pickerDealCity3")).NAME;
-					baseMessage.message.AREA_NM=JSON.parse(summer.getStorage("pickerDealCity1")).FLAG+" "+JSON.parse(summer.getStorage("pickerDealCity2")).NAME+" "+JSON.parse(summer.getStorage("pickerDealCity3")).NAME
-				}
-			}
-			function getCompany(){
-				var company = JSON.parse(summer.getStorage('pickerCompany'));
-				baseMessage.message.SHORT_NAME = company.SHORT_NAME;
-				baseMessage.message.FHFA_ID = company.ID;
-			}
+                            summer.hideProgress();
+                            summer.toast({
+                                msg: "保存成功"
+                            });
+                            summer.execScript({
+                                winId: "setProject",
+                                script: "addRight('baseMessage','" + baseMessageReturn +
+                                    "')"
+                            });
+                            summer.closeWin()
+                        }
+                    }, function (err) {
+                        alert(err);
+                        console.log(err);
+                        summer.hideProgress();
+                    });
+                }
+            }
+        });
 
-		</script>
-	</body>
+        function getCity(dataSource) {
+            if (dataSource == "baseMessageCity") {
+                baseMessage.message.LARGE_AREA = JSON.parse(summer.getStorage("pickerDealCity1")).FLAG;
+                baseMessage.message.AREA1 = JSON.parse(summer.getStorage("pickerDealCity2")).NAME;
+                baseMessage.message.AREA2 = JSON.parse(summer.getStorage("pickerDealCity3")).NAME;
+                baseMessage.message.AREA_NM = JSON.parse(summer.getStorage("pickerDealCity1")).FLAG + " " + JSON.parse(
+                    summer.getStorage("pickerDealCity2")).NAME + " " + JSON.parse(summer.getStorage(
+                    "pickerDealCity3")).NAME
+            }
+        }
+
+        function getCompany() {
+            var company = JSON.parse(summer.getStorage('pickerCompany'));
+            baseMessage.message.SHORT_NAME = company.SHORT_NAME;
+            baseMessage.message.FHFA_ID = company.ID;
+        }
+    </script>
+</body>
+
 </html>

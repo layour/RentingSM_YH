@@ -342,6 +342,7 @@
         programDetail.project_id = summer.pageParam.id;
         programDetail.type = summer.pageParam.type;
         programDetail.SCHEME_ID = summer.pageParam.SCHEME_ID;
+        programDetail.BECR_ID = summer.pageParam.BECR_ID;
         programDetail.getData();
     };
     var programDetail = new Vue({
@@ -374,7 +375,8 @@
                     param: {
                         "PROJECT_ID": self.project_id,
                         "SCHEME_ID": self.SCHEME_ID,
-                        "TYPE": self.type
+                        "TYPE": self.type,
+                        "BECR_ID": self.BECR_ID
                     }
                 }, function (res) {
                     summer.hideProgress();

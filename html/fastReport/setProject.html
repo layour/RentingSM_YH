@@ -194,6 +194,7 @@
 	<script src="../../js/common.js"></script>
 	<script>
 		summerready = function() {
+            setProgect.SCHEME_ID = summer.pageParam.SCHEME_ID ? summer.pageParam.SCHEME_ID : "";
 			var sourceId = summer.pageParam.source;
             setProgect.sourceFrom = sourceId;
             var USER_ID = summer.pageParam.USER_ID;
@@ -444,7 +445,9 @@
 								pageParam: {
 									baseData: baseData,
 									project_Id: _project_Id,
-									customId:self.customId
+                                    customId:self.customId,
+                                    SCHEME_ID: self.SCHEME_ID,
+                                    TYPE: self.type
 								}
 							})
 
