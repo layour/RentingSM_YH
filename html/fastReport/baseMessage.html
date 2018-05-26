@@ -55,6 +55,16 @@
                         </span>
                     </p>
                 </li>
+                <li @click="surePickerDkhpType" v-if="showDkhType">
+                        <p class="pl10 pr10 tr">
+                            <span class="fl">大客户类型</span>
+                            <span class="right">
+                                <span v-if='message.DKH_PROJECT_TYPE' class="first">{{message.DKH_PROJECT_TYPE}}</span>
+                                <span v-else class="second">请选择</span>
+                                <i class="icon iconfont icon-enter"></i>
+                            </span>
+                        </p>
+                    </li>
                 <!-- <li class="item um-box pl10 pr10" >
 						<span class="um-bf1">融资租赁公司</span><input  placeholder="请输入融资租赁公司" type="number"    v-model="message.FHFA_ID" class="um-bf3">
 				</li> -->
@@ -118,6 +128,13 @@
                     <span class="fr" @click="surePickerCartype('confirm')">确定</span>
                 </p>
             </mt-popup>
+            <mt-popup v-model="pickerDkhpTypeStatus" position='bottom' class="pickerColor">
+                    <mt-picker :slots="slots5" @change="onValuesChange5"></mt-picker>
+                    <p>
+                        <span class="fl" @click="surePickerDkhpType">取消</span>
+                        <span class="fr" @click="surePickerDkhpType('confirm')">确定</span>
+                    </p>
+                </mt-popup>
 
         </div>
     </div>
@@ -135,32 +152,12 @@
             var baseData = summer.pageParam.baseData;
             var customId = summer.pageParam.customId;
             baseMessage.message.BECR_ID = customId;
-            var _project_Id = summer.pageParam.project_Id;
+            var _project_Id = summer.pageParam.project_Id?summer.pageParam.project_Id:'';
             if (userId()) {
                 baseMessage.message.USER_ID = userId();
             }
-            if (_project_Id) {
-                baseMessage.hasProjectId = true;
-                baseMessage.getData(_project_Id);
-            }
-            baseMessage.totalData = baseData;
-            baseMessage.companyList = baseData.companyList; //融资租赁公司列表
+            baseMessage.getData(_project_Id);
             baseMessage.project_Id = _project_Id;
-            if (baseData) {
-                baseData.PLATFORM.map(function (e, i) {
-                    baseMessage.slots1[0].values.push(e.FLAG);
-                })
-                baseData.PROJECT_TYPE.map(function (e, i) {
-                    baseMessage.slots2[0].values.push(e.FLAG);
-                })
-                baseData.ZBLX.map(function (e, i) {
-                    baseMessage.slots3[0].values.push(e.FLAG);
-                })
-                baseData.CLLX.map(function (e, i) {
-                    baseMessage.slots4[0].values.push(e.FLAG);
-                })
-            }
-
         }
 
         function save() {
@@ -185,6 +182,8 @@
                 pickerTargettype: '',
                 pickerCartypeStatus: false,
                 pickerCartype: '',
+                pickerDkhpTypeStatus:false,
+                pickerDkhpType:'',
                 slots1: [{
                     flex: 1,
                     values: [],
@@ -216,6 +215,15 @@
                     className: 'slot1',
                     textAlign: 'center'
                 }],
+                slots5: [{
+                    flex: 1,
+                    //values : ["先放款后抵押","先抵押后放款"],
+                    values: [],
+                    defaultIndex: 0,
+                    className: 'slot1',
+                    textAlign: 'center'
+                }],
+                showDkhType:false,
                 companyList: '', //融资租赁公司列表
                 totalData: '', //基本信息所有字典
                 project_Id: '', //保存基本信息后返回的项目ID
@@ -237,6 +245,7 @@
                     ZBLX_NM: '',
                     CLLX: '', //车辆类型
                     CLLX_NM: '',
+                    DKH_PROJECT_TYPE:'',//大客户类型
                     LARGE_AREA: '', //大区
                     AREA1: '', //省
                     AREA2: '', //市
@@ -259,27 +268,52 @@
                     }, function (res) {
                         summer.hideProgress();
                         if (res.data.flag == 1) {
+                            var baseData = res.data.datas;
+                            self.totalData = baseData;
+                            baseData.PLATFORM.map(function (e, i) {
+                                baseMessage.slots1[0].values.push(e.FLAG);
+                            })
+                            baseData.PROJECT_TYPE.map(function (e, i) {
+                                baseMessage.slots2[0].values.push(e.FLAG);
+                            })
+                            baseData.ZBLX.map(function (e, i) {
+                                baseMessage.slots3[0].values.push(e.FLAG);
+                            })
+                            baseData.CLLX.map(function (e, i) {
+                                baseMessage.slots4[0].values.push(e.FLAG);
+                            })
+                            baseData.DKH_PROJECT_TYPE.map(function (e, i) {
+                                baseMessage.slots5[0].values.push(e.FLAG);
+                            })
+                            baseMessage.companyList = baseData.companyList; //融资租赁公司列表
                             var baseMessageData = res.data.datas.projectinfo;
-                            self.message.PROJECT_ID = baseMessageData.PROJECT_ID;
-                            self.message.PROJECT_NAME = baseMessageData.PROJECT_NAME;
-                            self.message.CR_CORP_COMPANY_PHONE = res.data.datas.clientInfo ? res.data
-                                .datas.clientInfo.PHONE : "";
-                            self.message.PROJECT_TYPE = baseMessageData.PROJECT_TYPE;
-                            self.message.PROJECT_TYPE_NM = baseMessageData.PROJECT_TYPE;
-                            self.message.PLATFORM = baseMessageData.PLATFORM;
-                            self.message.PLATFORM_NM = baseMessageData.PLATFORM;
-                            self.message.FHFA_ID = baseMessageData.FHFA_ID;
-                            self.message.SHORT_NAME = baseMessageData.SHORT_NAME;
-                            self.message.ZBLX = baseMessageData.ZBLX;
-                            self.message.ZBLX_NM = baseMessageData.ZBLX;
-                            self.message.CLLX = baseMessageData.CLLX;
-                            self.message.CLLX_NM = baseMessageData.CLLX;
-                            self.message.LARGE_AREA = baseMessageData.LARGE_AREA;
-                            self.message.AREA1 = baseMessageData.AREA1;
-                            self.message.AREA2 = baseMessageData.AREA2;
-                            self.message.ZBLX_NM = baseMessageData.ZBLX;
-                            self.message.AREA_NM = baseMessageData.LARGE_AREA + ' ' +
-                                baseMessageData.AREA1 + ' ' + baseMessageData.AREA2
+                            if(baseMessageData){
+                                self.message.PROJECT_ID = baseMessageData.PROJECT_ID;
+                                self.message.PROJECT_NAME = baseMessageData.PROJECT_NAME;
+                                self.message.CR_CORP_COMPANY_PHONE = res.data.datas.clientInfo ? res.data
+                                    .datas.clientInfo.PHONE : "";
+                                self.message.PROJECT_TYPE = baseMessageData.PROJECT_TYPE;
+                                self.message.PROJECT_TYPE_NM = baseMessageData.PROJECT_TYPE_NM;
+                                if(baseMessageData.PROJECT_TYPE_NM == "大客户"){
+                                    self.showDkhType = true;
+                                }
+                                self.message.PLATFORM = baseMessageData.PLATFORM;
+                                self.message.PLATFORM_NM = baseMessageData.PLATFORM;
+                                self.message.DKH_PROJECT_TYPE = baseMessageData.DKH_PROJECT_TYPE;
+                                self.message.FHFA_ID = baseMessageData.FHFA_ID;
+                                self.message.SHORT_NAME = baseMessageData.SHORT_NAME;
+                                self.message.ZBLX = baseMessageData.ZBLX;
+                                self.message.ZBLX_NM = baseMessageData.ZBLX;
+                                self.message.CLLX = baseMessageData.CLLX;
+                                self.message.CLLX_NM = baseMessageData.CLLX;
+                                self.message.LARGE_AREA = baseMessageData.LARGE_AREA;
+                                self.message.AREA1 = baseMessageData.AREA1;
+                                self.message.AREA2 = baseMessageData.AREA2;
+                                self.message.ZBLX_NM = baseMessageData.ZBLX;
+                                self.message.AREA_NM = baseMessageData.LARGE_AREA + ' ' +
+                                    baseMessageData.AREA1 + ' ' + baseMessageData.AREA2
+                            }
+                         
 
                         }
                     }, function (err) {
@@ -365,10 +399,15 @@
                     this.pickerProgramtypeStatus = !this.pickerProgramtypeStatus;
                     if (param == 'confirm') {
                         this.message.PROJECT_TYPE_NM = this.pickerProgramtype;
+                        if(this.pickerProgramtype == "大客户"){
+                            self.showDkhType = true;
+                        }else{
+                            self.showDkhType = false;
+                        }
                     }
                     this.totalData.PROJECT_TYPE.map(function (e, i) {
                         if (e.FLAG == self.message.PROJECT_TYPE_NM) {
-                            self.message.PROJECT_TYPE = e.FLAG;
+                            self.message.PROJECT_TYPE = e.CODE;
                         }
                     })
                 },
@@ -402,7 +441,16 @@
                         }
                     })
                 },
-
+                onValuesChange5: function (picker, values) {
+                    this.pickerDkhpType = values[0];
+                },
+                surePickerDkhpType: function (param) {
+                    var self = this;
+                    this.pickerDkhpTypeStatus = !this.pickerDkhpTypeStatus;
+                    if (param == 'confirm') {
+                        this.message.DKH_PROJECT_TYPE = this.pickerDkhpType;
+                    }
+                },
                 save: function () {
                     if (this.message.PROJECT_NAME == "") {
                         summer.toast({
@@ -431,6 +479,12 @@
                     if (this.message.PROJECT_TYPE_NM == "") {
                         summer.toast({
                             msg: "项目类型不能为空"
+                        });
+                        return;
+                    }
+                    if (this.message.PROJECT_TYPE_NM == "大客户"&&this.message.DKH_PROJECT_TYPE=="") {
+                        summer.toast({
+                            msg: "大客户类型不能为空"
                         });
                         return;
                     }
