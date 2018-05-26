@@ -280,7 +280,7 @@
 							console.log(res.data);
 							var guarantorCorp = res.data.datas.guarantorDetails.guarantorCorp;//法人
 							var guarantorNp = res.data.datas.guarantorDetails.guarantorNp;//自然人
-							if(guarantorCorp){
+							if(guarantorCorp.length>0){
 								openSponsor('newSponsorCompanyList',guarantorCorp);
 							}else{
 								openSponsor('newSponsor',guarantorNp);
