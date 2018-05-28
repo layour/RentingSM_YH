@@ -192,14 +192,20 @@
             }, function (res) {
                 summer.hideProgress();
                 if (res.data.flag == 1) {
-                    var result = res.data.datas;
-                    selectableList.PROJECT_NAME = result.PROJECT_NAME;
-                    selectableList.slots0[0].values = result.deploymentList ? result.deploymentList : [];
-                    selectableList.tradeType = result.tradeType ? result.tradeType : "";
-                    selectableList.contractPlate = result.contractPlate ? result.contractPlate : "";
+                    if (res.data.code != "S10001") {
+                        summer.toast({
+                            msg: res.data.msg ? res.data.msg : "获取流程列表失败"
+                        });
+                    } else {
+                        var result = res.data.datas;
+                        selectableList.PROJECT_NAME = result.PROJECT_NAME;
+                        selectableList.slots0[0].values = result.deploymentList ? result.deploymentList : [];
+                        selectableList.tradeType = result.tradeType ? result.tradeType : "";
+                        selectableList.contractPlate = result.contractPlate ? result.contractPlate : "";
+                    }
                 } else {
                     summer.toast({
-                        msg: "获取流程列表失败"
+                        msg: res.data.msg ? res.data.msg : "获取流程列表失败"
                     });
                 }
             }, function (err) {
