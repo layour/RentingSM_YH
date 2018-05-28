@@ -1814,14 +1814,14 @@
 						summer.showProgress();
 						if(this.TX !='无'){
 							param.PREMIUMS_M=this.TX_M
-							if(!this.TX_M){
+							if(this.TX_M===''){
 								summer.toast({msg:'贴息金额不能为空'})
 								return
 							}
 						}
 						if(this.TQGH !='否'){
 							param.GHTIME=this.GHTIME
-							if(!this.GHTIME){
+							if(this.GHTIME===''){
 								summer.toast({msg:'过户期数不能为空'})
 								return
 							}
