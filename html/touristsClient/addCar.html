@@ -171,6 +171,10 @@
 									this.safePrice=''
 								}
 							}
+							if(param=='realityPrice'&& Number(val)>this.guidePrice){
+								this.realityPrice=''
+								summer.toast({msg:'零售价不得高于指导价'})
+							}
 						},
 						pickerDealer:function(){
 							summer.setStorage('addCarProjectId',this.PROJECT_ID)

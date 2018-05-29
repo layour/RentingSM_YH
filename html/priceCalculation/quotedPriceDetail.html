@@ -222,56 +222,15 @@
                 &nbsp;元
               </span>
           </li>
-          <li v-if="first_pay_edit=='1'">
-              <b>首付款</b>
-              <span>
-                <b>{{HIRE_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{HEAD_HIRE}}&nbsp;元</b>
-              </span>
-          </li>
-          <li v-else @click="sureFristPay">
-              <b>首付款</b>
-              <span>
-                <b v-if="HIRE_PERCENT">{{HIRE_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{HEAD_HIRE}}&nbsp;元</b>
-                <b v-else class="default">请选择</b>
-  							<i class="icon iconfont icon-enter"></i>
-              </span>
-          </li>
+
           <li>
             <b>融资额</b>
             <span>
               <b>{{TOPRIC_SUBFIRENT}}&nbsp;元</b>
             </span>
           </li>
-          <li v-if="bail_money_edit=='1'">
-              <b>保证金</b>
-              <span>
-                <b>{{BAIL_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{LEASE_BAIL}}&nbsp;元</b>
-              </span>
-          </li>
-          <li v-else @click="sureBailMoney">
-              <b>保证金</b>
-              <span>
-                <b v-if="BAIL_PERCENT">{{BAIL_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{LEASE_BAIL}}&nbsp;元</b>
-                <b v-else class="default">请选择</b>
-  							<i class="icon iconfont icon-enter"></i>
-              </span>
-          </li>
-          <template v-if="bzjclfs_status">
-            <li v-if='bzjclfs_edit=="1"'>
-              <b>保证金处理方式</b>
-              <span>
-                <b>{{BZJCLFS}}</b>
-              </span>
-            </li>
-            <li v-else @click="pickerFlag('bzjclfs')">
-              <b>保证金处理方式</b>
-              <span>
-                <b v-if="BZJCLFS">{{BZJCLFS}}</b>
-                <b v-else class="default">请选择</b>
-                <i class="icon iconfont icon-enter"></i>
-              </span>
-            </li>
-          </template>
+
+
           <li @click="sureSxMoney">
               <b>手续费</b>
               <span>
@@ -280,20 +239,7 @@
   							<i class="icon iconfont icon-enter"></i>
               </span>
           </li>
-          <li v-if="final_money_edit=='1'">
-              <b>尾款</b>
-              <span>
-                <b>{{FINAL_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{FINAL_FEE}}&nbsp;元</b>
-              </span>
-          </li>
-          <li v-else @click="sureFinalPay" class="spec">
-              <b>尾款</b>
-              <span>
-                <b v-if="FINAL_RATE">{{FINAL_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{FINAL_FEE}}&nbsp;元</b>
-                <b v-else class="default">请选择</b>
-  							<i class="icon iconfont icon-enter"></i>
-              </span>
-          </li>
+
           <li v-if="bxf_status">
             <b>保险费</b>
             <span>
@@ -414,10 +360,69 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
-          <li class="spec">
+          <li>
               <b>合同总计</b>
               <span><b>{{LEASE_TOPRIC}}</b>&nbsp;元</span>
           </li>
+					<li v-if="first_pay_edit=='1'">
+							<b>首付款</b>
+							<span>
+								<b>{{HIRE_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{HEAD_HIRE}}&nbsp;元</b>
+							</span>
+					</li>
+					<li v-else @click="sureFristPay">
+							<b>首付款</b>
+							<span>
+								<b v-if="HIRE_PERCENT">{{HIRE_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{HEAD_HIRE}}&nbsp;元</b>
+								<b v-else class="default">请选择</b>
+								<i class="icon iconfont icon-enter"></i>
+							</span>
+					</li>
+					<li v-if="final_money_edit=='1'">
+							<b>尾款</b>
+							<span>
+								<b>{{FINAL_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{FINAL_FEE}}&nbsp;元</b>
+							</span>
+					</li>
+					<li v-else @click="sureFinalPay" class="spec">
+							<b>尾款</b>
+							<span>
+								<b v-if="FINAL_RATE">{{FINAL_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{FINAL_FEE}}&nbsp;元</b>
+								<b v-else class="default">请选择</b>
+								<i class="icon iconfont icon-enter"></i>
+							</span>
+					</li>
+					<li v-if="bail_money_edit=='1'">
+              <b>保证金</b>
+              <span>
+                <b>{{BAIL_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{LEASE_BAIL}}&nbsp;元</b>
+              </span>
+          </li>
+          <li v-else @click="sureBailMoney">
+              <b>保证金</b>
+              <span>
+                <b v-if="BAIL_PERCENT">{{BAIL_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{LEASE_BAIL}}&nbsp;元</b>
+                <b v-else class="default">请选择</b>
+  							<i class="icon iconfont icon-enter"></i>
+              </span>
+          </li>
+					<template v-if="bzjclfs_status">
+            <li v-if='bzjclfs_edit=="1"' class="spec">
+              <b>保证金处理方式</b>
+              <span>
+                <b>{{BZJCLFS}}</b>
+              </span>
+            </li>
+            <li v-else @click="pickerFlag('bzjclfs')" class="spec">
+              <b>保证金处理方式</b>
+              <span>
+                <b v-if="BZJCLFS">{{BZJCLFS}}</b>
+                <b v-else class="default">请选择</b>
+                <i class="icon iconfont icon-enter"></i>
+              </span>
+            </li>
+          </template>
+
           <li>
               <b>首期款</b>
               <span><b>{{totleFirstM}}</b>&nbsp;元</span>
