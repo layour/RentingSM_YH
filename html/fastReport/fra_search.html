@@ -2,194 +2,174 @@
 <html>
 
 <head>
-	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
-	<meta charset="UTF-8">
-	<title></title>
-	<link rel="stylesheet" href="../../css/iuapmobile.um.css">
-	<link rel="stylesheet" href="../../css/fonts/iconfont.css">
-	<script src="../../js/font.js"></script>
-	<link rel="stylesheet" href="css/fraCommon.css">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <script src="../../js/font.js"></script>
+    <link rel="stylesheet" href="css/fraCommon.css">
 </head>
 
 <body>
-	<div class="null">
-        <div class="nullCon">
-            <div class="nullBox">
-                <img src="../../img/empty.png" alt="">
-                <p>暂无数据</p>
+    <div class="um-frame" id="fraSearch" v-cloak>
+        <div class="um-content">
+            <div id="content"></div>
+            <div class="list customList um-bgc-white" v-for="(item,index) in dataList" v-bind:class="[index==0 ? marginTop0 : '']">
+                <p class="pl10 title pr10">
+                    {{item.CR_BECR_NAME}}
+                    <span class="status fr">
+                        <i class="iconfont icon-customer mr5"></i>{{item.CLERK_NAME}}</span>
+                </p>
+                <div class="center" @click="openDetail(item.ID, item.CR_BECR_TYPE, item.SCHEME_ID, item.EMPLOYEE_ID)">
+                    <p class="type pl10">
+                        <span>{{item.CR_BECR_TYPE}} </span> |
+                        <span>{{item.PLATFORM}}</span>
+                    </p>
+                    <p class="type card pl10 status h20">
+                        <span class="fr">{{item.STATUS_NM}}</span>
+                    </p>
+                    <p class="time pl10 pr10">
+                        <span>创建时间：
+                            <span>{{item.CREATE_DATE}}</span>
+                        </span>
+                    </p>
+                </div>
+                <p class=" select um-box" v-if="item.STATUS =='0'">
+                    <span class="um-bf1 tc" @click="edit(item.ID, item.EMPLOYEE_ID, item.CR_BECR_TYPE, item.CREDIT_ID, item.SCHEME_ID)">
+                        <i class="iconfont icon-modify mr5"></i>修改</span>
+                    <span class="um-bf1 tc" @click="openOpacity(item.ID)">
+                        <i class="iconfont icon-nav_delete mr5"></i>删除</span>
+                </p>
+                <p v-else></p>
             </div>
         </div>
     </div>
-	<div class="um-frame" id="fraSearch" v-cloak>
-		<!-- <div class="um-header-light">
-				<div class="sera">
-					<div class="s-box" onclick="opensearch()">
-						<i class="iconfont icon-search"> </i>
-						<p class="txt">
-							输入客户名称/关键词
-						</p>
-					</div>
-				</div>
-			</div> -->
-		<div class="um-content" id="content">
-			<div class="list customList um-bgc-white" v-for="(item,index) in dataList">
-				<p class="pl10 title pr10">
-					{{item.cstNm}}<span class="status fr">
-					<i class="iconfont icon-customer mr5"></i>{{item.cstMgrNm}}</span>
-				</p>
-				<div class="center" @click="openDetail(item.id,item.JBPM_ID)">
-					<p class="type pl10">
-						<span>	{{item.cstId?item.cstId.cstTypCdNm:" "}} </span> | <span>{{item.bizTypNm}}</span>
-					</p>
-					<p class="type card pl10 status">
-						{{item.lsCntNo}} <span class="fr">{{item.prjStsCdNm}}</span>
-					</p>
-					<p class="time pl10 pr10">
-						<span>创建时间：<span>{{item.createDate}}</span></span>
-					</p>
-				</div>
-				<p class=" select um-box" v-if="item.prjStsCdNm=='未评审'">
-					<!--<span class="um-bf1   tc" @click="upload(item.ID)"><i class="iconfont icon-Upload mr5"></i>上传资料</span>-->
-					<!--<span class="um-bf1  tc" @click="submit(item.ID)"><i class="iconfont icon-submit mr5"></i>提交</span>-->
-					<span class="um-bf1   tc" @click="edit(item.id)">
-						<i class="iconfont icon-modify mr5"></i>修改</span>
-					<span class="um-bf1  tc" @click="openOpacity(item.id)">
-						<i class="iconfont icon-nav_delete mr5"></i>删除</span>
-				</p>
-				<p v-else></p>
-			</div>
-		</div>
-	</div>
-	<script src="../../js/summer.js"></script>
-	<script src="../../js/jquery.min.js"></script>
-	<script src="../../js/vue.js"></script>
-	<script src="../../js/common.js"></script>
-	<script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
-	<script>
-		function opensearch() {
-			summer.openWin({
-				id: 'search',
-				url: 'html/fastReport/search.html',
-				pageParam: {
-					source: "program"
-				}
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script>
+        var _endNum = 1;
+        summerready = function () {
+            summer.setRefreshHeaderInfo({
+                visible: true,
+                loadingImg: 'img/refresh.png',
+                bgColor: '#ffffff',
+                textColor: '#aaaaaa',
+                textDown: '下拉刷新...',
+                textUp: '松开刷新...',
+                showTime: true
+            }, function (ret, err) {
+                //通常在这里从服务器加载数据，t
+                getData(1, fra_total.searchValue, true);
+                _endNum = 1;
+            });
+            summer.setRefreshFooterInfo({
+                visible: true,
+                loadingImg: 'img/refresh.png',
+                bgColor: '#ffffff',
+                textColor: '#aaaaaa',
+                textDown: '上拉刷新...',
+                textUp: '松开刷新...',
+                showTime: true
+            }, function (ret, err) {
+                //通常在这里从服务器加载数据，
+                _endNum += 1;
+                getData(_endNum, fra_total.searchValue, false);
+            });
+        }
 
-			});
-		}
-		var _endNum = 1;
-		summerready = function() {
-			//getData(1);
-			summer.setRefreshHeaderInfo({
-				visible: true,
-				loadingImg: 'img/refresh.png',
-				bgColor: '#ffffff',
-				textColor: '#aaaaaa',
-				textDown: '下拉刷新...',
-				textUp: '松开刷新...',
-				showTime: true
-			}, function(ret, err) {
-				//通常在这里从服务器加载数据，t
-				getData(1, fra_total.searchValue,true);
-				_endNum = 1;
-			});
-			summer.setRefreshFooterInfo({
-				visible: true,
-				loadingImg: 'img/refresh.png',
-				bgColor: '#ffffff',
-				textColor: '#aaaaaa',
-				textDown: '上拉刷新...',
-				textUp: '松开刷新...',
-				showTime: true
-			}, function(ret, err) {
-				//通常在这里从服务器加载数据，
-				_endNum += 1;
-				getData(_endNum, fra_total.searchValue,false);
-			});
-		}
-
-		function getData(end, searchValue,flag) {
-			fra_total.getData(end, searchValue,flag);
-			fra_total.searchValue = searchValue;
-		}
-		var fra_total = new Vue({
-			el: '#fraSearch',
-			data:function() {
-				return {
-					dataList: '',
-					searchValue: ''
-				}
-			},
-			methods: {
-				getData:function(end, searchValue,flag) {
-					var self=this;
-					if (searchValue) {
-						ajaxRequest({
-							type: 'post',
-							url: 'appservice/project/prjbscinfo/initList.do?cstNm='+searchValue+'&pageNo='+end,
-							param: {
-								"pageSize": 10,
-								"prjStsCd": "",
-								"prjNm":''
-							},
-							search:true
-						}, function(res) {
-							//alert(res);
-							summer.hideProgress();
-						var Data;
-						if (Object.prototype.toString.call(res.data) === '[object String]') {
-							Data = JSON.parse(res.data);
-						} else {
-							Data = res.data;
-						}
-						if (Data.flag == 1) {
-							self.totalPage = Data.datas.last;
-							if (flag) {
-								if (Data.datas.list.length < 1) {
-									createNull("content", "../../img/empty.png");
-									//$("#content").css('display', 'block');
-								} else {
-									//$("#content").css('display', 'none');
-									self.dataList = Data.datas.list;
-								}
-							} else {
-								self.dataList = self.dataList.concat(Data.datas.list);
-							}
-
-							console.log(self.dataList);
-						}
-						}, function(err) {
-							alert(err);
-							console.log(err);
-							summer.hideProgress();
-						});
-					}
-					this.$nextTick(function() {
-						summer.refreshHeaderLoadDone() //加载完成后调用方法恢复组件到默认状态
-						summer.refreshFooterLoadDone(); //加载完成后调用方法恢复组件到默认状态
-					})
-				},
-				openOpacity:function(id, code) {
-					console.log(id);
-					summer.openFrame({
-						id: 'Opacity',
-						url: 'html/fastReport/Opacity.html',
-						position: {
-							top: 0,
-							left: 0,
-							bottom: 0,
-							right: 0
-						},
-						opaque: false,
-						pageParam: {
-							id: id,
-							code: code,
-							frameId: "fra_search",
-							winId:"search"
-						}
-					})
-				},
-				openDetail:function(id, JBPM_ID) {
-					console.log(id);
+        function getData(end, searchValue, flag) {
+            fra_total.getData(end, searchValue, flag);
+            fra_total.searchValue = searchValue;
+        }
+        var fra_total = new Vue({
+            el: '#fraSearch',
+            data: function () {
+                return {
+                    dataList: '',
+                    searchValue: ''
+                }
+            },
+            methods: {
+                getData: function (end, searchValue, flag) {
+                    var self = this;
+                    if (searchValue) {
+                        ajaxRequest({
+                            type: 'post',
+                            url: 'foundproject/projectList',
+                            param: {
+                                "pageNo": end,
+                                "pageSize": 10,
+                                "type": "4",
+                                "CR_BECR_NAME": searchValue
+                            }
+                        }, function (res) {
+                            summer.hideProgress();
+                            var Data;
+                            if (Object.prototype.toString.call(res.data) === '[object String]') {
+                                Data = JSON.parse(res.data);
+                            } else {
+                                Data = res.data;
+                            }
+                            if (Data.flag == 1) {
+                                if (flag) {
+                                    if (Data.datas.list.length < 1) {
+                                        createNull("content", "../../img/empty.png");
+                                        $("#content").css('display', 'block');
+                                    } else {
+                                        $("#content").css('display', 'none');
+                                        self.dataList = Data.datas.list;
+                                    }
+                                } else {
+                                    if (Data.datas.list.length == 0) {
+                                        summer.toast({
+                                            msg: "没有更多了"
+                                        });
+                                        return;
+                                    }
+                                    self.dataList = self.dataList.concat(Data.datas.list);
+                                }
+                            }
+                        }, function (err) {
+                            console.log(err);
+                            summer.hideProgress();
+                        });
+                    }
+                    this.$nextTick(function () {
+                        summer.refreshHeaderLoadDone() //加载完成后调用方法恢复组件到默认状态
+                        summer.refreshFooterLoadDone(); //加载完成后调用方法恢复组件到默认状态
+                    })
+                },
+                openOpacity: function (id, code) {
+                    console.log(id);
+                    summer.openFrame({
+                        id: 'Opacity',
+                        url: 'html/fastReport/Opacity.html',
+                        position: {
+                            top: 0,
+                            left: 0,
+                            bottom: 0,
+                            right: 0
+                        },
+                        opaque: false,
+                        pageParam: {
+                            id: id,
+                            code: code,
+                            frameId: "fra_search",
+                            winId: "search"
+                        }
+                    })
+                },
+                openDetail:function(id, type, SCHEME_ID, BECR_ID) {
+                    if (type == "法人") {
+                        summer.toast({
+                            msg: "敬请期待"
+                        });
+                        return;
+                    }
 					summer.openWin({
 						id: 'programDetail',
 						url: 'html/fastReport/programDetail.html',
@@ -207,12 +187,20 @@
 							}
 						},
 						pageParam: {
-							id: id,
-							JBPM_ID: JBPM_ID
+                            id: id,
+                            type: type == "自然人" ? 1 : 2,
+                            SCHEME_ID: SCHEME_ID,
+                            BECR_ID: BECR_ID
 						}
 					});
 				},
-				edit:function(id) {
+                edit:function(id, customId, CR_BECR_TYPE, CREDIT_ID, SCHEME_ID) {
+                    if (CR_BECR_TYPE == "法人") {
+                        summer.toast({
+                            msg: "敬请期待"
+                        });
+                        return;
+                    }
 					summer.openWin({
 						id: 'setProject',
 						url: 'html/fastReport/setProject.html',
@@ -238,16 +226,17 @@
 						pageParam: {
 							projectId: id,
 							source: "programSelect",
-							isEdit: true
+                            isEdit: true,
+                            customId: customId,
+							type: CR_BECR_TYPE == "自然人" ? 1 : 2,
+                            CREDIT_ID: CREDIT_ID,
+                            SCHEME_ID: SCHEME_ID
 						}
 					});
 				}
-			 
-			 
-			}
-
-		});
-	</script>
+            }
+        });
+    </script>
 </body>
 
 </html>
