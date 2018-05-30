@@ -22,7 +22,8 @@
                 </li>
                 <li class="item um-box pl10 pr10">
                     <span class="um-bf1">手机号</span>
-                    <input placeholder="请输入手机号" type="number" v-model="message.CR_CORP_COMPANY_PHONE" class="um-bf3">
+                    <!-- <input placeholder="请输入手机号" type="number" v-model="message.CR_CORP_COMPANY_PHONE" class="um-bf3"> -->
+                    <span class="um-bf3 tr">{{message.CR_CORP_COMPANY_PHONE}}</span>
                 </li>
                 <li class="item">
                     <p class="pl10 pr10 tr" @click="selectAllCity">
@@ -287,12 +288,11 @@
                                 baseMessage.slots5[0].values.push(e.FLAG);
                             })
                             baseMessage.companyList = baseData.companyList; //融资租赁公司列表
+                            self.message.CR_CORP_COMPANY_PHONE = res.data.datas.clientInfo ? res.data.datas.clientInfo.PHONE : "";
                             var baseMessageData = res.data.datas.projectinfo;
                             if(baseMessageData){
                                 self.message.PROJECT_ID = baseMessageData.PROJECT_ID;
                                 self.message.PROJECT_NAME = baseMessageData.PROJECT_NAME;
-                                self.message.CR_CORP_COMPANY_PHONE = res.data.datas.clientInfo ? res.data
-                                    .datas.clientInfo.PHONE : "";
                                 self.message.PROJECT_TYPE = baseMessageData.PROJECT_TYPE;
                                 self.message.PROJECT_TYPE_NM = baseMessageData.PROJECT_TYPE_NM;
                                 if(baseMessageData.PROJECT_TYPE_NM == "大客户"){
