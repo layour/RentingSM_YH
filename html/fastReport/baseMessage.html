@@ -289,6 +289,9 @@
                             })
                             baseMessage.companyList = baseData.companyList; //融资租赁公司列表
                             self.message.CR_CORP_COMPANY_PHONE = res.data.datas.clientInfo ? res.data.datas.clientInfo.PHONE : "";
+                            self.message.PROJECT_NAME = res.data.datas.clientInfo ? 
+                            res.data.datas.clientInfo.CR_BECR_NAME + new Date().format('yyyy-MM-dd') : 
+                            "";
                             var baseMessageData = res.data.datas.projectinfo;
                             if(baseMessageData){
                                 self.message.PROJECT_ID = baseMessageData.PROJECT_ID;
