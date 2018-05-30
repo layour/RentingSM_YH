@@ -157,7 +157,16 @@
                     bankList: [],
                     CLIENT_ID: "",
                     type: "",
-                    USER_ID: ""
+                    USER_ID: "",
+                    // 客户基本信息
+                    customInfo: {
+                        // 姓名
+                        CR_BECR_NAME: "",
+                        // 证件类型
+                        CR_ID_CARD_TYPE_NAME: "",
+                        // 证件号码
+                        CR_NATU_IDCARD: ""
+                    }
                 }
             },
             methods: {
@@ -205,7 +214,6 @@
                             BECR_TYPE: _this.type
                         }
                     }, function (res) {
-                        summer.hideProgress();
                         if (res.data.flag == 1) {
                             var bankList = res.data.datas.openBankList;
                             if (bankList.length > 0) {
@@ -220,11 +228,44 @@
                                 msg: '获取开户行信息失败'
                             })
                         }
+                        // 获取客户基本信息
+                        _this.getCustomInfo();
+                    }, function (err) {
+                        console.log("err", err);
+                        summer.toast({
+                            msg: '获取开户行信息失败'
+                        });
+                        // 获取客户基本信息
+                        _this.getCustomInfo();
+                    })
+                },
+                getCustomInfo: function () {
+                    var _this = this;
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'customer/doCustomerPage',
+                        param: {
+                            "CUSTOMER_ID": _this.CLIENT_ID,
+                            "CR_BECR_TYPE": _this.type
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            if (res.data.datas.custInfoDetails) {
+                                _this.customInfo.CR_BECR_NAME = res.data.datas.custInfoDetails.CR_BECR_NAME;
+                                _this.customInfo.CR_ID_CARD_TYPE_NAME = res.data.datas.custInfoDetails.CR_ID_CARD_TYPE_NAME;
+                                _this.customInfo.CR_NATU_IDCARD = res.data.datas.custInfoDetails.CR_NATU_IDCARD;
+                            }
+                        } else {
+                            summer.toast({
+                                msg: '获取客户基本信息失败'
+                            })
+                        }
                     }, function (err) {
                         summer.hideProgress();
                         console.log("err", err);
                         summer.toast({
-                            msg: '获取开户行信息失败'
+                            msg: '获取客户基本信息失败'
                         })
                     })
                 },
@@ -279,7 +320,8 @@
                             "BECR_TYPE": _this.type,
                             "BECR_ID": _this.CLIENT_ID,
                             "EMPLOYEE_ID": _this.USER_ID,
-                            "state": state
+                            "state": state,
+                            "customInfo": _this.customInfo
                         },
                         actionBar: {
                             title: '开户行信息',
