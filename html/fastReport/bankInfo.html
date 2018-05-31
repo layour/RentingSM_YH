@@ -98,7 +98,7 @@
                 // 银行ID
                 bankID: "",
                 // 是否共承人
-                withholding: 1,
+                withholding: 0,
                 // 姓名
                 name: "",
                 // 账户类型
@@ -346,11 +346,12 @@
                                 _this.BANK_ADD = res.data.datas.bankInfo.BANK_ADD;
                                 _this.insurerBank = res.data.datas.bankInfo.BANK_NAME;
                                 _this.BANK_ACCOUNT = res.data.datas.bankInfo.BANK_ACCOUNT;
-                                res.data.datas.DEBITFLAG.forEach(function (e) {
+                                /* res.data.datas.DEBITFLAG.forEach(function (e) {
                                     if (e.CODE == res.data.datas.bankInfo.DEBITFLAG) {
                                         _this.insurerType = e.FLAG;
                                     }
-                                });
+                                }); */
+                                _this.insurerType = res.data.datas.bankInfo.DEBITFLAG;
                                 if (res.data.datas.bankInfo.OTHER_RELATION == "1") {
                                     // 共承人
                                     _this.withholding = 1;
@@ -389,6 +390,12 @@
             bankInfo.state = summer.pageParam.state;
             bankInfo.bankID = summer.pageParam.bankId ? summer.pageParam.bankId : "";
             bankInfo.getData(bankInfo.bankID);
+            if (summer.pageParam.customInfo) {
+                // 新增银行卡信息，客户基本信息带过来
+                bankInfo.name = summer.pageParam.customInfo.CR_BECR_NAME;
+                bankInfo.insurerPaper = summer.pageParam.customInfo.CR_ID_CARD_TYPE_NAME;
+                bankInfo.paperNum = summer.pageParam.customInfo.CR_NATU_IDCARD;
+            }
         };
     </script>
 </body>

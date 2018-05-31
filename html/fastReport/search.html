@@ -56,12 +56,14 @@
         $('#header').css('padding-top', '40px')
         var top = $summer.offset($summer.byId('header')).h;
         var source = summer.getStorage('searchFromSource');
-
+        
         if (source == "program") {
+            // 项目搜索
             searchD.program = true;
             url = "html/fastReport/fra_search.html";
             frameId = "fra_search"
         } else if (source == "newCustom") {
+            // 客户搜索
             searchD.newCustom = true;
             url = "html/fastReport/fra_search_custom.html"
             frameId = "fra_search_custom"
@@ -119,7 +121,6 @@
                 script: "getData('1','" + searchData + "','true')"
             });
         }
-
     }
 </script>
 
