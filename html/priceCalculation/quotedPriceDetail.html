@@ -79,6 +79,64 @@
 							<input type="text" @input="checkVal('yearRate')" placeholder="利率" name="YEAR_INTEREST" v-model="YEAR_INTEREST">&nbsp;%
             </span>
           </li>
+					<li v-if="first_pay_edit=='1'">
+							<b>首付款</b>
+							<span>
+								<b>{{HIRE_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{HEAD_HIRE}}&nbsp;元</b>
+							</span>
+					</li>
+					<li v-else @click="sureFristPay">
+							<b>首付款</b>
+							<span>
+								<b v-if="HIRE_PERCENT">{{HIRE_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{HEAD_HIRE}}&nbsp;元</b>
+								<b v-else class="default">请选择</b>
+								<i class="icon iconfont icon-enter"></i>
+							</span>
+					</li>
+					<li v-if="final_money_edit=='1'">
+							<b>尾款</b>
+							<span>
+								<b>{{FINAL_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{FINAL_FEE}}&nbsp;元</b>
+							</span>
+					</li>
+					<li v-else @click="sureFinalPay">
+							<b>尾款</b>
+							<span>
+								<b v-if="FINAL_RATE">{{FINAL_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{FINAL_FEE}}&nbsp;元</b>
+								<b v-else class="default">请选择</b>
+								<i class="icon iconfont icon-enter"></i>
+							</span>
+					</li>
+					<li v-if="bail_money_edit=='1'">
+							<b>保证金</b>
+							<span>
+								<b>{{BAIL_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{LEASE_BAIL}}&nbsp;元</b>
+							</span>
+					</li>
+					<li v-else @click="sureBailMoney">
+							<b>保证金</b>
+							<span>
+								<b v-if="BAIL_PERCENT">{{BAIL_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{LEASE_BAIL}}&nbsp;元</b>
+								<b v-else class="default">请选择</b>
+								<i class="icon iconfont icon-enter"></i>
+							</span>
+					</li>
+					<template v-if="bzjclfs_status">
+						<li v-if='bzjclfs_edit=="1"'>
+							<b>保证金处理方式</b>
+							<span>
+								<b>{{BZJCLFS}}</b>
+							</span>
+						</li>
+						<li v-else @click="pickerFlag('bzjclfs')">
+							<b>保证金处理方式</b>
+							<span>
+								<b v-if="BZJCLFS">{{BZJCLFS}}</b>
+								<b v-else class="default">请选择</b>
+								<i class="icon iconfont icon-enter"></i>
+							</span>
+						</li>
+					</template>
           <li v-if='pay_way_status' @click="pickerFlag('payWay')">
 						<b>支付方式</b>
 						<span>
@@ -360,68 +418,10 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
-          <li>
+          <li class="spec">
               <b>合同总计</b>
               <span><b>{{LEASE_TOPRIC}}</b>&nbsp;元</span>
           </li>
-					<li v-if="first_pay_edit=='1'">
-							<b>首付款</b>
-							<span>
-								<b>{{HIRE_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{HEAD_HIRE}}&nbsp;元</b>
-							</span>
-					</li>
-					<li v-else @click="sureFristPay">
-							<b>首付款</b>
-							<span>
-								<b v-if="HIRE_PERCENT">{{HIRE_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{HEAD_HIRE}}&nbsp;元</b>
-								<b v-else class="default">请选择</b>
-								<i class="icon iconfont icon-enter"></i>
-							</span>
-					</li>
-					<li v-if="final_money_edit=='1'">
-							<b>尾款</b>
-							<span>
-								<b>{{FINAL_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{FINAL_FEE}}&nbsp;元</b>
-							</span>
-					</li>
-					<li v-else @click="sureFinalPay" class="spec">
-							<b>尾款</b>
-							<span>
-								<b v-if="FINAL_RATE">{{FINAL_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{FINAL_FEE}}&nbsp;元</b>
-								<b v-else class="default">请选择</b>
-								<i class="icon iconfont icon-enter"></i>
-							</span>
-					</li>
-					<li v-if="bail_money_edit=='1'">
-              <b>保证金</b>
-              <span>
-                <b>{{BAIL_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{LEASE_BAIL}}&nbsp;元</b>
-              </span>
-          </li>
-          <li v-else @click="sureBailMoney">
-              <b>保证金</b>
-              <span>
-                <b v-if="BAIL_PERCENT">{{BAIL_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{LEASE_BAIL}}&nbsp;元</b>
-                <b v-else class="default">请选择</b>
-  							<i class="icon iconfont icon-enter"></i>
-              </span>
-          </li>
-					<template v-if="bzjclfs_status">
-            <li v-if='bzjclfs_edit=="1"' class="spec">
-              <b>保证金处理方式</b>
-              <span>
-                <b>{{BZJCLFS}}</b>
-              </span>
-            </li>
-            <li v-else @click="pickerFlag('bzjclfs')" class="spec">
-              <b>保证金处理方式</b>
-              <span>
-                <b v-if="BZJCLFS">{{BZJCLFS}}</b>
-                <b v-else class="default">请选择</b>
-                <i class="icon iconfont icon-enter"></i>
-              </span>
-            </li>
-          </template>
 
           <li>
               <b>首期款</b>
@@ -673,6 +673,7 @@
 						SFLYS_ID:'',
 						sflys_list:'',
 						EQU_MONEY_ALL:'', //设备总价值=车辆单价 =实际成交价
+						E_BX_M:'',  //设备保险金额
 						LEASE_TOPRIC:'', //合同总计 =实际成交价+计入融资额其他费用
 						otherMoney:0, //计入融资额其他费用
             HEAD_HIRE:'',//首付款 首付款比例*合同总计
@@ -819,7 +820,8 @@
 								_this.gpsaz_list=data.SFLYSS //是否留钥匙
 								_this.bzjclfs_list=data.BZJCLFSS //是否留钥匙
 
-								_this.EQU_MONEY_ALL=data.EQU_MONEY_ALL
+								_this.EQU_MONEY_ALL=data.EQU_MONEY_ALL //车辆单价
+								_this.E_BX_M=data.E_BX_M   //设备保险金额
 								var projectData=res.data.datas.scheme
 								_this.SCHEME_NAME=projectData.POLICY_NAME
 								_this.SCHEME_NAME_ID=projectData.POLICY
@@ -1088,11 +1090,20 @@
 								this.SFXYZB=this.pickingObj.FLAG
 								this.SFXYZB_ID=this.pickingObj.CODE
 							}else if(this.currentName=='bxnx'){
-								this.BXNX=this.pickingObj.FLAG
-								this.BXNX_ID=this.pickingObj.CODE
+								if(this.pickingObj.CODE<=Number(this.YEAR_LIMIT)){
+									this.BXNX=this.pickingObj.FLAG
+									this.BXNX_ID=this.pickingObj.CODE
+									this.BXF_PRICE=(this.E_BX_M*this.BXNX_ID).toFixed(2)
+								}else {
+									summer.toast({msg:'保险年限不能大于年限'})
+								}
 							}else if(this.currentName=='ccsnx'){
-								this.CCSNX=this.pickingObj.FLAG
-								this.CCSNX_ID=this.pickingObj.CODE
+								if(this.pickingObj.CODE<=Number(this.YEAR_LIMIT)){
+									this.CCSNX=this.pickingObj.FLAG
+									this.CCSNX_ID=this.pickingObj.CODE
+								}else{
+									summer.toast({msg:'车船税年限不能大于年限'})
+								}
 							}else if(this.currentName=='fkgz'){
 								this.FKGZ=this.pickingObj.FLAG
 								this.FKGZ_ID=this.pickingObj.CODE
