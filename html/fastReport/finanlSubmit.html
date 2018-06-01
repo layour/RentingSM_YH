@@ -47,10 +47,10 @@
                 <p class="title f16">立项中
                     <!-- <span class="fr">{{bizTypCdNm}}</span> -->
                 </p>
-                <!-- <div>
-                    <p class="nb">{{name}}购买了{{AMOUNT}}台{{equNm}}</p>
-                    <p class="">&yen;{{guidePc}} </p>
-                </div> -->
+                <div>
+                    <p class="nb">购买了{{ COUNT }}台{{ COMPANY_NAME }}{{ THING_NAME }}{{ MODEL_SPEC }}</p>
+                    <!-- <p class="">&yen;{{guidePc}} </p> -->
+                </div>
                 <p class="last">流程ID:
                     <span style="color:#1287DE;">{{ JBPM_ID }}</span>
                     <i class="icon iconfont icon-enter fr" style="color:#DBDBDB;"></i>
@@ -61,12 +61,20 @@
     <script>
         summerready = function () {
             finanlSubmit.JBPM_ID = summer.pageParam.JBPM_ID;
+            finanlSubmit.COUNT = summer.pageParam.COUNT;
+            finanlSubmit.COMPANY_NAME = summer.pageParam.COMPANY_NAME;
+            finanlSubmit.THING_NAME = summer.pageParam.THING_NAME;
+            finanlSubmit.MODEL_SPEC = summer.pageParam.MODEL_SPEC;
         }
         var finanlSubmit = new Vue({
             el: '#finanlSub',
             data: function () {
                 return {
-                    JBPM_ID: ""
+                    JBPM_ID: "",
+                    COUNT: "",
+                    COMPANY_NAME: "",
+                    THING_NAME: "",
+                    MODEL_SPEC: ""
                 }
             },
             methods: {

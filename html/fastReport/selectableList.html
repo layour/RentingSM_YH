@@ -117,7 +117,7 @@
             margin-top: .2rem;
             font-size: 0.28rem;
         }
-        .um-bf2.tr {
+        .um-bf3.over {
             overflow: hidden;
             text-overflow:ellipsis;
             white-space: nowrap;
@@ -134,16 +134,16 @@
         <div class="um-content">
             <div class="item um-box pl10 pr10">
                 <span class="um-bf1">行业</span>
-                <span class="um-bf3 tr">{{ tradeType.FLAG }}</span>
+                <span class="um-bf3 tr over">{{ tradeType.FLAG }}</span>
             </div>
             <div class="item um-box pl10 pr10">
                 <span class="um-bf1">行业对应模版</span>
-                <span class="um-bf3 tr">{{ contractPlate.PLATE_NAME }}</span>
+                <span class="um-bf3 tr over">{{ contractPlate.PLATE_NAME }}</span>
             </div>
             <div @click="surePickerKehuType" class="item">
                 <p class="pl10 pr10  um-box">
                     <span class="um-bf1">请选择流程</span>
-                    <span class="um-bf1 tr">
+                    <span class="um-bf3 tr over">
                         <span v-if="picked" class="first">{{ picked }}</span>
                         <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
@@ -192,7 +192,7 @@
             }, function (res) {
                 summer.hideProgress();
                 if (res.data.flag == 1) {
-                    if (res.data.code != "S10001") {
+                    if (res.data.code != "S00001") {
                         summer.toast({
                             msg: res.data.msg ? res.data.msg : "获取流程列表失败"
                         });
@@ -276,7 +276,11 @@
                             summer.toast({
                                 msg: "发起流程成功"
                             });
-                            var JBPM_ID = res.data.datas.JBPM_ID;
+                            var JBPM_ID = res.data.datas.JBPM_ID; // 流程ID
+                            var COUNT = res.data.datas.COUNT; // 设备数量
+                            var COMPANY_NAME = res.data.datas.COMPANY_NAME; // 品牌
+                            var THING_NAME = res.data.datas.THING_NAME; // 车系
+                            var MODEL_SPEC = res.data.datas.MODEL_SPEC; // 车型
                             summer.openWin({
                                 id : "finanlSubmit",
                                 url : "html/fastReport/finanlSubmit.html",
@@ -294,7 +298,11 @@
                                     }
                                 },
                                 pageParam:{
-                                    JBPM_ID: JBPM_ID
+                                    JBPM_ID: JBPM_ID,
+                                    COUNT: COUNT,
+                                    COMPANY_NAME: COMPANY_NAME,
+                                    THING_NAME: THING_NAME,
+                                    MODEL_SPEC: MODEL_SPEC
                                 }
                             });
                         } else if (res.data.flag == 0) {
