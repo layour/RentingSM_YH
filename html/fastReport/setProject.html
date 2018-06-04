@@ -118,7 +118,31 @@
 						<span class="frp"> <i class="baseMessage icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
 					</div>
 				</a>
-				<a href="javascript:void(0);" id="version" onclick="addContact()">
+				<a v-if="type=='2'" href="javascript:void(0);" id="version" onclick="faRen('term')">
+					<div class="um-list-item-bodys">
+						企业团队
+						<span class="frp"> <i class="emergencyContract icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div>
+				</a>
+				<a v-if="type=='2'" href="javascript:void(0);" id="version" onclick="faRen('bank')">
+					<div class="um-list-item-bodys">
+						银行账号
+						<span class="frp"> <i class="emergencyContract icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div>
+				</a>
+				<a v-if="type=='2'" href="javascript:void(0);" id="version" onclick="faRen('company')">
+					<div class="um-list-item-bodys">
+						公司股东及份额
+						<span class="frp"> <i class="emergencyContract icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div>
+				</a>
+				<a v-if="type=='2'" href="javascript:void(0);" id="version" onclick="faRen('companyUpdate')">
+					<div class="um-list-item-bodys">
+						公司成立(历次变动的情况)
+						<span class="frp"> <i class="emergencyContract icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div>
+				</a>
+				<a v-if="type=='1'" href="javascript:void(0);" id="version" onclick="addContact()">
 					<div class="um-list-item-bodys">
 						紧急联系人
 						<span class="frp"> <i class="emergencyContract icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
@@ -130,7 +154,7 @@
 							<span class="frp"> <i class="sharePerson icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
 						</div>
 				</a>
-				<a href="javascript:void(0);" id="version" onclick="addChildrens()">
+				<a  v-if="type=='1'" href="javascript:void(0);" id="version" onclick="addChildrens()">
 						<div class="um-list-item-bodys">
 							子女信息
 							<span class="frp"> <i class="children  icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
@@ -148,7 +172,7 @@
 						<span class="frp"> <i class="price icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
 					</div>
 				</a>
-				<a href="javascript:void(0);" id="version"  onclick="openBank()"  >
+				<a  v-if="type=='1'" href="javascript:void(0);" id="version"  onclick="openBank()"  >
 					<div class="um-list-item-bodys">
 						银行账号
 						<span class="frp"> <i class="bank icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
@@ -167,13 +191,6 @@
 						<span class="frp"> <i class="sponsor icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
 					</div>
 				</a>
-
-
-				<!-- <a href="javascript:void(0);"  id="version" onclick="checkVersion('remark')">
-					<div class="um-list-item-bodys">
-						备注留言
-						<span class="frp"> <i class="remark icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
-					</div> </a> -->
 			</div>
 		</div>
 		<div class="um-footer" id="footer">
@@ -245,6 +262,7 @@
 					}],
 					pickerSponsorTypeStatus: false,
 					pickerSponsorType: "",
+
 				}
 			},
 			methods: {
@@ -972,6 +990,18 @@
                     USER_ID: USER_ID
 				}
 			});
+		}
+		function faRen(val){
+			if(val=='term'){ //企业团队
+
+			}else if(val=='bank'){  //银行账号
+
+			}else if(val=='company'){  //公司股东及份额
+
+			}else if(val=='companyUpdate'){  //公司成立(历次变动的情况)
+
+			}
+
 		}
 		function addRight(param, baseMessageReturn) {
 			console.log(baseMessageReturn);
