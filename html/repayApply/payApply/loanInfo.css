@@ -5,6 +5,25 @@
     padding: 0 0.56rem;
     background-color: #fff;
 }
+.loanList .first {
+    line-height: 0.9rem;
+    font-size: 0.36rem;
+    color: #333;
+}
+
+.loanList .first i {
+    float: left;
+    font-style: normal;
+}
+
+.loanList .first strong {
+    float: left;
+    width: 0.06rem;
+    height: 0.32rem;
+    background-color: #039be5;
+    font-style: normal;
+    margin: 0.28rem 0.08rem 0 0;
+}
 .loanList li span{
     float: left;
     height: 0.9rem;

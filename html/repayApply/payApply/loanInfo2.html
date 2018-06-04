@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="loanInfo.css">
+    <link rel="stylesheet" href="../../../css/mint.css">
+    <script src="../../../js/summer.js"></script>
+    <script src="../../../js/jquery.min.js"></script>
+    <script src="../../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script src="../../../js/font.js"></script>
+    <script src="../../../js/vue.js"></script>
+    <script src="../../../js/mint.js"></script>
+    <script src="../../../js/common.js"></script>
+</head>
+
+<body>
+    <div class="um-win" id="index">
+        <div class="um-content" v-cloak>
+            <ul class="loanList">
+                <li class="first">
+                    <strong></strong>
+                    <i>收款单位信息</i>
+                </li>
+                <li>
+                    <span>单位名称</span>
+                    <div>{{ noticeOfPayment.SELLER_UNIT_NAME }}</div>
+                </li>
+                <li>
+                    <span>开户行</span>
+                    <div>{{ noticeOfPayment.SELLER_BANK_ACCO }}</div>
+                </li>
+                <li>
+                    <span>账号</span>
+                    <div>{{ noticeOfPayment.SELLER_ACCOUNT }}</div>
+                </li>
+                <li>
+                    <span>银行所在地</span>
+                    <div>{{ noticeOfPayment.S_BANK_ADD }}</div>
+                </li>
+                <li class="first">
+                    <strong></strong>
+                    <i>付款单位信息</i>
+                </li>
+                <li>
+                    <span>单位名称</span>
+                    <div>{{ noticeOfPayment.BUYER_UNIT_NAME }}</div>
+                </li>
+                <li>
+                    <span>开户行</span>
+                    <div>{{ noticeOfPayment.BUYER_BANK_ACCO }}</div>
+                </li>
+                <li>
+                    <span>账号</span>
+                    <div>{{ noticeOfPayment.BUYER_ACCOUNT }}</div>
+                </li>
+                <li>
+                    <span>银行所在地</span>
+                    <div>{{ paymentOfthis.S_BANK_ADD }}</div>
+                </li>
+                <li class="first">
+                    <strong></strong>
+                    <i>付款情况说明</i>
+                </li>
+                <li>
+                    <span>是否加急</span>
+                    <div class="type">
+                        <span v-bind:class="{ active: isActive }" @click="chooseYes">是</span>
+                        <span v-bind:class="{ active: !isActive }" @click="chooseNo">否</span>
+                    </div>
+                </li>
+                <li>
+                    <span>金额（小写）</span>
+                    <strong>元</strong>
+                    <div>{{ paymentOfthis.PAY_AMOUNT_SQ }}</div>
+                </li>
+                <li>
+                    <span>金额（大写）</span>
+                    <strong>元</strong>
+                    <div>{{ paymentOfthis. PAY_AMOUNT_UPPER_SQ }}</div>
+                </li>
+                <li>
+                    <span>不含税车价</span>
+                    <strong>元</strong>
+                    <div>{{ noticeOfPayment.NOTINCLUDING }}</div>
+                </li>
+                <li>
+                    <span>车价税</span>
+                    <strong>元</strong>
+                    <div>{{ noticeOfPayment.VEHICLETAX }}</div>
+                </li>
+                <li>
+                    <span>备注</span>
+                    <input v-model="note" type="text" placeholder="请输入" />
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var loanInfo2 = new Vue({
+            el: '#index',
+            data: {
+                CONTRACT_ID: "", // 融资租赁合同id
+                realPaymentInfo: {}, // 实际付款信息
+                paymentHistory: {}, // 付款历史信息
+                riqi: {}, // 付款日期
+                noticeOfPayment: {}, // 付款通知书
+                paymentOfthis: {}, // 本次付款信息列表
+                fileList: {}, // 付款文件
+                contractInfo: {}, // contractInfo
+                // 是否代收
+                isCOLLECTION: true,
+                // 合同补充约定
+                remarks: "",
+                // 是否加急
+                URGENT: "0",
+                // 备注
+                note: ""
+            },
+            computed: {
+                // 单选样式
+                isActive: function () {
+                    if (this.URGENT == "1") {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            },
+            methods: {
+                // 是否加急
+                chooseYes:function () {
+                    this.URGENT = "1";
+                },
+                chooseNo:function () {
+                    this.URGENT = "0";
+                },
+                // 提交
+                submit: function (){
+                    
+                }
+            }
+        });
+        summerready = function() {
+            loanInfo2.CONTRACT_ID = summer.pageParam.CONTRACT_ID;
+            loanInfo2.realPaymentInfo = summer.pageParam.realPaymentInfo;
+            loanInfo2.paymentHistory = summer.pageParam.paymentHistory;
+            loanInfo2.riqi = summer.pageParam.riqi;
+            loanInfo2.noticeOfPayment = summer.pageParam.noticeOfPayment;
+            if (summer.pageParam.noticeOfPayment.URGENT) {
+                loanInfo2.URGENT == summer.pageParam.noticeOfPayment.URGENT;
+            } else {
+                loanInfo2.URGENT == "0";
+            }
+            loanInfo2.paymentOfthis = summer.pageParam.paymentOfthis;
+            loanInfo2.fileList = summer.pageParam.fileList;
+            loanInfo2.contractInfo = summer.pageParam.contractInfo;
+            loanInfo2.isCOLLECTION = summer.pageParam.isCOLLECTION;
+            loanInfo2.remarks = summer.pageParam.remarks;
+        };
+    </script>
+</body>
+
+</html>

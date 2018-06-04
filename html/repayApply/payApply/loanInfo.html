@@ -106,19 +106,7 @@
                 // 是否代收
                 isCOLLECTION: true,
                 // 合同补充约定
-                remarks: "",
-                // 放款方式
-                methodStatus:false,
-                pickedMethod:"",
-                insurerMethod:"请选择",
-                methodArr:[],
-                methodSlots: [{
-                    flex: 1,
-                    values: [],
-                    defaultIndex: 0,
-                    className: 'slot1',
-                    textAlign: 'center'
-                }],
+                remarks: ""
             },
             computed: {
                 // 单选样式
@@ -200,13 +188,55 @@
                             }]
                         },
                         pageParam: {
-                            
+                            TPHID: this.contractInfo.TPHID
                         }
                     });
                 },
                 // 下一步
-                openLoanInfoNext: function (){
-                    
+                openLoanInfoNext: function () {
+                    /* if (this.remarks == "") {
+                        summer.toast({
+                            msg: "请输入合同补充约定"
+                        });
+                        return;
+                    } */
+                    summer.openWin({
+                        id: 'loanInfo2',
+                        url: 'html/repayApply/payApply/loanInfo2.html',
+                        create: false,
+                        type: 'actionBar',
+                        actionBar: {
+                            title: "付款申请",
+                            titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            backgroundColor: "#039BE5",
+                            leftItem: {
+                                image: "img/back.png",
+                                method: "", //返回按钮自定义事件
+                                text: "返回",
+                                textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            },
+                            rightItems: [{
+                                type: "text",
+                                text: "提交",
+                                textColor: "#ffffff",
+                                method: "loanInfo2.submit()"
+                            }]
+                        },
+                        pageParam: {
+                            CONTRACT_ID: this.CONTRACT_ID, // 融资租赁合同id
+                            realPaymentInfo: this.realPaymentInfo, // 实际付款信息
+                            paymentHistory: this.paymentHistory, // 付款历史信息
+                            riqi: this.riqi, // 付款日期
+                            noticeOfPayment: this.noticeOfPayment, // 付款通知书
+                            paymentOfthis: this.paymentOfthis, // 本次付款信息列表
+                            fileList: this.fileList, // 付款文件
+                            contractInfo: this.contractInfo, // contractInfo
+                            // 是否代收
+                            isCOLLECTION: this.isCOLLECTION,
+                            // 合同补充约定
+                            remarks: this.remarks
+                        }
+                    });
                 }
             }
         });
