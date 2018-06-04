@@ -41,8 +41,6 @@
 						<div class="leftCon">
 							<p class="p1">合同额：￥{{k.LEASE_TOPRIC}}</p>
 							<p class="p2">合同编号：{{k.LEASE_CODE}}</p>
-							<!-- <p class="p3">支付表号：{{k.PAYLIST_CODE}}</p>
-							<p class="p4">放款时间：{{k.EXPECTED_PAY_TIME}}</p> -->
 						</div>
 						<div class="enter">
 							<i class="iconfont icon-enter"></i>
@@ -57,7 +55,7 @@
 									<span>提前放款</span>
 								</div>
 							</li> -->
-							<li @click="normal(k.ID,k.PROJECT_ID,k.PAY_ID,k.PAYMENT_ID)">
+							<li @click="normal(k.ID)">
 								<div>
 									<i class="iconfont icon-zhengchangfangkuan"></i>
 									<span>正常放款</span>
@@ -137,14 +135,14 @@
 					}
 				});
 			},
-			normal: function (userId, PROJECT_ID, PAY_ID, PAYMENT_ID) {
+			normal: function (CONTRACT_ID) {
 				summer.openWin({
 					id: 'payApply',
 					url: 'html/repayApply/payApply/index.html',
 					create: false,
 					type: 'actionBar',
 					actionBar: {
-						title: "付款申请",
+						title: "付款详情",
 						titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
 						backgroundColor: "#039be5",
 						leftItem: {
@@ -155,17 +153,13 @@
 						},
 						rightItems: [{
 							type: "text",
-							text: "下一步",
+							text: "发起付款",
 							textColor: "#ffffff",
-							method: "payApply.toApply()"
+							method: "payApply.submit()"
 						}]
 					},
 					pageParam: {
-						show: true,
-						userId: userId,
-						PROJECT_ID: PROJECT_ID,
-						PAY_ID: PAY_ID,
-						PAYMENT_ID: PAYMENT_ID
+						CONTRACT_ID: CONTRACT_ID
 					}
 				});
 			}

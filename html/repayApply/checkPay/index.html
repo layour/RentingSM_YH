@@ -19,151 +19,93 @@
 <body>
 	<div class="um-win" id="index">
 		<div class="um-content" v-cloak>
-			<ul class="infoList">
+            <div id="content"></div>
+			<ul class="infoList" v-for="(item, index) in paymentList">
 				<li class="first">
 					<strong></strong>
 					<i>基本信息</i>
 				</li>
 				<li>
-					<span>客户信息</span>
+					<span>付款状态</span>
 					<span>
 						<div>
-							{{}}
+							{{ item.APPLICATION_STATE_NM }}
 						</div>
 					</span>
 				</li>
 				<li>
-					<span>合同号</span>
+					<span>经销商</span>
 					<span>
 						<div>
-							{{}}
+							{{ item.SUPPLIERS_NAME }}
 						</div>
 					</span>
 				</li>
 				<li>
-					<span>支付表号</span>
+					<span>支付表编号</span>
 					<span>
 						<div>
-							{{}}
+							{{ item.PAYLIST_CODE }}
 						</div>
 					</span>
 				</li>
 				<li>
-					<span>车辆单价</span>
+					<span>品牌</span>
 					<span>
 						<div>
-							
+							{{ item.COMPANY_NAME }}
 						</div>
 					</span>
 				</li>
 				<li>
-					<span>首付款金额</span>
+					<span>车型</span>
+					<span>
+						<div>
+							{{ item.MODEL_SPEC }}
+						</div>
+					</span>
+				</li>
+				<li>
+					<span>实际成交价</span>
 					<span>
 						<div>
 							￥
-							<b>{{}}</b>
+							<b>{{ item.EQU_MONEY_ALL }}</b>
 						</div>
 					</span>
 				</li>
 				<li>
-					<span>息改费金额</span>
-					<span>
-						<div>
-							
-						</div>
-					</span>
-				</li>
-				<li>
-					<span>放款金额</span>
-					<span>
-						<div>
-							
-						</div>
-					</span>
-				</li>
-			</ul>
-			<ul class="infoList">
-				<li class="first">
-					<strong></strong>
-					<i>付款通知（收款方）</i>
-				</li>
-				<li>
-					<span>收款单位</span>
-					<span>
-						<div>
-							{{}}
-						</div>
-					</span>
-				</li>
-				<li>
-					<span>账户类型</span>
-					<span>
-						<div>
-							{{}}
-						</div>
-					</span>
-				</li>
-				<li>
-					<span>开户行</span>
-					<span>
-						<div>
-							{{}}
-						</div>
-					</span>
-				</li>
-				<li>
-					<span>开户行行号</span>
-					<span>
-						<div>
-							{{}}
-						</div>
-					</span>
-				</li>
-				<li>
-					<span>收款账号</span>
-					<span>
-						<div>
-							{{}}
-						</div>
-					</span>
-				</li>
-			</ul>
-			<ul class="infoList">
-				<li class="first">
-					<strong></strong>
-					<i>付款通知（付款信息）</i>
-				</li>
-				<li>
-					<span>应付金额</span>
+					<span>首期款</span>
 					<span>
 						<div>
 							￥
-							<b>{{}}</b>
+							<b>{{ item.FIRSTRENT_VALUE }}</b>
 						</div>
 					</span>
-				</li>
-				<li>
-					<span>实付金额</span>
+                </li>
+                <li>
+					<span>代收金额</span>
 					<span>
 						<div>
 							￥
-							<b>{{}}</b>
+							<b>{{ item.COLLECTION }}</b>
 						</div>
 					</span>
-				</li>
-				<li>
-					<span>付款方式</span>
+                </li>
+                <li>
+					<span>实际付款金额</span>
 					<span>
 						<div>
-							{{}}
+							￥
+							<b>{{  }}</b>
 						</div>
 					</span>
-				</li>
-				<li>
-					<span>实付时间</span>
+                </li>
+                <li>
+					<span>实际付款日期</span>
 					<span>
 						<div>
-							{{}}
+							{{  }}
 						</div>
 					</span>
 				</li>
@@ -174,20 +116,7 @@
 		var payInfo = new Vue({
 			el: '#index',
 			data: {
-                // 实际付款信息
-                realPaymentInfo: {},
-                // 付款历史信息
-                paymentHistory: {},
-                // 付款日期信息
-                riqi: {},
-                // 付款通知书
-                noticeOfPayment: {},
-                // 本次付款信息列表
-                paymentOfthis: {},
-                // 付款文件
-                fileList: {},
-                // contractInfo
-                contractInfo: {}
+                paymentList: []
 			}
 		});
 		summerready = function() {
@@ -195,7 +124,7 @@
 			summer.showProgress();
 			ajaxRequest({
 				type: 'post',
-				url: 'payment/queryPaymentInfo',
+				url: 'payment/getPaymentByContract',
 				param: {
 					"CONTRACT_ID": info.CONTRACT_ID
 				}
@@ -208,13 +137,14 @@
 					Data = res.data;
 				}
 				if (Data.flag == 1) {
-                    payInfo.realPaymentInfo = Data.datas.realPaymentInfo ? Data.datas.realPaymentInfo : {};
-                    payInfo.paymentHistory = Data.datas.paymentHistory ? Data.datas.paymentHistory : {};
-                    payInfo.riqi = Data.datas.riqi ? Data.datas.riqi : {};
-                    payInfo.noticeOfPayment = Data.datas.noticeOfPayment ? Data.datas.noticeOfPayment : {};
-                    payInfo.paymentOfthis = Data.datas.paymentOfthis ? Data.datas.paymentOfthis : {};
-                    payInfo.fileList = Data.datas.fileList ? Data.datas.fileList : {};
-                    payInfo.contractInfo = Data.datas.contractInfo ? Data.datas.contractInfo : {};
+                    if (Data.datas.paymentList && Data.datas.paymentList.length > 0) {
+                        payInfo.paymentList = Data.datas.paymentList;
+                        $('#content').css('display', 'none');
+                    } else {
+                        payInfo.paymentList = [];
+                        createNull("content", "../../../img/empty.png");
+						$('#content').css('display', 'block');
+                    }
 				} else {
 					summer.toast({
 						msg: "暂无数据"
