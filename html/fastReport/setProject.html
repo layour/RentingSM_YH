@@ -992,8 +992,12 @@
 			});
 		}
 		function faRen(val){
+			var id = param,
+				url = '',
+				title = '';
 			if(val=='term'){ //企业团队
-
+				url = "html/corporation/term.html";
+				title = "企业团队"
 			}else if(val=='bank'){  //银行账号
 
 			}else if(val=='company'){  //公司股东及份额
@@ -1001,6 +1005,32 @@
 			}else if(val=='companyUpdate'){  //公司成立(历次变动的情况)
 
 			}
+			summer.openWin({
+				id: id,
+				url: url,
+				create: false,
+				type: 'actionBar',
+				pageParam: {
+					id: setProgect.project_Id
+				},
+				actionBar: {
+					title: title,
+					titleColor: "#ffffff",
+					backgroundColor: "#039BE5",
+					leftItem: {
+						image: "img/back.png",
+						method: "",
+						text: "返回",
+						textColor: "#ffffff"
+					},
+					rightItems: [{
+						type: "text",
+						text: "保存",
+						textColor: "#ffffff",
+						method: "save()"
+					}]
+				}
+			})
 
 		}
 		function addRight(param, baseMessageReturn) {
