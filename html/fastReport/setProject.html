@@ -998,6 +998,33 @@
 			if(val=='term'){ //企业团队
 				url = "html/corporation/term.html";
 				title = "企业团队"
+				summer.openWin({
+					id: id,
+					url: url,
+					create: false,
+					type: 'actionBar',
+					pageParam: {
+						id: setProgect.customId
+					},
+					actionBar: {
+						title: title,
+						titleColor: "#ffffff",
+						backgroundColor: "#039BE5",
+						leftItem: {
+							image: "img/back.png",
+							method: "",
+							text: "返回",
+							textColor: "#ffffff"
+						},
+						rightItems: [{
+							type: "text",
+							text: "添加",
+							textColor: "#ffffff",
+							method: "add()"
+						}]
+					}
+				})
+				return
 			}else if(val=='bank'){  //银行账号
 
 			}else if(val=='company'){  //公司股东及份额
