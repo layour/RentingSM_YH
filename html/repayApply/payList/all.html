@@ -37,26 +37,26 @@
 						<span class="state">{{k.CLERK_NAME}}</span>
 						<span class="iconfont icon-customer"></span>
 					</div>
-					<div class="content" @click="payDetail(k.CONTRACT_ID, k.ID)">
+					<div class="content" @click="payDetail(k.ID)">
 						<div class="leftCon">
-							<p class="p1">放款金额：￥{{k.PAY_AMOUNT}}</p>
-							<p class="p2">合同号：{{k.LEASE_CODE}}</p>
-							<p class="p3">支付表号：{{k.PAYLIST_CODE}}</p>
-							<p class="p4">放款时间：{{k.EXPECTED_PAY_TIME}}</p>
+							<p class="p1">合同额：￥{{k.LEASE_TOPRIC}}</p>
+							<p class="p2">合同编号：{{k.LEASE_CODE}}</p>
+							<!-- <p class="p3">支付表号：{{k.PAYLIST_CODE}}</p>
+							<p class="p4">放款时间：{{k.EXPECTED_PAY_TIME}}</p> -->
 						</div>
 						<div class="enter">
 							<i class="iconfont icon-enter"></i>
-							<b>{{k.APPLICATION_STATE}}</b>
+							<b>{{k.PAYMENT_STATUS}}</b>
 						</div>
 					</div>
-					<!-- <div class="footer" v-bind:style="[k.payStsCd == '未申请' ? {'display':'block'} : {'display':'none'}]">
+					<div class="footer" v-bind:style="[k.PAYMENT_STATUS == '未付款' ? {'display':'block'} : {'display':'none'}]">
 						<ul class="footerList">
-							<li class="first" @click="advance(k.ID,k.PROJECT_ID,k.PAY_ID,k.PAYMENT_ID)">
+							<!-- <li class="first" @click="advance(k.ID,k.PROJECT_ID,k.PAY_ID,k.PAYMENT_ID)">
 								<div>
 									<i class="iconfont icon-tiqianfangkuan"></i>
 									<span>提前放款</span>
 								</div>
-							</li>
+							</li> -->
 							<li @click="normal(k.ID,k.PROJECT_ID,k.PAY_ID,k.PAYMENT_ID)">
 								<div>
 									<i class="iconfont icon-zhengchangfangkuan"></i>
@@ -64,7 +64,7 @@
 								</div>
 							</li>
 						</ul>
-					</div> -->
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -81,7 +81,7 @@
 			resetData: false
 		},
 		methods: {
-			payDetail: function (CONTRACT_ID, ID) {
+			payDetail: function (CONTRACT_ID) {
 				summer.openWin({
 					id: 'checkPay',
 					url: 'html/repayApply/checkPay/index.html',
@@ -100,8 +100,7 @@
 					},
 					pageParam: {
 						info: {
-                            CONTRACT_ID: CONTRACT_ID,
-                            ID: ID
+                            CONTRACT_ID: CONTRACT_ID
 						}
 					}
 				});
@@ -181,7 +180,7 @@
 				param: {
 					"pageNo": pageNum,
                     "pageSize": 10,
-                    "APPLICATION_STATE": "",
+                    "PAYMENT_STATUS": "",
 					"RENTER_NAME": ""
 				}
 			}, function (res) {
@@ -200,14 +199,12 @@
 					} else {
 						$('#content').css('display', 'none');
 						Data.datas.list.forEach(function (e) {
-							if (e.APPLICATION_STATE == "0") {
-								e.APPLICATION_STATE = "未申请"
-							} else if (e.APPLICATION_STATE == "1") {
-								e.APPLICATION_STATE = "已申请"
-							} else if (e.APPLICATION_STATE == "2") {
-								e.APPLICATION_STATE = "已通过"
-							} else if (e.APPLICATION_STATE == "3") {
-								e.APPLICATION_STATE = "未通过"
+							if (e.PAYMENT_STATUS == "0") {
+								e.PAYMENT_STATUS = "未付款"
+							} else if (e.PAYMENT_STATUS == "1") {
+								e.PAYMENT_STATUS = "部分付款"
+							} else if (e.PAYMENT_STATUS == "2") {
+								e.PAYMENT_STATUS = "已付款"
 							}
 						});
 						if (all.resetData) {

@@ -28,7 +28,7 @@
 					<span>客户信息</span>
 					<span>
 						<div>
-							{{datas.capPayList.length ? datas.capPayList[0].payId.cstNm : ""}}
+							{{}}
 						</div>
 					</span>
 				</li>
@@ -36,7 +36,7 @@
 					<span>合同号</span>
 					<span>
 						<div>
-							{{datas.capPayList.length ? datas.capPayList[0].payId.contNo : ""}}
+							{{}}
 						</div>
 					</span>
 				</li>
@@ -44,7 +44,7 @@
 					<span>支付表号</span>
 					<span>
 						<div>
-							{{datas.capPayList.length ? datas.capPayList[0].payId.paySchNo : ""}}
+							{{}}
 						</div>
 					</span>
 				</li>
@@ -56,20 +56,12 @@
 						</div>
 					</span>
 				</li>
-				<!-- <li>
-					<span>首付款代收</span>
-					<span>
-						<div>
-							{{datas ? datas.paymentMap.ISDEKOU : ""}}
-						</div>
-					</span>
-				</li> -->
 				<li>
 					<span>首付款金额</span>
 					<span>
 						<div>
 							￥
-							<b>{{datas.capPayList.length ? datas.capPayList[0].payId.initPayAmt : ""}}</b>
+							<b>{{}}</b>
 						</div>
 					</span>
 				</li>
@@ -89,23 +81,6 @@
 						</div>
 					</span>
 				</li>
-				<!-- <li>
-					<span>设备款</span>
-					<span>
-						<div>
-							￥
-							<b>{{datas ? datas.paymentMap.LEASE_TOPRIC : ""}}</b>
-						</div>
-					</span>
-				</li> -->
-				<!-- <li>
-					<span>品牌</span>
-					<span>
-						<div>
-							{{datas ? datas.paymentMap.PRODUCT_NAME : ""}}
-						</div>
-					</span>
-				</li> -->
 			</ul>
 			<ul class="infoList">
 				<li class="first">
@@ -116,7 +91,7 @@
 					<span>收款单位</span>
 					<span>
 						<div>
-							{{datas.capPayeeInfo ? datas.capPayeeInfo.rcptUnt : ""}}
+							{{}}
 						</div>
 					</span>
 				</li>
@@ -124,7 +99,7 @@
 					<span>账户类型</span>
 					<span>
 						<div>
-							{{datas.capPayeeInfo ? datas.capPayeeInfo.bkAccTypCd : ""}}
+							{{}}
 						</div>
 					</span>
 				</li>
@@ -132,7 +107,7 @@
 					<span>开户行</span>
 					<span>
 						<div>
-							{{datas.capPayeeInfo ? datas.capPayeeInfo.payeeBkNm : ""}}
+							{{}}
 						</div>
 					</span>
 				</li>
@@ -140,7 +115,7 @@
 					<span>开户行行号</span>
 					<span>
 						<div>
-							{{datas.capPayeeInfo ? datas.capPayeeInfo.payeeBkNo : ""}}
+							{{}}
 						</div>
 					</span>
 				</li>
@@ -148,7 +123,7 @@
 					<span>收款账号</span>
 					<span>
 						<div>
-							{{datas.capPayeeInfo ? datas.capPayeeInfo.accNo : ""}}
+							{{}}
 						</div>
 					</span>
 				</li>
@@ -163,7 +138,7 @@
 					<span>
 						<div>
 							￥
-							<b>{{datas.capPayList.length ? datas.capPayList[0].payId.prdAmt : ""}}</b>
+							<b>{{}}</b>
 						</div>
 					</span>
 				</li>
@@ -172,7 +147,7 @@
 					<span>
 						<div>
 							￥
-							<b>{{datas.capPayList.length ? datas.capPayList[0].payId.payAmt : ""}}</b>
+							<b>{{}}</b>
 						</div>
 					</span>
 				</li>
@@ -180,7 +155,7 @@
 					<span>付款方式</span>
 					<span>
 						<div>
-							{{datas.capPayeeInfo ? datas.capPayeeInfo.payWayCd : ""}}
+							{{}}
 						</div>
 					</span>
 				</li>
@@ -188,7 +163,7 @@
 					<span>实付时间</span>
 					<span>
 						<div>
-							{{datas.capPayList.length ? datas.capPayList[0].payId.prdPaySchId.lsDt : ""}}
+							{{}}
 						</div>
 					</span>
 				</li>
@@ -199,22 +174,30 @@
 		var payInfo = new Vue({
 			el: '#index',
 			data: {
-				datas: {
-					capPayList:[],
-					capPayeeInfo:{},
-					fileList:[]
-				}
+                // 实际付款信息
+                realPaymentInfo: {},
+                // 付款历史信息
+                paymentHistory: {},
+                // 付款日期信息
+                riqi: {},
+                // 付款通知书
+                noticeOfPayment: {},
+                // 本次付款信息列表
+                paymentOfthis: {},
+                // 付款文件
+                fileList: {},
+                // contractInfo
+                contractInfo: {}
 			}
 		});
 		summerready = function() {
 			var info = summer.pageParam.info;
 			summer.showProgress();
 			ajaxRequest({
-				type: 'get',
-				url: 'appservice/cap/cappayinfo/capPayView',
+				type: 'post',
+				url: 'payment/queryPaymentInfo',
 				param: {
-					"CONTRACT_ID": info.CONTRACT_ID,
-					"PAYMENT_ID": info.ID
+					"CONTRACT_ID": info.CONTRACT_ID
 				}
 			}, function(res) {
 				summer.hideProgress();
@@ -225,31 +208,13 @@
 					Data = res.data;
 				}
 				if (Data.flag == 1) {
-					if (Data.datas.capPayeeInfo) {
-						if (Data.datas.capPayeeInfo.bkAccTypCd == "0") {
-							Data.datas.capPayeeInfo.bkAccTypCd = "对公";
-						} else {
-							Data.datas.capPayeeInfo.bkAccTypCd = "对私";
-						};
-						if (Data.datas.capPayeeInfo.payWayCd == "1") {
-							Data.datas.capPayeeInfo.payWayCd = "支票";
-						} else if (Data.datas.capPayeeInfo.payWayCd == "2") {
-							Data.datas.capPayeeInfo.payWayCd = "现金";
-						} else if (Data.datas.capPayeeInfo.payWayCd == "3") {
-							Data.datas.capPayeeInfo.payWayCd = "外付网银";
-						} else if (Data.datas.capPayeeInfo.payWayCd == "4") {
-							Data.datas.capPayeeInfo.payWayCd = "商业汇票";
-						} else if (Data.datas.capPayeeInfo.payWayCd == "5") {
-							Data.datas.capPayeeInfo.payWayCd = "银行汇票";
-						} else if (Data.datas.capPayeeInfo.payWayCd == "6") {
-							Data.datas.capPayeeInfo.payWayCd = "坐扣";
-						} else if (Data.datas.capPayeeInfo.payWayCd == "7") {
-							Data.datas.capPayeeInfo.payWayCd = "其他";
-						} else if (Data.datas.capPayeeInfo.payWayCd == "8") {
-							Data.datas.capPayeeInfo.payWayCd = "银行转账";
-						}
-					}
-					payInfo.datas = Data.datas;
+                    payInfo.realPaymentInfo = Data.datas.realPaymentInfo ? Data.datas.realPaymentInfo : {};
+                    payInfo.paymentHistory = Data.datas.paymentHistory ? Data.datas.paymentHistory : {};
+                    payInfo.riqi = Data.datas.riqi ? Data.datas.riqi : {};
+                    payInfo.noticeOfPayment = Data.datas.noticeOfPayment ? Data.datas.noticeOfPayment : {};
+                    payInfo.paymentOfthis = Data.datas.paymentOfthis ? Data.datas.paymentOfthis : {};
+                    payInfo.fileList = Data.datas.fileList ? Data.datas.fileList : {};
+                    payInfo.contractInfo = Data.datas.contractInfo ? Data.datas.contractInfo : {};
 				} else {
 					summer.toast({
 						msg: "暂无数据"
