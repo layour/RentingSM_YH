@@ -23,7 +23,7 @@
                 <li class="item um-box pl10 pr10">
                     <span class="um-bf1">手机号</span>
                     <!-- <input placeholder="请输入手机号" type="number" v-model="message.CR_CORP_COMPANY_PHONE" class="um-bf3"> -->
-                    <span class="um-bf3 tr">{{message.CR_CORP_COMPANY_PHONE}}</span>
+                    <span class="um-bf3 tr">{{message.PHONE}}</span>
                 </li>
                 <li class="item">
                     <p class="pl10 pr10 tr" @click="selectAllCity">
@@ -234,7 +234,7 @@
                     USER_ID: '',
                     PROJECT_ID: '',
                     PROJECT_NAME: '', //项目名称
-                    CR_CORP_COMPANY_PHONE: '', //手机号
+                    PHONE: '', //手机号
                     PLATFORM: '', //业务类型
                     PLATFORM_NM: '',
                     PROJECT_TYPE: '', //项目类型
@@ -288,7 +288,7 @@
                                 baseMessage.slots5[0].values.push(e.FLAG);
                             })
                             baseMessage.companyList = baseData.companyList; //融资租赁公司列表
-                            self.message.CR_CORP_COMPANY_PHONE = res.data.datas.clientInfo ? res.data.datas.clientInfo.PHONE : "";
+                            self.message.PHONE = res.data.datas.clientInfo ? res.data.datas.clientInfo.PHONE : "";
                             self.message.PROJECT_NAME = res.data.datas.clientInfo ? 
                             res.data.datas.clientInfo.CR_BECR_NAME + new Date().format('yyyy-MM-dd') : 
                             "";
@@ -462,7 +462,7 @@
                         });
                         return;
                     }
-                    if (this.message.CR_CORP_COMPANY_PHONE == "") {
+                    if (this.message.PHONE == "") {
                         summer.toast({
                             msg: "手机号不能为空"
                         });
