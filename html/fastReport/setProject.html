@@ -139,7 +139,7 @@
 				<a v-if="type=='2'" href="javascript:void(0);" id="version" onclick="faRen('company')">
 					<div class="um-list-item-bodys">
 						公司股东及份额
-						<span class="frp"> <i class="emergencyContract icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+						<span class="frp"> <i class="faRenCompany icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
 					</div>
 				</a>
 				<a v-if="type=='2'" href="javascript:void(0);" id="version" onclick="faRen('companyUpdate')">
@@ -1109,7 +1109,78 @@
 				}
 				 
 			}else if(val=='company'){  //公司股东及份额
-
+				if($(".faRenCompany").hasClass('active')){
+					ajaxRequest({
+						type: 'post',
+						url: 'customer/queryCorpDetails',
+						param: {
+							CUSTOMER_ID:setProgect.customId
+						}
+					}, function(res) {
+						summer.hideProgress();
+						if (res.data.flag == 1) {
+								 var item = res.data.datas.corpCustDetails.comChangeInfoList;
+								 summer.openWin({
+									id: "faRenCompany",
+									url: "html/corporation/faRenCompany.html",
+									create: false,
+									type: 'actionBar',
+									pageParam: {
+										id: setProgect.customId,
+										item:item
+									},
+									actionBar: {
+										title:  "公司股东及份额",
+										titleColor: "#ffffff",
+										backgroundColor: "#039BE5",
+										leftItem: {
+											image: "img/back.png",
+											method: "",
+											text: "返回",
+											textColor: "#ffffff"
+										},
+										rightItems: [{
+											type: "text",
+											text: "保存",
+											textColor: "#ffffff",
+											method: "save()"
+										}]
+									}
+								})
+						}
+					}, function(err) {
+						console.log(err);
+						summer.hideProgress();
+					});
+				}else{
+					summer.openWin({
+									id: "faRenCompany",
+									url: "html/corporation/faRenCompany.html",
+									create: false,
+									type: 'actionBar',
+									pageParam: {
+										id: setProgect.customId,
+										item:''
+									},
+									actionBar: {
+										title:  "公司股东及份额",
+										titleColor: "#ffffff",
+										backgroundColor: "#039BE5",
+										leftItem: {
+											image: "img/back.png",
+											method: "",
+											text: "返回",
+											textColor: "#ffffff"
+										},
+										rightItems: [{
+											type: "text",
+											text: "保存",
+											textColor: "#ffffff",
+											method: "save()"
+										}]
+									}
+								})
+				}
 			}else if(val=='companyUpdate'){  //公司成立(历次变动的情况)
 
 			}
