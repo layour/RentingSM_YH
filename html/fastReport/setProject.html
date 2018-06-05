@@ -1045,7 +1045,7 @@
 					}, function(res) {
 						summer.hideProgress();
 						if (res.data.flag == 1) {
-								 var item = res.data.datas. openBankInfoList;
+								 var item = res.data.datas.corpCustDetails.openBankInfoList;
 								 summer.openWin({
 									id: "faRenBank",
 									url: "html/corporation/faRenBank.html",
@@ -1113,32 +1113,32 @@
 			}else if(val=='companyUpdate'){  //公司成立(历次变动的情况)
 
 			}
-			summer.openWin({
-				id: id,
-				url: url,
-				create: false,
-				type: 'actionBar',
-				pageParam: {
-					id: setProgect.project_Id
-				},
-				actionBar: {
-					title: title,
-					titleColor: "#ffffff",
-					backgroundColor: "#039BE5",
-					leftItem: {
-						image: "img/back.png",
-						method: "",
-						text: "返回",
-						textColor: "#ffffff"
-					},
-					rightItems: [{
-						type: "text",
-						text: "保存",
-						textColor: "#ffffff",
-						method: "save()"
-					}]
-				}
-			})
+			// summer.openWin({
+			// 	id: id,
+			// 	url: url,
+			// 	create: false,
+			// 	type: 'actionBar',
+			// 	pageParam: {
+			// 		id: setProgect.project_Id
+			// 	},
+			// 	actionBar: {
+			// 		title: title,
+			// 		titleColor: "#ffffff",
+			// 		backgroundColor: "#039BE5",
+			// 		leftItem: {
+			// 			image: "img/back.png",
+			// 			method: "",
+			// 			text: "返回",
+			// 			textColor: "#ffffff"
+			// 		},
+			// 		rightItems: [{
+			// 			type: "text",
+			// 			text: "保存",
+			// 			textColor: "#ffffff",
+			// 			method: "save()"
+			// 		}]
+			// 	}
+			// })
 
 		}
 		function addRight(param, baseMessageReturn) {

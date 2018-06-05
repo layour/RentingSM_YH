@@ -104,13 +104,20 @@
                     <p class="pl10 pr10 "><input placeholder="开户银行" type="text" v-model="item.BANK_NAME"  > </p> 
                     <p class="pl10 pr10 "><input placeholder="开户名称" type="text" v-model="item.OPEN_ACCOUNT_NAME"  ></p>   
                     <p class="pl10 pr10 "><input placeholder="账号" type="number" v-model="item.BANK_ACCOUNT"  > </p>
-                    <div class="pl10 pr10 finalLine">
+                    <div class="pl10 pr10 finalLine" v-if="item.DEBITFLAG == '1'">
                                     <span>代扣账户</span>
                                     <div class="type">
-                                        <span v-bind:class="{ active: isActive }" @click="chooseYes(index)">是</span>
-                                        <span v-bind:class="{ active: !isActive }" @click="chooseNo(index)">否</span>
+                                        <span class="active"   @click="chooseYes(index)">是</span>
+                                        <span   @click="chooseNo(index)">否</span>
                                     </div>
                    </div>
+                   <div class="pl10 pr10 finalLine"  v-else>
+                        <span>代扣账户</span>
+                        <div class="type">
+                            <span   @click="chooseYes(index)">是</span>
+                            <span  class="active"  @click="chooseNo(index)">否</span>
+                        </div>
+       </div>
                            
            </div>
            <div class="remark" @click="addBnk">
@@ -147,11 +154,11 @@
                 // 是否代扣账户
                 chooseYes:function (index) {
                     this.message.custBankArray[index].DEBITFLAG = "1";
-                    this.isActive = true;
+                    //this.isActive = true;
                 },
                 chooseNo:function (index) {
                     this.message.custBankArray[index].DEBITFLAG = "0";
-                    this.isActive = false;
+                    //this.isActive = false;
                 },
                 messageTest: function () {
                     if (this.message.custBankArray[0].BANK_ADD == "") {
@@ -228,9 +235,9 @@
         summerready = function () {
              var CUSTOMER_ID = summer.pageParam.id;
              faRenBank.message.CUSTOMER_ID = CUSTOMER_ID;
-             var itemData = summer.pageParam.itemData;
+             var itemData = summer.pageParam.item;
              if(itemData){
-                faRenBank.message =itemData;
+                faRenBank.message.custBankArray =itemData;
              }
 
         }
