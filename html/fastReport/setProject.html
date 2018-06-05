@@ -106,7 +106,13 @@
 	<div class="um-win" id="app" v-cloak>
 		<div class="um-content">
 			<div class="um-list">
-				<a href="javascript:void(0);" onclick="openNewCreateCustom()">
+				<a href="javascript:void(0);" onclick="openNewCreateCustom()" v-if="type=='1'">
+					<div class="um-list-item-bodys">
+						客户信息
+						<span class="frp"> <i class="customer icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+					</div>
+				</a>
+				<a href="javascript:void(0);"   v-if="type=='2'" onclick="faRen('custom')">
 					<div class="um-list-item-bodys">
 						客户信息
 						<span class="frp"> <i class="customer icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
@@ -126,8 +132,8 @@
 				</a>
 				<a v-if="type=='2'" href="javascript:void(0);" id="version" onclick="faRen('bank')">
 					<div class="um-list-item-bodys">
-						银行账号
-						<span class="frp"> <i class="emergencyContract icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+						开户银行
+						<span class="frp"> <i class="faRenBank icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
 					</div>
 				</a>
 				<a v-if="type=='2'" href="javascript:void(0);" id="version" onclick="faRen('company')">
@@ -992,7 +998,7 @@
 			});
 		}
 		function faRen(val){
-			var id = param,
+			var id = val,
 				url = '',
 				title = '';
 			if(val=='term'){ //企业团队
@@ -1026,7 +1032,35 @@
 				})
 				return
 			}else if(val=='bank'){  //银行账号
-
+				url = "html/corporation/faRenBank.html";
+				title = "开户银行"
+				summer.openWin({
+					id: id,
+					url: url,
+					create: false,
+					type: 'actionBar',
+					pageParam: {
+						id: setProgect.customId
+					},
+					actionBar: {
+						title: title,
+						titleColor: "#ffffff",
+						backgroundColor: "#039BE5",
+						leftItem: {
+							image: "img/back.png",
+							method: "",
+							text: "返回",
+							textColor: "#ffffff"
+						},
+						rightItems: [{
+							type: "text",
+							text: "保存",
+							textColor: "#ffffff",
+							method: "save()"
+						}]
+					}
+				})
+				return
 			}else if(val=='company'){  //公司股东及份额
 
 			}else if(val=='companyUpdate'){  //公司成立(历次变动的情况)
