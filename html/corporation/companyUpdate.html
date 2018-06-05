@@ -90,38 +90,45 @@
             background-color: #0394d3;
             color: #fff;
         }
+        #question {
+            word-break: break-all;
+            display: block;
+            width: 100%;
+            height: 1.6rem;
+            line-height: 0.4rem;
+            resize: none;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            text-align: justify;
+            outline: none;
+            border: none;
+            border-color: #fff;
+            font-size: 0.28rem;
+            padding:0.2rem;
+            border-bottom:1px solid #f7f7f7;
+            margin-bottom:0.2rem;
+            }
+
+            #question::-webkit-input-placeholder {
+               color: #999;
+           }
     </style>
 </head>
 
 <body>
     <div class="um-win" id="app" v-cloak>
         <div class="um-content">
-            <div class="remark"   v-for="(item,index) in message.custBankArray" :key = "index">
+            <div class="remark"   v-for="(item,index) in message.comChangeInfoList" :key = "index">
                     <p class="pl10 pr10 ">
-                            <span class="delete" v-show="index>0" @click="deleteBank(index)">一</span> <span >银行账号{{index+1}}:</span>
+                            <span class="delete" v-show="index>0" @click="deleteBank(index)">一</span> <span >公司成立  历次变动的情况{{index+1}}:</span>
                     </p>
-                    <p class="pl10 pr10 "><input placeholder="银行所在地" type="text" v-model="item.BANK_ADD"  ></p>
-                    <p class="pl10 pr10 "><input placeholder="开户银行" type="text" v-model="item.BANK_NAME"  > </p> 
-                    <p class="pl10 pr10 "><input placeholder="开户名称" type="text" v-model="item.OPEN_ACCOUNT_NAME"  ></p>   
-                    <p class="pl10 pr10 "><input placeholder="账号" type="number" v-model="item.BANK_ACCOUNT"  > </p>
-                    <div class="pl10 pr10 finalLine" v-if="item.DEBITFLAG == '1'">
-                                    <span>代扣账户</span>
-                                    <div class="type">
-                                        <span class="active"   @click="chooseYes(index)">是</span>
-                                        <span   @click="chooseNo(index)">否</span>
-                                    </div>
-                   </div>
-                   <div class="pl10 pr10 finalLine"  v-else>
-                        <span>代扣账户</span>
-                        <div class="type">
-                            <span   @click="chooseYes(index)">是</span>
-                            <span  class="active"  @click="chooseNo(index)">否</span>
-                        </div>
-       </div>
-                           
+                    <p class="pl10 pr10 "><input placeholder="项目名称" type="text" v-model="item.PROJECT_NAME"  ></p>
+                    <p class="pl10 pr10 "><input placeholder="开始时间" type="text" v-model="item.PROJECT_DATE"  > </p> 
+                    <p class="pl10 pr10 "><input placeholder="结束时间" type="text" v-model="item.PROJECT_ENDDATE"  ></p> 
+                    <textarea id="question" v-model="item.PROJECT_CONTENT" placeholder="内容" ></textarea>  
            </div>
            <div class="remark" @click="addBnk">
-                <p class="pl10 pr10"> <span class="add">+</span>  添加开户银行</p>
+                <p class="pl10 pr10"> <span class="add">+</span>  添加新的公司变动情况</p>
            </div>
         </div>
     </div>
@@ -132,69 +139,59 @@
     <script src="../../js/common.js"></script>
     <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
     <script>
-        var faRenBank  = new Vue({
+        var companyUpdate  = new Vue({
             el: '#app',
             data: function () {
                 return {
                     message: {
                         EMPLOYEE_ID: '',//登陆人ID
                         CUSTOMER_ID:'',//客户ID
-                        custBankArray:[{//法人客户开户行
-                            BANK_ADD:'',//开户行地址
-                            BANK_NAME:'',//开户行银行
-                            OPEN_ACCOUNT_NAME:'',//开户行名称
-                            BANK_ACCOUNT:'',//开户行账号
-                            DEBITFLAG:'1'//是否代扣账户
+                        comChangeInfoList:[{//法人客户开户行
+                            PROJECT_NAME:'',//项目名称
+                            PROJECT_DATE:'',//开始时间
+                            PROJECT_ENDDATE:'',//结束时间
+                            PROJECT_CONTENT:'',//内容
                         }]
                     },
                     isActive:true
                 }
             },
             methods: {
-                // 是否代扣账户
-                chooseYes:function (index) {
-                    this.message.custBankArray[index].DEBITFLAG = "1";
-                    //this.isActive = true;
-                },
-                chooseNo:function (index) {
-                    this.message.custBankArray[index].DEBITFLAG = "0";
-                    //this.isActive = false;
-                },
+                
                 messageTest: function () {
-                    if (this.message.custBankArray[0].BANK_ADD == "") {
+                    if (this.message.comChangeInfoList[0].PROJECT_NAME == "") {
                         summer.toast({
-                            msg: "开户行地址不能为空"
+                            msg: "项目名称不能为空"
                         });
                         return false;
-                    } else if (this.message.custBankArray[0].BANK_NAME == "") {
+                    } else if (this.message.comChangeInfoList[0].PROJECT_DATE == "") {
                         summer.toast({
-                            msg: "开户行银行不能为空"
+                            msg: "开始时间不能为空"
                         });
                         return false;
-                    } else if (this.message.custBankArray[0].OPEN_ACCOUNT_NAME == "") {
+                    } else if (this.message.comChangeInfoList[0].PROJECT_ENDDATE == "") {
                         summer.toast({
-                            msg: "开户行名称不能为空"
+                            msg: "结束时间不能为空"
                         });
                         return false;
-                    }   else if (this.message.custBankArray[0].BANK_ACCOUNT == "") {
+                    }   else if (this.message.comChangeInfoList[0].PROJECT_CONTENT == "") {
                         summer.toast({
-                            msg: "开户行账号不能为空"
+                            msg: "内容不能为空"
                         });
                         return false;
                     }     
                     return true;
                 },
                 addBnk:function(){
-                    this.message.custBankArray.push({//股东信息列表
-                            BANK_ADD:'',//开户行地址
-                            BANK_NAME:'',//开户行银行
-                            OPEN_ACCOUNT_NAME:'',//开户行名称
-                            BANK_ACCOUNT:'',//开户行账号
-                            DEBITFLAG:'1'//是否代扣账户
+                    this.message.comChangeInfoList.push({//股东信息列表
+                            PROJECT_NAME:'',//项目名称
+                            PROJECT_DATE:'',//开始时间
+                            PROJECT_ENDDATE:'',//结束时间
+                            PROJECT_CONTENT:'',//内容
                         });
                 },
                 deleteBank:function(index){
-                    this.message.custBankArray.splice(index,1);
+                    this.message.comChangeInfoList.splice(index,1);
                 },
                 complete: function() {
 					var self=this;
@@ -209,7 +206,7 @@
 					}
 					ajaxRequest({
 						type: 'post',
-						url: 'customer/saveTCustBankAccount',
+						url: 'foundproject/saveComChangeInfo',
 						param: paramData
 					}, function(res) {
 						summer.hideProgress();
@@ -217,7 +214,7 @@
 								summer.toast({msg:"保存成功"});
                                 summer.execScript({
 									winId: "setProject",
-									script: "addRight('faRenBank')"
+									script: "addRight('companyUpdate')"
 								});
 								summer.closeWin()
 						}
@@ -230,14 +227,14 @@
             }
         })
         function save(){
-            faRenBank.complete();
+            companyUpdate.complete();
         }
         summerready = function () {
              var CUSTOMER_ID = summer.pageParam.id;
-             faRenBank.message.CUSTOMER_ID = CUSTOMER_ID;
+             companyUpdate.message.CUSTOMER_ID = CUSTOMER_ID;
              var itemData = summer.pageParam.item;
              if(itemData){
-                faRenBank.message.custBankArray =itemData;
+                companyUpdate.message.comChangeInfoList =itemData;
              }
 
         }

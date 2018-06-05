@@ -145,7 +145,7 @@
 				<a v-if="type=='2'" href="javascript:void(0);" id="version" onclick="faRen('companyUpdate')">
 					<div class="um-list-item-bodys">
 						公司成立(历次变动的情况)
-						<span class="frp"> <i class="emergencyContract icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+						<span class="frp"> <i class="companyUpdate icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
 					</div>
 				</a>
 				<a v-if="type=='1'" href="javascript:void(0);" id="version" onclick="addContact()">
@@ -1182,7 +1182,78 @@
 								})
 				}
 			}else if(val=='companyUpdate'){  //公司成立(历次变动的情况)
-
+				if($(".companyUpdate").hasClass('active')){
+					ajaxRequest({
+						type: 'post',
+						url: 'customer/queryCorpDetails',
+						param: {
+							CUSTOMER_ID:setProgect.customId
+						}
+					}, function(res) {
+						summer.hideProgress();
+						if (res.data.flag == 1) {
+								 var item = res.data.datas.corpCustDetails.comChangeInfoList;
+								 summer.openWin({
+									id: "companyUpdate",
+									url: "html/corporation/companyUpdate.html",
+									create: false,
+									type: 'actionBar',
+									pageParam: {
+										id: setProgect.customId,
+										item:item
+									},
+									actionBar: {
+										title:  "公司成立(历次变动的情况)",
+										titleColor: "#ffffff",
+										backgroundColor: "#039BE5",
+										leftItem: {
+											image: "img/back.png",
+											method: "",
+											text: "返回",
+											textColor: "#ffffff"
+										},
+										rightItems: [{
+											type: "text",
+											text: "保存",
+											textColor: "#ffffff",
+											method: "save()"
+										}]
+									}
+								})
+						}
+					}, function(err) {
+						console.log(err);
+						summer.hideProgress();
+					});
+				}else{
+					summer.openWin({
+									id: "companyUpdate",
+									url: "html/corporation/companyUpdate.html",
+									create: false,
+									type: 'actionBar',
+									pageParam: {
+										id: setProgect.customId,
+										item:''
+									},
+									actionBar: {
+										title:  "公司成立(历次变动的情况)",
+										titleColor: "#ffffff",
+										backgroundColor: "#039BE5",
+										leftItem: {
+											image: "img/back.png",
+											method: "",
+											text: "返回",
+											textColor: "#ffffff"
+										},
+										rightItems: [{
+											type: "text",
+											text: "保存",
+											textColor: "#ffffff",
+											method: "save()"
+										}]
+									}
+								})
+				}
 			}
 			// summer.openWin({
 			// 	id: id,
