@@ -124,62 +124,94 @@
                     <input v-model="noticeOfPayment.VEHICLETAX" type="number" placeholder="请输入" />
                 </li>
                 <li>
+                    <span>付款依据</span>
+                    <input v-model="PAYMENT_BASIS" type="text" placeholder="请输入" />
+                </li>
+                <li>
                     <span>备注</span>
                     <input v-model="note" type="text" placeholder="请输入" />
                 </li>
             </ul>
             <!-- 收款单位类型 -->
-            <section v-if="skTypeStatus" class="insurer">
-				<mt-picker :slots="skTypeSlots" @change="onSKTypeChange"></mt-picker>
-				<p><span class="" @click="sureSKType">取消</span><span class="" @click="sureSKType('confirm')">确定</span></p>
-            </section>
+            <mt-popup v-model="skTypeStatus" position="bottom" class="pickerColor">
+                <mt-picker :slots="skTypeSlots" @change="onSKTypeChange"></mt-picker>
+                <p>
+                    <span class="" @click="sureSKType">取消</span>
+                    <span class="" @click="sureSKType('confirm')">确定</span>
+                </p>
+            </mt-popup>
             <!-- 收款单位名称 -->
-            <section v-if="skNameStatus" class="insurer">
-				<mt-picker :slots="skNameSlots" @change="onSKNameChange"></mt-picker>
-				<p><span class="" @click="sureSKName">取消</span><span class="" @click="sureSKName('confirm')">确定</span></p>
-            </section>
+            <mt-popup v-model="skNameStatus" position="bottom" class="pickerColor">
+                <mt-picker :slots="skNameSlots" @change="onSKNameChange"></mt-picker>
+                <p>
+                    <span class="" @click="sureSKName">取消</span>
+                    <span class="" @click="sureSKName('confirm')">确定</span>
+                </p>
+            </mt-popup>
             <!-- 收款开户行 -->
-            <section v-if="skBankStatus" class="insurer">
-				<mt-picker :slots="skBankSlots" @change="onSKBankChange"></mt-picker>
-				<p><span class="" @click="sureSKBank">取消</span><span class="" @click="sureSKBank('confirm')">确定</span></p>
-            </section>
+            <mt-popup v-model="skBankStatus" position="bottom" class="pickerColor">
+                <mt-picker :slots="skBankSlots" @change="onSKBankChange"></mt-picker>
+                <p>
+                    <span class="" @click="sureSKBank">取消</span>
+                    <span class="" @click="sureSKBank('confirm')">确定</span>
+                </p>
+            </mt-popup>
             <!-- 收款开户行账号 -->
-            <section v-if="skBankCodeStatus" class="insurer">
-				<mt-picker :slots="skBankCodeSlots" @change="onSKBankCodeChange"></mt-picker>
-				<p><span class="" @click="sureSKBankCode">取消</span><span class="" @click="sureSKBankCode('confirm')">确定</span></p>
-            </section>
+            <mt-popup v-model="skBankCodeStatus" position="bottom" class="pickerColor">
+                <mt-picker :slots="skBankCodeSlots" @change="onSKBankCodeChange"></mt-picker>
+                <p>
+                    <span class="" @click="sureSKBankCode">取消</span>
+                    <span class="" @click="sureSKBankCode('confirm')">确定</span>
+                </p>
+            </mt-popup>
             <!-- 收款开户行所在地 -->
-            <section v-if="skBankPlaceStatus" class="insurer">
-				<mt-picker :slots="skBankPlaceSlots" @change="onSKBankPlaceChange"></mt-picker>
-				<p><span class="" @click="sureSKBankPlace">取消</span><span class="" @click="sureSKBankPlace('confirm')">确定</span></p>
-            </section>
+            <mt-popup v-model="skBankPlaceStatus" position="bottom" class="pickerColor">
+                <mt-picker :slots="skBankPlaceSlots" @change="onSKBankPlaceChange"></mt-picker>
+                <p>
+                    <span class="" @click="sureSKBankPlace">取消</span>
+                    <span class="" @click="sureSKBankPlace('confirm')">确定</span>
+                </p>
+            </mt-popup>
             <!-- 付款部分开始 -->
             <!-- 付款单位名称 -->
-            <section v-if="fkNameStatus" class="insurer">
-				<mt-picker :slots="fkNameSlots" @change="onFKNameChange"></mt-picker>
-				<p><span class="" @click="sureFKName">取消</span><span class="" @click="sureFKName('confirm')">确定</span></p>
-            </section>
+            <mt-popup v-model="fkNameStatus" position="bottom" class="pickerColor">
+                <mt-picker :slots="fkNameSlots" @change="onFKNameChange"></mt-picker>
+                <p>
+                    <span class="" @click="sureFKName">取消</span>
+                    <span class="" @click="sureFKName('confirm')">确定</span>
+                </p>
+            </mt-popup>
             <!-- 付款开户行 -->
-            <section v-if="fkBankStatus" class="insurer">
-				<mt-picker :slots="fkBankSlots" @change="onFKBankChange"></mt-picker>
-				<p><span class="" @click="sureFKBank">取消</span><span class="" @click="sureFKBank('confirm')">确定</span></p>
-            </section>
+            <mt-popup v-model="fkBankStatus" position="bottom" class="pickerColor">
+                <mt-picker :slots="fkBankSlots" @change="onFKBankChange"></mt-picker>
+                <p>
+                    <span class="" @click="sureFKBank">取消</span>
+                    <span class="" @click="sureFKBank('confirm')">确定</span>
+                </p>
+            </mt-popup>
             <!-- 付款开户行账号 -->
-            <section v-if="fkBankCodeStatus" class="insurer">
-				<mt-picker :slots="fkBankCodeSlots" @change="onFKBankCodeChange"></mt-picker>
-				<p><span class="" @click="sureFKBankCode">取消</span><span class="" @click="sureFKBankCode('confirm')">确定</span></p>
-            </section>
+            <mt-popup v-model="fkBankCodeStatus" position="bottom" class="pickerColor">
+                <mt-picker :slots="fkBankCodeSlots" @change="onFKBankCodeChange"></mt-picker>
+                <p>
+                    <span class="" @click="sureFKBankCode">取消</span>
+                    <span class="" @click="sureFKBankCode('confirm')">确定</span>
+                </p>
+            </mt-popup>
             <!-- 付款方式 -->
-            <section v-if="PAYMODEStatus" class="insurer">
-				<mt-picker :slots="PAYMODESlots" @change="onPAYMODEChange"></mt-picker>
-				<p><span class="" @click="surePAYMODE">取消</span><span class="" @click="surePAYMODE('confirm')">确定</span></p>
-            </section>
+            <mt-popup v-model="PAYMODEStatus" position="bottom" class="pickerColor">
+                <mt-picker :slots="PAYMODESlots" @change="onPAYMODEChange"></mt-picker>
+                <p>
+                    <span class="" @click="surePAYMODE">取消</span>
+                    <span class="" @click="surePAYMODE('confirm')">确定</span>
+                </p>
+            </mt-popup>
         </div>
     </div>
     <script type="text/javascript">
         var loanInfo2 = new Vue({
             el: '#index',
             data: {
+                EMPLOYEE_NAME: "",
                 CONTRACT_ID: "", // 融资租赁合同id
                 realPaymentInfo: {}, // 实际付款信息
                 paymentHistory: {}, // 付款历史信息
@@ -201,6 +233,8 @@
                 COLLECTION: "",
                 // 贴息
                 DISCOUNT: "",
+                // 付款依据
+                PAYMENT_BASIS: "",
                 // 备注
                 note: "",
                 // 收款单位类型
@@ -349,7 +383,17 @@
 				sureSKType: function (param) {
 					this.skTypeStatus = !this.skTypeStatus;
 					if (param == 'confirm') {
-						this.insurerSKType = this.pickedSKType;
+                        this.insurerSKType = this.pickedSKType;
+                        // 清除其他付款单位信息
+                        this.skNameSlots[0].values.splice(0, this.skNameSlots[0].values.length);
+                        this.skBankSlots[0].values.splice(0, this.skBankSlots[0].values.length);
+                        this.skBankCodeSlots[0].values.splice(0, this.skBankCodeSlots[0].values.length);
+                        this.skBankPlaceSlots[0].values.splice(0, this.skBankPlaceSlots[0].values.length);
+                        this.insurerSKName = "请选择";
+                        this.insurerSKBank = "请选择";
+                        this.insurerSKBankCode = "请选择"; 
+                        this.insurerSKBankPlace = "请选择"; 
+                        this.getSKCompany(this.pickedSKType);
 					}
                 },
                 // 选择收款单位名称
@@ -365,7 +409,17 @@
                     }
 					this.skNameStatus = !this.skNameStatus;
 					if (param == 'confirm') {
-						this.insurerSKName = this.pickedSKName;
+                        this.insurerSKName = this.pickedSKName;
+                        if (this.insurerSKType == "融资租赁公司") {
+                            // 清除其他付款单位信息
+                            this.skBankSlots[0].values.splice(0, this.skBankSlots[0].values.length);
+                            this.skBankCodeSlots[0].values.splice(0, this.skBankCodeSlots[0].values.length);
+                            this.skBankPlaceSlots[0].values.splice(0, this.skBankPlaceSlots[0].values.length);
+                            this.insurerSKBank = "请选择";
+                            this.insurerSKBankCode = "请选择"; 
+                            this.insurerSKBankPlace = "请选择"; 
+                            this.getFKcompanyList(this.pickedSKName, 'sk');
+                        }
 					}
                 },
                 // 选择收款开户行名称
@@ -442,7 +496,14 @@
 				sureFKName: function (param) {
 					this.fkNameStatus = !this.fkNameStatus;
 					if (param == 'confirm') {
-						this.insurerFKName = this.pickedFKName;
+                        this.insurerFKName = this.pickedFKName;
+                        // 清除其他付款单位信息
+                        this.fkBankSlots[0].values.splice(0, this.fkBankSlots[0].values.length);
+                        this.fkBankCodeSlots[0].values.splice(0, this.fkBankCodeSlots[0].values.length);
+                        this.insurerFKBank = "请选择";
+                        this.insurerFKBankCode = "请选择";
+                        this.insurerPAYMODE = "请选择";
+                        this.getFKcompanyList(this.pickedFKName, 'fk');
 					}
                 },
                 // 选择付款开户行名称
@@ -488,7 +549,8 @@
 					}
                 },
                 // 获取付款单位信息
-                getFKcompanyList: function (SHORT_NAME) {
+                getFKcompanyList: function (SHORT_NAME, type) {
+                    var self = this;
                     summer.showProgress();
                     ajaxRequest({
                         type: 'post',
@@ -505,7 +567,27 @@
                             Data = res.data;
                         }
                         if (Data.flag == 1) {
-                            
+                            var companyList = Data.datas.companyList ? Data.datas.companyList : [];
+                            if (type == "fk") {
+                                // 付款信息
+                                if (SHORT_NAME) {
+                                    companyList.forEach(function (e) {
+                                        self.fkBankSlots[0].values.push(e.BANK);
+                                        self.fkBankCodeSlots[0].values.push(e.ACCOUNT);
+                                    });
+                                } else {
+                                    companyList.forEach(function (e) {
+                                        self.fkNameSlots[0].values.push(e.NAME);
+                                    });
+                                }
+                            } else {
+                                // 收款信息
+                                companyList.forEach(function (e) {
+                                    self.skBankSlots[0].values.push(e.BANK);
+                                    self.skBankCodeSlots[0].values.push(e.ACCOUNT);
+                                    self.skBankPlaceSlots[0].values.push(e.BANK_ADD);
+                                });
+                            }
                         } else {
                             summer.toast({
                                 msg: "获取付款单位信息失败"
@@ -519,21 +601,148 @@
                         console.log(err);
                     });
                 },
+                // 获取收款单位名称
+                getSKCompany: function (pickedSKType) {
+                    var self = this;
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'payment/toCarPaymentPage',
+                        param: {
+                            "RECIPIENTTYPE": pickedSKType,
+                            "ID": self.noticeOfPayment.PAYMENT_ID
+                        }
+                    }, function(res) {
+                        summer.hideProgress();
+                        var Data;
+                        if (Object.prototype.toString.call(res.data) === '[object String]') {
+                            Data = JSON.parse(res.data);
+                        } else {
+                            Data = res.data;
+                        }
+                        if (Data.flag == 1) {
+                            var list = Data.datas.list ? Data.datas.list : [];
+                            if (pickedSKType == "融资租赁公司") {
+                                list.forEach(function (e) {
+                                    self.skNameSlots[0].values.push(e.NAME);
+                                });
+                            } else {
+                                list.forEach(function (e) {
+                                    self.skNameSlots[0].values.push(e.NAME);
+                                    self.skBankSlots[0].values.push(e.BANK);
+                                    self.skBankCodeSlots[0].values.push(e.ACCOUNT);
+                                    self.skBankPlaceSlots[0].values.push(e.BANK_ADD);
+                                });
+                            }
+                        } else {
+                            summer.toast({
+                                msg: "获取付款单位信息失败"
+                            });
+                        }
+                    }, function(err) {
+                        summer.hideProgress();
+                        summer.toast({
+                            msg: "获取付款单位信息失败"
+                        });
+                        console.log(err);
+                    });
+                },
+                // 提交前验证
+                validate: function () {
+                    if (this.insurerSKType == "请选择" || this.insurerSKName == "请选择" || this.insurerSKBank == "请选择" || this.insurerSKBankCode == "请选择" || this.insurerSKBankPlace == "请选择") {
+                        summer.toast({
+                            msg: "请完善收款单位信息"
+                        });
+                        return false;
+                    } else if (this.insurerFKName == "请选择" || this.insurerFKBank == "请选择" || this.insurerFKBankCode == "请选择" || this.insurerPAYMODE == "请选择") {
+                        summer.toast({
+                            msg: "请完善付款单位信息"
+                        });
+                        return false;
+                    } else {
+                        return true;
+                    }
+                },
                 // 提交
                 submit: function () {
-                    
+                    if (!this.validate()) {
+                        return;
+                    }
+                    var self = this;
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'payment/addPayment',
+                        param: {
+                            "CONTRACT_ID": this.CONTRACT_ID,
+                            "OPERATOR_NAME": this.EMPLOYEE_NAME,
+                            "SELLER_UNIT_NAME": this.insurerSKName,
+                            "SELLER_BANK_ACCO": this.insurerSKBank,
+                            "SELLER_ACCOUNT": this.insurerSKBankCode,
+                            "RECIPIENTTYPE": this.insurerSKType,
+                            "PAY_AMOUNT_SQ": this.PAY_AMOUNT_SQ,
+                            "BUYER_UNIT_NAME": this.insurerFKName,
+                            "BUYER_BANK_ACCO": this.insurerFKBank,
+                            "BUYER_ACCOUNT": this.insurerFKBankCode,
+                            "PAY_AMOUNT_UPPER_SQ": this.PAY_AMOUNT_UPPER_SQ,
+                            "VEHICLETAX": this.noticeOfPayment.VEHICLETAX,
+                            "NOTINCLUDING": this.noticeOfPayment.NOTINCLUDING,
+                            "S_BANK_ADD": this.insurerSKBankPlace,
+                            "PAY_MODE": this.insurerPAYMODE,
+                            "APPLICATION_TYPE": "0",
+                            "ID": this.noticeOfPayment.PAYMENT_ID,
+                            "PROJECT_ID": this.contractInfo.TPHID,
+                            "EMPLOYEE_NAME": this.EMPLOYEE_NAME,
+                            "SHIFOUDAIKOU": this.isCOLLECTION ? "0" : "1",
+                            "URGENT": this.URGENT,
+                            "SUPPLEMENTARY": this.remarks,
+                            "PAYMENT_BASIS": this.PAYMENT_BASIS,
+                            "PAYMENT_REMARK": this.note
+                        }
+                    }, function(res) {
+                        summer.hideProgress();
+                        var Data;
+                        if (Object.prototype.toString.call(res.data) === '[object String]') {
+                            Data = JSON.parse(res.data);
+                        } else {
+                            Data = res.data;
+                        }
+                        if (Data.flag == 1) {
+                            summer.toast({
+                                msg: "付款申请发起成功"
+                            });
+                            summer.closeToWin({
+                                id: "payList"
+                            });
+                        } else {
+                            summer.toast({
+                                msg: "付款申请发起失败"
+                            });
+                        }
+                    }, function(err) {
+                        summer.hideProgress();
+                        summer.toast({
+                            msg: "付款申请发起失败"
+                        });
+                        console.log(err);
+                    });
                 }
             }
         });
         summerready = function() {
             // 接收参数，处理data
+            if (summer.getStorage("userinfo")) {
+                if (summer.getStorage("userinfo").EMPLOYEE_NAME) {
+                    loanInfo2.EMPLOYEE_NAME = summer.getStorage("userinfo").EMPLOYEE_NAME;
+                }
+            }
             loanInfo2.CONTRACT_ID = summer.pageParam.CONTRACT_ID;
             loanInfo2.realPaymentInfo = summer.pageParam.realPaymentInfo;
             loanInfo2.paymentHistory = summer.pageParam.paymentHistory;
             loanInfo2.riqi = summer.pageParam.riqi;
-            loanInfo2.noticeOfPayment = summer.pageParam.noticeOfPayment;
-            if (summer.pageParam.noticeOfPayment.URGENT) {
-                loanInfo2.URGENT = summer.pageParam.noticeOfPayment.URGENT;
+            loanInfo2.noticeOfPayment = summer.pageParam.noticeOfPayment[0];
+            if (summer.pageParam.noticeOfPayment[0].URGENT) {
+                loanInfo2.URGENT = summer.pageParam.noticeOfPayment[0].URGENT;
             } else {
                 loanInfo2.URGENT = "0";
             }
@@ -562,7 +771,7 @@
             loanInfo2.isCOLLECTION = summer.pageParam.isCOLLECTION;
             loanInfo2.remarks = summer.pageParam.remarks;
             // 获取付款单位信息
-            loanInfo2.getFKcompanyList('');
+            loanInfo2.getFKcompanyList('', 'fk');
         };
     </script>
 </body>

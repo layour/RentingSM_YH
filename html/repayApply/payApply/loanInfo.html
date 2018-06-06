@@ -99,7 +99,7 @@
                 realPaymentInfo: {}, // 实际付款信息
                 paymentHistory: {}, // 付款历史信息
                 riqi: {}, // 付款日期
-                noticeOfPayment: {}, // 付款通知书
+                noticeOfPayment: [], // 付款通知书
                 paymentOfthis: {}, // 本次付款信息列表
                 fileList: {}, // 付款文件
                 contractInfo: {}, // contractInfo
@@ -126,8 +126,8 @@
                         type: 'post',
                         url: 'payment/queryPaymentInfo',
                         param: {
-                            "CONTRACT_ID": this.CONTRACT_ID
-                            // "CONTRACT_ID": "25081"
+                            // "CONTRACT_ID": this.CONTRACT_ID
+                            "CONTRACT_ID": "24582"
                         }
                     }, function(res) {
                         summer.hideProgress();
@@ -141,7 +141,7 @@
                             loanInfo.realPaymentInfo = Data.datas.realPaymentInfo ? Data.datas.realPaymentInfo : {};
                             loanInfo.paymentHistory = Data.datas.paymentHistory ? Data.datas.paymentHistory : {};
                             loanInfo.riqi = Data.datas.riqi ? Data.datas.riqi : {};
-                            loanInfo.noticeOfPayment = Data.datas.noticeOfPayment ? Data.datas.noticeOfPayment : {};
+                            loanInfo.noticeOfPayment = Data.datas.noticeOfPayment ? Data.datas.noticeOfPayment : [];
                             loanInfo.paymentOfthis = Data.datas.paymentOfthis ? Data.datas.paymentOfthis : {};
                             loanInfo.fileList = Data.datas.fileList ? Data.datas.fileList : {};
                             loanInfo.contractInfo = Data.datas.contractInfo ? Data.datas.contractInfo : {};
