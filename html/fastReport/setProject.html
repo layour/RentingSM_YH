@@ -127,7 +127,7 @@
 				<a v-if="type=='2'" href="javascript:void(0);" id="version" onclick="faRen('term')">
 					<div class="um-list-item-bodys">
 						企业团队
-						<span class="frp"> <i class="emergencyContract icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
+						<span class="frp"> <i class="term icon iconfont icon-right"></i>&nbsp; <i class="icon iconfont icon-enter"></i> </span>
 					</div>
 				</a>
 				<a v-if="type=='2'" href="javascript:void(0);" id="version" onclick="faRen('bank')">
@@ -1107,7 +1107,7 @@
 									}
 								})
 				}
-				 
+
 			}else if(val=='company'){  //公司股东及份额
 				if($(".faRenCompany").hasClass('active')){
 					ajaxRequest({
@@ -1284,7 +1284,7 @@
 
 		}
 		function addRight(param, baseMessageReturn) {
-			console.log(baseMessageReturn);
+			console.log(param,baseMessageReturn);
 			$("." + param).addClass('active').siblings('i').addClass("active");
 			if (baseMessageReturn) {
 				baseMessageReturn = JSON.parse(baseMessageReturn);
@@ -1293,8 +1293,8 @@
 				setProgect.CREDIT_ID = baseMessageReturn.CREDIT_ID;//资信ID
 				setProgect.PLATFORM = baseMessageReturn.PLATFORM;//业务类型
 			}
-        }
-        function removeRight(param) {
+    }
+    function removeRight(param) {
 			$("." + param).removeClass('active').siblings('i').removeClass("active");
 		}
 	</script>
