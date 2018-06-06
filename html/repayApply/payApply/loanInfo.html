@@ -103,6 +103,7 @@
                 paymentOfthis: {}, // 本次付款信息列表
                 fileList: {}, // 付款文件
                 contractInfo: {}, // contractInfo
+                PAY_MODE: [], // 付款方式字典
                 // 是否代收
                 isCOLLECTION: true,
                 // 合同补充约定
@@ -125,8 +126,8 @@
                         type: 'post',
                         url: 'payment/queryPaymentInfo',
                         param: {
-                            // "CONTRACT_ID": this.CONTRACT_ID
-                            "CONTRACT_ID": "25081"
+                            "CONTRACT_ID": this.CONTRACT_ID
+                            // "CONTRACT_ID": "25081"
                         }
                     }, function(res) {
                         summer.hideProgress();
@@ -144,6 +145,14 @@
                             loanInfo.paymentOfthis = Data.datas.paymentOfthis ? Data.datas.paymentOfthis : {};
                             loanInfo.fileList = Data.datas.fileList ? Data.datas.fileList : {};
                             loanInfo.contractInfo = Data.datas.contractInfo ? Data.datas.contractInfo : {};
+                            loanInfo.PAY_MODE = Data.datas.PAY_MODE ? Data.datas.PAY_MODE : [];
+                            if (loanInfo.PAY_MODE.length) {
+                                loanInfo.PAY_MODE.forEach(function (e) {
+                                    if (e.CODE == loanInfo.contractInfo.PAY_WAY) {
+                                        loanInfo.contractInfo.PAY_WAY = e.FLAG;
+                                    }
+                                });
+                            }
                         } else {
                             summer.toast({
                                 msg: "暂无数据"
