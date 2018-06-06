@@ -740,11 +740,22 @@
             loanInfo2.realPaymentInfo = summer.pageParam.realPaymentInfo;
             loanInfo2.paymentHistory = summer.pageParam.paymentHistory;
             loanInfo2.riqi = summer.pageParam.riqi;
-            loanInfo2.noticeOfPayment = summer.pageParam.noticeOfPayment[0];
-            if (summer.pageParam.noticeOfPayment[0].URGENT) {
+            loanInfo2.noticeOfPayment = summer.pageParam.noticeOfPayment[0] ? summer.pageParam.noticeOfPayment[0] : {};
+            if (summer.pageParam.noticeOfPayment[0] && summer.pageParam.noticeOfPayment[0].URGENT) {
                 loanInfo2.URGENT = summer.pageParam.noticeOfPayment[0].URGENT;
             } else {
                 loanInfo2.URGENT = "0";
+            }
+            // 防止页面报错，提前赋值
+            if (summer.pageParam.noticeOfPayment[0] && !summer.pageParam.noticeOfPayment[0].NOTINCLUDING) {
+                loanInfo2.noticeOfPayment.NOTINCLUDING = "";
+            } else if (!summer.pageParam.noticeOfPayment[0]) {
+                loanInfo2.noticeOfPayment.NOTINCLUDING = "";
+            }
+            if (summer.pageParam.noticeOfPayment[0] && !summer.pageParam.noticeOfPayment[0].VEHICLETAX) {
+                loanInfo2.noticeOfPayment.VEHICLETAX = "";
+            } else if (!summer.pageParam.noticeOfPayment[0]) {
+                loanInfo2.noticeOfPayment.VEHICLETAX = "";
             }
             loanInfo2.paymentOfthis = summer.pageParam.paymentOfthis;
             loanInfo2.fileList = summer.pageParam.fileList;
