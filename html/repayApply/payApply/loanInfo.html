@@ -67,7 +67,7 @@
                 <li>
                     <span>代收金额</span>
                     <strong>元</strong>
-                    <div v-if="isActive">{{ contractInfo.COLLECTION }}</div>
+                    <div v-if="isActive">{{ contractInfo.COLLECTIONS }}</div>
                     <div v-else>0</div>
                 </li>
                 <li>
@@ -241,6 +241,7 @@
                             paymentOfthis: this.paymentOfthis, // 本次付款信息列表
                             fileList: this.fileList, // 付款文件
                             contractInfo: this.contractInfo, // contractInfo
+                            PAY_MODE: this.PAY_MODE, // 付款方式字典
                             // 是否代收
                             isCOLLECTION: this.isCOLLECTION,
                             // 合同补充约定
