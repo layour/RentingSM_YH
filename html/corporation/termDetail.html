@@ -304,7 +304,8 @@
 							summer.showProgress()
 							ajaxRequest({
 								type:'post',
-								url:'customer/doCompanyTeamPage'
+								url:'customer/doCompanyTeamPage',
+								param:{}
 							},function(res){
 								console.log('init',JSON.stringify(res));
 								_this.sexList=res.data.datas.CARD_ID_DIC
