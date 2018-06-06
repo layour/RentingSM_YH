@@ -118,7 +118,7 @@
 <body>
     <div class="um-win" id="app" v-cloak>
         <div class="um-content">
-            <div class="remark"   v-for="(item,index) in message.comChangeInfoList" :key = "index">
+            <div class="remark"   v-for="(item,index) in message.comChangeInfoArray" :key = "index">
                     <p class="pl10 pr10 ">
                             <span class="delete" v-show="index>0" @click="deleteBank(index)">一</span> <span >公司成立  历次变动的情况{{index+1}}:</span>
                     </p>
@@ -146,7 +146,7 @@
                     message: {
                         EMPLOYEE_ID: '',//登陆人ID
                         CUSTOMER_ID:'',//客户ID
-                        comChangeInfoList:[{//法人客户开户行
+                        comChangeInfoArray:[{//法人客户开户行
                             PROJECT_NAME:'',//项目名称
                             PROJECT_DATE:'',//开始时间
                             PROJECT_ENDDATE:'',//结束时间
@@ -159,22 +159,22 @@
             methods: {
                 
                 messageTest: function () {
-                    if (this.message.comChangeInfoList[0].PROJECT_NAME == "") {
+                    if (this.message.comChangeInfoArray[0].PROJECT_NAME == "") {
                         summer.toast({
                             msg: "项目名称不能为空"
                         });
                         return false;
-                    } else if (this.message.comChangeInfoList[0].PROJECT_DATE == "") {
+                    } else if (this.message.comChangeInfoArray[0].PROJECT_DATE == "") {
                         summer.toast({
                             msg: "开始时间不能为空"
                         });
                         return false;
-                    } else if (this.message.comChangeInfoList[0].PROJECT_ENDDATE == "") {
+                    } else if (this.message.comChangeInfoArray[0].PROJECT_ENDDATE == "") {
                         summer.toast({
                             msg: "结束时间不能为空"
                         });
                         return false;
-                    }   else if (this.message.comChangeInfoList[0].PROJECT_CONTENT == "") {
+                    }   else if (this.message.comChangeInfoArray[0].PROJECT_CONTENT == "") {
                         summer.toast({
                             msg: "内容不能为空"
                         });
@@ -183,7 +183,7 @@
                     return true;
                 },
                 addBnk:function(){
-                    this.message.comChangeInfoList.push({//股东信息列表
+                    this.message.comChangeInfoArray.push({//股东信息列表
                             PROJECT_NAME:'',//项目名称
                             PROJECT_DATE:'',//开始时间
                             PROJECT_ENDDATE:'',//结束时间
@@ -191,7 +191,7 @@
                         });
                 },
                 deleteBank:function(index){
-                    this.message.comChangeInfoList.splice(index,1);
+                    this.message.comChangeInfoArray.splice(index,1);
                 },
                 complete: function() {
 					var self=this;
@@ -234,7 +234,7 @@
              companyUpdate.message.CUSTOMER_ID = CUSTOMER_ID;
              var itemData = summer.pageParam.item;
              if(itemData){
-                companyUpdate.message.comChangeInfoList =itemData;
+                companyUpdate.message.comChangeInfoArray =itemData;
              }
 
         }
