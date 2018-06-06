@@ -3,7 +3,7 @@
 	<head>
 		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
 		<meta charset="UTF-8">
-		<title>报价</title>
+		<title>报价测算器</title>
 		<link rel="stylesheet" href="../../css/iuapmobile.um.css">
 		<link rel="stylesheet" href="../../css/mint.css">
 		<link rel="stylesheet" href="../../css/fonts/iconfont.css">
@@ -20,6 +20,21 @@
 		<div class="um-win" id="quotedPriceDetail" v-cloak>
 			<div class="um-content quotedPriceDetail">
 				<ul>
+					<li>
+              <b>实际成交价</b>
+              <span>
+                <input type="text" @input="checkVal('carMoney')" placeholder="实际成交价" name="carMoney" v-model="EQU_MONEY_ALL">
+                &nbsp;元
+              </span>
+          </li>
+					<li @click="pickerFlag('platform')">
+						<b>业务类型</b>
+						<span>
+							<b v-if="PLATFORM">{{PLATFORM}}</b>
+							<b v-else class="default">请选择</b>
+							<i class="icon iconfont icon-enter"></i>
+						</span>
+					</li>
 					<li @click="pickerFlag('schemeType')">
 						<b>商务类型</b>
 						<span>
@@ -88,7 +103,7 @@
 					<li v-else @click="sureFristPay">
 							<b>首付款</b>
 							<span>
-								<b v-if="HIRE_PERCENT!==''">{{HIRE_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{HEAD_HIRE}}&nbsp;元</b>
+								<b v-if="HIRE_PERCENT">{{HIRE_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{HEAD_HIRE}}&nbsp;元</b>
 								<b v-else class="default">请选择</b>
 								<i class="icon iconfont icon-enter"></i>
 							</span>
@@ -102,7 +117,7 @@
 					<li v-else @click="sureFinalPay">
 							<b>尾款</b>
 							<span>
-								<b v-if="FINAL_RATE!==''">{{FINAL_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{FINAL_FEE}}&nbsp;元</b>
+								<b v-if="FINAL_RATE">{{FINAL_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{FINAL_FEE}}&nbsp;元</b>
 								<b v-else class="default">请选择</b>
 								<i class="icon iconfont icon-enter"></i>
 							</span>
@@ -116,7 +131,7 @@
 					<li v-else @click="sureBailMoney">
 							<b>保证金</b>
 							<span>
-								<b v-if="BAIL_PERCENT!==''">{{BAIL_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{LEASE_BAIL}}&nbsp;元</b>
+								<b v-if="BAIL_PERCENT">{{BAIL_PERCENT}}&nbsp;% &nbsp;&nbsp;&nbsp;{{LEASE_BAIL}}&nbsp;元</b>
 								<b v-else class="default">请选择</b>
 								<i class="icon iconfont icon-enter"></i>
 							</span>
@@ -272,14 +287,7 @@
   						</span>
   					</li>
           </template>
-          <li>
-              <b>实际成交价</b>
-              <span>
-                <b v-if="prjId">{{EQU_MONEY_ALL}}</b>
-                <input v-else type="text" @input="checkVal('carMoney')" placeholder="实际成交价" name="carMoney" v-model="EQU_MONEY_ALL">
-                &nbsp;元
-              </span>
-          </li>
+
 
           <li>
             <b>融资额</b>
@@ -292,7 +300,7 @@
           <li @click="sureSxMoney">
               <b>手续费</b>
               <span>
-                <b v-if="SXF!==''">{{SXF_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{SXF}}&nbsp;元</b>
+                <b v-if="SXF_RATE">{{SXF_RATE}}&nbsp;% &nbsp;&nbsp;&nbsp;{{SXF}}&nbsp;元</b>
                 <b v-else class="default">请选择</b>
   							<i class="icon iconfont icon-enter"></i>
               </span>
@@ -580,6 +588,9 @@
 				data:function(){
 					return {
 						prjId:'',
+						PLATFORM:'',  // 业务类型
+						PLATFORM_ID:'',
+						platform_list:'',
 						SCHEME_TYPE:'', //方案类型
 						scheme_type_list:[],
 						SCHEME_NAME:'', //方案名称
@@ -795,206 +806,45 @@
 					getData:function(){
 						console.log("prjId==>"+this.prjId);
 						var _this=this
-						if(this.prjId){ //是报价
 							summer.showProgress();
 							ajaxRequest({
 								type:'POST',
-								url:"offer/toProjectScheme",
-								param:{PROJECT_ID:_this.prjId}
+								url:"offer/toCalculation",
+								param:{}
 							},function(res){
 								console.log("查询",JSON.stringify(res));
 								var data=res.data.datas
 								_this.scheme_type_list=data.POLICY_TYPES //方案类型字典
 								_this.lease_course_list=data.LEASE_COURSES  //租赁周期
 								_this.llpz_list=data.LLPZS  //利率配置字典
-								_this.pay_way_list=data.PAY_WAYS
-								_this.tx_list=data.PREMIUMSS  //贴息
-								_this.rpzsf_list=data.RPZSFS //融牌照收费
-								_this.sfxyzb_list=data.SFXYZBS  //牌照指标
-								_this.bxnx_list=data.BXNXS  //保险年限
-								_this.ccsnx_list=data.CCSNXS   //车船税年限
-								_this.fkgz_list=data.FKGZS    //放款方式
-								_this.tqgh_list=data.TQGHS    //提前过户
-								_this.qmclfs_list=data.QMCLFSS //期满处理方式
-								_this.gpsaz_list=data.GPSAZS  //GPS安装
-								_this.gpsaz_list=data.SFLYSS //是否留钥匙
-								_this.bzjclfs_list=data.BZJCLFSS //是否留钥匙
-
-								_this.EQU_MONEY_ALL=data.EQU_MONEY_ALL //车辆单价
-								_this.E_BX_M=data.E_BX_M   //设备保险金额
-								var projectData=res.data.datas.scheme
-								_this.SCHEME_NAME=projectData.POLICY_NAME
-								_this.SCHEME_NAME_ID=projectData.POLICY
-								console.log('res.data.datas.scheme===>',res.data.datas.scheme)
-								if(projectData&&_this.SCHEME_NAME_ID){
-                  _this.LEASE_TERM=projectData.LEASE_TERM
-                  _this.LEASE_COURSE=projectData.LEASE_COURSE_NM
-                  _this.LEASE_COURSE_ID=projectData.LEASE_COURSE
-									// 计算年限
-									if(_this.LEASE_TERM&&_this.LEASE_COURSE_ID){
-										_this.YEAR_LIMIT=(_this.LEASE_TERM*_this.LEASE_COURSE_ID/12).toFixed(2)
-									}else {
-										_this.YEAR_LIMIT=''
-									}
-                  _this.LLPZ =projectData.LLPZ_NM
-									_this.LLPZ_ID=projectData.LLPZ
-									_this.YEAR_INTEREST = projectData.YEAR_INTEREST
-                  _this.PAY_WAY=projectData.PAY_WAY_NM
-                  _this.PAY_WAY_ID=projectData.PAY_WAY
-									_this.TX=projectData.PREMIUMS_NM
-									_this.TX_ID=projectData.PREMIUMS
-									_this.TX_M =projectData.PREMIUMS_M
-									_this.RPZSF=projectData.RPZSF_NM
-									_this.RPZSF_ID=projectData.RPZSF
-									_this.SFXYZB = projectData.SFXYZB_NM
-									_this.SFXYZB_ID = projectData.SFXYZB
-									_this.BXNX = projectData.BXNX_NM
-									_this.BXNX_ID = projectData.BXNX
-									_this.CCSNX = projectData.BXNX_NM
-									_this.CCSNX_ID = projectData.CCSNX
-									_this.FKGZ = projectData.FKGZ_NM
-									_this.FKGZ_ID = projectData.FKGZ
-									_this.TQGH = projectData.TQGH_NM
-									_this.TQGH_ID=projectData.TQGH
-									_this.GHTIME =projectData.GHTIME
-									_this.QMCLFS =projectData.QMCLFS_NM
-									_this.QMCLFS_ID =projectData.QMCLFS
-									_this.GPSAZ=projectData.QMCLFS_NM
-									_this.GPSAZ_ID=projectData.GPSAZ
-									_this.SFLYS=projectData.SFLYS_NM
-									_this.SFLYS_ID=projectData.SFLYS
-									_this.HIRE_PERCENT= projectData.HIRE_PERCENT  //首付款比例
-									_this.FINAL_RATE= projectData.FINAL_RATE  //尾款比例
-									_this.SXF_RATE= projectData.SXF_RATE  //手续费比例
-									_this.BAIL_PERCENT= projectData.BAIL_PERCENT  //保证金比例
-									_this.BZJCLFS=projectData.BZJCLFS_NM  //保证金处理方式
-									_this.BZJCLFS_ID=projectData.BZJCLFS
-
-									_this.SCHEME_TYPE=projectData.POLICY_TYPE //商务
-									_this.totleFirstM=projectData.FIRST_RENT?(projectData.FIRST_RENT).toFixed(2):'' //测算返回首期款
-									_this.MONTH_PRICE=projectData.MONTH_PRICE?(projectData.MONTH_PRICE).toFixed(2):'' //测返每期租金
-									_this.term=projectData.LEASE_TERM //测算返回期数
-									// 其他费用的逻辑 没整
-									var array=res.data.datas.otherFee
-									for (var i = 0; i < array.length; i++) {
-										if(array[i].O_OTHER_NAME=='保险费'){
-											_this.BXF_PRICE=array[i].O_OTHER_MONEY
-											_this.bxf_jrfs_code=array[i].O_TYPE_MONEY
-											if(_this.bxf_jrfs_code=='JRRZE'){
-												_this.bxf_jrfs_name='计入融资额'
-											}else{
-												_this.bxf_jrfs_name='计入首期款'
-
-											}
-											// console.log(_this.BXF_PRICE,_this.bxf_jrfs_name)
-										}else if(array[i].O_OTHER_NAME=='保养费'){
-											_this.BYF_PRICE=array[i].O_OTHER_MONEY
-											_this.byf_jrfs_code=array[i].O_TYPE_MONEY
-											if(_this.byf_jrfs_code=='JRRZE'){
-												_this.byf_jrfs_name='计入融资额'
-											}else{
-												_this.byf_jrfs_name='计入首期款'
-
-											}
-										}else if(array[i].O_OTHER_NAME=='购置税'){
-											_this.BUY_TAX_PRICE=array[i].O_OTHER_MONEY
-											_this.buy_tax_jrfs_code=array[i].O_TYPE_MONEY
-											if(_this.buy_tax_jrfs_code=='JRRZE'){
-												_this.buy_tax_jrfs_name='计入融资额'
-											}else{
-												_this.buy_tax_jrfs_name='计入首期款'
-
-											}
-										}else if(array[i].O_OTHER_NAME=='上牌税'){
-											_this.SJ_PRICE=array[i].O_OTHER_MONEY
-											_this.sj_jrfs_code=array[i].O_TYPE_MONEY
-											if(_this.sj_jrfs_code=='JRRZE'){
-												_this.sj_jrfs_name='计入融资额'
-											}else{
-												_this.sj_jrfs_name='计入首期款'
-
-											}
-										}else if(array[i].O_OTHER_NAME=='精品装潢'){
-											_this.JPZH_PRICE=array[i].O_OTHER_MONEY
-											_this.jpzh_jrfs_code=array[i].O_TYPE_MONEY
-											if(_this.jpzh_jrfs_code=='JRRZE'){
-												_this.jpzh_jrfs_name='计入融资额'
-											}else{
-												_this.jpzh_jrfs_name='计入首期款'
-											}
-										}else if(array[i].O_OTHER_NAME=='车船税'){
-											_this.CCS_PRICE=array[i].O_OTHER_MONEY
-											_this.ccs_jrfs_code=array[i].O_TYPE_MONEY
-											if(_this.ccs_jrfs_code=='JRRZE'){
-												_this.ccs_jrfs_name='计入融资额'
-											}else{
-												_this.ccs_jrfs_name='计入首期款'
-											}
-										}else if(array[i].O_OTHER_NAME=='上海牌照费'){
-											_this.SH_MONEY=array[i].O_OTHER_MONEY
-											_this.sh_jrfs_code=array[i].O_TYPE_MONEY
-											if(_this.sh_jrfs_code=='JRRZE'){
-												_this.sh_jrfs_name='计入融资额'
-											}else{
-												_this.sh_jrfs_name='计入首期款'
-											}
-										}else if(array[i].O_OTHER_NAME=='GPS费'){
-											_this.GPS_MONEY=array[i].O_OTHER_MONEY
-											_this.gps_jrfs_code=array[i].O_TYPE_MONEY
-											if(_this.gps_jrfs_code=='JRRZE'){
-												_this.gps_jrfs_name='计入融资额'
-											}else{
-												_this.gps_jrfs_name='计入首期款'
-											}
-										}
-									}
-									_this.changRze() //其他费用 计算合同总计
-									_this.initData()
-									_this.checkDate()
-									_this.getSchemeList()
-								}
+								_this.platform_list=data.PLATFORMS
 								summer.hideProgress()
 							},function(err){
 								console.log("err",JSON.stringify(err))
 								summer.hideProgress()
 							})
-						}
-					},
-					getSchemeList:function(){
-						var _this=this
-						summer.showProgress();
-						console.log(JSON.stringify({
-							PROJECT_ID:_this.prjId,
-							POLICY_TYPE:_this.SCHEME_TYPE
-						}))
-						ajaxRequest({
-							type:'POST',
-							url:"offer/getSchList",
-							param:{
-								PROJECT_ID:_this.prjId,
-								POLICY_TYPE:_this.SCHEME_TYPE
-							}
-						},function(res){
-							console.log("getSchList",JSON.stringify(res));
-							summer.hideProgress()
-							if(res.data.flag==0){summer.toast({msg: res.data.msg})}
-							_this.scheme_name_list=res.data.datas.SCHEME_LIST //方案类型字典
-						},function(err){
-							console.log("err",JSON.stringify(err))
-							summer.hideProgress()
-						})
 					},
 					pickerFlagChange:function(picker,values){
 						this.pickingObj=values[0]
 					},
 					pickerFlag:function(val,status){
-            if(val&&(val!='schemeType' && val!='schemeName')&& !this.SCHEME_NAME){
+						if(!this.EQU_MONEY_ALL){
+							summer.toast({msg:'请先输入实际成交价'})
+              return
+						}
+            if(val&&(val!='schemeType' && val!='schemeName'&&val!='platform')&& !this.SCHEME_NAME){
               summer.toast({msg:'请先选择商务政策'})
               return
             }
 						if(!status){  // 打开/取消
 							this.currentName=val
-							if(val=='schemeType'){
+							if(val=='platform'){
+								this.pickerFlagList[0].values=this.platform_list
+							}else if(val=='schemeType'){
+								if(!this.PLATFORM){
+									summer.toast({msg:'请先选择业务类型'})
+		              return
+								}
 								this.pickerFlagList[0].values=this.scheme_type_list
 							}else if(val=='schemeName'){
 								if(!this.SCHEME_TYPE){
@@ -1055,9 +905,33 @@
 								return
 							}
 							this.isTest=false
-							if(this.currentName=='schemeType'){
+							if(this.currentName=='platform'){
+								this.PLATFORM=this.pickingObj.FLAG
+								this.PLATFORM_ID=this.pickingObj.CODE
+							}else if(this.currentName=='schemeType'){
 								this.SCHEME_TYPE=this.pickingObj.FLAG
-								this.getSchemeList()
+								var _this=this
+								summer.showProgress();
+								console.log(JSON.stringify({
+									PROJECT_ID:_this.prjId,
+									POLICY_TYPE:_this.SCHEME_TYPE
+								}))
+								ajaxRequest({
+									type:'POST',
+									url:"offer/getSchList",
+									param:{
+										PLATFORM:_this.PLATFORM,
+										POLICY_TYPE:_this.SCHEME_TYPE
+									}
+								},function(res){
+									console.log("getSchList",JSON.stringify(res));
+									summer.hideProgress()
+									if(res.data.flag==0){summer.toast({msg: res.data.msg})}
+									_this.scheme_name_list=res.data.datas.SCHEME_LIST //方案类型字典
+								},function(err){
+									console.log("err",JSON.stringify(err))
+									summer.hideProgress()
+								})
 							}else if(this.currentName=='schemeName'){
 								this.isTest=false  // 需要重新测算
 								this.SCHEME_NAME=this.pickingObj.FLAG
@@ -1457,7 +1331,7 @@
 						}
 					},
 					checkVal:function(val){
-            if(!this.SCHEME_NAME){
+            if(!this.SCHEME_NAME&&val!='carMoney'){
               summer.toast({msg:'请先选择商务政策'})
               return
             }
@@ -1716,6 +1590,7 @@
 							return
 						}
 						var param={
+							PLATFORM:this.PLATFORM_ID,
 							POLICY:this.SCHEME_NAME_ID,   //方案编号
 							LEASE_TERM:this.LEASE_TERM,   //期数
 							LEASE_COURSE:this.LEASE_COURSE_ID,  //租赁周期
@@ -1873,103 +1748,9 @@
 						},function(err){
 							console.log("err",err);
 						})
-					},
-					save:function(){
-						var _this=this
-						if(!this.isTest){
-							summer.toast({msg:'请先测算报价'})
-							return
-						}
-						summer.showProgress();
-						var param={
-							PROJECT_ID:this.prjId, //
-							POLICY:this.SCHEME_NAME_ID,   //方案编号
-							LEASE_TERM:this.LEASE_TERM,   //期数
-							LEASE_COURSE:this.LEASE_COURSE_ID,  //租赁周期
-							LLPZ:this.LLPZ_ID,  //利率配置
-							YEAR_INTEREST:String(this.YEAR_INTEREST), //年利率
-							PAY_WAY:this.PAY_WAY_ID,  //支付方式
-							PREMIUMS:this.TX_ID,  //贴息
-							RPZSF:this.RPZSF_ID,  //融牌照收费
-							QUOTA:this.SFXYZB_ID,  //牌照指标
-							BXNX:this.BXNX_ID,  // 保险年限
-							CCSNX:this.CCSNX_ID, //车船税年限
-							FKGZ:this.FKGZ_ID,  //放款方式
-							TQGH:this.TQGH_ID,  //提前过户
-							QMCLFS:this.QMCLFS_ID, //期满处理方式
-							GPSAZ:this.GPSAZ_ID,  //GPS安装
-							SFLYS:this.SFLYS_ID,  //是否留钥匙
-							EQU_MONEY_ALL:this.EQU_MONEY_ALL, //设备金额
-							LEASE_TOPRIC:this.LEASE_TOPRIC,  //总额
-							HEAD_HIRE:this.HEAD_HIRE,   //	首期租金
-							HIRE_PERCENT:this.HIRE_PERCENT, //首付比例
-							FINAL_FEE:this.FINAL_FEE,  //尾款
-							FINAL_RATE:this.FINAL_RATE,  //尾款比列
-							SXF:this.SXF,           //手续费
-							SXF_RATE:this.SXF_RATE, //手续费比列
-							TOPRIC_SUBFIRENT:this.TOPRIC_SUBFIRENT, //融资额
-							LEASE_BAIL:this.LEASE_BAIL, //保证金
-							BAIL_PERCENT:this.BAIL_PERCENT, //保证金比列
-							BZJCLFS:this.BZJCLFS_ID, //保证金处理方式
-							other:[
-								{O_OTHER_NAME:'保险费',O_OTHER_MONEY:this.BXF_PRICE,O_TYPE_MONEY:this.bxf_jrfs_code,O_DED:this.BXF_DK},
-								{O_OTHER_NAME:'保养费',O_OTHER_MONEY:this.BYF_PRICE,O_TYPE_MONEY:this.byf_jrfs_code,O_DED:this.BYF_DK},
-								{O_OTHER_NAME:'购置税',O_OTHER_MONEY:this.BUY_TAX_PRICE,O_TYPE_MONEY:this.buy_tax_jrfs_code,O_DED:this.BUY_TAX_DK},
-								{O_OTHER_NAME:'上牌税',O_OTHER_MONEY:this.SJ_PRICE,O_TYPE_MONEY:this.sj_jrfs_code,O_DED:this.SJ_DK},
-								{O_OTHER_NAME:'精品装潢',O_OTHER_MONEY:this.JPZH_PRICE,O_TYPE_MONEY:this.jpzh_jrfs_code,O_DED:this.JPZH_DK},
-								{O_OTHER_NAME:'车船税',O_OTHER_MONEY:this.CCS_PRICE,O_TYPE_MONEY:this.ccs_jrfs_code,O_DED:this.CCS_DK},
-								{O_OTHER_NAME:'上海牌照费',O_OTHER_MONEY:this.SH_MONEY,O_TYPE_MONEY:this.sh_jrfs_code,O_DED:this.SH_DK},
-								{O_OTHER_NAME:'GPS费',O_OTHER_MONEY:this.GPS_MONEY,O_TYPE_MONEY:this.gps_jrfs_code,O_DED:'KDK'}
-							],
-							FIRST_RENT:this.totleFirstM,
-							MONTH_PRICE:this.MONTH_PRICE,
-							POLICY_TYPE:this.SCHEME_TYPE
-						}
-						if(this.TX !='无'){
-							param.PREMIUMS_M=this.TX_M
-							if(!this.TX_M){
-								summer.toast({msg:'贴息金额不能为空'})
-								return
-							}
-						}
-						if(this.TQGH !='否'){
-							param.GHTIME=this.GHTIME
-							if(!this.GHTIME){
-								summer.toast({msg:'过户期数不能为空'})
-								return
-							}
-						}
-						console.log(JSON.stringify(param));
-						ajaxRequest({
-							type:'POST',
-							url:'offer/saveProjectScheme',
-							param:param
-						},function(res){
-							console.log("save--res",JSON.stringify(res));
-							summer.hideProgress();
-							if(res.data.flag=="1"){
-								summer.toast({msg:"保存成功"});
-								summer.execScript({
-									winId: "setProject",
-									script: "addRight('price')"
-								});
-								summer.closeToWin({id:'setProject'})
-							}else{
-								summer.toast({
-									msg:res.data.msg
-								});
-								return;
-							}
-
-						},function(err){
-							console.log("err",err);
-						})
 					}
 				}
 			})
-			function save(){
-				quotedVue.save()
-			}
 		</script>
   </body>
 </html>
