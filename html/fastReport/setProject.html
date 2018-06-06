@@ -211,6 +211,7 @@
 	<script src="../../js/common.js"></script>
 	<script>
 		summerready = function() {
+            setProgect.CSTATUS = summer.pageParam.CSTATUS ? summer.pageParam.CSTATUS : "";
             setProgect.SCHEME_ID = summer.pageParam.SCHEME_ID ? summer.pageParam.SCHEME_ID : "";
 			var sourceId = summer.pageParam.source;
             setProgect.sourceFrom = sourceId;
@@ -242,7 +243,8 @@
 						address: '',
 						phone: '',
 						phoneAddress: ''
-					},
+                    },
+                    CSTATUS: "", // 客户状态 CSTATUS=1 为正式客户 CSTATUS=0为意向客户
 					baseMessageData: "",
                     customId: "",
                     USER_ID: "",
@@ -857,6 +859,7 @@
             var clintId = setProgect.customId;
             var type = setProgect.type;
             var USER_ID = setProgect.USER_ID;
+            var CSTATUS = setProgect.CSTATUS;
 			summer.openWin({
 				id: 'newCreateCustom',
 				url: 'html/fastReport/newCreateCustom.html',
@@ -884,7 +887,8 @@
                     clintId: clintId,
                     type: type,
                     USER_ID: USER_ID,
-					sourceFrom:"setProject"
+                    sourceFrom:"setProject",
+                    CSTATUS: CSTATUS
 				}
 			});
 		}

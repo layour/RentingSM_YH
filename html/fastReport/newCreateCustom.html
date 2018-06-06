@@ -135,7 +135,8 @@
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
                 <span class="um-bf1">姓名</span>
-                <input placeholder="请输入姓名" v-model="message.CR_BECR_NAME" type="text">
+                <input v-if="CSTATUS==0" placeholder="请输入姓名" v-model="message.CR_BECR_NAME" type="text">
+                <span v-else class="um-bf3 tr">{{message.CR_BECR_NAME}}</span>
             </div>
             <div @click="surePickerZJType" class="item">
                 <p class="pl10 pr10  um-box">
@@ -151,7 +152,8 @@
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
                 <span class="um-bf1">证件号码</span>
-                <input placeholder="请输入证件号码" v-model="message.CR_NATU_IDCARD" type="text">
+                <input v-if="CSTATUS==0" placeholder="请输入证件号码" v-model="message.CR_NATU_IDCARD" type="text">
+                <span v-else class="um-bf3 tr">{{message.CR_NATU_IDCARD}}</span>
             </div>
             <div @click="surePickerKehuType" class="item">
                 <p class="pl10 pr10  um-box">
@@ -167,7 +169,8 @@
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
                 <span class="um-bf1">手机号码</span>
-                <input placeholder="请输入手机号码" v-model="message.CR_NATU_MOBILE" type="number">
+                <input v-if="CSTATUS==0" placeholder="请输入手机号码" v-model="message.CR_NATU_MOBILE" type="number">
+                <span v-else class="um-bf3 tr">{{message.CR_NATU_MOBILE}}</span>
             </div>
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
@@ -714,7 +717,9 @@
                     // 客户类型
                     CR_BECR_TYPE: "",
                     // 登陆人ID（EMPLOYEE_ID）
-                    USER_ID: ""
+                    USER_ID: "",
+                    // 客户状态 CSTATUS=1 为正式客户 CSTATUS=0为意向客户
+                    CSTATUS: ""
                 }
             },
             methods: {
@@ -1615,6 +1620,8 @@
             var clintId = summer.pageParam.clintId;
             var isAdd = summer.pageParam.isAdd;
             newCreateCustom.isAdd = isAdd;
+            var CSTATUS = summer.pageParam.CSTATUS;
+            newCreateCustom.CSTATUS = CSTATUS;
             var sourceFrom = summer.pageParam.sourceFrom;
             newCreateCustom.sourceFrom = sourceFrom;
             newCreateCustom.clintId = clintId;
@@ -1633,6 +1640,8 @@
                 newCreateCustom.message.CR_NATU_SEX = customBaseMessage.sex;
                 // 出生日期
                 newCreateCustom.message.CR_BIRTH_DATE = customBaseMessage.birth;
+                // 客户状态 CSTATUS=1 为正式客户 CSTATUS=0为意向客户
+                newCreateCustom.CSTATUS = 0;
             }
             // 获取信息
             newCreateCustom.getData(projectId, newCreateCustom.clintId, newCreateCustom.CR_BECR_TYPE);
