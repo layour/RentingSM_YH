@@ -15,8 +15,8 @@
     <div class="um-win" id="payTableDetail" v-cloak>
         <div class="um-content payTableDetail">
             <ul>
-                <li v-for="(item,index) in list" :key="index" @click="goInfo(item.PAY_CODE)">支付表号
-                    <span class="fr">{{item.PAY_CODE}}</span>
+                <li v-for="(item,index) in list" :key="index" @click="goInfo(item.PAYLIST_CODE)">支付表号
+                    <span class="fr">{{item.PAYLIST_CODE}}</span>
                 </li>
             </ul>
 
@@ -31,14 +31,14 @@
     <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
     <script>
         summerready = function () {
-            payTableDetailVue.RENTER_CODE = summer.pageParam.RENTER_CODE;
-            payTableDetailVue.getData();
+            statementDetailList.PAYLIST_CODE = summer.pageParam.PAYLIST_CODE;
+            statementDetailList.getData();
         }
-        var payTableDetailVue = new Vue({
+        var statementDetailList = new Vue({
             el: '#payTableDetail',
             data: function () {
                 return {
-                    RENTER_CODE: '',
+                    PAYLIST_CODE: '',
                     list: []
                 }
             },
@@ -48,30 +48,30 @@
                     summer.showProgress();
                     ajaxRequest({
                         type: "POST",
-                        url: 'riskTracking/queryOverdueDetails',
+                        url: 'custaccdetail/custaccdetail',
                         param: {
-                            RENTER_CODE: _this.RENTER_CODE
+                            PAYLIST_CODE: _this.PAYLIST_CODE
                         }
                     }, function (res) {
                         summer.hideProgress();
-                        _this.list = res.data.datas.overdueDetailsList;
+                        _this.list = res.data.datas.custaccdetail;
                     }, function (err) {
                         summer.hideProgress();
                         console.log(err);
                     })
                 },
-                goInfo: function (PAY_CODE) {
+                goInfo: function (PAYLIST_CODE) {
                     summer.openWin({
-                        id: 'payTableDetail',
-                        url: 'html/riskTracking/riskTrackingMoneyInfo.html',
+                        id: 'statementDetail',
+                        url: 'html/statement/statementDetail.html',
                         create: false,
                         type: 'actionBar',
                         pageParam: {
                             list: this.list,
-                            PAY_CODE: PAY_CODE
+                            PAYLIST_CODE: PAYLIST_CODE
                         },
                         actionBar: {
-                            title: "逾期催收明细",
+                            title: "对账单明细",
                             titleColor: "#ffffff",
                             backgroundColor: "#039BE5",
                             leftItem: {
