@@ -235,6 +235,7 @@
 				summerready=function(){
           vueTemplate.CUSTOMER_ID = summer.pageParam.CUSTOMER_ID;
 					vueTemplate.ID=summer.pageParam.ID
+					console.log('收到的参数'+JSON.stringify(summer.pageParam))
 					if(vueTemplate.ID){
 						var item=summer.pageParam
 						vueTemplate.NAME=item.NAME
@@ -242,6 +243,7 @@
 						vueTemplate.INFOR_TYPE_NAME=item.INFOR_TYPE_NAME
 						vueTemplate.INFOR_TYPE=item.INFOR_TYPE
 						vueTemplate.CARD_FLAG=item.CARD_FLAG
+						vueTemplate.CARD_FLAG_NAME=item.CARD_FLAG_NAME
 						vueTemplate.ADDRESS=item.ADDRESS
 						vueTemplate.CARD_ID=item.CARD_ID
 						vueTemplate.EMAIL=item.EMAIL
@@ -264,6 +266,7 @@
 							INFOR_TYPE:'',
 							INFOR_TYPE_NAME:'',
 							CARD_FLAG: '',
+							CARD_CODE:'',
 							CUSTOMER_ID:'', //客户id
 							TELEPHONE:'',
 							CARD_ID:'', //身份证号码
@@ -331,6 +334,7 @@
 							if (param == 'confirm') {
 								if(this.currentTarget == 'sex'){
 									this.CARD_FLAG = this.pickedValues.FLAG;
+									this.CARD_CODE = this.pickedValues.CODE
 								}else if(this.currentTarget == 'guanXi'){
 									this.INFOR_TYPE_NAME = this.pickedValues.FLAG;
 									this.INFOR_TYPE = this.pickedValues.CODE;
@@ -358,13 +362,25 @@
 							}
 							var _this=this;
 							summer.showProgress()
+							console.log(JSON.stringify({
+								CUSTOMER_ID:this.CUSTOMER_ID,
+								ID:this.ID,
+								INFOR_TYPE:this.INFOR_TYPE,
+								NAME:this.NAME,
+								PHONE1:this.PHONE1,
+								CARD_FLAG:this.CARD_CODE,
+								CARD_ID:this.CARD_ID,
+								ADDRESS:this.ADDRESS,
+								POSTCODE:this.POSTCODE,
+								TELEPHONE:this.TELEPHONE,
+								EMAIL:this.EMAIL
+							}))
 							ajaxRequest({
 									type:'post',
 									url:'customer/addCustLinkMan',
 									param:{
 										CUSTOMER_ID:this.CUSTOMER_ID,
 										ID:this.ID,
-										INFOR_TYPE_NAME:this.INFOR_TYPE_NAME,
 										INFOR_TYPE:this.INFOR_TYPE,
 										NAME:this.NAME,
 										PHONE1:this.PHONE1,

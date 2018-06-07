@@ -174,7 +174,7 @@
 		      </div>
 					<ul>
 						<li v-for="(item,index) in addContactList" :key='index' @click="lookDetail(item)">
-							<mt-cell-swipe :title="item.NAME" :label="item.TELEPHONE" :right="[{content: '&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'1.76rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index)}}]">
+							<mt-cell-swipe :title="item.TELEPHONE" :label="item.ADDRESS" :right="[{content: '&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'1.76rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index)}}]">
 								<div  class="fr one inDiv">
 									<!-- <a href=""><i class="icon iconfont icon-call"></i></a> -->
 									{{item.INFOR_TYPE_NAME}}
@@ -214,9 +214,10 @@
           },
 					methods:{
 						lookDetail:function(item){
+							console.log('send',JSON.stringify(item))
 							summer.openWin({
-								id: 'emergencyContractDetail',
-								url: "html/fastReport/addEmergencyDetail.html",
+								id: 'addTerm',
+								url: "html/corporation/termDetail.html",
 								create: false,
 								type: 'actionBar',
 								pageParam: {
@@ -226,6 +227,7 @@
 									INFOR_TYPE_NAME:item.INFOR_TYPE_NAME,
 									NAME:item.NAME,
 									CARD_FLAG:item.CARD_FLAG,
+									CARD_FLAG_NAME:item.CARD_FLAG_NAME,
 									CARD_ID:item.CARD_ID,
 									TELEPHONE:item.TELEPHONE,
 									POSTCODE:item.POSTCODE,
