@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
+    <link rel="stylesheet" href="../payTableQuery/index.min.css">
+</head>
+
+<body>
+    <div class="um-win" id="payTableDetail" v-cloak>
+        <div class="um-content payTableDetail">
+            <ul>
+                <li>承租人
+                    <span class="fr">{{showData[0] ? showData[0].RENTER_NAME : ""}}</span>
+                </li>
+                <li>支付表号
+                    <span class="fr">{{showData[0] ? showData[0].PAY_CODE : ""}}</span>
+                </li>
+                <li>联系人
+                    <span class="fr">{{showData[0] ? showData[0].LINKMAN : ""}}</span>
+                </li>
+                <li>联系电话
+                    <span class="fr">{{showData[0] ? showData[0].LINKMAN_PHONE : ""}}</span>
+                </li>
+                <li>已收金额
+                    <span class="fr">{{showData[0] ? showData[0].BEGINNING_PAID : ""}}</span>
+                </li>
+                <li>逾期日期
+                    <span class="fr">{{showData[0] ? showData[0].DUN_DATE : ""}}</span>
+                </li>
+                <li>逾期金额
+                    <span class="fr">{{showData[0] ? showData[0].CURR_OVERDUN_PRICE : ""}}</span>
+                </li>
+                <li>罚息金额
+                    <span class="fr">{{showData[0] ? showData[0].SUM_FINE : ""}}</span>
+                </li>
+                <li>应收金额
+                    <span class="fr">{{showData[0] ? showData[0].CURR_SUM_MONEY : ""}}</span>
+                </li>
+                <li>残值金额
+                    <span class="fr">{{showData[0] ? showData[0].SALVAGEMONEY : ""}}</span>
+                </li>
+                <li>拖车状态
+                    <span class="fr">{{showData[0] ? showData[0].TC : ""}}</span>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script>
+        summerready = function () {
+            payTableDetailInfoVue.list = summer.pageParam.list;
+            payTableDetailInfoVue.PAY_CODE = summer.pageParam.PAY_CODE;
+            payTableDetailInfoVue.dataFilter();
+        }
+        var payTableDetailInfoVue = new Vue({
+            el: '#payTableDetail',
+            data: function () {
+                return {
+                    PAY_CODE: '',
+                    list: [],
+                    showData: []
+                }
+            },
+            methods: {
+                dataFilter: function () {
+                    var self = this;
+                    this.showData = this.list.filter(function (e) {
+                        return e.PAY_CODE == self.PAY_CODE;
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
