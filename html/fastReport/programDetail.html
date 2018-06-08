@@ -161,7 +161,6 @@
             <div class="Artical">
                 <div class="base  active">
                     <div class="list listContent">
-
                         <p class="title">基本信息</p>
                         <p class="pl10 pr10">项目名称
                             <span class="fr">{{ projectinfo.PROJECT_NAME ? projectinfo.PROJECT_NAME : "" }}</span>
@@ -170,7 +169,7 @@
                             <span class="fr">{{ clientInfo.PHONE ? clientInfo.PHONE : "" }}</span>
                         </p>
                         <p class="pl10 pr10">区域
-                            <span class="fr">{{ projectinfo.LARGE_AREA ? projectinfo.LARGE_AREA : "" }}</span>
+                            <span class="fr">{{ projectinfo.AREA1 ? projectinfo.AREA1 : "" }}</span>
                         </p>
                         <p class="pl10 pr10">业务类型
                             <span class="fr">{{ projectinfo.PLATFORM ? projectinfo.PLATFORM : "" }}</span>
@@ -203,22 +202,22 @@
                             <span class="fr">{{ equiList.MODEL_SPEC ? equiList.MODEL_SPEC : "" }}</span>
                         </p>
                         <p class="pl10 pr10">指导价
-                            <span class="fr">{{ equiList.UNIT_PRICE_ZD ? equiList.UNIT_PRICE_ZD : "" }}</span>
+                            <span class="fr">{{ equiList.UNIT_PRICE_ZD ? '&yen;'+equiList.UNIT_PRICE_ZD : "" }}</span>
                         </p>
                         <p class="pl10 pr10">零售价
-                            <span class="fr">{{ equiList.UNIT_PRICE ? equiList.UNIT_PRICE : "" }}</span>
+                            <span class="fr">{{ equiList.UNIT_PRICE ? '&yen;'+equiList.UNIT_PRICE : "" }}</span>
                         </p>
                         <p class="pl10 pr10">数量（台）
                             <span class="fr">{{ equiList.AMOUNT ? equiList.AMOUNT : "" }}</span>
                         </p>
                         <p class="pl10 pr10">留购价
-                            <span class="fr">{{ equiList.STAYBUY_PRICE ? equiList.STAYBUY_PRICE : "" }}</span>
+                            <span class="fr">{{ equiList.STAYBUY_PRICE ? '&yen;'+equiList.STAYBUY_PRICE : "" }}</span>
                         </p>
                         <p class="pl10 pr10">保险
-                            <span class="fr">{{ equiList.E_BX_M ? equiList.E_BX_M : "" }}</span>
+                            <span class="fr">{{ equiList.E_BX_M ? '&yen;'+equiList.E_BX_M : "" }}</span>
                         </p>
                         <p class="pl10 pr10">车船税
-                            <span class="fr">{{ equiList.E_CCS_M ? equiList.E_CCS_M : "" }}</span>
+                            <span class="fr">{{ equiList.E_CCS_M ? '&yen;'+equiList.E_CCS_M : "" }}</span>
                         </p>
                     </div>
                     <div class="list listContent">
@@ -232,23 +231,20 @@
                         <p class="pl10 pr10">租赁周期
                             <span class="fr">{{ schemeInfo.LEASE_COURSE_NM ? schemeInfo.LEASE_COURSE_NM : "" }}</span>
                         </p>
-                        <p class="pl10 pr10">年限
-                            <span class="fr">{{  }}</span>
-                        </p>
                         <p class="pl10 pr10">租赁年利率(%)
                             <span class="fr">{{ schemeInfo.YEAR_INTEREST ? schemeInfo.YEAR_INTEREST : "" }}</span>
                         </p>
                         <p class="pl10 pr10">支付方式
                             <span class="fr">{{ schemeInfo.PAY_WAY_NM ? schemeInfo.PAY_WAY_NM : "" }}</span>
                         </p>
-                        <p class="pl10 pr10">贴息金额
-                            <span class="fr">{{ schemeInfo.PREMIUMS_M ? schemeInfo.PREMIUMS_M : "" }}</span>
+                        <p class="pl10 pr10">贴息方式
+                            <span class="fr">{{ schemeInfo.PREMIUMS_NM ? schemeInfo.PREMIUMS_NM : "" }}</span>
                         </p>
-                        <p class="pl10 pr10">牌照指标
-                            <span class="fr">{{ schemeInfo.RPZSF_NM ? schemeInfo.RPZSF_NM : "" }}</span>
+                        <p class="pl10 pr10">贴息金额
+                            <span class="fr">{{ schemeInfo.PREMIUMS_M ? '&yen;'+schemeInfo.PREMIUMS_M : "" }}</span>
                         </p>
                         <p class="pl10 pr10">融牌照收费
-                            <span class="fr">{{  }}</span>
+                            <span class="fr">{{ schemeInfo.RPZSF_NM ? schemeInfo.RPZSF_NM : "" }}</span>
                         </p>
                         <p class="pl10 pr10">保险年限
                             <span class="fr">{{ schemeInfo.BXNX_NM ? schemeInfo.BXNX_NM : "" }}</span>
@@ -259,7 +255,7 @@
                         <p class="pl10 pr10">放款方式
                             <span class="fr">{{ schemeInfo.FKGZ_NM ? schemeInfo.FKGZ_NM : "" }}</span>
                         </p>
-                        <p class="pl10 pr10">保证金处理
+                        <p class="pl10 pr10">保证金处理方式
                             <span class="fr">{{ schemeInfo.BZJCLFS_NM ? schemeInfo.BZJCLFS_NM : "" }}</span>
                         </p>
                         <p class="pl10 pr10">提前过户
@@ -272,22 +268,34 @@
                             <span class="fr">{{ schemeInfo.SFLYS_NM ? schemeInfo.SFLYS_NM : "" }}</span>
                         </p>
                         <p class="pl10 pr10">实际成交价
-                            <span class="fr">{{ schemeInfo.EQU_MONEY_ALL ? schemeInfo.EQU_MONEY_ALL : "" }}</span>
+                            <span class="fr">{{ schemeInfo.EQU_MONEY_ALL ? '&yen;'+schemeInfo.EQU_MONEY_ALL : "" }}</span>
                         </p>
                         <p class="pl10 pr10">合同总计
-                            <span class="fr">{{ schemeInfo.LEASE_TOPRIC ? schemeInfo.LEASE_TOPRIC : "" }}</span>
+                            <span class="fr">{{ schemeInfo.LEASE_TOPRIC ? '&yen;'+schemeInfo.LEASE_TOPRIC : "" }}</span>
                         </p>
-                        <p class="pl10 pr10">首付
-                            <span class="fr">{{  }}</span>
+                        <p class="pl10 pr10">首付款
+                            <span class="fr">
+                                {{ schemeInfo.HIRE_PERCENT ? schemeInfo.HIRE_PERCENT : "" }}&nbsp;&nbsp;
+                                {{ schemeInfo.HEAD_HIRE ? '&yen;'+schemeInfo.HEAD_HIRE : "" }}
+                            </span>
                         </p>
                         <p class="pl10 pr10">保证金
-                            <span class="fr">{{ schemeInfo.LEASE_BAIL ? schemeInfo.LEASE_BAIL : "" }}</span>
+                            <span class="fr">
+                                {{ schemeInfo.BAIL_PERCENT ? schemeInfo.BAIL_PERCENT : "" }}&nbsp;&nbsp;
+                                {{ schemeInfo.LEASE_BAIL ? '&yen;'+schemeInfo.LEASE_BAIL : "" }}
+                            </span>
                         </p>
                         <p class="pl10 pr10">尾款
-                            <span class="fr">{{ schemeInfo.FINAL_FEE ? schemeInfo.FINAL_FEE : "" }}</span>
+                            <span class="fr">
+                                {{ schemeInfo.FINAL_RATE ? schemeInfo.FINAL_RATE : "" }}&nbsp;&nbsp;
+                                {{ schemeInfo.FINAL_FEE ? '&yen;'+schemeInfo.FINAL_FEE : "" }}
+                            </span>
                         </p>
-                        <p class="pl10 pr10">手续费比率
-                            <span class="fr">{{ schemeInfo.SXF_RATE ? schemeInfo.SXF_RATE : "" }}</span>
+                        <p class="pl10 pr10">手续费
+                            <span class="fr">
+                                {{ schemeInfo.SXF_RATE ? schemeInfo.SXF_RATE : "" }}&nbsp;&nbsp;
+                                {{ schemeInfo.SXF ? '&yen;'+schemeInfo.SXF : "" }}
+                            </span>
                         </p>
                         <p class="pl10 pr10">期满处理方式
                             <span class="fr">{{ schemeInfo.QMCLFS_NM ? schemeInfo.QMCLFS_NM : "" }}</span>
@@ -296,20 +304,17 @@
                             <span class="fr">{{ schemeInfo.GPSAZ_NM ? schemeInfo.GPSAZ_NM : "" }}</span>
                         </p>
                         <p class="pl10 pr10">融资额
-                            <span class="fr">{{ schemeInfo.TOPRIC_SUBFIRENT ? schemeInfo.TOPRIC_SUBFIRENT : "" }}</span>
+                            <span class="fr">{{ schemeInfo.TOPRIC_SUBFIRENT ? '&yen;'+schemeInfo.TOPRIC_SUBFIRENT : "" }}</span>
                         </p>
-                        <p class="pl10 pr10">其他费用
-                            <span class="fr">{{  }}</span>
-                        </p>
-                        <p class="pl10 pr10">首期款
-                            <span class="fr">{{ schemeInfo.FIRST_RENT ? schemeInfo.FIRST_RENT : "" }}</span>
-                        </p>
-                        <p class="pl10 pr10">每期租金
-                            <span class="fr">{{  }}</span>
-                        </p>
-                        <p class="pl10 pr10">期数
-                            <span class="fr">{{ schemeInfo.LEASE_TERM ? schemeInfo.LEASE_TERM : "" }}</span>
-                        </p>
+                        <p class="title pl10">其他费用</p>
+                        <template v-for="(item, index) in otherFee">
+                            <p class="pl10 pr10">{{ item.O_OTHER_NAME ? item.O_OTHER_NAME : "" }}
+                                <span class="fr">
+                                    {{ item.O_OTHER_MONEY ? '&yen;'+item.O_OTHER_MONEY : ""}}&nbsp;&nbsp;
+                                    {{ item.O_TYPE_MONEY_NM ? item.O_TYPE_MONEY_NM : "" }}
+                                </span>
+                            </p>
+                        </template>
                     </div>
                 </div>
 
@@ -357,12 +362,14 @@
                 SCHEME_ID: "",
                 // 基本信息
                 projectinfo: {},
-                // 方案信息
+                // 商务政策信息
                 schemeInfo: {},
-                // 车辆信息
+                // 设备信息
                 equiList: {},
                 // 客户信息
-                clientInfo: {}
+                clientInfo: {},
+                // 其他费用（列表）
+                otherFee: []
             }
         },
         methods: {
@@ -373,6 +380,7 @@
                     type: 'post',
                     url: 'foundproject/projectBaseInfo',
                     param: {
+                        // "PROJECT_ID": "23223",
                         "PROJECT_ID": self.project_id,
                         "SCHEME_ID": self.SCHEME_ID,
                         "TYPE": self.type,
@@ -385,6 +393,7 @@
                         self.schemeInfo = res.data.datas.schemeInfo ? res.data.datas.schemeInfo : {};
                         self.equiList = res.data.datas.equiList ? res.data.datas.equiList : {};
                         self.clientInfo = res.data.datas.clientInfo ? res.data.datas.clientInfo : {};
+                        self.otherFee = res.data.datas.otherFee ? res.data.datas.otherFee : [];
                     } else {
                         summer.toast({
                             msg: "获取项目详情失败"

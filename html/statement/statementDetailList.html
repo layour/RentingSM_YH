@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
+    <link rel="stylesheet" href="../payTableQuery/index.min.css">
+</head>
+
+<body>
+    <div class="um-win" id="payTableDetail" v-cloak>
+        <div class="um-content payTableDetail">
+            <ul>
+                <li v-for="(item,index) in list" :key="index" @click="goInfo(item.PAYLIST_CODE)">支付表号
+                    <span class="fr">{{item.PAYLIST_CODE}}</span>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script>
+        summerready = function () {
+            statementDetailList.PAYLIST_CODE = summer.pageParam.PAYLIST_CODE;
+            statementDetailList.getData();
+        }
+        var statementDetailList = new Vue({
+            el: '#payTableDetail',
+            data: function () {
+                return {
+                    PAYLIST_CODE: '',
+                    list: []
+                }
+            },
+            methods: {
+                getData: function () {
+                    var _this = this;
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: "POST",
+                        url: 'custaccdetail/custaccdetail',
+                        param: {
+                            PAYLIST_CODE: _this.PAYLIST_CODE
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        _this.list = res.data.datas.custaccdetail;
+                    }, function (err) {
+                        summer.hideProgress();
+                        console.log(err);
+                    })
+                },
+                goInfo: function (PAYLIST_CODE) {
+                    summer.openWin({
+                        id: 'statementDetail',
+                        url: 'html/statement/statementDetail.html',
+                        create: false,
+                        type: 'actionBar',
+                        pageParam: {
+                            list: this.list,
+                            PAYLIST_CODE: PAYLIST_CODE
+                        },
+                        actionBar: {
+                            title: "对账单明细",
+                            titleColor: "#ffffff",
+                            backgroundColor: "#039BE5",
+                            leftItem: {
+                                image: "img/back.png",
+                                method: '',
+                                text: "返回",
+                                textColor: "#ffffff"
+                            }
+                        }
+                    })
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

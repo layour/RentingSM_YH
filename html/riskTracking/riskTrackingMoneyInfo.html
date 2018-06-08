@@ -12,68 +12,64 @@
 </head>
 
 <body>
-    <div class="um-win" id="payTableDetail">
+    <div class="um-win" id="payTableDetail" v-cloak>
         <div class="um-content payTableDetail">
             <ul>
-                <li class="title">
-                    <span></span>明细
+                <li>承租人
+                    <span class="fr">{{showData[0] ? showData[0].RENTER_NAME : ""}}</span>
                 </li>
-                <li>类型
-                    <span class="fr">{{}}</span>
+                <li>支付表号
+                    <span class="fr">{{showData[0] ? showData[0].PAY_CODE : ""}}</span>
                 </li>
-                <li>期数
-                    <span class="fr">{{showData[0] ? showData[0].BEGINNING_NUM : ""}}</span>
+                <li>联系人
+                    <span class="fr">{{showData[0] ? showData[0].LINKMAN : ""}}</span>
                 </li>
-                <li>应还款时间
-                    <span class="fr">{{}}</span>
+                <li>联系电话
+                    <span class="fr">{{showData[0] ? showData[0].LINKMAN_PHONE : ""}}</span>
                 </li>
-                <li>应还款金额（元）
-                    <span class="fr">{{showData[0] ? showData[0].BEGINNING_MONEY : ""}}</span>
-                </li>
-                <li>实收金额（元）
+                <li>已收金额
                     <span class="fr">{{showData[0] ? showData[0].BEGINNING_PAID : ""}}</span>
                 </li>
-            </ul>
-            <ul>
-                <li class="title">
-                    <span></span>合计
+                <li>逾期日期
+                    <span class="fr">{{showData[0] ? showData[0].DUN_DATE : ""}}</span>
                 </li>
-                <li>应收租金总额（元）
-                    <span class="fr">{{}}</span>
+                <li>逾期金额
+                    <span class="fr">{{showData[0] ? showData[0].CURR_OVERDUN_PRICE : ""}}</span>
                 </li>
-                <li>实收租金总额（元）
-                    <span class="fr">{{}}</span>
+                <li>罚息金额
+                    <span class="fr">{{showData[0] ? showData[0].SUM_FINE : ""}}</span>
                 </li>
-                <li>总罚息金额（元）
-                    <span class="fr">{{}}</span>
+                <li>应收金额
+                    <span class="fr">{{showData[0] ? showData[0].CURR_SUM_MONEY : ""}}</span>
                 </li>
-                <li>实付罚息金额（元）
-                    <span class="fr">{{}}</span>
+                <li>残值金额
+                    <span class="fr">{{showData[0] ? showData[0].SALVAGEMONEY : ""}}</span>
                 </li>
-                <li>减免罚息金额（元）
-                    <span class="fr">{{}}</span>
+                <li>拖车状态
+                    <span class="fr">{{showData[0] ? showData[0].TC : ""}}</span>
                 </li>
             </ul>
+
         </div>
+
     </div>
     <script src="../../js/summer.js"></script>
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/font.js"></script>
     <script src="../../js/vue.js"></script>
-    <script src="../../js/mint.js"></script>
     <script src="../../js/common.js"></script>
     <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
     <script>
         summerready = function () {
-            payTableDetailVue.PAYLIST_CODE = summer.pageParam.PAYLIST_CODE;
-            payTableDetailVue.list = summer.pageParam.list;
-            payTableDetailVue.dataFilter();
+            payTableDetailInfoVue.list = summer.pageParam.list;
+            payTableDetailInfoVue.PAY_CODE = summer.pageParam.PAY_CODE;
+            payTableDetailInfoVue.dataFilter();
         }
-        var payTableDetailVue = new Vue({
+        var payTableDetailInfoVue = new Vue({
             el: '#payTableDetail',
             data: function () {
                 return {
-                    PAYLIST_CODE: '',
+                    PAY_CODE: '',
                     list: [],
                     showData: []
                 }
@@ -82,7 +78,7 @@
                 dataFilter: function () {
                     var self = this;
                     this.showData = this.list.filter(function (e) {
-                        return e.PAYLIST_CODE == self.PAYLIST_CODE;
+                        return e.PAY_CODE == self.PAY_CODE;
                     });
                 }
             }
