@@ -106,7 +106,7 @@
 							<img v-if="item.filePath" :src="item.filePath" alt="">
 							<i v-else class="icon iconfont icon-add"></i>
 						</div>
-						<img class="close" @click="deleteOld(item.ID,index)" src="../../img/close.png" alt="">
+						<img class="close" @click="deleteOld(item.ID, index)" src="../../img/close.png" alt="">
 						<p>{{param.name}}</p>
 					</li>
 					<li v-for="(item,index) in imgList" :key="index">
@@ -203,52 +203,92 @@
 					})
 				},
 				getData:function() {
-					var _this = this;
-					ajaxRequest({
-						type: 'post',
-						url: 'business/getCoreFileByProject',
-						param: {
-							PROJECT_ID: _this.param.projectId,
-							tableName: 'PRJ_BSC_INFO',
-							REMARK: _this.param.name
-						}
-					}, function (res) {
-						console.log(JSON.stringify(res));
-						if (res.data.datas.list.length > 0) {
-							_this.oldImgList = res.data.datas.list
-							for (var i = 0; i < _this.oldImgList.length; i++) {
-								_this.oldImgList[i].filePath = window.G_COMMON_URL + "business/downloadCoreFiles?PATH=" + _this.oldImgList[i].FILE_URL
-							}
-						}
-						// if (res.data.datas.length > 0 && res.data.datas[0].name == '面签视频材料') {
-						// 	_this.videoUrl = 'oldVideo'
-						// }
-					}, function (err) {
-						alert(JSON.stringify(err));
-					})
+                    var _this = this;
+                    if (this.param.TPM_BUSINESS_PLATE && this.param.TPM_BUSINESS_PLATE == 'repay') {
+                        // 获取付款材料
+                        ajaxRequest({
+                            type: 'post',
+                            url: 'payment/getPayFile',
+                            param: {
+                                PAYMENT_ID: _this.param.ID,
+                                REMARK: _this.param.name
+                            }
+                        }, function (res) {
+                            if (res.data.datas.fileList.length > 0) {
+                                _this.oldImgList = res.data.datas.fileList;
+                                for (var i = 0; i < _this.oldImgList.length; i++) {
+                                    _this.oldImgList[i].filePath = window.G_COMMON_URL + "business/downloadCoreFiles?PATH=" + _this.oldImgList[i].FILE_PATH;
+                                }
+                            }
+                        }, function (err) {
+                            alert(JSON.stringify(err));
+                        })
+                    } else {
+                        ajaxRequest({
+                            type: 'post',
+                            url: 'business/getCoreFileByProject',
+                            param: {
+                                PROJECT_ID: _this.param.projectId,
+                                tableName: 'PRJ_BSC_INFO',
+                                REMARK: _this.param.name
+                            }
+                        }, function (res) {
+                            console.log(JSON.stringify(res));
+                            if (res.data.datas.list.length > 0) {
+                                _this.oldImgList = res.data.datas.list
+                                for (var i = 0; i < _this.oldImgList.length; i++) {
+                                    _this.oldImgList[i].filePath = window.G_COMMON_URL + "business/downloadCoreFiles?PATH=" + _this.oldImgList[i].FILE_URL
+                                }
+                            }
+                            // if (res.data.datas.length > 0 && res.data.datas[0].name == '面签视频材料') {
+                            // 	_this.videoUrl = 'oldVideo'
+                            // }
+                        }, function (err) {
+                            alert(JSON.stringify(err));
+                        })
+                    }
 				},
 				openPopup:function() {
 					this.popupVisible = !this.popupVisible
 				},
 				deleteOld:function(id, i) {
 					var _this = this;
-					summer.showProgress();
-					ajaxRequest({
-						type: 'post',
-						url: 'business/delCoreFile',
-						param: {
-							ID: id
-						}
-					}, function (res) {
-						console.log(JSON.stringify(res));
-						_this.oldImgList.splice(i, 1)
-						summer.hideProgress()
-						summer.toast({
-							msg: '删除成功'
-						})
-					}, function (err) {
-						alert(JSON.stringify(err));
-					})
+                    summer.showProgress();
+                    if (this.param.TPM_BUSINESS_PLATE && this.param.TPM_BUSINESS_PLATE == 'repay') {
+                        // 付款文件删除
+                        ajaxRequest({
+                            type: 'post',
+                            url: 'payment/delPayFile',
+                            param: {
+                                ID: id
+                            }
+                        }, function (res) {
+                            _this.oldImgList.splice(i, 1);
+                            summer.hideProgress()
+                            summer.toast({
+                                msg: '删除成功'
+                            })
+                        }, function (err) {
+                            alert(JSON.stringify(err));
+                        })
+                    } else {
+                        ajaxRequest({
+                            type: 'post',
+                            url: 'business/delCoreFile',
+                            param: {
+                                ID: id
+                            }
+                        }, function (res) {
+                            console.log(JSON.stringify(res));
+                            _this.oldImgList.splice(i, 1)
+                            summer.hideProgress()
+                            summer.toast({
+                                msg: '删除成功'
+                            })
+                        }, function (err) {
+                            alert(JSON.stringify(err));
+                        })
+                    }
 				},
 				deleteImg:function(i) {
 					this.imgList.splice(i, 1)
@@ -391,7 +431,8 @@
 					}, "multiUploadCallback()", "multiUploadErrCallback()");
 				},
 				save:function(par) {
-					var that = this;
+                    var that = this;
+                    var dataParams;
 					summer.showProgress();
 					console.log(window.G_COMMON_URL);
 					for (var i = 0; i < this.imgList.length; i++) {
@@ -405,11 +446,18 @@
 							type: "image/jpeg",
 							name: this.param.name + i
 						})
-					}
-					var dataParams = {
-						PROJECT_ID: that.param.projectId,
-						REMARK:that.param.name //此文件的名字
-					};
+                    }
+                    if (par) {
+                        dataParams = {
+                            ID: that.param.ID,
+                            REMARK: that.param.name //此文件的名字
+                        };
+                    } else {
+                        dataParams = {
+                            PROJECT_ID: that.param.projectId,
+                            REMARK:that.param.name //此文件的名字
+                        };
+                    }
 					console.log("上传的参数" + JSON.stringify(dataParams))
 					console.log("文件数组" + JSON.stringify(this.uploadImgArr));
 					if (this.uploadImgArr.length == 0) {
@@ -420,11 +468,12 @@
 						return
 					}
 					if (par) {
+                        // 付款资料上传
 						summer.multiUpload({
 							fileArray: that.uploadImgArr,
 							params: dataParams,
 							// headers :{"Content-Type" : "application/json"},
-							SERVER: window.G_COMMON_URL + "business/uploadCoreFiles",
+							SERVER: window.G_COMMON_URL + "payment/uploadPayFiles",
 							timeout: 10
 						}, "multiUploadCallback_repay()", "multiUploadErrCallback()");
 					} else {

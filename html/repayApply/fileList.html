@@ -59,14 +59,14 @@
 <body>
     <div class="um-win" id="projectImgListBigCar" v-cloak>
         <div class="um-content addCar">
-            <div class="um-list-item-bodys" @click="openContWin('oHeTong','合同资料','承租人自然人','放款前')">
+            <div class="um-list-item-bodys" @click="openContWin('oHeTong','合同资料')">
                 合同资料
                 <span class="frp">
                     <i class="oHeTong icon iconfont icon-right"></i>&nbsp;
                     <i class="icon iconfont icon-enter"></i>
                 </span>
             </div>
-            <div class="um-list-item-bodys" @click="openContWin('oFuKuan','付款资料','承租人自然人','放款前')">
+            <div class="um-list-item-bodys" @click="openContWin('oFuKuan','付款资料')">
                 付款资料
                 <span class="frp">
                     <i class="oFuKuan icon iconfont icon-right"></i>&nbsp;
@@ -78,14 +78,16 @@
     <script>
         summerready = function () {
             projectImgListBigCar.projectId = summer.pageParam.TPHID;
+            projectImgListBigCar.ID = summer.pageParam.ID;
         }
         var projectImgListBigCar = new Vue({
             el: '#projectImgListBigCar',
             data: {
-                projectId: ''
+                projectId: '',
+                ID: ''
             },
             methods: {
-                openContWin: function (val, title, customerType, type) {
+                openContWin: function (val, title) {
                     var _this = this;
                     summer.openWin({
                         id: val,
@@ -93,11 +95,11 @@
                         create: false,
                         type: 'actionBar',
                         pageParam: {
-                            PROJECT_ID: _this.projectId,
-                            TPM_TYPE: title,
-                            TPM_CUSTOMER_TYPE: customerType,
-                            TPM_BUSINESS_PLATE: type,
-                            CLASS_NAME: val
+                            projectId: _this.projectId,
+                            name: title,
+                            TPM_BUSINESS_PLATE: 'repay',
+                            CLASS_NAME: val,
+                            ID: _this.ID
                         },
                         actionBar: {
                             title: title,
