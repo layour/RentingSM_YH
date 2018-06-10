@@ -39,19 +39,19 @@
                     <span></span>合计
                 </li>
                 <li>应收租金总额（元）
-                    <span class="fr">{{showData2[0] ? showData2[0].BEGINNING_MONEY_SUM : ""}}</span>
+                    <span class="fr">{{fxList ? fxList.BEGINNING_MONEY_SUM : ""}}</span>
                 </li>
                 <li>实收租金总额（元）
-                    <span class="fr">{{showData2[0] ? showData2[0].BEGINNING_PAID_SUM : ""}}</span>
+                    <span class="fr">{{fxList ? fxList.BEGINNING_PAID_SUM : ""}}</span>
                 </li>
                 <li>总罚息金额（元）
-                    <span class="fr">{{showData2[0] ? showData2[0].SUM_FINE : ""}}</span>
+                    <span class="fr">{{fxList ? fxList.SUM_FINE : ""}}</span>
                 </li>
                 <li>实付罚息金额（元）
-                    <span class="fr">{{showData2[0] ? showData2[0].SUMMONEY : ""}}</span>
+                    <span class="fr">{{fxList ? fxList.SUMMONEY : ""}}</span>
                 </li>
                 <li>减免罚息金额（元）
-                    <span class="fr">{{showData2[0] ? showData2[0].SUMMONEY1 : ""}}</span>
+                    <span class="fr">{{fxList ? fxList.SUMMONEY1 : ""}}</span>
                 </li>
             </ul>
         </div>
@@ -76,9 +76,8 @@
                 return {
                     PAYLIST_CODE: '',
                     list: [],
-                    fxList: [],
-                    showData: [],
-                    showData2: []
+                    fxList: {},
+                    showData: []
                 }
             },
             methods: {
@@ -86,9 +85,6 @@
                     var self = this;
                     this.showData = this.list.filter(function (e) {
                         return e.PAYLIST_CODE == self.PAYLIST_CODE;
-                    });
-                    this.showData2 = this.fxList.filter(function (e) {
-                        return e.AA == self.PAYLIST_CODE;
                     });
                 }
             }
