@@ -39,7 +39,8 @@
             data: function () {
                 return {
                     PAYLIST_CODE: '',
-                    list: []
+                    list: [],
+                    fxList: []
                 }
             },
             methods: {
@@ -55,6 +56,7 @@
                     }, function (res) {
                         summer.hideProgress();
                         _this.list = res.data.datas.custaccdetail;
+                        _this.fxList = res.data.datas.fx;
                     }, function (err) {
                         summer.hideProgress();
                         console.log(err);
@@ -68,6 +70,7 @@
                         type: 'actionBar',
                         pageParam: {
                             list: this.list,
+                            fxList: this.fxList,
                             PAYLIST_CODE: PAYLIST_CODE
                         },
                         actionBar: {

@@ -19,13 +19,13 @@
                     <span></span>明细
                 </li>
                 <li>类型
-                    <span class="fr">{{}}</span>
+                    <span class="fr">{{showData[0] ? showData[0].SS : ""}}</span>
                 </li>
                 <li>期数
                     <span class="fr">{{showData[0] ? showData[0].BEGINNING_NUM : ""}}</span>
                 </li>
                 <li>应还款时间
-                    <span class="fr">{{}}</span>
+                    <span class="fr">{{showData[0] ? showData[0].BEGINNING_RECEIVE_DATA : ""}}</span>
                 </li>
                 <li>应还款金额（元）
                     <span class="fr">{{showData[0] ? showData[0].BEGINNING_MONEY : ""}}</span>
@@ -39,19 +39,19 @@
                     <span></span>合计
                 </li>
                 <li>应收租金总额（元）
-                    <span class="fr">{{}}</span>
+                    <span class="fr">{{showData2[0] ? showData2[0].BEGINNING_MONEY_SUM : ""}}</span>
                 </li>
                 <li>实收租金总额（元）
-                    <span class="fr">{{}}</span>
+                    <span class="fr">{{showData2[0] ? showData2[0].BEGINNING_PAID_SUM : ""}}</span>
                 </li>
                 <li>总罚息金额（元）
-                    <span class="fr">{{}}</span>
+                    <span class="fr">{{showData2[0] ? showData2[0].SUM_FINE : ""}}</span>
                 </li>
                 <li>实付罚息金额（元）
-                    <span class="fr">{{}}</span>
+                    <span class="fr">{{showData2[0] ? showData2[0].SUMMONEY : ""}}</span>
                 </li>
                 <li>减免罚息金额（元）
-                    <span class="fr">{{}}</span>
+                    <span class="fr">{{showData2[0] ? showData2[0].SUMMONEY1 : ""}}</span>
                 </li>
             </ul>
         </div>
@@ -67,6 +67,7 @@
         summerready = function () {
             payTableDetailVue.PAYLIST_CODE = summer.pageParam.PAYLIST_CODE;
             payTableDetailVue.list = summer.pageParam.list;
+            payTableDetailVue.fxList = summer.pageParam.fxList;
             payTableDetailVue.dataFilter();
         }
         var payTableDetailVue = new Vue({
@@ -75,7 +76,9 @@
                 return {
                     PAYLIST_CODE: '',
                     list: [],
-                    showData: []
+                    fxList: [],
+                    showData: [],
+                    showData2: []
                 }
             },
             methods: {
@@ -83,6 +86,9 @@
                     var self = this;
                     this.showData = this.list.filter(function (e) {
                         return e.PAYLIST_CODE == self.PAYLIST_CODE;
+                    });
+                    this.showData2 = this.fxList.filter(function (e) {
+                        return e.AA == self.PAYLIST_CODE;
                     });
                 }
             }

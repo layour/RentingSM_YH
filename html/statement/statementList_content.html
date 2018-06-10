@@ -18,9 +18,9 @@
                 <li v-for="(item,index) in list" :key="index">
                     <p>{{item.CR_BECR_NAME}}</p>
                     <div>
-                        <p>客户类型：{{item.CR_BECR_TYPE == 1 ? "自然人" : "法人"}}</p>
-                        <p>客户证件号：{{}}</p>
-                        <p>客户经理：{{}}</p>
+                        <p>客户类型：{{item.CR_BECR_TYPE_NM}}</p>
+                        <p>客户证件号：{{item.RENTER_ID_CARD}}</p>
+                        <p>客户经理：{{item.CLERK_NAME}}</p>
                     </div>
                     <button class="fr" @click="goDetail(item.PAYLIST_CODE)">对账单</button>
                 </li>
