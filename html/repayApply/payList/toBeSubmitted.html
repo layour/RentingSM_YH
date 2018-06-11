@@ -230,6 +230,7 @@
 		}, function (ret, err) {
 			//通常在这里从服务器加载数据
 			toBeSubmitted.resetData = true;
+            toBeSubmitted.num = 1;
 			getData(1);
 			summer.refreshHeaderLoadDone(); //加载完成后调用方法恢复组件到默认状态
 		});
@@ -243,7 +244,7 @@
 			showTime: true
 		}, function (ret, err) {
 			//通常在这里从服务器加载数据，
-			var num = toBeSubmitted.num++;
+			var num = toBeSubmitted.num+1;
 			if (num > toBeSubmitted.totalPage) {
 				summer.toast({
 					msg: "没有更多了"
