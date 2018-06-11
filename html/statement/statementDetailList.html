@@ -15,8 +15,8 @@
     <div class="um-win" id="payTableDetail" v-cloak>
         <div class="um-content payTableDetail">
             <ul>
-                <li v-for="(item,index) in list" :key="index" @click="goInfo(item.PAYLIST_CODE)">支付表号
-                    <span class="fr">{{item.PAYLIST_CODE}}</span>
+                <li v-for="(item,index) in list" :key="index" @click="goInfo(item.SS)">应收类型
+                    <span class="fr">{{item.SS}}</span>
                 </li>
             </ul>
 
@@ -56,7 +56,9 @@
                     }, function (res) {
                         summer.hideProgress();
                         _this.list = res.data.datas.custaccdetail;
+                        console.log(_this.list);
                         _this.fxList = res.data.datas.fx;
+                        console.log(_this.fxList);
                     }, function (err) {
                         summer.hideProgress();
                         console.log(err);
