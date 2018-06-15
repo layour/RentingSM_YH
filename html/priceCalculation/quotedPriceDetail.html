@@ -1880,7 +1880,6 @@
 							summer.toast({msg:'请先测算报价'})
 							return
 						}
-						summer.showProgress();
 						var param={
 							PROJECT_ID:this.prjId, //
 							POLICY:this.SCHEME_NAME_ID,   //方案编号
@@ -1940,6 +1939,7 @@
 							}
 						}
 						console.log(JSON.stringify(param));
+						summer.showProgress();
 						ajaxRequest({
 							type:'POST',
 							url:'offer/saveProjectScheme',
