@@ -232,6 +232,7 @@
 						vueTemplate.LINK_NAME=item.LINK_NAME
 						vueTemplate.LINK_MOBILE=item.LINK_MOBILE
 						vueTemplate.LINK_RELATION2CUST=item.LINK_RELATION2CUST
+						vueTemplate.LINK_RELATION2CUST_CODE=item.LINK_RELATION2CUST_CODE
 						vueTemplate.LINK_SEX=item.LINK_SEX
 						vueTemplate.LINK_IDCARD=item.LINK_IDCARD
 						vueTemplate.LINK_IDCARD_ADDRESS=item.LINK_IDCARD_ADDRESS
@@ -251,6 +252,7 @@
 							LINK_MOBILE:'',
 							rlTypCd:'',
 							LINK_RELATION2CUST:'',
+							LINK_RELATION2CUST_CODE:'',
 							LINK_SEX: '',
 							id:'', //客户id
 							CULM_ID:'',//联系人id
@@ -323,6 +325,7 @@
 									this.LINK_SEX = this.pickedValues.FLAG;
 								}else if(this.currentTarget == 'guanXi'){
 									this.LINK_RELATION2CUST = this.pickedValues.FLAG;
+									this.LINK_RELATION2CUST_CODE =this.pickedValues.CODE
 								}
 							}
 						},
@@ -364,7 +367,7 @@
 										BECR_ID:this.id,
 										LINK_NAME:this.LINK_NAME,
 										LINK_MOBILE:this.LINK_MOBILE,
-										LINK_RELATION2CUST:this.LINK_RELATION2CUST,
+										LINK_RELATION2CUST:this.LINK_RELATION2CUST_CODE,
 										LINK_SEX:this.LINK_SEX,
 										LINK_IDCARD:this.LINK_IDCARD,
 										LINK_IDCARD_ADDRESS:this.LINK_IDCARD_ADDRESS,
