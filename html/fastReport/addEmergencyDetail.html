@@ -351,13 +351,27 @@
 								summer.toast({msg:'请输入家庭地址'})
 								return
 							}
-							this.checkedIDS()
+							if(!this.checkedIDS()){
+								return
+							}
 							if(!this.LINK_IDCARD_ADDRESS){
 								summer.toast({msg:'请输入身份证地址'})
 								return
 							}
 							var _this=this;
 							summer.showProgress()
+							console.log(JSON.stringify({
+								TYPE:'1',
+								CULM_ID:this.CULM_ID,
+								BECR_ID:this.id,
+								LINK_NAME:this.LINK_NAME,
+								LINK_MOBILE:this.LINK_MOBILE,
+								LINK_RELATION2CUST:this.LINK_RELATION2CUST_CODE,
+								LINK_SEX:this.LINK_SEX,
+								LINK_IDCARD:this.LINK_IDCARD,
+								LINK_IDCARD_ADDRESS:this.LINK_IDCARD_ADDRESS,
+								LINK_HOME_ADDRESS:this.LINK_HOME_ADDRESS
+							}))
 							ajaxRequest({
 									type:'post',
 									url:'customer/addCustLinkMan',
