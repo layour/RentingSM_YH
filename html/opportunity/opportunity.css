@@ -7,62 +7,6 @@
     display: block;
 }
 
-.mask {
-    position: absolute;
-    z-index: 999;
-    top: 1.76rem;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.4);
-    overflow: hidden;
-}
-
-.maskActive {
-    bottom: 0;
-}
-
-.state {
-    margin-top: 0.02rem;
-    position: absolute;
-    width: 100%;
-    overflow: hidden;
-    top: -5.76rem;
-    transition: top 0.5s;
-}
-
-.stateActive {
-    top: 0;
-}
-
-.state li {
-    width: 100%;
-    height: 0.8rem;
-    background: #fff;
-    margin-bottom: 0.02rem;
-}
-
-.state li dl {
-    width: 100%;
-    height: 0.8rem;
-}
-
-.state li dl dt {
-    height: 0.8rem;
-    float: left;
-    width: 40%;
-    line-height: 0.8rem;
-    text-align: center;
-    font-size: 0.28rem;
-}
-
-.state li dd {
-    height: 0.8rem;
-    float: right;
-    width: 60%;
-    line-height: 0.8rem;
-    font-size: 0.28rem;
-}
-
 .um-header-light {
     line-height: 0.88rem;
     min-height: 0px;
@@ -222,11 +166,12 @@ html {
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .um-footer button {
     width: 6.34rem;
-    height: 100%;
+    height: 88%;
     border-radius: 0.1rem;
     background: #039be5;
     color: #fff;

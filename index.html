@@ -108,7 +108,7 @@
 							<dd>客户</dd>
 						</dl>
 					</li>
-					<li onclick="unfinished()">
+					<li onclick="openOpportunity()">
 						<dl>
 							<dt class="iconfont icon-house" style="color:#c79644"></dt>
 							<dd>商机</dd>
@@ -553,8 +553,8 @@
 		function openOpportunity() {
 			if (isLogin()) {
 				summer.openWin({
-					id: 'opportunity',
-					url: 'html/opportunity/opportunity.html',
+					id: 'opportunityIndex',
+					url: 'html/opportunity/index.html',
 					create: false,
 					type: 'actionBar',
 					actionBar: {
@@ -571,7 +571,7 @@
 							type: "text",
 							text: "新建",
 							textColor: "#ffffff",
-							method: "opportunity.createOpp()"
+							method: "opportunityIndex.createOpp()"
 						}]
 					}
 				});
