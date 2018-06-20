@@ -8,11 +8,13 @@
     <link rel="stylesheet" href="../../css/iuapmobile.um.css">
     <link rel="stylesheet" href="../../css/fonts/iconfont.css">
     <link rel="stylesheet" href="opportunity.css">
+    <link rel="stylesheet" href="../../css/mint.css">
     <script src="../../js/summer.js"></script>
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
     <script src="../../js/font.js"></script>
     <script src="../../js/vue.js"></script>
+    <script src="../../js/mint.js"></script>
     <script src="../../js/common.js"></script>
 </head>
 
@@ -21,95 +23,82 @@
         <div class="um-content">
             <div id="content"></div>
             <ul class="opportunity um-frame">
-                <li class="opportunityItems" v-for="item in datas" @click="oppDetail">
-                    <div class="leftCon">
-                        <dl>
-                            <dt>
-                                <span>{{item.process}}</span>
-                            </dt>
-                            <dd>
-                                <p class="p1">{{item.txt1}}</p>
-                                <p class="p2">{{item.txt2}}</p>
-                                <p class="p3">{{item.txt3}}</p>
-                                <p class="p4">{{item.txt4}}</p>
-                            </dd>
-                        </dl>
-                    </div>
-                    <div class="rightCon">
-                        <div>
-                            <p class="p1">{{item.txt5}}</p>
-                            <p class="p2">{{item.txt6}}</p>
+                <li class="opportunityItems" v-for="(item, index) in datas" @click="oppDetail(item.ID)">
+                    <mt-cell-swipe :title="item.CST_NAME" :label="item.BUSI_STATUS_NM" :right="[{content: '&nbsp;&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'2.4rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index, item.ID)}}]">
+                        <div class="price">
+                            <p>客户属性：{{ item.CST_PROP_NM }}</p>
+                            <p>合作方式：{{ item.COO_WAY_NM }}</p>
+                            <p>创建时间：{{ item.CREATE_DATE }}</p>
                         </div>
-                    </div>
+                        <div class="fr">
+                            <i class="icon iconfont icon-enter"></i>
+                        </div>
+                    </mt-cell-swipe>
                 </li>
             </ul>
         </div>
     </div>
 </body>
 <script type="text/javascript">
-    var data = [{
-            process: "1/3",
-            txt1: "测试",
-            txt2: "只是测试",
-            txt3: "售前阶段1 收集客户信息",
-            txt4: "售后 未开启",
-            txt5: "2017年09月22日",
-            txt6: "10.00元"
-        },
-        {
-            process: "2/3",
-            txt1: "测试",
-            txt2: "只是测试",
-            txt3: "售前阶段1 收集客户信息",
-            txt4: "售后 未开启",
-            txt5: "2017年09月22日",
-            txt6: "100.00元"
-        },
-        {
-            process: "3/3",
-            txt1: "测试",
-            txt2: "只是测试",
-            txt3: "售前阶段1 收集客户信息",
-            txt4: "售后 未开启",
-            txt5: "2017年09月22日",
-            txt6: "1000.00元"
-        },
-        {
-            process: "3/3",
-            txt1: "测试",
-            txt2: "只是测试",
-            txt3: "售前阶段1 收集客户信息",
-            txt4: "售后 未开启",
-            txt5: "2017年09月22日",
-            txt6: "1000.00元"
-        },
-        {
-            process: "3/3",
-            txt1: "测试",
-            txt2: "只是测试",
-            txt3: "售前阶段1 收集客户信息",
-            txt4: "售后 未开启",
-            txt5: "2017年09月22日",
-            txt6: "1000.00元"
-        },
-        {
-            process: "3/3",
-            txt1: "测试",
-            txt2: "只是测试",
-            txt3: "售前阶段1 收集客户信息",
-            txt4: "售后 未开启",
-            txt5: "2017年09月22日",
-            txt6: "1000.00元"
-        }
-    ];
     var opportunity = new Vue({
         el: '#index',
         data: {
-            datas: data,
+            datas: [],
+            pageNum: 1,
+            totalPage: "",
+            resetData: false
         },
         methods: {
+            // 获取商机单列表
+            getData: function () {
+                var self = this;
+                summer.showProgress();
+                ajaxRequest({
+                    type: 'post',
+                    url: 'crm/getCrmBusInfoList',
+                    param: {
+                        "pageNo": this.pageNum,
+                        "pageSize": 10,
+                        "CST_NAME": ""
+                    }
+                }, function (res) {
+                    summer.hideProgress();
+                    summer.refreshHeaderLoadDone();
+                    summer.refreshFooterLoadDone();
+                    var Data;
+                    if (Object.prototype.toString.call(res.data) === '[object String]') {
+                        Data = JSON.parse(res.data);
+                    } else {
+                        Data = res.data;
+                    }
+                    if (Data.flag == 1) {
+                        self.totalPage = Data.datas.last;
+                        if (Data.datas.list.length < 1) {
+                            createNull("content", "../../../img/empty.png");
+                            $('#content').css('display', 'block');
+                        } else {
+                            $('#content').css('display', 'none');
+                            if (self.resetData) {
+                                self.datas = Data.datas.list;
+                            } else {
+                                Data.datas.list.forEach(function (e) {
+                                    self.datas.push(e);
+                                });
+                            }
+                        }
+                    }
+                }, function (err) {
+                    summer.hideProgress();
+                    summer.refreshHeaderLoadDone();
+                    summer.refreshFooterLoadDone();
+                    summer.toast({
+                        msg: "暂无数据"
+                    });
+                    console.log(err);
+                });
+            },
             // 查看详情
-            oppDetail: function () {
+            oppDetail: function (ID) {
                 summer.openWin({
                     id: 'oppDetail',
                     url: 'html/opportunity/oppDetail.html',
@@ -131,16 +120,50 @@
                             textColor: "#ffffff",
                             method: "oppDetail.changeOpp()"
                         }]
+                    },
+                    pageParam: {
+                        "ID": ID
                     }
                 })
             },
             // 条件过滤
             filterData: function (val) {
                 console.log(val);
+            },
+            // 删除商机
+            deleteItem: function (index, ID) {
+                var _this = this;
+                summer.showProgress();
+                ajaxRequest({
+                    type: 'post',
+                    url: 'crm/delCrmBusiInfo',
+                    param: {
+                        ID: ID
+                    }
+                }, function (res) {
+                    summer.hideProgress();
+                    if (res.data.flag == 1) {
+                        _this.datas.splice(index, 1);
+                        summer.toast({
+                            msg: '删除成功'
+                        })
+                    } else {
+                        summer.toast({
+                            msg: '删除失败'
+                        })
+                    }
+                }, function (err) {
+                    summer.hideProgress();
+                    console.log("err", err);
+                    summer.toast({
+                        msg: '删除失败'
+                    })
+                });
             }
         }
     });
     summerready = function () {
+        opportunity.getData();
         // 上拉下拉刷新
         summer.setRefreshHeaderInfo({
         	visible: true,
@@ -151,8 +174,9 @@
         	textUp: '松开刷新...',
         	showTime: true
         }, function(ret, err) {
-        	//通常在这里从服务器加载数据
-        	summer.refreshHeaderLoadDone(); //加载完成后调用方法恢复组件到默认状态
+            opportunity.resetData = true;
+            opportunity.pageNum = 1;
+			opportunity.getData();
         });
         summer.setRefreshFooterInfo({
         	visible: true,
@@ -163,8 +187,18 @@
         	textUp: '松开刷新...',
         	showTime: true
         }, function(ret, err) {
-        	//通常在这里从服务器加载数据，
-        	summer.refreshFooterLoadDone(); //加载完成后调用方法恢复组件到默认状态
+            var num = opportunity.pageNum + 1;
+			if (num > opportunity.totalPage) {
+				summer.toast({
+					msg: "没有更多了"
+                });
+                summer.refreshHeaderLoadDone();
+                summer.refreshFooterLoadDone();
+			} else {
+                opportunity.resetData = false;
+                opportunity.pageNum = num;
+				opportunity.getData();
+			}
         });
     }
 </script>
