@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
+    <link rel="stylesheet" href="bjInfo.css">
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/mint.js"></script>
+    <script src="../../js/common.js"></script>
+</head>
+
+<body>
+    <div class="um-win" id="index">
+        <ul class="infoList um-content">
+            <li class="first">
+                <strong></strong>
+                <i>基本信息</i>
+            </li>
+            <li>
+                <span>
+                    <b>*</b>客户名称</span>
+                <input type="text" placeholder="请输入" v-model="datas.name" />
+            </li>
+            <li>
+                <span>
+                    <b>*</b>大区</span>
+                <input type="text" placeholder="请输入" v-model="datas.area" />
+            </li>
+            <li>
+                <span>
+                    <b>*</b>分公司</span>
+                <input type="text" placeholder="请输入" v-model="datas.fengongsi" />
+            </li>
+            <li>
+                <span>
+                    <b>*</b>创建时间</span>
+                <div @click="surePickerBirthday">
+                    <span class="iconfont icon-enter"></span>
+                    <i v-if="datas.createDate" style="color: #333;">{{ datas.createDate }}</i>
+                    <i v-else>请选择</i>
+                </div>
+            </li>
+            <li>
+                <span>
+                    <b>*</b>客户状态</span>
+                <div @click="surePickerKHZT">
+                    <span class="iconfont icon-enter"></span>
+                    <i v-if="datas.kehuState" style="color: #333;">{{ datas.kehuState }}</i>
+                    <i v-else>请选择</i>
+                </div>
+            </li>
+            <li>
+                <span>
+                    <b>*</b>商机状态</span>
+                <div @click="surePickerSJZT">
+                    <span class="iconfont icon-enter"></span>
+                    <i v-if="datas.sjState" style="color: #333;">{{ datas.sjState }}</i>
+                    <i v-else>请选择</i>
+                </div>
+            </li>
+            <li>
+                <span>
+                    <b>*</b>客户属性</span>
+                <div @click="surePickerKHSX">
+                    <span class="iconfont icon-enter"></span>
+                    <i v-if="datas.khsx" style="color: #333;">{{ datas.khsx }}</i>
+                    <i v-else>请选择</i>
+                </div>
+            </li>
+            <li>
+                <span>
+                    <b>*</b>合作方式</span>
+                <div @click="surePickerHZFS">
+                    <span class="iconfont icon-enter"></span>
+                    <i v-if="datas.hzfs" style="color: #333;">{{ datas.hzfs }}</i>
+                    <i v-else>请选择</i>
+                </div>
+            </li>
+            <li>
+                <span>
+                    <b>*</b>销售人员</span>
+                <div @click="surePickerXSRY">
+                    <span class="iconfont icon-enter"></span>
+                    <i v-if="datas.xsry" style="color: #333;">{{ datas.xsry }}</i>
+                    <i v-else>请选择</i>
+                </div>
+            </li>
+            <li>
+                <span>
+                    <b>*</b>主代/身份证号</span>
+                <input type="text" placeholder="请输入" v-model="datas.sfzNo" />
+            </li>
+            <li>
+                <span>
+                    <b>*</b>手机号</span>
+                <input type="number" placeholder="请输入" v-model="datas.phoneNum" />
+            </li>
+            <li>
+                <span>
+                    <b>*</b>注册时间</span>
+                <div @click="surePickerZCSJ">
+                    <span class="iconfont icon-enter"></span>
+                    <i v-if="datas.zcDate" style="color: #333;">{{ datas.zcDate }}</i>
+                    <i v-else>请选择</i>
+                </div>
+            </li>
+            <li>
+                <span>
+                    <b>*</b>企业性质</span>
+                <div @click="surePickerQYXZ">
+                    <span class="iconfont icon-enter"></span>
+                    <i v-if="datas.qyxz" style="color: #333;">{{ datas.qyxz }}</i>
+                    <i v-else>请选择</i>
+                </div>
+            </li>
+            <li>
+                <span>
+                    <b>*</b>经营范围</span>
+                <input type="text" placeholder="请输入" v-model="datas.jyfw" />
+            </li>
+            <li>
+                <span>
+                    <b></b>备注</span>
+                <input type="text" placeholder="请输入" v-model="datas.bjInfoMark" />
+            </li>
+            <li class="first">
+                <strong></strong>
+                <i>业务性质</i>
+            </li>
+            <li class="ywxz">
+                <div v-for="(item, index) in BUSI_PROPS" @click="chooseywxz(index)">
+                    <div class="circle" v-bind:class="[item.checked ? 'active' : '']"></div>
+                    <div class="txt">{{ item.FLAG }}</div>
+                </div>
+            </li>
+        </ul>
+        <div class="um-footer">
+            <!-- 出生日期 -->
+            <mt-datetime-picker 
+                ref="picker" 
+                v-model="pickerValue" 
+                type="date" 
+                cancel-text='取消' 
+                confirm-text='确定' 
+                :start-date='new Date("1950-01-01")'
+                :end-date="new Date()" 
+                @confirm="handleConfirm"
+            ></mt-datetime-picker>
+            <!-- 注册日期 -->
+            <mt-datetime-picker 
+                ref="picker1" 
+                v-model="pickerzcValue" 
+                type="date" 
+                cancel-text='取消' 
+                confirm-text='确定' 
+                :start-date='new Date("1950-01-01")'
+                :end-date="new Date()" 
+                @confirm="handleConfirm1"
+            ></mt-datetime-picker>
+            <!-- 客户状态 -->
+            <mt-popup v-model="pickerKHZTShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots0" @change="onValuesChange0"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerKHZT">取消</span>
+                    <span class="" @click="surePickerKHZT('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 商机状态 -->
+            <mt-popup v-model="pickerSJZTShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots1" @change="onValuesChange1"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerSJZT">取消</span>
+                    <span class="" @click="surePickerSJZT('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 客户属性 -->
+            <mt-popup v-model="pickerKHSXShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots2" @change="onValuesChange2"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerKHSX">取消</span>
+                    <span class="" @click="surePickerKHSX('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 合作方式 -->
+            <mt-popup v-model="pickerHZFSShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots3" @change="onValuesChange3"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerHZFS">取消</span>
+                    <span class="" @click="surePickerHZFS('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 销售人员 -->
+            <mt-popup v-model="pickerXSRYShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots4" @change="onValuesChange4"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerXSRY">取消</span>
+                    <span class="" @click="surePickerXSRY('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 企业性质 -->
+            <mt-popup v-model="pickerQYXZShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots5" @change="onValuesChange5"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerQYXZ">取消</span>
+                    <span class="" @click="surePickerQYXZ('confirm')">确定</span>
+                </p>
+            </mt-popup>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    var bjInfo = new Vue({
+        el: '#index',
+        data: {
+            // 商机单ID
+            ID: "",
+            // 保存的数据
+            datas: {
+                name: "",
+                area: "",
+                fengongsi: "",
+                createDate: "",
+                kehuState: "",
+                sjState: "",
+                khsx: "",
+                hzfs: "",
+                xsry: "",
+                sfzNo: "",
+                phoneNum: "",
+                zcDate: "",
+                qyxz: "",
+                jyfw: "",
+                bjInfoMark: "",
+                ywxz: []
+            },
+            // 业务性质
+            BUSI_PROPS: [
+                {
+                    checked: false,
+                    FLAG: "常规大客户"
+                },
+                {
+                    checked: false,
+                    FLAG: "新能源"
+                },
+                {
+                    checked: false,
+                    FLAG: "库存融资"
+                }
+            ],
+            // 创建时间
+            pickerBirthday: false,
+            pickerValue: new Date(),
+            // 注册时间
+            pickerzcDate: false,
+            pickerzcValue: new Date(),
+            // 客户状态
+            pickerKHZTShow: false,
+            pickerKHZT: "",
+            slots0: [{
+                flex: 1,
+                values: [],
+                defaultIndex: 0,
+                className: 'slot1',
+                textAlign: 'center'
+            }],
+            // 商机状态
+            pickerSJZTShow: false,
+            pickerSJZT: "",
+            slots1: [{
+                flex: 1,
+                values: [],
+                defaultIndex: 0,
+                className: 'slot1',
+                textAlign: 'center'
+            }],
+            // 客户属性
+            pickerKHSXShow: false,
+            pickerKHSX: "",
+            slots2: [{
+                flex: 1,
+                values: [],
+                defaultIndex: 0,
+                className: 'slot1',
+                textAlign: 'center'
+            }],
+            // 合作方式
+            pickerHZFSShow: false,
+            pickerHZFS: "",
+            slots3: [{
+                flex: 1,
+                values: [],
+                defaultIndex: 0,
+                className: 'slot1',
+                textAlign: 'center'
+            }],
+            // 销售人员
+            pickerXSRYShow: false,
+            pickerXSRY: "",
+            slots4: [{
+                flex: 1,
+                values: [],
+                defaultIndex: 0,
+                className: 'slot1',
+                textAlign: 'center'
+            }],
+            // 企业性质
+            pickerQYXZShow: false,
+            pickerQYXZ: "",
+            slots5: [{
+                flex: 1,
+                values: [],
+                defaultIndex: 0,
+                className: 'slot1',
+                textAlign: 'center'
+            }]
+        },
+        methods: {
+            // 保存（返回）
+            save: function () {
+                
+            },
+            // 创建时间
+            surePickerBirthday: function () {
+                this.pickerBirthday = !this.pickerBirthday;
+                this.$refs.picker.open();
+            },
+            handleConfirm: function (pickerValue) {
+                this.pickerValue = pickerValue;
+                var result = this.getFormatDate(pickerValue);
+                this.datas.createDate = result;
+            },
+            // 注册时间
+            surePickerZCSJ: function () {
+                this.pickerzcDate = !this.pickerzcDate;
+                this.$refs.picker1.open();
+            },
+            handleConfirm1: function (pickerValue) {
+                this.pickerzcValue = pickerValue;
+                var result = this.getFormatDate(pickerValue);
+                this.datas.zcDate = result;
+            },
+            getFormatDate: function (date) {
+                var date = new Date(date),
+                    seperator1 = "-";
+                var year = date.getFullYear(),
+                    month = date.getMonth() + 1,
+                    strDate = date.getDate();
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+                return year + '-' + month + '-' + strDate;
+            },
+            // 客户状态更改
+            onValuesChange0: function (picker, values) {
+                this.pickerKHZT = values[0];
+            },
+            surePickerKHZT: function (param) {
+                var self = this;
+                this.pickerKHZTShow = !this.pickerKHZTShow;
+                if (param == 'confirm') {
+                    this.datas.kehuState = this.pickerKHZT;
+                }
+            },
+            // 商机状态更改
+            onValuesChange1: function (picker, values) {
+                this.pickerSJZT = values[0];
+            },
+            surePickerSJZT: function (param) {
+                var self = this;
+                this.pickerSJZTShow = !this.pickerSJZTShow;
+                if (param == 'confirm') {
+                    this.datas.sjState = this.pickerSJZT;
+                }
+            },
+            // 客户属性更改
+            onValuesChange2: function (picker, values) {
+                this.pickerKHSX = values[0];
+            },
+            surePickerKHSX: function (param) {
+                var self = this;
+                this.pickerKHSXShow = !this.pickerKHSXShow;
+                if (param == 'confirm') {
+                    this.datas.khsx = this.pickerKHSX;
+                }
+            },
+            // 合作方式更改
+            onValuesChange3: function (picker, values) {
+                this.pickerHZFS = values[0];
+            },
+            surePickerHZFS: function (param) {
+                var self = this;
+                this.pickerHZFSShow = !this.pickerHZFSShow;
+                if (param == 'confirm') {
+                    this.datas.hzfs = this.pickerHZFS;
+                }
+            },
+            // 销售人员更改
+            onValuesChange4: function (picker, values) {
+                this.pickerXSRY = values[0];
+            },
+            surePickerXSRY: function (param) {
+                var self = this;
+                this.pickerXSRYShow = !this.pickerXSRYShow;
+                if (param == 'confirm') {
+                    this.datas.xsry = this.pickerXSRY;
+                }
+            },
+            // 企业性质更改
+            onValuesChange5: function (picker, values) {
+                this.pickerQYXZ = values[0];
+            },
+            surePickerQYXZ: function (param) {
+                var self = this;
+                this.pickerQYXZShow = !this.pickerQYXZShow;
+                if (param == 'confirm') {
+                    this.datas.qyxz = this.pickerQYXZ;
+                }
+            },
+            // 选择业务性质
+            chooseywxz: function (index) {
+                this.BUSI_PROPS[index].checked = !this.BUSI_PROPS[index].checked;
+                this.datas.ywxz = this.BUSI_PROPS.filter(function (e) {
+                    return e.checked == true;
+                });
+            }
+        },
+        computed: {
+
+        }
+    });
+    summerready = function () {
+        bjInfo.ID = summer.pageParam.ID;
+    }
+</script>
+
+</html>

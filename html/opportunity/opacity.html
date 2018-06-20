@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css" />
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css" />
+    <link rel="stylesheet" href="./opacity.css">
+</head>
+
+<body>
+    <div class="maskActive mask" @click="closeMask" id="index">
+        <ul class="stateActive state">
+            <li @click="chooseState" data-state="sj">
+                <dl>
+                    <dt>售前</dt>
+                    <dd>收集客户信息</dd>
+                </dl>
+            </li>
+            <li @click="chooseState" data-state="sq">
+                <dl>
+                    <dt></dt>
+                    <dd>申请上线</dd>
+                </dl>
+            </li>
+            <li @click="chooseState" data-state="yd">
+                <dl>
+                    <dt></dt>
+                    <dd>赢单</dd>
+                </dl>
+            </li>
+            <li @click="chooseState" data-state="sd">
+                <dl>
+                    <dt></dt>
+                    <dd>输单</dd>
+                </dl>
+            </li>
+            <li @click="chooseState" data-state="wx">
+                <dl>
+                    <dt></dt>
+                    <dd>无效</dd>
+                </dl>
+            </li>
+            <li @click="chooseState" data-state="sh">
+                <dl>
+                    <dt>售后</dt>
+                    <dd>售后回访</dd>
+                </dl>
+            </li>
+            <li @click="chooseState" data-state="yq">
+                <dl>
+                    <dt></dt>
+                    <dd>逾期催收</dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="../../js/font.js"></script>
+<script src="../../js/jquery.min.js"></script>
+<script src="../../js/summer.js"></script>
+<script src="../../js/vue.js"></script>
+<script src="../../js/common.js"></script>
+<script>
+    summerready = function () {
+        
+    };
+    var opacityMask = new Vue({
+        el: '#index',
+        methods: {
+            // 隐藏遮罩层
+            closeMask: function () {
+                summer.closeFrame({
+                    id: "opacityMask"
+                });
+            },
+            // 选择阶段
+            chooseState: function () {
+                var ev = event || window.event;
+                this.closeMask();
+                console.log(ev.currentTarget.dataset.state);
+                summer.execScript({
+                    winId: 'opportunityIndex',
+                    frameId: 'opportunityFrame',
+                	script: "opportunity.filterData('"+ ev.currentTarget.dataset.state +"')"
+                });
+            },
+        }
+    });
+</script>
+
+</html>

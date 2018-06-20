@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/common.js"></script>
+    <style>
+        .um-list-item-bodys {
+            align-self: center;
+            line-height: .46rem;
+            padding: 0.2rem 0.55rem 0.2rem 0.56rem;
+            font-size: 0.32rem;
+            color: #333;
+            border-bottom: 1px solid #EFEFEF;
+            background: #fff;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .frp {
+            position: absolute;
+            right: .6rem;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .iconfont.icon-right {
+            font-size: 20px;
+            color: #039BE5;
+            display: none;
+        }
+
+        .iconfont.icon-right.active {
+            display: inline-block;
+        }
+
+        .iconfont.icon-enter.active {
+            display: none;
+        }
+
+        i {
+            color: #DBDBDB;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="um-win" id="projectImgListBigCar" v-cloak>
+        <div class="um-content addCar">
+            <div class="um-list-item-bodys" @click="openBJ('oBJ')">
+                背景信息
+                <span class="frp">
+                    <i class="oBJ icon iconfont icon-right"></i>&nbsp;
+                    <i class="icon iconfont icon-enter"></i>
+                </span>
+            </div>
+            <div class="um-list-item-bodys" @click="openXQ('oXQ')">
+                需求情况
+                <span class="frp">
+                    <i class="oXQ icon iconfont icon-right"></i>&nbsp;
+                    <i class="icon iconfont icon-enter"></i>
+                </span>
+            </div>
+            <div class="um-list-item-bodys" @click="openZF('oZF')">
+                走访记录
+                <span class="frp">
+                    <i class="oZF icon iconfont icon-right"></i>&nbsp;
+                    <i class="icon iconfont icon-enter"></i>
+                </span>
+            </div>
+            <div class="um-list-item-bodys" @click="openLS('oLS')">
+                历史信息
+                <span class="frp">
+                    <i class="oLS icon iconfont icon-right"></i>&nbsp;
+                    <i class="icon iconfont icon-enter"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    var menu = new Vue({
+        el: '#projectImgListBigCar',
+        data: {
+            // 商机单ID
+            ID: ""
+        },
+        methods: {
+            // 保存
+            save: function () {
+                summer.closeToWin({
+                    id: 'opportunityIndex'
+                });
+            },
+            // 背景信息
+            openBJ: function () {
+                summer.openWin({
+                    id: 'bjInfo',
+                    url: 'html/opportunity/bjInfo.html',
+                    create: false,
+                    type: 'actionBar',
+                    actionBar: {
+                        title: "背景信息",
+                        titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                        backgroundColor: "#039be5",
+                        leftItem: {
+                            image: "img/back.png",
+                            method: "", //返回按钮自定义事件
+                            text: "返回",
+                            textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                        },
+                        rightItems: [{
+                            type: "text",
+                            text: "保存",
+                            textColor: "#ffffff",
+                            method: "bjInfo.save()"
+                        }]
+                    },
+                    pageParam: {
+                        "ID": this.ID
+                    }
+                });
+            },
+            // 需求情况
+            openXQ: function () {
+
+            },
+            // 走访记录
+            openZF: function () {
+
+            },
+            // 历史信息
+            openLS: function () {
+
+            }
+        },
+        computed: {
+
+        }
+    });
+    summerready = function () {
+        menu.ID = summer.pageParam.ID;
+    }
+</script>
+
+</html>

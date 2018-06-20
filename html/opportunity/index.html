@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="opportunity.css">
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/common.js"></script>
+</head>
+
+<body>
+    <div class="um-win" id="index">
+        <div class="um-header-light" id="headerBox">
+            <div class="sera">
+                <div class="s-box" @click="opensearch">
+                    <i class="iconfont icon-search"> </i>
+                    <p class="txt">
+                        搜索商机
+                    </p>
+                </div>
+            </div>
+            <div class="headBar">
+                <div class="headItems" @click="showState">阶段</div>
+                <div class="headItems">排序</div>
+                <div class="headItems">筛选</div>
+            </div>
+        </div>
+        <div class="um-content">
+
+        </div>
+        <!-- <div class="um-footer" id="footer">
+            <button type="button" @click="createOpp">新建商机</button>
+        </div> -->
+    </div>
+</body>
+<script type="text/javascript">
+    var opportunityIndex = new Vue({
+        el: '#index',
+        data: {
+            maskShow: false
+        },
+        methods: {
+            // 阶段遮罩层
+            showState: function () {
+                if (this.maskShow) {
+                    summer.closeFrame({
+                        id: "opacityMask"
+                    });
+                } else {
+                    var top = $summer.offset($summer.byId('headerBox')).h;
+                    summer.openFrame({
+                        id : 'opacityMask',
+                        url : 'html/opportunity/opacity.html',
+                        position : {
+                            top : top,
+                            left : 0,
+                            bottom : 0,
+                            right : 0
+                        },
+                        opaque : false,
+                        pageParam : {
+                            
+                        }
+                    });
+                }
+                this.maskShow = !this.maskShow;
+            },
+            // 新建商机
+            createOpp: function () {
+                summer.openWin({
+                    id: 'createOpp',
+                    url: 'html/opportunity/createOpp.html',
+                    create: false,
+                    type: 'actionBar',
+                    actionBar: {
+                        title: "新建商机",
+                        titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                        backgroundColor: "#039be5",
+                        leftItem: {
+                            image: "img/back.png",
+                            method: "", //返回按钮自定义事件
+                            text: "取消",
+                            textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                        },
+                        rightItems: [{
+                            type: "text",
+                            text: "提交",
+                            textColor: "#ffffff",
+                            method: "createOpp.createNewOpp()"
+                        }]
+                    }
+                })
+            },
+            // 搜索
+            opensearch: function () {
+                summer.setStorage("searchFromSource", "opportunity");
+                summer.openWin({
+                    id: 'search',
+                    url: 'html/fastReport/search.html',
+                });
+            }
+        }
+    });
+    summerready = function () {
+        // 加载frame
+        var top = $summer.offset($summer.byId('headerBox')).h;
+        summer.openFrame({
+            id: 'opportunityFrame',
+            url: 'html/opportunity/opportunity.html',
+            bounces: true,
+            position: {
+                top: top,
+                bottom: 0,
+                left: 0,
+                right: 0
+            }
+        });
+    }
+</script>
+
+</html>
