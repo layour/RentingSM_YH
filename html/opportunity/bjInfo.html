@@ -265,6 +265,8 @@
         data: {
             // 商机单ID
             ID: "",
+            // 登陆人电话
+            EMPLOYEE_MOBILE_TEL: "",
             // 保存的数据
             datas: {
                 name: "",
@@ -481,6 +483,12 @@
                 this.pickerXSRY = values[0];
             },
             surePickerXSRY: function (param) {
+                if (!this.datas.fengongsi) {
+                    summer.toast({
+                        msg: "请先选择分公司"
+                    });
+                    return;
+                }
                 var self = this;
                 this.pickerXSRYShow = !this.pickerXSRYShow;
                 if (param == 'confirm') {
@@ -507,6 +515,8 @@
                 this.pickerFGSShow = !this.pickerFGSShow;
                 if (param == 'confirm') {
                     this.datas.fengongsi = this.pickerFGS;
+                    // 这里获取销售人员列表
+
                 }
             },
             // 大区更改
@@ -574,7 +584,6 @@
                             self.datas.khsx = info.CST_PROP_NM ? info.CST_PROP_NM : "";
                             self.datas.khlx = info.CST_TYPE_NM ? info.CST_TYPE_NM : "";
                             self.datas.hzfs = info.COO_WAY_NM ? info.COO_WAY_NM : "";
-                            self.datas.xsry = "";
                             self.datas.sfzNo = info.CERT_NO ? info.CERT_NO : "";
                             self.datas.phoneNum = info.CST_TEL ? info.CST_TEL : "";
                             self.datas.zcDate = info.REG_DATE ? info.REG_DATE : "";
@@ -582,17 +591,22 @@
                             self.datas.sjld = info.BUSI_FUNNEL_NM ? info.BUSI_FUNNEL_NM : "";
                             self.datas.bjInfoMark = info.NOTES ? info.NOTES : "";
                             self.datas.jyfw = info.BUSI_RANGE ? info.BUSI_RANGE : "";
+                            var BUSI_PROP_ARR = info.BUSI_PROP.split(",");
                             res.data.datas.BUSI_PROPS.forEach(function (e) {
-                                if (e.FLAG == info.BUSI_PROP_NM) {
-                                    var o = {
-                                        DATA_ID: e.DATA_ID,
-                                        FLAG: e.FLAG,
-                                        CODE: e.CODE,
-                                        checked: true
-                                    };
-                                    self.datas.ywxz.push(o);
+                                var o = {};
+                                if (BUSI_PROP_ARR.some(function (item) {return item == e.CODE})) {
+                                    BUSI_PROP_ARR.forEach(function (item) {
+                                        if (item == e.CODE) {
+                                            o = {
+                                                DATA_ID: e.DATA_ID,
+                                                FLAG: e.FLAG,
+                                                CODE: e.CODE,
+                                                checked: true
+                                            };
+                                        }
+                                    });
                                 } else {
-                                    var o = {
+                                    o = {
                                         DATA_ID: e.DATA_ID,
                                         FLAG: e.FLAG,
                                         CODE: e.CODE,
@@ -600,6 +614,9 @@
                                     };
                                 }
                                 self.BUSI_PROPS.push(o);
+                            });
+                            self.datas.ywxz = self.BUSI_PROPS.filter(function (e) {
+                                return e.checked == true;
                             });
                         } else {
                             res.data.datas.BUSI_PROPS.forEach(function (e) {
@@ -652,22 +669,221 @@
                     })
                 });
             },
+            saveCheck: function () {
+                var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+                if (this.datas.name == "") {
+                    summer.toast({
+                        msg: '请输入客户名称'
+                    });
+                    return false;
+                } else if (this.datas.area == "") {
+                    summer.toast({
+                        msg: '请选择大区'
+                    });
+                    return false;
+                } else if (this.datas.fengongsi == "") {
+                    summer.toast({
+                        msg: '请选择分公司'
+                    });
+                    return false;
+                } else if (this.datas.createDate == "") {
+                    summer.toast({
+                        msg: '请选择创建时间'
+                    });
+                    return false;
+                } else if (this.datas.createDate == "") {
+                    summer.toast({
+                        msg: '请选择创建时间'
+                    });
+                    return false;
+                } else if (this.datas.kehuState == "") {
+                    summer.toast({
+                        msg: '请选择客户状态'
+                    });
+                    return false;
+                } else if (this.datas.sjState == "") {
+                    summer.toast({
+                        msg: '请选择商机状态'
+                    });
+                    return false;
+                } else if (this.datas.khsx == "") {
+                    summer.toast({
+                        msg: '请选择客户属性'
+                    });
+                    return false;
+                } else if (this.datas.khlx == "") {
+                    summer.toast({
+                        msg: '请选择客户类型'
+                    });
+                    return false;
+                } else if (this.datas.hzfs == "") {
+                    summer.toast({
+                        msg: '请选择合作方式'
+                    });
+                    return false;
+                } /* else if (this.datas.xsry == "") {
+                    summer.toast({
+                        msg: '请选择销售人员'
+                    });
+                    return false;
+                } */ else if (this.datas.sfzNo == "") {
+                    summer.toast({
+                        msg: '请输入主代/身份证号'
+                    });
+                    return false;
+                } else if (this.datas.phoneNum == "") {
+                    summer.toast({
+                        msg: '请输入手机号'
+                    });
+                    return false;
+                } else if (!phoneCard.test(this.datas.phoneNum)) {
+                    summer.toast({
+                        msg: "手机号格式有误"
+                    });
+                    return false;
+                } else if (this.datas.zcDate == "") {
+                    summer.toast({
+                        msg: "请选择注册时间"
+                    });
+                    return false;
+                } else if (this.datas.qyxz == "") {
+                    summer.toast({
+                        msg: "请选择企业性质"
+                    });
+                    return false;
+                } else if (this.datas.jyfw == "") {
+                    summer.toast({
+                        msg: "请输入营业范围"
+                    });
+                    return false;
+                } else if (this.datas.sjld == "") {
+                    summer.toast({
+                        msg: "请选择商机漏斗"
+                    });
+                    return false;
+                } else if (!this.datas.ywxz.length) {
+                    summer.toast({
+                        msg: "请选择业务性质"
+                    });
+                    return false;
+                } else {
+                    return true;
+                }
+            },
             // 保存（返回）
             save: function () {
-                summer.execScript({
-                    winId: 'menu',
-                    script: "addRight('oSJD')"
-                });
-                summer.execScript({
-                    winId: 'menu',
-                    script: "menu.addCSTCODE('cstcode')"
-                });
-                summer.closeWin();
-            },
+                if (this.saveCheck()) {
+                    var _this = this;
+                    summer.showProgress();
+                    var CST_TYPE, CST_STATUS, BUSI_STATUS, CST_PROP, BUSI_AREA, BRANCH_CODE, COO_WAY, CORP_PROP, BUSI_PROP=[], BUSI_FUNNEL;
+                    this.resultData.CST_TYPE.forEach(function (e) {
+                        if (e.FLAG == _this.datas.khlx) {
+                            CST_TYPE = e.CODE;
+                        }
+                    });
+                    this.resultData.CST_STATUSS.forEach(function (e) {
+                        if (e.FLAG == _this.datas.kehuState) {
+                            CST_STATUS = e.CODE;
+                        }
+                    });
+                    this.resultData.BUSI_STATUSS.forEach(function (e) {
+                        if (e.FLAG == _this.datas.sjState) {
+                            BUSI_STATUS = e.CODE;
+                        }
+                    });
+                    this.resultData.CST_PROPS.forEach(function (e) {
+                        if (e.FLAG == _this.datas.khsx) {
+                            CST_PROP = e.CODE;
+                        }
+                    });
+                    this.resultData.LARGE_AREAS.forEach(function (e) {
+                        if (e.FLAG == _this.datas.area) {
+                            BUSI_AREA = e.CODE;
+                        }
+                    });
+                    this.resultData.COMPANYS.forEach(function (e) {
+                        if (e.SHORT_NAME == _this.datas.fengongsi) {
+                            BRANCH_CODE = e.ID;
+                        }
+                    });
+                    this.resultData.COO_WAYS.forEach(function (e) {
+                        if (e.FLAG == _this.datas.hzfs) {
+                            COO_WAY = e.CODE;
+                        }
+                    });
+                    this.resultData.CORP_PROPS.forEach(function (e) {
+                        if (e.FLAG == _this.datas.qyxz) {
+                            CORP_PROP = e.CODE;
+                        }
+                    });
+                    this.datas.ywxz.forEach(function (e) {
+                        BUSI_PROP.push(e.CODE);
+                    });
+                    this.resultData.BUSI_FUNNELS.forEach(function (e) {
+                        if (e.FLAG == _this.datas.sjld) {
+                            BUSI_FUNNEL = e.CODE;
+                        }
+                    });
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'crm/saveCrmBusInfo',
+                        param: {
+                            ID: _this.ID,
+                            CST_NAME: _this.datas.name,
+                            EMPLOYEE_MOBILE_TEL: _this.EMPLOYEE_MOBILE_TEL,
+                            CST_TEL: _this.datas.phoneNum,
+                            CERT_NO: _this.datas.sfzNo,
+                            CST_TYPE: CST_TYPE,
+                            CST_STATUS: CST_STATUS,
+                            BUSI_STATUS: BUSI_STATUS,
+                            CST_PROP: CST_PROP,
+                            BUSI_AREA: BUSI_AREA,
+                            BRANCH_CODE: BRANCH_CODE,
+                            COO_WAY: COO_WAY,
+                            REG_DATE: _this.datas.zcDate,
+                            CORP_PROP: CORP_PROP,
+                            BUSI_PROP: BUSI_PROP.join(),
+                            BUSI_FUNNEL: BUSI_FUNNEL,
+                            CREATE_DATE: _this.datas.createDate,
+                            NOTES: _this.datas.bjInfoMark
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            summer.toast({
+                                msg: '保存成功'
+                            })
+                            summer.execScript({
+                                winId: 'menu',
+                                script: "addRight('oSJD')"
+                            });
+                            summer.execScript({
+                                winId: 'menu',
+                                script: "menu.addCSTCODE('cstcode')"
+                            });
+                            summer.closeWin();
+                        } else {
+                            summer.toast({
+                                msg: res.data.msg ? res.data.msg : "保存失败"
+                            })
+                        }
+                    }, function (err) {
+                        summer.hideProgress();
+                        console.log("err", err);
+                        summer.toast({
+                            msg: '保存失败'
+                        })
+                    });
+                }
+            }
         }
     });
     summerready = function () {
         bjInfo.ID = summer.pageParam.ID;
+        var userinfo = summer.getStorage("userinfo");
+        if (userinfo && userinfo.EMPLOYEE_MOBILE_TEL) {
+            bjInfo.EMPLOYEE_MOBILE_TEL = userinfo.EMPLOYEE_MOBILE_TEL;
+        }
         bjInfo.getData();
     }
 </script>

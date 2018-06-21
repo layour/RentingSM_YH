@@ -21,22 +21,22 @@
         <div class="um-content" v-cloak>
             <ul class="loanList">
                 <li>
-                    <span>联系人姓名</span>
-                    <input v-model="info.name" type="text" placeholder="请输入姓名" />
+                    <span>年份</span>
+                    <input v-model="info.FIN_YEAR" type="text" placeholder="请输入年份" />
                 </li>
                 <li>
-                    <span>联系人职务</span>
-                    <input v-model="info.zhiwu" type="text" placeholder="请输入职务" />
+                    <span>主营收入（元）</span>
+                    <input v-model="info.FIN_INCOME" type="text" placeholder="请输入主营收入" />
                 </li>
                 <li>
-                    <span>联系人电话</span>
-                    <input v-model="info.phone" type="text" placeholder="请输入电话" />
+                    <span>利润（元）</span>
+                    <input v-model="info.FIN_PROFIT" type="text" placeholder="请输入利润" />
                 </li>
             </ul>
         </div>
     </div>
     <script type="text/javascript">
-        var contactsInfo = new Vue({
+        var financeInfo = new Vue({
             el: '#index',
             data: {
                 // 联系人ID
@@ -44,34 +44,28 @@
                 // 客户编号
                 CST_CODE: "",
                 info: {
-                    name: "",
-                    zhiwu: "",
-                    phone: ""
+                    FIN_YEAR: "",
+                    FIN_INCOME: "",
+                    FIN_PROFIT: ""
                 }
             },
             methods: {
                 // 保存
-                saveContacts: function (){
+                saveFinance: function (){
                     var self = this;
-                    var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
-                    if (this.info.name == "") {
+                    if (this.info.FIN_YEAR == "") {
                         summer.toast({
-                            msg: "请输入姓名"
+                            msg: "请输入年份"
                         });
                         return;
-                    } else if (this.info.phone == "") {
+                    } else if (this.info.FIN_INCOME == "") {
                         summer.toast({
-                            msg: "请输入手机号"
+                            msg: "请输入主营收入"
                         });
                         return;
-                    } else if (!phoneCard.test(this.info.phone)) {
+                    } else if (this.info.FIN_PROFIT == "") {
                         summer.toast({
-                            msg: "手机号格式有误"
-                        });
-                        return;
-                    } else if (this.info.zhiwu == "") {
-                        summer.toast({
-                            msg: "请输入职务"
+                            msg: "请输入利润"
                         });
                         return;
                     }
@@ -79,13 +73,13 @@
                     summer.showProgress();
 					ajaxRequest({
 						type: 'post',
-						url: 'crm/saveLinkman',
+						url: 'crm/saveBusiFinInfo',
 						param: {
                             ID: this.ID,  
-							LNK_NAME: this.info.name,
-                            LNK_POST: this.info.zhiwu,
-                            LNK_TEL: this.info.phone,
-                            CST_CODE: this.CST_CODE
+                            CST_CODE: this.CST_CODE,
+							FIN_YEAR: this.info.FIN_YEAR,
+                            FIN_INCOME: this.info.FIN_INCOME,
+                            FIN_PROFIT: this.info.FIN_PROFIT
 						}
 					}, function(res) {
                         summer.hideProgress();
@@ -100,8 +94,8 @@
 								msg: "保存成功"
 							});
                             summer.execScript({
-                                winId: 'contacts',
-                                script: "contacts.getData()"
+                                winId: 'finance',
+                                script: "finance.getData()"
                             });
                             summer.closeWin();
 						} else {
@@ -121,40 +115,40 @@
                     summer.showProgress();
                     ajaxRequest({
                         type: 'post',
-                        url: 'crm/cstlinkmanInfo',
+                        url: 'crm/findBusiFinInfoById',
                         param: {
                             "ID": ID
                         }
                     }, function (res) {
                         summer.hideProgress();
                         if (res.data.flag == 1) {
-                            if (res.data.datas.linkmanInfo) {
-                                var info = res.data.datas.linkmanInfo;
-                                _this.info.name = info.LNK_NAME ? info.LNK_NAME : "";
-                                _this.info.zhiwu = info.LNK_POST ? info.LNK_POST : "";
-                                _this.info.phone = info.LNK_TEL ? info.LNK_TEL : "";
+                            if (res.data.datas.busiFinInfo) {
+                                var info = res.data.datas.busiFinInfo;
+                                _this.info.FIN_YEAR = info.FIN_YEAR ? info.FIN_YEAR : "";
+                                _this.info.FIN_INCOME = info.FIN_INCOME ? info.FIN_INCOME : "";
+                                _this.info.FIN_PROFIT = info.FIN_PROFIT ? info.FIN_PROFIT : "";
                             }
                         } else {
                             summer.toast({
-                                msg: '获取联系人信息失败'
+                                msg: '获取财务情况失败'
                             })
                         }
                     }, function (err) {
                         summer.hideProgress();
                         summer.toast({
-                            msg: '获取联系人信息失败'
+                            msg: '获取财务情况失败'
                         })
                     })
                 }
             }
         });
-        function saveContactsInfo () {
-            contactsInfo.saveContacts();
+        function saveFinanceInfo () {
+            financeInfo.saveFinance();
         };
         summerready = function() {
-            contactsInfo.ID = summer.pageParam.ID;
-            contactsInfo.CST_CODE = summer.pageParam.CST_CODE;
-            contactsInfo.getData(contactsInfo.ID);
+            financeInfo.ID = summer.pageParam.ID;
+            financeInfo.CST_CODE = summer.pageParam.CST_CODE;
+            financeInfo.getData(financeInfo.ID);
         };
     </script>
 </body>

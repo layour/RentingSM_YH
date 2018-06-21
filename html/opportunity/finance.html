@@ -119,10 +119,10 @@
         <div class="um-content addCarList">
             <ul>
                 <li v-for="(item,index) in list" @click="gotoDetail(item.ID)" :key="index">
-                    <mt-cell-swipe :title="item.LNK_NAME" :right="[{content: '&nbsp;&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'2.4rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index, item.ID)}}]">
+                    <mt-cell-swipe :title="item.FIN_YEAR" :right="[{content: '&nbsp;&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'2.4rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index, item.ID)}}]">
                         <div class="price">
-                            <p>联系人职务：{{ item.LNK_POST}}</p>
-                            <p>联系人电话：{{ item.LNK_TEL }}</p>
+                            <p>主营收入（元）：{{ item.FIN_INCOME}}</p>
+                            <p>利润（元）：{{ item.FIN_PROFIT }}</p>
                         </div>
                         <div class="fr">
                             <i class="icon iconfont icon-enter"></i>
@@ -132,7 +132,7 @@
             </ul>
             <div id="noData" class="alignCenter" v-if="list.length==0">
                 <img src="../../img/empty.png" alt="">
-                <p>暂无联系人</p>
+                <p>暂无财务情况</p>
             </div>
         </div>
     </div>
@@ -145,10 +145,10 @@
     <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
     <script>
         summerready = function () {
-            contacts.CST_CODE = summer.pageParam.CST_CODE;
-            contacts.getData();
+            finance.CST_CODE = summer.pageParam.CST_CODE;
+            finance.getData();
         }
-        var contacts = new Vue({
+        var finance = new Vue({
             el: '#addCarList',
             data: function () {
                 return {
@@ -161,8 +161,8 @@
                 gotoDetail: function (ID) {
                     var _this = this;
                     summer.openWin({
-                        id: 'contactsInfo',
-                        url: 'html/opportunity/contactsInfo.html',
+                        id: 'financeInfo',
+                        url: 'html/opportunity/financeInfo.html',
                         create: false,
                         type: 'actionBar',
                         pageParam: {
@@ -170,7 +170,7 @@
                             "CST_CODE": this.CST_CODE
                         },
                         actionBar: {
-                            title: '联系人信息',
+                            title: '财务信息',
                             titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
                             backgroundColor: "#039BE5",
                             leftItem: {
@@ -182,7 +182,7 @@
                             rightItems: [{
                                 type: "text",
                                 text: "保存",
-                                method: 'saveContactsInfo()',
+                                method: 'saveFinanceInfo()',
                                 textColor: "#ffffff"
                             }]
                         }
@@ -193,31 +193,31 @@
                     summer.showProgress();
                     ajaxRequest({
                         type: 'post',
-                        url: 'crm/cstLinkmanlist',
+                        url: 'crm/cstBusiFinList',
                         param: {
                             CST_CODE: _this.CST_CODE
                         }
                     }, function (res) {
                         summer.hideProgress();
                         if (res.data.flag == 1) {
-                            var list = res.data.datas.linkmanList;
+                            var list = res.data.datas.cstBusiFinList;
                             if (list.length > 0) {
                                 _this.list = list;
                                 summer.execScript({
                                     winId: 'menu',
-                                    script: "addRight('oLXR')"
+                                    script: "addRight('oCW')"
                                 });
                             }
                         } else {
                             summer.toast({
-                                msg: '获取联系人列表失败'
+                                msg: '获取财务情况失败'
                             })
                         }
                     }, function (err) {
                         summer.hideProgress();
                         console.log("err", err);
                         summer.toast({
-                            msg: '获取联系人列表失败'
+                            msg: '获取财务情况失败'
                         })
                     })
                 },
@@ -226,7 +226,7 @@
                     summer.showProgress();
                     ajaxRequest({
                         type: 'post',
-                        url: 'crm/delLinkman',
+                        url: 'crm/delBusiFinInfo',
                         param: {
                             ID: ID
                         }
@@ -240,7 +240,7 @@
                             if (!_this.list.length) {
                                 summer.execScript({
                                     winId: 'menu',
-                                    script: "removeRight('oLXR')"
+                                    script: "removeRight('oCW')"
                                 });
                             }
                         } else {
@@ -259,8 +259,8 @@
                 add: function () {
                     var _this = this;
                     summer.openWin({
-                        id: 'contactsInfo',
-                        url: 'html/opportunity/contactsInfo.html',
+                        id: 'financeInfo',
+                        url: 'html/opportunity/financeInfo.html',
                         create: false,
                         type: 'actionBar',
                         pageParam: {
@@ -268,7 +268,7 @@
                             "CST_CODE": this.CST_CODE
                         },
                         actionBar: {
-                            title: '新增联系人',
+                            title: '新增财务情况',
                             titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
                             backgroundColor: "#039BE5",
                             leftItem: {
@@ -280,7 +280,7 @@
                             rightItems: [{
                                 type: "text",
                                 text: "保存",
-                                method: 'saveContactsInfo()',
+                                method: 'saveFinanceInfo()',
                                 textColor: "#ffffff"
                             }]
                         }

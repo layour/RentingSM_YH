@@ -13,6 +13,7 @@
 	<script src="./js/Frameworks/iuapmobile.frameworks.ui.js"></script>
     <script src="js/font.js"></script>
     <script src="js/md5.js"></script>
+    <script src="js/common.js"></script>
 </head>
 
 <body>
@@ -83,7 +84,7 @@
 			}; //设置5秒超时
 			summer.ajax({
 				type: "post",
-				url: "http://39.107.231.240:8080/appservice-yh/login/carLogin",
+				url: G_COMMON_URL + "login/carLogin",
 				param: {
 					"EMPLOYEE_CODE": workNum,
 					"EMPLOYEE_PWD": psw
@@ -108,10 +109,12 @@
 						var EMPLOYEE_CODE = Data.datas.EMPLOYEE_CODE;
                         var EMPLOYEE_NAME = Data.datas.EMPLOYEE_NAME;
                         var EMPLOYEE_ID = Data.datas.EMPLOYEE_ID;
+                        var EMPLOYEE_MOBILE_TEL = Data.datas.EMPLOYEE_MOBILE_TEL ? Data.datas.EMPLOYEE_MOBILE_TEL : "";
 						var userinfo = {
 							EMPLOYEE_CODE: EMPLOYEE_CODE,
 							EMPLOYEE_NAME: EMPLOYEE_NAME,
-							EMPLOYEE_ID: EMPLOYEE_ID
+                            EMPLOYEE_ID: EMPLOYEE_ID,
+                            EMPLOYEE_MOBILE_TEL: EMPLOYEE_MOBILE_TEL
 						};
 						summer.setStorage("userinfo", userinfo);
 						// 调用首页获取代办任务数量
