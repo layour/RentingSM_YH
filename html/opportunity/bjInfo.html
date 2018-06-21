@@ -33,12 +33,20 @@
             <li>
                 <span>
                     <b>*</b>大区</span>
-                <input type="text" placeholder="请输入" v-model="datas.area" />
+                <div @click="surePickerDQ">
+                    <span class="iconfont icon-enter"></span>
+                    <i v-if="datas.area" style="color: #333;">{{ datas.area }}</i>
+                    <i v-else>请选择</i>
+                </div>
             </li>
             <li>
                 <span>
                     <b>*</b>分公司</span>
-                <input type="text" placeholder="请输入" v-model="datas.fengongsi" />
+                <div @click="surePickerFGS">
+                    <span class="iconfont icon-enter"></span>
+                    <i v-if="datas.fengongsi" style="color: #333;">{{ datas.fengongsi }}</i>
+                    <i v-else>请选择</i>
+                </div>
             </li>
             <li>
                 <span>
@@ -73,6 +81,15 @@
                 <div @click="surePickerKHSX">
                     <span class="iconfont icon-enter"></span>
                     <i v-if="datas.khsx" style="color: #333;">{{ datas.khsx }}</i>
+                    <i v-else>请选择</i>
+                </div>
+            </li>
+            <li>
+                <span>
+                    <b>*</b>客户类型</span>
+                <div @click="surePickerKHLX">
+                    <span class="iconfont icon-enter"></span>
+                    <i v-if="datas.khlx" style="color: #333;">{{ datas.khlx }}</i>
                     <i v-else>请选择</i>
                 </div>
             </li>
@@ -124,8 +141,17 @@
             </li>
             <li>
                 <span>
-                    <b>*</b>经营范围</span>
+                    <b>*</b>营业范围</span>
                 <input type="text" placeholder="请输入" v-model="datas.jyfw" />
+            </li>
+            <li>
+                <span>
+                    <b>*</b>商机漏斗</span>
+                <div @click="surePickerSJLD">
+                    <span class="iconfont icon-enter"></span>
+                    <i v-if="datas.sjld" style="color: #333;">{{ datas.sjld }}</i>
+                    <i v-else>请选择</i>
+                </div>
             </li>
             <li>
                 <span>
@@ -136,7 +162,7 @@
                 <strong></strong>
                 <i>业务性质</i>
             </li>
-            <li class="ywxz">
+            <li class="ywxz" v-if="BUSI_PROPS.length">
                 <div v-for="(item, index) in BUSI_PROPS" @click="chooseywxz(index)">
                     <div class="circle" v-bind:class="[item.checked ? 'active' : '']"></div>
                     <div class="txt">{{ item.FLAG }}</div>
@@ -145,27 +171,11 @@
         </ul>
         <div class="um-footer">
             <!-- 出生日期 -->
-            <mt-datetime-picker 
-                ref="picker" 
-                v-model="pickerValue" 
-                type="date" 
-                cancel-text='取消' 
-                confirm-text='确定' 
-                :start-date='new Date("1950-01-01")'
-                :end-date="new Date()" 
-                @confirm="handleConfirm"
-            ></mt-datetime-picker>
+            <mt-datetime-picker ref="picker" v-model="pickerValue" type="date" cancel-text='取消' confirm-text='确定' :start-date='new Date("1950-01-01")'
+                :end-date="new Date()" @confirm="handleConfirm"></mt-datetime-picker>
             <!-- 注册日期 -->
-            <mt-datetime-picker 
-                ref="picker1" 
-                v-model="pickerzcValue" 
-                type="date" 
-                cancel-text='取消' 
-                confirm-text='确定' 
-                :start-date='new Date("1950-01-01")'
-                :end-date="new Date()" 
-                @confirm="handleConfirm1"
-            ></mt-datetime-picker>
+            <mt-datetime-picker ref="picker1" v-model="pickerzcValue" type="date" cancel-text='取消' confirm-text='确定' :start-date='new Date("1950-01-01")'
+                :end-date="new Date()" @confirm="handleConfirm1"></mt-datetime-picker>
             <!-- 客户状态 -->
             <mt-popup v-model="pickerKHZTShow" position="bottom" class="pickerColor">
                 <mt-picker :slots="slots0" @change="onValuesChange0"></mt-picker>
@@ -214,6 +224,38 @@
                     <span class="" @click="surePickerQYXZ('confirm')">确定</span>
                 </p>
             </mt-popup>
+            <!-- 分公司 -->
+            <mt-popup v-model="pickerFGSShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots6" @change="onValuesChange6"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerFGS">取消</span>
+                    <span class="" @click="surePickerFGS('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 大区 -->
+            <mt-popup v-model="pickerDQShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots7" @change="onValuesChange7"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerDQ">取消</span>
+                    <span class="" @click="surePickerDQ('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 客户类型 -->
+            <mt-popup v-model="pickerKHLXShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots8" @change="onValuesChange8"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerKHLX">取消</span>
+                    <span class="" @click="surePickerKHLX('confirm')">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 商机漏斗 -->
+            <mt-popup v-model="pickerSJLDShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots9" @change="onValuesChange9"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerSJLD">取消</span>
+                    <span class="" @click="surePickerSJLD('confirm')">确定</span>
+                </p>
+            </mt-popup>
         </div>
     </div>
 </body>
@@ -232,6 +274,7 @@
                 kehuState: "",
                 sjState: "",
                 khsx: "",
+                khlx: "",
                 hzfs: "",
                 xsry: "",
                 sfzNo: "",
@@ -239,24 +282,14 @@
                 zcDate: "",
                 qyxz: "",
                 jyfw: "",
+                sjld: "",
                 bjInfoMark: "",
                 ywxz: []
             },
+            // 字典及信息
+            resultData: "",
             // 业务性质
-            BUSI_PROPS: [
-                {
-                    checked: false,
-                    FLAG: "常规大客户"
-                },
-                {
-                    checked: false,
-                    FLAG: "新能源"
-                },
-                {
-                    checked: false,
-                    FLAG: "库存融资"
-                }
-            ],
+            BUSI_PROPS: [],
             // 创建时间
             pickerBirthday: false,
             pickerValue: new Date(),
@@ -322,13 +355,49 @@
                 defaultIndex: 0,
                 className: 'slot1',
                 textAlign: 'center'
+            }],
+            // 分公司
+            pickerFGSShow: false,
+            pickerFGS: "",
+            slots6: [{
+                flex: 1,
+                values: [],
+                defaultIndex: 0,
+                className: 'slot1',
+                textAlign: 'center'
+            }],
+            // 大区
+            pickerDQShow: false,
+            pickerDQ: "",
+            slots7: [{
+                flex: 1,
+                values: [],
+                defaultIndex: 0,
+                className: 'slot1',
+                textAlign: 'center'
+            }],
+            // 客户类型
+            pickerKHLXShow: false,
+            pickerKHLX: "",
+            slots8: [{
+                flex: 1,
+                values: [],
+                defaultIndex: 0,
+                className: 'slot1',
+                textAlign: 'center'
+            }],
+            // 商机漏斗
+            pickerSJLDShow: false,
+            pickerSJLD: "",
+            slots9: [{
+                flex: 1,
+                values: [],
+                defaultIndex: 0,
+                className: 'slot1',
+                textAlign: 'center'
             }]
         },
         methods: {
-            // 保存（返回）
-            save: function () {
-                
-            },
             // 创建时间
             surePickerBirthday: function () {
                 this.pickerBirthday = !this.pickerBirthday;
@@ -429,20 +498,177 @@
                     this.datas.qyxz = this.pickerQYXZ;
                 }
             },
+            // 分公司更改
+            onValuesChange6: function (picker, values) {
+                this.pickerFGS = values[0];
+            },
+            surePickerFGS: function (param) {
+                var self = this;
+                this.pickerFGSShow = !this.pickerFGSShow;
+                if (param == 'confirm') {
+                    this.datas.fengongsi = this.pickerFGS;
+                }
+            },
+            // 大区更改
+            onValuesChange7: function (picker, values) {
+                this.pickerDQ = values[0];
+            },
+            surePickerDQ: function (param) {
+                var self = this;
+                this.pickerDQShow = !this.pickerDQShow;
+                if (param == 'confirm') {
+                    this.datas.area = this.pickerDQ;
+                }
+            },
+            // 客户类型更改
+            onValuesChange8: function (picker, values) {
+                this.pickerKHLX = values[0];
+            },
+            surePickerKHLX: function (param) {
+                var self = this;
+                this.pickerKHLXShow = !this.pickerKHLXShow;
+                if (param == 'confirm') {
+                    this.datas.khlx = this.pickerKHLX;
+                }
+            },
+            // 商机漏斗更改
+            onValuesChange9: function (picker, values) {
+                this.pickerSJLD = values[0];
+            },
+            surePickerSJLD: function (param) {
+                var self = this;
+                this.pickerSJLDShow = !this.pickerSJLDShow;
+                if (param == 'confirm') {
+                    this.datas.sjld = this.pickerSJLD;
+                }
+            },
             // 选择业务性质
             chooseywxz: function (index) {
                 this.BUSI_PROPS[index].checked = !this.BUSI_PROPS[index].checked;
                 this.datas.ywxz = this.BUSI_PROPS.filter(function (e) {
                     return e.checked == true;
                 });
-            }
-        },
-        computed: {
-
+                console.log(this.datas.ywxz);
+            },
+            getData: function () {
+                var self = this;
+                summer.showProgress();
+                ajaxRequest({
+                    type: 'post',
+                    url: 'crm/getCrmBusInfo',
+                    param: {
+                        ID: this.ID
+                    }
+                }, function (res) {
+                    summer.hideProgress();
+                    if (res.data.flag == 1) {
+                        self.resultData = res.data.datas;
+                        if (res.data.datas.crmBusInfo) {
+                            var info = res.data.datas.crmBusInfo;
+                            self.datas.name = info.CST_NAME ? info.CST_NAME : "";
+                            self.datas.area = info.BUSI_AREA ? info.BUSI_AREA : "";
+                            self.datas.fengongsi = info.BRANCH_CODE_NM ? info.BRANCH_CODE_NM : "";
+                            self.datas.createDate = info.BUSI_DATE ? info.BUSI_DATE : "";
+                            self.datas.kehuState = info.CST_STATUS_NM ? info.CST_STATUS_NM : "";
+                            self.datas.sjState = info.BUSI_STATUS_NM ? info.BUSI_STATUS_NM : "";
+                            self.datas.khsx = info.CST_PROP_NM ? info.CST_PROP_NM : "";
+                            self.datas.khlx = info.CST_TYPE_NM ? info.CST_TYPE_NM : "";
+                            self.datas.hzfs = info.COO_WAY_NM ? info.COO_WAY_NM : "";
+                            self.datas.xsry = "";
+                            self.datas.sfzNo = info.CERT_NO ? info.CERT_NO : "";
+                            self.datas.phoneNum = info.CST_TEL ? info.CST_TEL : "";
+                            self.datas.zcDate = info.REG_DATE ? info.REG_DATE : "";
+                            self.datas.qyxz = info.CORP_PROP_NM ? info.CORP_PROP_NM : "";
+                            self.datas.sjld = info.BUSI_FUNNEL_NM ? info.BUSI_FUNNEL_NM : "";
+                            self.datas.bjInfoMark = info.NOTES ? info.NOTES : "";
+                            self.datas.jyfw = info.BUSI_RANGE ? info.BUSI_RANGE : "";
+                            res.data.datas.BUSI_PROPS.forEach(function (e) {
+                                if (e.FLAG == info.BUSI_PROP_NM) {
+                                    var o = {
+                                        DATA_ID: e.DATA_ID,
+                                        FLAG: e.FLAG,
+                                        CODE: e.CODE,
+                                        checked: true
+                                    };
+                                    self.datas.ywxz.push(o);
+                                } else {
+                                    var o = {
+                                        DATA_ID: e.DATA_ID,
+                                        FLAG: e.FLAG,
+                                        CODE: e.CODE,
+                                        checked: false
+                                    };
+                                }
+                                self.BUSI_PROPS.push(o);
+                            });
+                        } else {
+                            res.data.datas.BUSI_PROPS.forEach(function (e) {
+                                var o = {
+                                    DATA_ID: e.DATA_ID,
+                                    FLAG: e.FLAG,
+                                    CODE: e.CODE,
+                                    checked: false
+                                };
+                                self.BUSI_PROPS.push(o);
+                            });
+                        }
+                        res.data.datas.BUSI_STATUSS.forEach(function (e) {
+                            self.slots1[0].values.push(e.FLAG);
+                        });
+                        res.data.datas.COO_WAYS.forEach(function (e) {
+                            self.slots3[0].values.push(e.FLAG);
+                        });
+                        res.data.datas.COMPANYS.forEach(function (e) {
+                            self.slots6[0].values.push(e.SHORT_NAME);
+                        });
+                        res.data.datas.CST_STATUSS.forEach(function (e) {
+                            self.slots0[0].values.push(e.FLAG);
+                        });
+                        res.data.datas.LARGE_AREAS.forEach(function (e) {
+                            self.slots7[0].values.push(e.FLAG);
+                        });
+                        res.data.datas.CORP_PROPS.forEach(function (e) {
+                            self.slots5[0].values.push(e.FLAG);
+                        });
+                        res.data.datas.CST_PROPS.forEach(function (e) {
+                            self.slots2[0].values.push(e.FLAG);
+                        });
+                        res.data.datas.CST_TYPE.forEach(function (e) {
+                            self.slots8[0].values.push(e.FLAG);
+                        });
+                        res.data.datas.BUSI_FUNNELS.forEach(function (e) {
+                            self.slots9[0].values.push(e.FLAG);
+                        });
+                    } else {
+                        summer.toast({
+                            msg: '获取基础信息失败'
+                        })
+                    }
+                }, function (err) {
+                    summer.hideProgress();
+                    console.log("err", err);
+                    summer.toast({
+                        msg: '获取基础信息失败'
+                    })
+                });
+            },
+            // 保存（返回）
+            save: function () {
+                summer.execScript({
+                    winId: 'menu',
+                    script: "addRight('oSJD')"
+                });
+                summer.execScript({
+                    winId: 'menu',
+                    script: "menu.addCSTCODE('cstcode')"
+                });
+                summer.closeWin();
+            },
         }
     });
     summerready = function () {
         bjInfo.ID = summer.pageParam.ID;
+        bjInfo.getData();
     }
 </script>
 

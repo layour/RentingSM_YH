@@ -154,19 +154,19 @@ input::-webkit-input-placeholder {
     align-items: center;
 }
 .infoList .ywxz>div .circle {
-    width: 0.24rem;
-    height: 0.24rem;
+    width: 0.18rem;
+    height: 0.18rem;
     box-sizing: border-box;
     float: none;
     border: 0.02rem solid #9e9e9e;
-    border-radius: 0.12rem;
+    border-radius: 0.09rem;
     margin-right: 0.2rem;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .infoList .ywxz>div .circle.active {
-    background-color: #ff9800;
+    background-color: #039be5;
 }
 .infoList .ywxz>div .txt {
     height: 0.8rem;

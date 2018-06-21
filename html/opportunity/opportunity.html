@@ -23,7 +23,7 @@
         <div class="um-content">
             <div id="content"></div>
             <ul class="opportunity um-frame">
-                <li class="opportunityItems" v-for="(item, index) in datas" @click="oppDetail(item.ID)">
+                <li class="opportunityItems" v-for="(item, index) in datas" @click="oppDetail(item.ID, item.CST_CODE)">
                     <mt-cell-swipe :title="item.CST_NAME" :label="item.BUSI_STATUS_NM" :right="[{content: '&nbsp;&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'2.4rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index, item.ID)}}]">
                         <div class="price">
                             <p>客户属性：{{ item.CST_PROP_NM }}</p>
@@ -98,7 +98,7 @@
                 });
             },
             // 查看详情
-            oppDetail: function (ID) {
+            oppDetail: function (ID, CST_CODE) {
                 summer.openWin({
                     id: 'menu',
                     url: 'html/opportunity/menu.html',
@@ -122,7 +122,8 @@
                         }]
                     },
                     pageParam: {
-                        "ID": ID
+                        "ID": ID,
+                        "CST_CODE": CST_CODE
                     }
                 });
             },
