@@ -59,10 +59,24 @@
 <body>
     <div class="um-win" id="projectImgListBigCar" v-cloak>
         <div class="um-content addCar">
-            <div class="um-list-item-bodys" @click="openBJ('oBJ')">
-                背景信息
+            <div class="um-list-item-bodys" @click="openSJD('oSJD')">
+                商机单信息
                 <span class="frp">
-                    <i class="oBJ icon iconfont icon-right"></i>&nbsp;
+                    <i class="oSJD icon iconfont icon-right"></i>&nbsp;
+                    <i class="icon iconfont icon-enter"></i>
+                </span>
+            </div>
+            <div class="um-list-item-bodys" @click="openLXR('oLXR')">
+                联系人
+                <span class="frp">
+                    <i class="oLXR icon iconfont icon-right"></i>&nbsp;
+                    <i class="icon iconfont icon-enter"></i>
+                </span>
+            </div>
+            <div class="um-list-item-bodys" @click="openCW('oCW')">
+                财务情况
+                <span class="frp">
+                    <i class="oCW icon iconfont icon-right"></i>&nbsp;
                     <i class="icon iconfont icon-enter"></i>
                 </span>
             </div>
@@ -80,10 +94,10 @@
                     <i class="icon iconfont icon-enter"></i>
                 </span>
             </div>
-            <div class="um-list-item-bodys" @click="openLS('oLS')">
-                历史信息
+            <div class="um-list-item-bodys" @click="openYD('oYD')">
+                月度计划
                 <span class="frp">
-                    <i class="oLS icon iconfont icon-right"></i>&nbsp;
+                    <i class="oYD icon iconfont icon-right"></i>&nbsp;
                     <i class="icon iconfont icon-enter"></i>
                 </span>
             </div>
@@ -104,7 +118,7 @@
                     id: 'opportunityIndex'
                 });
             },
-            // 背景信息
+            // 商机单信息
             openBJ: function () {
                 summer.openWin({
                     id: 'bjInfo',
@@ -133,6 +147,14 @@
                     }
                 });
             },
+            // 联系人
+            openLXR: function () {
+
+            },
+            // 财务情况
+            openCW: function () {
+
+            },
             // 需求情况
             openXQ: function () {
 
@@ -141,8 +163,8 @@
             openZF: function () {
 
             },
-            // 历史信息
-            openLS: function () {
+            // 月度计划
+            openYD: function () {
 
             }
         },
@@ -153,6 +175,11 @@
     summerready = function () {
         menu.ID = summer.pageParam.ID;
     }
+
+    function addRight(param) {
+        $("." + param).addClass('active').siblings('i').addClass("active");
+    }
+
 </script>
 
 </html>
