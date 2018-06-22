@@ -48,23 +48,15 @@
                     <i v-else>请选择</i>
                 </div>
             </li>
-            <li>
+            <li v-if="datas.createDate!='none'">
                 <span>
                     <b>*</b>创建时间</span>
-                <div @click="surePickerBirthday">
-                    <span class="iconfont icon-enter"></span>
-                    <i v-if="datas.createDate" style="color: #333;">{{ datas.createDate }}</i>
-                    <i v-else>请选择</i>
-                </div>
+                <input type="text" v-model="datas.createDate" disabled />
             </li>
-            <li>
+            <li v-if="datas.kehuState!='none'">
                 <span>
                     <b>*</b>客户状态</span>
-                <div @click="surePickerKHZT">
-                    <span class="iconfont icon-enter"></span>
-                    <i v-if="datas.kehuState" style="color: #333;">{{ datas.kehuState }}</i>
-                    <i v-else>请选择</i>
-                </div>
+                <input type="text" v-model="datas.kehuState" disabled />
             </li>
             <li>
                 <span>
@@ -170,20 +162,9 @@
             </li>
         </ul>
         <div class="um-footer">
-            <!-- 创建日期 -->
-            <mt-datetime-picker ref="picker" v-model="pickerValue" type="date" cancel-text='取消' confirm-text='确定' :start-date='new Date("1950-01-01")'
-                :end-date="new Date()" @confirm="handleConfirm"></mt-datetime-picker>
             <!-- 注册日期 -->
             <mt-datetime-picker ref="picker1" v-model="pickerzcValue" type="date" cancel-text='取消' confirm-text='确定' :start-date='new Date("1950-01-01")'
                 :end-date="new Date()" @confirm="handleConfirm1"></mt-datetime-picker>
-            <!-- 客户状态 -->
-            <mt-popup v-model="pickerKHZTShow" position="bottom" class="pickerColor">
-                <mt-picker :slots="slots0" @change="onValuesChange0"></mt-picker>
-                <p>
-                    <span class="" @click="surePickerKHZT">取消</span>
-                    <span class="" @click="surePickerKHZT('confirm')">确定</span>
-                </p>
-            </mt-popup>
             <!-- 商机状态 -->
             <mt-popup v-model="pickerSJZTShow" position="bottom" class="pickerColor">
                 <mt-picker :slots="slots1" @change="onValuesChange1"></mt-picker>
@@ -292,22 +273,9 @@
             resultData: "",
             // 业务性质
             BUSI_PROPS: [],
-            // 创建时间
-            pickerBirthday: false,
-            pickerValue: new Date(),
             // 注册时间
             pickerzcDate: false,
             pickerzcValue: new Date(),
-            // 客户状态
-            pickerKHZTShow: false,
-            pickerKHZT: "",
-            slots0: [{
-                flex: 1,
-                values: [],
-                defaultIndex: 0,
-                className: 'slot1',
-                textAlign: 'center'
-            }],
             // 商机状态
             pickerSJZTShow: false,
             pickerSJZT: "",
@@ -400,16 +368,6 @@
             }]
         },
         methods: {
-            // 创建时间
-            surePickerBirthday: function () {
-                this.pickerBirthday = !this.pickerBirthday;
-                this.$refs.picker.open();
-            },
-            handleConfirm: function (pickerValue) {
-                this.pickerValue = pickerValue;
-                var result = this.getFormatDate(pickerValue);
-                this.datas.createDate = result;
-            },
             // 注册时间
             surePickerZCSJ: function () {
                 this.pickerzcDate = !this.pickerzcDate;
@@ -433,17 +391,6 @@
                     strDate = "0" + strDate;
                 }
                 return year + '-' + month + '-' + strDate;
-            },
-            // 客户状态更改
-            onValuesChange0: function (picker, values) {
-                this.pickerKHZT = values[0];
-            },
-            surePickerKHZT: function (param) {
-                var self = this;
-                this.pickerKHZTShow = !this.pickerKHZTShow;
-                if (param == 'confirm') {
-                    this.datas.kehuState = this.pickerKHZT;
-                }
             },
             // 商机状态更改
             onValuesChange1: function (picker, values) {
@@ -628,6 +575,8 @@
                                 };
                                 self.BUSI_PROPS.push(o);
                             });
+                            self.datas.kehuState = "none";
+                            self.datas.createDate = "none";
                         }
                         res.data.datas.BUSI_STATUSS.forEach(function (e) {
                             self.slots1[0].values.push(e.FLAG);
@@ -637,9 +586,6 @@
                         });
                         res.data.datas.COMPANYS.forEach(function (e) {
                             self.slots6[0].values.push(e.SHORT_NAME);
-                        });
-                        res.data.datas.CST_STATUSS.forEach(function (e) {
-                            self.slots0[0].values.push(e.FLAG);
                         });
                         res.data.datas.LARGE_AREAS.forEach(function (e) {
                             self.slots7[0].values.push(e.FLAG);
@@ -657,7 +603,6 @@
                             self.slots9[0].values.push(e.FLAG);
                         });
                         // 新增时间默认当天
-                        self.handleConfirm(new Date());
                         self.handleConfirm1(new Date());
                     } else {
                         summer.toast({
@@ -694,7 +639,7 @@
                         msg: '请选择创建时间'
                     });
                     return false;
-                } else if (this.datas.createDate == "") {
+                } /* else if (this.datas.createDate == "") {
                     summer.toast({
                         msg: '请选择创建时间'
                     });
@@ -704,7 +649,7 @@
                         msg: '请选择客户状态'
                     });
                     return false;
-                } else if (this.datas.sjState == "") {
+                } */ else if (this.datas.sjState == "") {
                     summer.toast({
                         msg: '请选择商机状态'
                     });
@@ -778,15 +723,10 @@
                 if (this.saveCheck()) {
                     var _this = this;
                     summer.showProgress();
-                    var CST_TYPE, CST_STATUS, BUSI_STATUS, CST_PROP, BUSI_AREA, BRANCH_CODE, COO_WAY, CORP_PROP, BUSI_PROP=[], BUSI_FUNNEL;
+                    var CST_TYPE, BUSI_STATUS, CST_PROP, BUSI_AREA, BRANCH_CODE, COO_WAY, CORP_PROP, BUSI_PROP=[], BUSI_FUNNEL;
                     this.resultData.CST_TYPE.forEach(function (e) {
                         if (e.FLAG == _this.datas.khlx) {
                             CST_TYPE = e.CODE;
-                        }
-                    });
-                    this.resultData.CST_STATUSS.forEach(function (e) {
-                        if (e.FLAG == _this.datas.kehuState) {
-                            CST_STATUS = e.CODE;
                         }
                     });
                     this.resultData.BUSI_STATUSS.forEach(function (e) {
@@ -837,7 +777,6 @@
                             CST_TEL: _this.datas.phoneNum,
                             CERT_NO: _this.datas.sfzNo,
                             CST_TYPE: CST_TYPE,
-                            CST_STATUS: CST_STATUS,
                             BUSI_STATUS: BUSI_STATUS,
                             CST_PROP: CST_PROP,
                             BUSI_AREA: BUSI_AREA,
@@ -847,7 +786,6 @@
                             CORP_PROP: CORP_PROP,
                             BUSI_PROP: BUSI_PROP.join(),
                             BUSI_FUNNEL: BUSI_FUNNEL,
-                            CREATE_DATE: _this.datas.createDate,
                             NOTES: _this.datas.bjInfoMark
                         }
                     }, function (res) {
@@ -865,7 +803,7 @@
                             if (CST_CODE && ID) {
                                 summer.execScript({
                                     winId: 'menu',
-                                    script: "menu.addCSTCODE('"+ CST_CODE +", "+ ID +"')"
+                                    script: "menu.addCSTCODE('"+ CST_CODE +"','"+ ID +"')"
                                 });
                             }
                             summer.closeWin();
