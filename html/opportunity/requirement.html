@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="contactsInfo.css">
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/common.js"></script>
+</head>
+
+<body>
+    <div class="um-win" id="index">
+        <div class="um-content" v-cloak>
+            <ul class="loanList">
+                <li>
+                    <span>车辆品牌</span>
+                    <input v-model="crmDemandDetails.CAR_BRAND" type="text" placeholder="请输入车辆品牌" />
+                </li>
+                <li>
+                    <span>所需台数（台）</span>
+                    <input v-model="crmDemandDetails.CAR_QTY" type="number" placeholder="请输入所需台数" />
+                </li>
+                <li>
+                    <span>融资额（元）</span>
+                    <input v-model="crmDemandDetails.FIN_SUM" type="number" placeholder="请输入融资额" />
+                </li>
+                <li>
+                    <span>融资期限（年）</span>
+                    <input v-model="crmDemandDetails.FIN_TERM" type="number" placeholder="请输入融资期限" />
+                </li>
+                <li>
+                    <span>首付比例（%）</span>
+                    <input v-model="crmDemandDetails.FIRST_PERCENT" type="number" placeholder="请输入首付比例" />
+                </li>
+                <li>
+                    <span>保证金比例（%）</span>
+                    <input v-model="crmDemandDetails.BAIL_PERCENT" type="number" placeholder="请输入保证金比例" />
+                </li>
+                <li class="range">
+                    <span>IRR范围</span>
+                    <input v-model="crmDemandDetails.IRR_UP" type="number" /><b>-</b><input v-model="crmDemandDetails.IRR_LOW" type="number" />
+                </li>
+                <li>
+                    <span>备注</span>
+                    <input v-model="crmDemandDetails.NOTES" type="text" placeholder="请输入备注" />
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var requirement = new Vue({
+            el: '#index',
+            data: {
+                // 客户编号
+                CST_CODE: "",
+                // 需求情况ID
+                requireID: "",
+                crmDemandDetails: {
+                    CAR_BRAND: "",
+                    CAR_QTY: "",
+                    FIN_SUM: "",
+                    FIN_TERM: "",
+                    FIRST_PERCENT: "",
+                    BAIL_PERCENT: "",
+                    IRR_LOW: "",
+                    IRR_UP: "",
+                    NOTES: ""
+                }
+            },
+            methods: {
+                // 保存
+                save: function (){
+                    var self = this;
+                    if (this.crmDemandDetails.CAR_BRAND == "") {
+                        summer.toast({
+                            msg: "请输入车辆品牌"
+                        });
+                        return;
+                    } else if (this.crmDemandDetails.CAR_QTY == "") {
+                        summer.toast({
+                            msg: "请输入所需台数"
+                        });
+                        return;
+                    } else if (this.crmDemandDetails.FIN_SUM == "") {
+                        summer.toast({
+                            msg: "请输入融资额"
+                        });
+                        return;
+                    } else if (this.crmDemandDetails.FIN_TERM == "") {
+                        summer.toast({
+                            msg: "请输入融资期限"
+                        });
+                        return;
+                    } else if (this.crmDemandDetails.FIRST_PERCENT == "") {
+                        summer.toast({
+                            msg: "请输入首付比例"
+                        });
+                        return;
+                    } else if (this.crmDemandDetails.BAIL_PERCENT == "") {
+                        summer.toast({
+                            msg: "请输入保证金比例"
+                        });
+                        return;
+                    } else if (this.crmDemandDetails.IRR_UP == "") {
+                        summer.toast({
+                            msg: "请输入IRR范围"
+                        });
+                        return;
+                    } else if (this.crmDemandDetails.IRR_LOW == "") {
+                        summer.toast({
+                            msg: "请输入IRR范围"
+                        });
+                        return;
+                    }
+                    // 保存
+                    summer.showProgress();
+					ajaxRequest({
+						type: 'post',
+						url: 'crm/saveCrmDemand',
+						param: {
+                            ID: this.requireID,  
+                            CST_CODE: this.CST_CODE,
+							CAR_BRAND: this.crmDemandDetails.CAR_BRAND,
+                            CAR_QTY: this.crmDemandDetails.CAR_QTY,
+                            FIN_SUM: this.crmDemandDetails.FIN_SUM,
+                            FIN_TERM: this.crmDemandDetails.FIN_TERM,
+                            FIRST_PERCENT: this.crmDemandDetails.FIRST_PERCENT,
+                            BAIL_PERCENT: this.crmDemandDetails.BAIL_PERCENT,
+                            IRR_LOW: this.crmDemandDetails.IRR_LOW,
+                            IRR_UP: this.crmDemandDetails.IRR_UP,
+                            NOTES: this.crmDemandDetails.NOTES
+						}
+					}, function(res) {
+                        summer.hideProgress();
+						var Data;
+						if (Object.prototype.toString.call(res.data) === '[object String]') {
+							Data = JSON.parse(res.data);
+						} else {
+							Data = res.data;
+						}
+						if (Data.flag == 1) {
+                            summer.toast({
+								msg: "保存成功"
+							});
+                            summer.execScript({
+                                winId: 'menu',
+                                script: "addRight('oXQ')"
+                            });
+                            summer.closeWin();
+						} else {
+							summer.toast({
+								msg: "保存失败"
+							});
+						}
+					}, function(err) {
+						summer.hideProgress();
+						summer.toast({
+							msg: "保存失败"
+						});
+					});
+                },
+                getData: function (CST_CODE) {
+                    var _this = this;
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'crm/queryCrmDemandDetails',
+                        param: {
+                            "CST_CODE": CST_CODE
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            if (res.data.datas.crmDemandDetails) {
+                                var info = res.data.datas.crmDemandDetails;
+                                _this.crmDemandDetails.FIN_SUM = info.FIN_SUM ? info.FIN_SUM : "";
+                                _this.crmDemandDetails.CAR_BRAND = info.CAR_BRAND ? info.CAR_BRAND : "";
+                                _this.crmDemandDetails.CAR_QTY = info.CAR_QTY ? info.CAR_QTY : "";
+                                _this.crmDemandDetails.FIN_TERM = info.FIN_TERM ? info.FIN_TERM : "";
+                                _this.crmDemandDetails.FIRST_PERCENT = info.FIRST_PERCENT ? info.FIRST_PERCENT : "";
+                                _this.crmDemandDetails.BAIL_PERCENT = info.BAIL_PERCENT ? info.BAIL_PERCENT : "";
+                                _this.crmDemandDetails.IRR_LOW = info.IRR_LOW ? info.IRR_LOW : "";
+                                _this.crmDemandDetails.IRR_UP = info.IRR_UP ? info.IRR_UP : "";
+                                _this.crmDemandDetails.NOTES = info.NOTES ? info.NOTES : "";
+                                _this.requireID = info.ID ? info.ID : "";
+                            }
+                        } else {
+                            summer.toast({
+                                msg: '获取需求情况失败'
+                            })
+                        }
+                    }, function (err) {
+                        summer.hideProgress();
+                        summer.toast({
+                            msg: '获取需求情况失败'
+                        })
+                    })
+                }
+            }
+        });
+        summerready = function() {
+            requirement.CST_CODE = summer.pageParam.CST_CODE;
+            requirement.getData(requirement.CST_CODE);
+        };
+    </script>
+</body>
+
+</html>

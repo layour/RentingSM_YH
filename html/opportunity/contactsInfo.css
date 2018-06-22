@@ -131,3 +131,18 @@ strong {
     font-size: 0.28rem;
     color: #333;
 }
+
+.loanList .range input {
+    width: 1.5rem;
+    text-align: center;
+    height: 0.6rem;
+    margin-top: 0.12rem;
+    border: 0.02rem solid #f1f1f1;
+    border-radius: 0.1rem;
+}
+.loanList .range b {
+    float: right;
+    font-weight: normal;
+    height: 0.9rem;
+    line-height: 0.9rem;
+}

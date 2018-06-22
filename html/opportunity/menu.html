@@ -94,13 +94,6 @@
                     <i class="icon iconfont icon-enter"></i>
                 </span>
             </div>
-            <div class="um-list-item-bodys" @click="openYD('oYD')">
-                月度计划
-                <span class="frp">
-                    <i class="oYD icon iconfont icon-right"></i>&nbsp;
-                    <i class="icon iconfont icon-enter"></i>
-                </span>
-            </div>
         </div>
     </div>
 </body>
@@ -127,9 +120,10 @@
                     id: 'opportunityIndex'
                 });
             },
-            // 新建商机保存后，存客户编号
-            addCSTCODE: function (CST_CODE) {
+            // 新建商机保存后，存客户编号，商机单ID
+            addCSTCODE: function (CST_CODE, ID) {
                 this.CST_CODE = CST_CODE;
+                this.ID = ID;
             },
             // 商机单信息
             openSJD: function () {
@@ -232,19 +226,43 @@
             },
             // 需求情况
             openXQ: function () {
-
+                if (!this.CST_CODE) {
+                    summer.toast({
+                        msg: '请完善商机单信息'
+                    });
+                    return;
+                }
+                summer.openWin({
+                    id: 'requirement',
+                    url: 'html/opportunity/requirement.html',
+                    create: false,
+                    type: 'actionBar',
+                    actionBar: {
+                        title: "需求情况",
+                        titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                        backgroundColor: "#039be5",
+                        leftItem: {
+                            image: "img/back.png",
+                            method: "", //返回按钮自定义事件
+                            text: "返回",
+                            textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                        },
+                        rightItems: [{
+                            type: "text",
+                            text: "保存",
+                            textColor: "#ffffff",
+                            method: "requirement.save()"
+                        }]
+                    },
+                    pageParam: {
+                        "CST_CODE": this.CST_CODE
+                    }
+                });
             },
             // 走访记录
             openZF: function () {
 
-            },
-            // 月度计划
-            openYD: function () {
-
             }
-        },
-        computed: {
-
         }
     });
     summerready = function () {

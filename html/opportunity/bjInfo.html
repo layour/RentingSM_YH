@@ -170,7 +170,7 @@
             </li>
         </ul>
         <div class="um-footer">
-            <!-- 出生日期 -->
+            <!-- 创建日期 -->
             <mt-datetime-picker ref="picker" v-model="pickerValue" type="date" cancel-text='取消' confirm-text='确定' :start-date='new Date("1950-01-01")'
                 :end-date="new Date()" @confirm="handleConfirm"></mt-datetime-picker>
             <!-- 注册日期 -->
@@ -573,12 +573,12 @@
                     summer.hideProgress();
                     if (res.data.flag == 1) {
                         self.resultData = res.data.datas;
-                        if (res.data.datas.crmBusInfo) {
+                        if (res.data.datas.crmBusInfo && res.data.datas.crmBusInfo.CST_NAME) {
                             var info = res.data.datas.crmBusInfo;
                             self.datas.name = info.CST_NAME ? info.CST_NAME : "";
                             self.datas.area = info.BUSI_AREA ? info.BUSI_AREA : "";
                             self.datas.fengongsi = info.BRANCH_CODE_NM ? info.BRANCH_CODE_NM : "";
-                            self.datas.createDate = info.BUSI_DATE ? info.BUSI_DATE : "";
+                            self.datas.createDate = info.CREATE_DATE ? info.CREATE_DATE : "";
                             self.datas.kehuState = info.CST_STATUS_NM ? info.CST_STATUS_NM : "";
                             self.datas.sjState = info.BUSI_STATUS_NM ? info.BUSI_STATUS_NM : "";
                             self.datas.khsx = info.CST_PROP_NM ? info.CST_PROP_NM : "";
@@ -656,6 +656,9 @@
                         res.data.datas.BUSI_FUNNELS.forEach(function (e) {
                             self.slots9[0].values.push(e.FLAG);
                         });
+                        // 新增时间默认当天
+                        self.handleConfirm(new Date());
+                        self.handleConfirm1(new Date());
                     } else {
                         summer.toast({
                             msg: '获取基础信息失败'
@@ -850,6 +853,8 @@
                     }, function (res) {
                         summer.hideProgress();
                         if (res.data.flag == 1) {
+                            var CST_CODE = res.data.datas.CST_CODE ? res.data.datas.CST_CODE : "";
+                            var ID = res.data.datas.ID ? res.data.datas.ID : "";
                             summer.toast({
                                 msg: '保存成功'
                             })
@@ -857,10 +862,12 @@
                                 winId: 'menu',
                                 script: "addRight('oSJD')"
                             });
-                            summer.execScript({
-                                winId: 'menu',
-                                script: "menu.addCSTCODE('cstcode')"
-                            });
+                            if (CST_CODE && ID) {
+                                summer.execScript({
+                                    winId: 'menu',
+                                    script: "menu.addCSTCODE('"+ CST_CODE +", "+ ID +"')"
+                                });
+                            }
                             summer.closeWin();
                         } else {
                             summer.toast({
