@@ -129,8 +129,10 @@ function ajaxRequest(paramObj, successCallback, errorCallback) {
 		timeout: 120000
     };
     if (userId()) {
-		paramData = paramObj.param;
-		paramData.EMPLOYEE_ID = userId();
+        paramData = paramObj.param;
+        if (!paramObj.param.getEmployeeID || paramObj.param.getEmployeeID == "get") {
+            paramData.EMPLOYEE_ID = userId();
+        }
 	} else {
 		paramData = paramObj.param;
 	}

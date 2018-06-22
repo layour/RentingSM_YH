@@ -261,7 +261,43 @@
             },
             // 走访记录
             openZF: function () {
-
+                if (!this.CST_CODE) {
+                    summer.toast({
+                        msg: '请完善商机单信息'
+                    });
+                    return;
+                }
+                summer.openWin({
+                    id: 'visitList',
+                    url: 'html/opportunity/visitList.html',
+                    create: false,
+                    type: 'actionBar',
+                    actionBar: {
+                        title: "拜访记录",
+                        titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                        backgroundColor: "#039be5",
+                        leftItem: {
+                            image: "img/back.png",
+                            method: "", //返回按钮自定义事件
+                            text: "返回",
+                            textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                        },
+                        rightItems: [{
+                            type: "text",
+                            text: "添加",
+                            textColor: "#ffffff",
+                            method: "visitList.add()"
+                        }, {
+                            type: "text",
+                            text: "全部",
+                            textColor: "#ffffff",
+                            method: "visitList.all()"
+                        }]
+                    },
+                    pageParam: {
+                        "CST_CODE": this.CST_CODE
+                    }
+                });
             }
         }
     });
