@@ -262,10 +262,10 @@
                             ID:this.playObj.ID
                           }
                       }, function (res) {
-                          _this.PLAN_ID = res.data.datas.ID
                           console.log(JSON.stringify(res));
                           summer.hideProgress();
                           summer.toast({msg:"保存成功"})
+                          this.playObj.PLAN_NAME =this.PLAN_NAME
                       }, function (err) {
                           summer.hideProgress();
                           console.log(err);
