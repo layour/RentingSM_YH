@@ -28,7 +28,7 @@
 						<p>
 							<span @click="openPicker('start')" :class="{default:!startDate}"><template v-if="!startDate" class="default">请选择开始日期</template><template v-else>{{startDate}}</template></span>
 							<b>至</b>
-							<span  @click="openPicker('end')" :class="{default:!endDate}"><template v-if="!endDate">请选择开始日期</template><template v-else>{{endDate}}</template></span>
+							<span  @click="openPicker('end')" :class="{default:!endDate}"><template v-if="!endDate">请选择结束日期</template><template v-else>{{endDate}}</template></span>
 						</p>
 						<p class="eg">	例：2016年01月01日</p>
 					</div>
@@ -39,8 +39,6 @@
 			<mt-datetime-picker  ref="picker"  type="date"  v-model="pickerValue"
 				cancel-text='取消'
 				confirm-text='确定'
-				:start-date='startdata'
-				:end-date='enddata'
 				@confirm="handleConfirm"
 				year-format="{value} 年"
 				month-format="{value} 月"
