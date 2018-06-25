@@ -147,7 +147,26 @@ input::-webkit-input-placeholder {
 }
 
 .um-footer {
-    min-height: 0px;
+    background: #f6f6f6;
+    border: 0;
+    height: 0.9rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.um-footer button {
+    width: 6.34rem;
+    height: 80%;
+    border-radius: 0.1rem;
+    background: #999;
+    color: #fff;
+    font-size: 0.32rem;
+    border: 0;
+    outline: none;
+}
+.um-footer .shouldClick {
+    background: #039be5;
 }
 
 .infoList .ywxz {

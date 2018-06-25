@@ -61,9 +61,9 @@
             <li>
                 <span>
                     <b>*</b>商机状态</span>
-                <div @click="surePickerSJZT">
+                <div @click="surePickerSJLD">
                     <span class="iconfont icon-enter"></span>
-                    <i v-if="datas.sjState" style="color: #333;">{{ datas.sjState }}</i>
+                    <i v-if="datas.sjld" style="color: #333;">{{ datas.sjld }}</i>
                     <i v-else>请选择</i>
                 </div>
             </li>
@@ -134,15 +134,6 @@
             </li>
             <li>
                 <span>
-                    <b>*</b>商机漏斗</span>
-                <div @click="surePickerSJLD">
-                    <span class="iconfont icon-enter"></span>
-                    <i v-if="datas.sjld" style="color: #333;">{{ datas.sjld }}</i>
-                    <i v-else>请选择</i>
-                </div>
-            </li>
-            <li>
-                <span>
                     <b></b>备注</span>
                 <input type="text" placeholder="请输入" v-model="datas.bjInfoMark" />
             </li>
@@ -158,17 +149,10 @@
             </li>
         </ul>
         <div class="um-footer">
+            <button type="button" @click="changeTypeBtnClick" v-bind:class="[shouldChange ? 'shouldClick' : '']">转为意向客户</button>
             <!-- 注册日期 -->
             <mt-datetime-picker ref="picker1" v-model="pickerzcValue" type="date" cancel-text='取消' confirm-text='确定' :start-date='new Date("1950-01-01")'
                 :end-date="new Date()" @confirm="handleConfirm1"></mt-datetime-picker>
-            <!-- 商机状态 -->
-            <mt-popup v-model="pickerSJZTShow" position="bottom" class="pickerColor">
-                <mt-picker :slots="slots1" @change="onValuesChange1"></mt-picker>
-                <p>
-                    <span class="" @click="surePickerSJZT">取消</span>
-                    <span class="" @click="surePickerSJZT('confirm')">确定</span>
-                </p>
-            </mt-popup>
             <!-- 客户属性 -->
             <mt-popup v-model="pickerKHSXShow" position="bottom" class="pickerColor">
                 <mt-picker :slots="slots2" @change="onValuesChange2"></mt-picker>
@@ -240,6 +224,8 @@
             CLERK_ID: "",
             // 销售人员手机号（暂为登陆人电话）
             CLERK_TEL: "",
+            // 是否可转意向客户
+            shouldChange: false,
             // 保存的数据
             datas: {
                 name: "",
@@ -247,7 +233,6 @@
                 fengongsi: "",
                 createDate: "",
                 kehuState: "",
-                sjState: "",
                 khsx: "",
                 khlx: "",
                 hzfs: "",
@@ -268,16 +253,6 @@
             // 注册时间
             pickerzcDate: false,
             pickerzcValue: new Date(),
-            // 商机状态
-            pickerSJZTShow: false,
-            pickerSJZT: "",
-            slots1: [{
-                flex: 1,
-                values: [],
-                defaultIndex: 0,
-                className: 'slot1',
-                textAlign: 'center'
-            }],
             // 客户属性
             pickerKHSXShow: false,
             pickerKHSX: "",
@@ -373,17 +348,6 @@
                     strDate = "0" + strDate;
                 }
                 return year + '-' + month + '-' + strDate;
-            },
-            // 商机状态更改
-            onValuesChange1: function (picker, values) {
-                this.pickerSJZT = values[0];
-            },
-            surePickerSJZT: function (param) {
-                var self = this;
-                this.pickerSJZTShow = !this.pickerSJZTShow;
-                if (param == 'confirm') {
-                    this.datas.sjState = this.pickerSJZT;
-                }
             },
             // 客户属性更改
             onValuesChange2: function (picker, values) {
@@ -490,7 +454,6 @@
                             self.datas.fengongsi = info.BRANCH_CODE_NM ? info.BRANCH_CODE_NM : "";
                             self.datas.createDate = info.CREATE_DATE ? info.CREATE_DATE : "";
                             self.datas.kehuState = info.CST_STATUS_NM ? info.CST_STATUS_NM : "";
-                            self.datas.sjState = info.BUSI_STATUS_NM ? info.BUSI_STATUS_NM : "";
                             self.datas.khsx = info.CST_PROP_NM ? info.CST_PROP_NM : "";
                             self.datas.khlx = info.CST_TYPE_NM ? info.CST_TYPE_NM : "";
                             self.datas.hzfs = info.COO_WAY_NM ? info.COO_WAY_NM : "";
@@ -532,6 +495,10 @@
                             self.datas.xsry = info.CLERK_NAME;
                             self.CLERK_ID = info.CLERK_ID;
                             self.CLERK_TEL = info.CLERK_TEL;
+                            // 是否可转意向用户
+                            if (info.SYN_FLAG && info.SYN_FLAG != "1") {
+                                self.shouldChange = true;
+                            }
                         } else {
                             res.data.datas.BUSI_PROPS.forEach(function (e) {
                                 var o = {
@@ -545,9 +512,6 @@
                             self.datas.kehuState = "none";
                             self.datas.createDate = "none";
                         }
-                        res.data.datas.BUSI_STATUSS.forEach(function (e) {
-                            self.slots1[0].values.push(e.FLAG);
-                        });
                         res.data.datas.COO_WAYS.forEach(function (e) {
                             self.slots3[0].values.push(e.FLAG);
                         });
@@ -616,12 +580,7 @@
                         msg: '请选择客户状态'
                     });
                     return false;
-                } */ else if (this.datas.sjState == "") {
-                    summer.toast({
-                        msg: '请选择商机状态'
-                    });
-                    return false;
-                } else if (this.datas.khsx == "") {
+                } */ else if (this.datas.khsx == "") {
                     summer.toast({
                         msg: '请选择客户属性'
                     });
@@ -686,19 +645,14 @@
                 }
             },
             // 保存（返回）
-            save: function () {
+            save: function (type) {
                 if (this.saveCheck()) {
                     var _this = this;
                     summer.showProgress();
-                    var CST_TYPE, BUSI_STATUS, CST_PROP, BUSI_AREA, BRANCH_CODE, COO_WAY, CORP_PROP, BUSI_PROP=[], BUSI_FUNNEL;
+                    var CST_TYPE, CST_PROP, BUSI_AREA, BRANCH_CODE, COO_WAY, CORP_PROP, BUSI_PROP=[], BUSI_FUNNEL;
                     this.resultData.CST_TYPE.forEach(function (e) {
                         if (e.FLAG == _this.datas.khlx) {
                             CST_TYPE = e.CODE;
-                        }
-                    });
-                    this.resultData.BUSI_STATUSS.forEach(function (e) {
-                        if (e.FLAG == _this.datas.sjState) {
-                            BUSI_STATUS = e.CODE;
                         }
                     });
                     this.resultData.CST_PROPS.forEach(function (e) {
@@ -746,7 +700,6 @@
                             CST_TEL: _this.datas.phoneNum,
                             CERT_NO: _this.datas.sfzNo,
                             CST_TYPE: CST_TYPE,
-                            BUSI_STATUS: BUSI_STATUS,
                             CST_PROP: CST_PROP,
                             BUSI_AREA: BUSI_AREA,
                             BRANCH_CODE: BRANCH_CODE,
@@ -763,9 +716,11 @@
                         if (res.data.flag == 1) {
                             var CST_CODE = res.data.datas.CST_CODE ? res.data.datas.CST_CODE : "";
                             var ID = res.data.datas.ID ? res.data.datas.ID : "";
-                            summer.toast({
-                                msg: '保存成功'
-                            })
+                            if (!type || type != 'changeType') {
+                                summer.toast({
+                                    msg: '保存成功'
+                                })
+                            }
                             summer.execScript({
                                 winId: 'menu',
                                 script: "addRight('oSJD')"
@@ -776,20 +731,85 @@
                                     script: "menu.addCSTCODE('"+ CST_CODE +"','"+ ID +"')"
                                 });
                             }
-                            summer.closeWin();
+                            if (type && type == 'changeType') {
+                                _this.changeType(_this);
+                            } else {
+                                summer.closeWin();
+                            }
                         } else {
-                            summer.toast({
-                                msg: res.data.msg ? res.data.msg : "保存失败"
-                            })
+                            if (type && type == 'changeType') {
+                                summer.toast({
+                                    msg: "保存失败，无法转为意向客户"
+                                })
+                            } else {
+                                summer.toast({
+                                    msg: res.data.msg ? res.data.msg : "保存失败"
+                                })
+                            }
                         }
                     }, function (err) {
                         summer.hideProgress();
                         console.log("err", err);
-                        summer.toast({
-                            msg: '保存失败'
-                        })
+                        if (type && type == 'changeType') {
+                            summer.toast({
+                                msg: "保存失败，无法转为意向客户"
+                            })
+                        } else {
+                            summer.toast({
+                                msg: "保存失败"
+                            })
+                        }
                     });
                 }
+            },
+            changeType: function (_this) {
+                ajaxRequest({
+                    type: 'post',
+                    url: 'crm/turnTendCust',
+                    param: {
+                        ID: this.ID
+                    }
+                }, function (res) {
+                    if (res.data.flag == 1) {
+                        summer.toast({
+                            msg: '已转为意向客户'
+                        });
+                        _this.shouldChange = false;
+                        summer.closeWin();
+                    } else {
+                        summer.toast({
+                            msg: res.data.msg ? res.data.msg : "转为意向客户失败"
+                        });
+                    }
+                }, function (err) {
+                    console.log("err", err);
+                    summer.toast({
+                        msg: '转为意向客户失败'
+                    });
+                });
+            },
+            changeTypeBtnClick: function () {
+                if (!this.shouldChange) {
+                    return;
+                }
+                if (this.datas.name == "") {
+                    summer.toast({
+                        msg: '客户姓名为空，不可转为意向客户'
+                    });
+                    return;
+                } else if (this.datas.phoneNum == "") {
+                    summer.toast({
+                        msg: '客户电话为空，不可转为意向客户'
+                    });
+                    return;
+                } else if (this.datas.sfzNo == "") {
+                    summer.toast({
+                        msg: '客户身份证号为空，不可转为意向客户'
+                    });
+                    return;
+                }
+                // 转意向客户前先执行保存逻辑
+                this.save('changeType');
             }
         }
     });
