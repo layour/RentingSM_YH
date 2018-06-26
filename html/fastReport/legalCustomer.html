@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../css/iuapmobile.um.css">
+		<link rel="stylesheet" href="../../css/fonts/iconfont.css">
+		<link rel="stylesheet" href="../../css/mint.css">
+		<link rel="stylesheet" href="./index.min.css">
+	</head>
+	<body>
+		<div class="um-win" id="payTableDetail" v-cloak>
+			<div class="um-content payTableDetail">
+				<ul class="play">
+          <li @click="openPicker('start')">
+            <b>成立日期</b>
+            <span>
+              <b v-if="START_DATE">{{START_DATE}}</b>
+              <b v-else class="default">请选择</b>
+              <i class="icon iconfont icon-enter"></i>
+            </span>
+          </li>
+          <li @click="openPicker('end')">
+            <b>有效期</b>
+            <span>
+              <b v-if="END_DATE">{{END_DATE}}</b>
+              <b v-else class="default">请选择</b>
+              <i class="icon iconfont icon-enter"></i>
+            </span>
+          </li>
+
+          <li @click="pickerFlagStatus=true">
+            <b>计划拜访客户</b>
+            <span>
+              <b v-if="CST_NAME">{{CST_NAME}}</b>
+              <b v-else class="default">请选择</b>
+              <i class="icon iconfont icon-enter"></i>
+            </span>
+          </li>
+          <li>
+            <b>拜访人</b>
+            <span>
+              <b>{{VISIT_MAN}}</b>
+            </span>
+          </li>
+        </ul>
+          <div class="text">
+            <b>拜访目的</b>
+            <span>
+              <textarea type="text" placeholder="拜访目的" name="VISIT_AIM" v-model="VISIT_AIM"></textarea>
+            </span>
+          </div>
+          <div class="text">
+            <b>其他事项</b>
+            <span>
+              <textarea type="text" placeholder="其他事项（工作）" name="DTL_DESC" v-model="DTL_DESC"></textarea>
+            </span>
+          </div>
+			</div>
+      <div class="um-footer">
+        <button v-show="!pickerFlagStatus" @click="save" class="btn um-btn-primary" >保存</button>
+        <mt-popup v-model="pickerFlagStatus" class="pickerPrice"  position='bottom' >
+          <mt-picker  value-key="CST_NAME"  :slots="pickerFlagList" @change="pickerFlagChange"></mt-picker>
+          <p><span class="fl" @click="pickerFlagStatus=false">取消</span><span class="fr" @click="pickerFlag(true)">确定</span></p>
+        </mt-popup>
+        <mt-datetime-picker  ref="picker"  type="date"  v-model="pickerDateValue"
+          cancel-text='取消'
+          confirm-text='确定'
+          :start-date="new Date('2018-06-01')"
+          @confirm="handleConfirm"
+          year-format="{value} 年"
+          month-format="{value} 月"
+          date-format="{value} 日">
+        </mt-datetime-picker>
+      </div>
+
+		</div>
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js" ></script>
+    <script src="../../js/mint.js" ></script>
+    <script src="../../js/common.js" ></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+		<script>
+				summerready=function(){
+          legalCustomer.ID=summer.pageParam.ID
+          legalCustomer.PLAN_ID=summer.pageParam.PLAN_ID
+
+          legalCustomer.getData()
+				}
+        var legalCustomer=new Vue({
+					el:'#payTableDetail',
+					data:function(){
+						return{
+              VISIT_MAN:'',
+              VISIT_AIM:'',
+              CST_NAME:'',
+							CST_CODE:'',
+              START_DATE:'',
+              END_DATE:'',
+              DTL_DESC:'',
+              PLAN_ID:'',
+              ID:'',
+              pickerFlagList:[{
+                flex: 1,
+                values: [],
+                defaultIndex:0,
+                className: 'slot1',
+                textAlign: 'center'
+              }],
+              pickerFlagStatus:false,
+              pickerValue:'',
+              state:'',
+              pickerDateValue:new Date()
+						}
+					},
+          methods: {
+            pickerFlagChange:function(picker,values){
+              this.pickerValue=values[0]
+            },
+            pickerFlag:function(status){
+              this.pickerFlagStatus = !this.pickerFlagStatus
+              this.CST_NAME = this.pickerValue.CST_NAME
+							this.CST_CODE = this.pickerValue.CST_CODE
+            },
+            openPicker:function(val) {
+              this.state = val
+              this.$refs.picker.open();
+            },
+            handleConfirm:function(value){
+              console.log('handleConfirm', value);
+              if(this.state=='start'){
+                this.START_DATE=this.getFormatDate(value)
+              }else if(this.state=='end'){
+                if(new Date(this.START_DATE).getTime()>new Date(value).getTime()){
+                  summer.toast({msg:'结束日期不能大于开始日期'})
+                  return
+                }
+                this.END_DATE=this.getFormatDate(value)
+              }
+            },
+            getFormatDate:function(date){
+              console.log('getFormatDate', date)
+              if(!date){
+                return ''
+              }
+               var date=new Date(date), seperator1 = "-";
+               var year = date.getFullYear(), month = date.getMonth() + 1
+               var  strDate = date.getDate();
+               if (month >= 1 && month <= 9) {
+                 month = "0" + month;
+               }
+               if (strDate >= 0 && strDate <= 9) {
+                 strDate = "0" + strDate;
+               }
+              return  year +seperator1 + month +seperator1+ strDate;
+            },
+            getData: function () {
+                var _this = this
+                summer.showProgress();
+                    ajaxRequest({
+                        type: "POST",
+                        url: 'crm/getCrmPlanDetail',
+                        param: {
+                          ID:this.ID
+                        }
+                    }, function (res) {
+                        console.log(JSON.stringify(res));
+                        summer.hideProgress();
+                        _this.pickerFlagList[0].values=res.data.datas.custList
+                        if(_this.ID!='') {
+                          var data = res.data.datas.detail
+                          _this.VISIT_MAN = data.VISIT_MAN
+                          _this.VISIT_AIM = data.VISIT_AIM
+                          _this.CST_NAME = data.CST_NAME
+													_this.CST_CODE = data.CST_CODE
+                          _this.START_DATE = data.START_DATE
+                          _this.END_DATE = data.END_DATE
+                          _this.DTL_DESC = data.DTL_DESC
+                        }
+                    }, function (err) {
+                        summer.hideProgress();
+                        console.log(err);
+                    })
+            },
+            save:function(){
+              var _this = this
+              if(this.CST_NAME==""){
+                summer.toast({msg:'请先选择拜访客户'})
+                return
+              }
+              if(this.START_DATE==""){
+                summer.toast({msg:'请选择开始日期'})
+                return
+              }
+              if(this.END_DATE==""){
+                summer.toast({msg:'请先选择结束日期'})
+                return
+              }
+              if(this.VISIT_AIM==""){
+                summer.toast({msg:'请先输入拜访目的'})
+                return
+              }
+              summer.showProgress();
+                  ajaxRequest({
+                      type: "POST",
+                      url: 'crm/saveCrmPlanDetail',
+                      param: {
+                        ID:this.ID,
+                        VISIT_MAN:this.VISIT_MAN,
+                        VISIT_AIM:this.VISIT_AIM,
+                        CST_NAME:this.CST_NAME,
+												CST_CODE:this.CST_CODE,
+                        START_DATE:this.START_DATE,
+                        END_DATE:this.END_DATE,
+                        DTL_DESC:this.DTL_DESC,
+                        PLAN_ID:this.PLAN_ID
+                      }
+                  }, function (res) {
+                      console.log(JSON.stringify(res));
+                      summer.hideProgress();
+                      summer.toast({msg:'保存成功'})
+                      summer.execScript({
+      									winId: "monthPlay",
+      									script: "getList()"
+      								});
+                      summer.closeWin()
+                  }, function (err) {
+                      summer.hideProgress();
+                      console.log(err);
+                  })
+            },
+          }
+        });
+
+		</script>
+	</body>
+</html>
