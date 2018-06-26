@@ -7,6 +7,7 @@
     <title></title>
     <link rel="stylesheet" href="../../css/iuapmobile.um.css">
     <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
     <script src="../../js/font.js"></script>
     <style>
         input::-webkit-input-placeholder {
@@ -123,13 +124,26 @@
                             <span class="delete" v-show="index>0" @click="deleteBank(index)">一</span> <span >公司成立  历次变动的情况{{index+1}}:</span>
                     </p>
                     <p class="pl10 pr10 "><input placeholder="项目名称" type="text" v-model="item.PROJECT_NAME"  ></p>
-                    <p class="pl10 pr10 "><input placeholder="开始时间" type="text" v-model="item.PROJECT_DATE"  > </p> 
-                    <p class="pl10 pr10 "><input placeholder="结束时间" type="text" v-model="item.PROJECT_ENDDATE"  ></p> 
+                    <p class="pl10 pr10 "  @click="surePickerBirthday(index,'PROJECT_DATE')"><input placeholder="开始时间" type="text" class=" dateInput" v-model="item.PROJECT_DATE"  > </p> 
+                    <p class="pl10 pr10 "><input   @click="surePickerBirthday(index,'PROJECT_ENDDATE')" placeholder="结束时间" type="text" class=" dateInput" v-model="item.PROJECT_ENDDATE"  ></p> 
                     <textarea id="question" v-model="item.PROJECT_CONTENT" placeholder="内容" ></textarea>  
            </div>
            <div class="remark" @click="addBnk">
                 <p class="pl10 pr10"> <span class="add">+</span>  添加新的公司变动情况</p>
            </div>
+        </div>
+        <div class="um-footer">
+             <!-- 出生日期 -->
+             <mt-datetime-picker 
+             ref="picker" 
+             v-model="pickerValue" 
+             type="date" 
+             cancel-text='取消' 
+             confirm-text='确定' 
+             :start-date='new Date("1950-01-01")'
+             :end-date="new Date()" 
+             @confirm="handleConfirm"
+         ></mt-datetime-picker>
         </div>
     </div>
     <script src="../../js/summer.js"></script>
@@ -139,6 +153,7 @@
     <script src="../../js/common.js"></script>
     <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
     <script>
+       
         var companyUpdate  = new Vue({
             el: '#app',
             data: function () {
@@ -153,6 +168,11 @@
                             PROJECT_CONTENT:'',//内容
                         }]
                     },
+                    indexNum:'',//记录选择的项
+                    startOrEnd:'',
+                      // 时间
+                    pickerBirthday: false,
+                    pickerValue: new Date(),
                     isActive:true
                 }
             },
@@ -181,6 +201,38 @@
                         return false;
                     }     
                     return true;
+                },
+                // 日期更改
+                surePickerBirthday: function (index,item) {
+                    this.indexNum = index;
+                    this.startOrEnd = item;
+                    this.pickerBirthday = !this.pickerBirthday;
+                    this.$refs.picker.open();
+                },
+                handleConfirm: function (pickerValue) {
+                    this.pickerValue = pickerValue;
+                    var result = this.getFormatDate(pickerValue);
+                    var startOrEnd = this.startOrEnd;
+                    if(startOrEnd=="PROJECT_DATE"){
+                        this.message.comChangeInfoArray[this.indexNum].PROJECT_DATE= result;
+                    }else{
+                        this.message.comChangeInfoArray[this.indexNum].PROJECT_ENDDATE= result;
+                    }
+                    
+                },
+                getFormatDate: function (date) {
+                    var date = new Date(date),
+                        seperator1 = "-";
+                    var year = date.getFullYear(),
+                        month = date.getMonth() + 1,
+                        strDate = date.getDate();
+                    if (month >= 1 && month <= 9) {
+                        month = "0" + month;
+                    }
+                    if (strDate >= 0 && strDate <= 9) {
+                        strDate = "0" + strDate;
+                    }
+                    return year + '-' + month + '-' + strDate;
                 },
                 addBnk:function(){
                     this.message.comChangeInfoArray.push({//股东信息列表
