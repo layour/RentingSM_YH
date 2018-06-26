@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
+    <link rel="stylesheet" href="contactsInfo.css">
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/mint.js"></script>
+    <script src="../../js/common.js"></script>
+</head>
+
+<body>
+    <div class="um-win" id="index">
+        <div class="um-content" v-cloak>
+            <ul class="loanList">
+                <li>
+                    <span>拜访时间</span>
+                    <div @click="surePickerBFSJ">
+                        <span class="iconfont icon-enter"></span>
+                        <i v-if="info.VISIT_DATE" style="color: #333;">{{ info.VISIT_DATE }}</i>
+                        <i v-else>请选择</i>
+                    </div>
+                </li>
+                <li>
+                    <span>地点</span>
+                    <input v-model="info.VISIT_ADDR" type="text" placeholder="请输入地点" />
+                </li>
+                <li>
+                    <span>受访人</span>
+                    <input v-model="info.RCV_VISIT_MAN" type="text" placeholder="请输入受访人" />
+                </li>
+                <li>
+                    <span>拜访目的</span>
+                    <input v-model="info.VISIT_AIM" type="text" placeholder="请输入拜访目的" />
+                </li>
+                <li>
+                    <span>受访人职务</span>
+                    <input v-model="info.RCV_VISIT_POST" type="text" placeholder="请输入受访人职务" />
+                </li>
+                <li>
+                    <span>是否需要协助</span>
+                    <div class="type">
+                        <span v-bind:class="{ active: isActive }" @click="chooseYes">是</span>
+                        <span v-bind:class="{ active: !isActive }" @click="chooseNo">否</span>
+                    </div>
+                </li>
+                <li v-if="info.IS_ASS=='1'">
+                    <span>协助内容</span>
+                    <input v-model="info.ASS_CONTENT" type="text" placeholder="请输入协助内容" />
+                </li>
+                <li>
+                    <span>沟通内容</span>
+                    <input v-model="info.TALK_CONTENT" type="text" placeholder="请输入沟通内容" />
+                </li>
+                <li>
+                    <span>拜访类型</span>
+                    <div @click="surePickerBFLX">
+                        <span class="iconfont icon-enter"></span>
+                        <i v-if="info.VISIT_TYPE" style="color: #333;">{{ info.VISIT_TYPE }}</i>
+                        <i v-else>请选择</i>
+                    </div>
+                </li>
+                <li>
+                    <span>拜访进度</span>
+                    <div @click="surePickerBFJD">
+                        <span class="iconfont icon-enter"></span>
+                        <i v-if="info.VISIT_STAGE" style="color: #333;">{{ info.VISIT_STAGE }}</i>
+                        <i v-else>请选择</i>
+                    </div>
+                </li>
+                <li>
+                    <span>参与人员</span>
+                    <input v-model="info.JOIN_MEM" type="text" placeholder="请输入参与人员" />
+                </li>
+            </ul>
+        </div>
+        <!-- 拜访日期 -->
+        <mt-datetime-picker ref="picker1" v-model="pickerbfValue" type="date" cancel-text='取消' confirm-text='确定' :start-date='new Date("1950-01-01")'
+        :end-date="new Date()" @confirm="handleConfirm1"></mt-datetime-picker>
+        <!-- 拜访类型 -->
+        <mt-popup v-model="pickerBFLXShow" position="bottom" class="pickerColor">
+            <mt-picker :slots="slots0" @change="onValuesChange0"></mt-picker>
+            <p>
+                <span class="" @click="surePickerBFLX">取消</span>
+                <span class="" @click="surePickerBFLX('confirm')">确定</span>
+            </p>
+        </mt-popup>
+        <!-- 拜访进度 -->
+        <mt-popup v-model="pickerBFJDShow" position="bottom" class="pickerColor">
+            <mt-picker :slots="slots1" @change="onValuesChange1"></mt-picker>
+            <p>
+                <span class="" @click="surePickerBFJD">取消</span>
+                <span class="" @click="surePickerBFJD('confirm')">确定</span>
+            </p>
+        </mt-popup>
+    </div>
+    <script type="text/javascript">
+        var visitInfo = new Vue({
+            el: '#index',
+            data: {
+                // 拜访记录ID
+                ID: "",
+                // 客户编号
+                CST_CODE: "",
+                VISIT_TYPE_DIC: [],
+                VISIT_STAGE_DIC: [],
+                info: {
+                    VISIT_DATE: "",
+                    VISIT_ADDR: "",
+                    RCV_VISIT_MAN: "",
+                    VISIT_AIM: "",
+                    RCV_VISIT_POST: "",
+                    IS_ASS: "1",
+                    ASS_CONTENT: "",
+                    TALK_CONTENT: "",
+                    VISIT_TYPE: "",
+                    VISIT_STAGE: "",
+                    JOIN_MEM: ""
+                },
+                // 拜访时间
+                pickerbfDate: false,
+                pickerbfValue: new Date(),
+                // 拜访类型
+                pickerBFLXShow: false,
+                pickerBFLX: "",
+                slots0: [{
+                    flex: 1,
+                    values: [],
+                    defaultIndex: 0,
+                    className: 'slot1',
+                    textAlign: 'center'
+                }],
+                // 拜访进度
+                pickerBFJDShow: false,
+                pickerBFJD: "",
+                slots1: [{
+                    flex: 1,
+                    values: [],
+                    defaultIndex: 0,
+                    className: 'slot1',
+                    textAlign: 'center'
+                }]
+            },
+            computed: {
+                // 单选样式
+                isActive: function () {
+                    if (this.info.IS_ASS == "1") {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            },
+            methods: {
+                // 是否需要协助
+                chooseYes:function () {
+                    this.info.IS_ASS = "1";
+                },
+                chooseNo:function () {
+                    this.info.IS_ASS = "2";
+                },
+                // 拜访时间
+                surePickerBFSJ: function () {
+                    this.pickerbfDate = !this.pickerbfDate;
+                    this.$refs.picker1.open();
+                },
+                handleConfirm1: function (pickerValue) {
+                    this.pickerbfValue = pickerValue;
+                    var result = this.getFormatDate(pickerValue);
+                    this.info.VISIT_DATE = result;
+                },
+                getFormatDate: function (date) {
+                    var date = new Date(date),
+                        seperator1 = "-";
+                    var year = date.getFullYear(),
+                        month = date.getMonth() + 1,
+                        strDate = date.getDate();
+                    if (month >= 1 && month <= 9) {
+                        month = "0" + month;
+                    }
+                    if (strDate >= 0 && strDate <= 9) {
+                        strDate = "0" + strDate;
+                    }
+                    return year + '-' + month + '-' + strDate;
+                },
+                // 拜访类型更改
+                onValuesChange0: function (picker, values) {
+                    this.pickerBFLX = values[0];
+                },
+                surePickerBFLX: function (param) {
+                    var self = this;
+                    this.pickerBFLXShow = !this.pickerBFLXShow;
+                    if (param == 'confirm') {
+                        this.info.VISIT_TYPE = this.pickerBFLX;
+                    }
+                },
+                // 拜访进度更改
+                onValuesChange1: function (picker, values) {
+                    this.pickerBFJD = values[0];
+                },
+                surePickerBFJD: function (param) {
+                    var self = this;
+                    this.pickerBFJDShow = !this.pickerBFJDShow;
+                    if (param == 'confirm') {
+                        this.info.VISIT_STAGE = this.pickerBFJD;
+                    }
+                },
+                // 保存
+                save: function (){
+                    var self = this;
+                    if (this.info.VISIT_DATE == "") {
+                        summer.toast({
+                            msg: "请选择拜访时间"
+                        });
+                        return;
+                    } else if (this.info.VISIT_ADDR == "") {
+                        summer.toast({
+                            msg: "请输入地点"
+                        });
+                        return;
+                    } else if (this.info.RCV_VISIT_MAN == "") {
+                        summer.toast({
+                            msg: "请输入受访人"
+                        });
+                        return;
+                    } else if (this.info.VISIT_AIM == "") {
+                        summer.toast({
+                            msg: "请输入拜访目的"
+                        });
+                        return;
+                    } else if (this.info.RCV_VISIT_POST == "") {
+                        summer.toast({
+                            msg: "请输入受访人职务"
+                        });
+                        return;
+                    } else if (this.info.IS_ASS == "1" && this.info.ASS_CONTENT == "") {
+                        summer.toast({
+                            msg: "请输入协助内容"
+                        });
+                        return;
+                    } else if (this.info.TALK_CONTENT == "") {
+                        summer.toast({
+                            msg: "请输入沟通内容"
+                        });
+                        return;
+                    } else if (this.info.VISIT_TYPE == "") {
+                        summer.toast({
+                            msg: "请选择拜访类型"
+                        });
+                        return;
+                    } else if (this.info.VISIT_STAGE == "") {
+                        summer.toast({
+                            msg: "请选择拜访进度"
+                        });
+                        return;
+                    } else if (this.info.JOIN_MEM == "") {
+                        summer.toast({
+                            msg: "请输入参与人员"
+                        });
+                        return;
+                    }
+                    var VISIT_TYPE, VISIT_STAGE;
+                    this.VISIT_TYPE_DIC.forEach(function (e) {
+                        if (e.FLAG == self.info.VISIT_TYPE) {
+                            VISIT_TYPE = e.CODE;
+                        }
+                    });
+                    this.VISIT_STAGE_DIC.forEach(function (e) {
+                        if (e.FLAG == self.info.VISIT_STAGE) {
+                            VISIT_STAGE = e.CODE;
+                        }
+                    });
+                    // 保存
+                    summer.showProgress();
+					ajaxRequest({
+						type: 'post',
+						url: 'crm/saveCrmBusiVisit',
+						param: {
+                            ID: this.ID,  
+                            CST_CODE: this.CST_CODE,
+							VISIT_DATE: this.info.VISIT_DATE,
+                            VISIT_ADDR: this.info.VISIT_ADDR,
+                            RCV_VISIT_MAN: this.info.RCV_VISIT_MAN,
+                            RCV_VISIT_POST: this.info.RCV_VISIT_POST,
+                            VISIT_AIM: this.info.VISIT_AIM,
+                            ASS_CONTENT: this.info.ASS_CONTENT,
+                            IS_ASS: this.info.IS_ASS,
+                            TALK_CONTENT: this.info.TALK_CONTENT,
+                            VISIT_TYPE: VISIT_TYPE,
+                            VISIT_STAGE: VISIT_STAGE,
+                            JOIN_MEM: this.info.JOIN_MEM
+						}
+					}, function(res) {
+                        summer.hideProgress();
+						var Data;
+						if (Object.prototype.toString.call(res.data) === '[object String]') {
+							Data = JSON.parse(res.data);
+						} else {
+							Data = res.data;
+						}
+						if (Data.flag == 1) {
+                            summer.toast({
+								msg: "保存成功"
+							});
+                            summer.execScript({
+                                winId: 'visitList',
+                                script: "visitList.getData('get')"
+                            });
+                            summer.closeWin();
+						} else {
+							summer.toast({
+								msg: "保存失败"
+							});
+						}
+					}, function(err) {
+						summer.hideProgress();
+						summer.toast({
+							msg: "保存失败"
+						});
+					});
+                },
+                getData: function (ID) {
+                    var _this = this;
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'crm/doCrmBusiVisitPage',
+                        param: {
+                            "ID": ID
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            _this.VISIT_TYPE_DIC = res.data.datas.VISIT_TYPE_DIC;
+                            _this.VISIT_STAGE_DIC = res.data.datas.VISIT_STAGE_DIC;
+                            res.data.datas.VISIT_TYPE_DIC.forEach(function (e) {
+                                _this.slots0[0].values.push(e.FLAG);
+                            });
+                            res.data.datas.VISIT_STAGE_DIC.forEach(function (e) {
+                                _this.slots1[0].values.push(e.FLAG);
+                            });
+                            if (res.data.datas.crmVisitDetails && res.data.datas.crmVisitDetails.RCV_VISIT_MAN) {
+                                var info = res.data.datas.crmVisitDetails;
+                                _this.info.VISIT_DATE = info.VISIT_DATE ? info.VISIT_DATE : "";
+                                _this.info.VISIT_ADDR = info.VISIT_ADDR ? info.VISIT_ADDR : "";
+                                _this.info.RCV_VISIT_MAN = info.RCV_VISIT_MAN ? info.RCV_VISIT_MAN : "";
+                                _this.info.VISIT_AIM = info.VISIT_AIM ? info.VISIT_AIM : "";
+                                _this.info.RCV_VISIT_POST = info.RCV_VISIT_POST ? info.RCV_VISIT_POST : "";
+                                _this.info.ASS_CONTENT = info.ASS_CONTENT ? info.ASS_CONTENT : "";
+                                _this.info.IS_ASS = info.IS_ASS ? info.IS_ASS : "1";
+                                _this.info.TALK_CONTENT = info.TALK_CONTENT ? info.TALK_CONTENT : "";
+                                _this.info.VISIT_TYPE = info.VISIT_TYPE_NAME ? info.VISIT_TYPE_NAME : "";
+                                _this.info.VISIT_STAGE = info.VISIT_STAGE_NAME ? info.VISIT_STAGE_NAME : "";
+                                _this.info.JOIN_MEM = info.JOIN_MEM ? info.JOIN_MEM : "";
+                            }
+                        } else {
+                            summer.toast({
+                                msg: '获取拜访信息失败'
+                            })
+                        }
+                    }, function (err) {
+                        summer.hideProgress();
+                        summer.toast({
+                            msg: '获取拜访信息失败'
+                        })
+                    })
+                }
+            }
+        });
+        function saveVisitInfo () {
+            visitInfo.save();
+        };
+        summerready = function() {
+            visitInfo.ID = summer.pageParam.ID;
+            visitInfo.CST_CODE = summer.pageParam.CST_CODE;
+            visitInfo.getData(visitInfo.ID);
+        };
+    </script>
+</body>
+
+</html>

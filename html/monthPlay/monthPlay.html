@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
+    <link rel="stylesheet" href="./index.min.css">
+</head>
+
+<body>
+    <div class="um-win" id="riskTrackContent" v-cloak>
+        <div class="um-content riskTrack">
+          <div  id='changeState' class="header">
+            <button @click="changeState('repayment',$event)" class="active">月度计划</button><button @click="changeState('expected',$event)">详细计划</button>
+          </div>
+          <div class="play" v-if="stateVal=='repayment'">
+            <ul>
+                <li>
+                  <b>区域</b>
+                  <span>
+                    <b>{{playObj.EMPLOYEE_AREA}}</b>
+                  </span>
+                </li>
+                <li>
+                  <b>分公司</b>
+                  <span>
+                    <b>{{playObj.BRANCH_NAME}}</b>
+                  </span>
+                </li>
+                <li>
+                  <b>客户经理</b>
+                  <span>
+                    <b>{{playObj.EMPLOYEE_NAME}}</b>
+                  </span>
+                </li>
+                <li>
+                  <b>计划年份</b>
+                  <span>
+                    <b>{{PLAN_YEAR}}</b>
+                  </span>
+                </li>
+                <li @click="pickerFlagStatus=true">
+                  <b>计划月份</b>
+                  <span>
+                    <b v-if="PLAN_MONTH">{{PLAN_MONTH}}</b>
+                    <b v-else class="default">请选择</b>
+                    <i class="icon iconfont icon-enter"></i>
+                  </span>
+                </li>
+              </ul>
+              <div class="text">
+                <b>计划内容</b>
+                <span>
+                  <textarea type="text" placeholder="计划内容" name="play" v-model="PLAN_NAME"></textarea>
+                </span>
+              </div>
+          </div>
+          <div v-else class="riskTrackContent">
+              <ul>
+                  <li v-for="(item,index) in payList" :key="index" @click="goDetail(item.ID)">
+                      <span class="ps">
+                          <table>
+                              <tr>
+                                  <td class="first">
+                                      <p class="first-child">{{item.DTL_NAME}}</p>
+                                  </td>
+                                  <td>
+                                      <span>{{item.START_DATE}}</span>
+                                  </td>
+                                  <td rowspan="2">
+                                      <i class="icon iconfont icon-enter"></i>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td class="first">
+                                      <p>{{item.VISIT_MAN}}</p>
+                                  </td>
+                                  <td>
+                                      <p class="money">{{item.END_DATE}}</p>
+                                  </td>
+                              </tr>
+                          </table>
+                      </span>
+                  </li>
+              </ul>
+          </div>
+        </div>
+        <div class="um-footer">
+          <button v-show="!pickerFlagStatus &&stateVal=='repayment'" @click="save" class="btn um-btn-primary" >保存</button>
+          <button v-show="stateVal=='expected'" @click="goDetail('')" class="btn um-btn-primary" >新增</button>
+          <mt-popup v-model="pickerFlagStatus" class="pickerPrice"  position='bottom' >
+  					<mt-picker  :slots="pickerFlagList" @change="pickerFlagChange"></mt-picker>
+  					<p><span class="fl" @click="pickerFlagStatus=false">取消</span><span class="fr" @click="pickerFlag(true)">确定</span></p>
+  				</mt-popup>
+        </div>
+    </div>
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js" ></script>
+    <script src="../../js/mint.js" ></script>
+    <script src="../../js/common.js" ></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script>
+        summerready=function() {
+          riskTrackContentVue.getData({})
+        }
+        var riskTrackContentVue = new Vue({
+            el: '#riskTrackContent',
+            data: function () {
+                return {
+                    playObj:'',
+                    PLAN_YEAR:'',
+                    PLAN_MONTH:'',
+                    PLAN_NAME:'',
+                    PLAN_ID:'',
+                    payList: [],
+                    stateVal: 'repayment',
+                    month: [1,2,3,4,5,6,7,8,9,10,11,12],
+                    pickerFlagStatus:false,
+                    picking: '',
+                    pickerFlagList:[{
+        							flex: 1,
+        							values: [],
+        							defaultIndex:0,
+        							className: 'slot1',
+        							textAlign: 'center'
+        						}],
+                }
+            },
+            methods: {
+                changeState:function(val,e) {
+                  if(val==='expected'){
+                    console.log(this.PLAN_ID,this.PLAN_NAME,this.playObj.PLAN_NAME);
+                    if (this.PLAN_ID===''|| this.PLAN_NAME!=this.playObj.PLAN_NAME) {
+                      summer.toast({msg:'请先保存月度计划'})
+                      return
+                    }else {
+                      this.getList()
+                    }
+                  }
+                  this.stateVal = val
+                  $(e.currentTarget).addClass('active').siblings('.active').removeClass('active');
+                  this.pickerFlagStatus = false
+                },
+                pickerFlagChange:function(picker,values){
+      						this.picking=values
+      					},
+                pickerFlag:function(status){
+                  this.pickerFlagStatus = !this.pickerFlagStatus
+                  this.PLAN_MONTH = this.picking[0]
+                    if(Number(this.playObj.PLAN_MONTH)===12 && this.PLAN_MONTH<12) {
+                      this.PLAN_YEAR = Number(this.playObj.PLAN_MONTH) + 1
+                    }
+                    if(Number(this.playObj.PLAN_MONTH)===12 && this.PLAN_MONTH==12) {
+                      this.PLAN_YEAR = Number(this.playObj.PLAN_MONTH)
+                    }
+                    this.getData({
+                      PLAN_MONTH:this.PLAN_MONTH,
+                      PLAN_YEAR:this.PLAN_YEAR
+                    })
+                },
+                getList:function(){
+                  var _this = this
+                  summer.showProgress();
+                      ajaxRequest({
+                          type: "POST",
+                          url: 'crm/getCrmPlanDetailList',
+                          param: {
+                            PLAN_ID:this.PLAN_ID
+                          }
+                      }, function (res) {
+                          console.log(JSON.stringify(res));
+                          summer.hideProgress();
+                          _this.payList = res.data.datas.detailList
+                      }, function (err) {
+                          summer.hideProgress();
+                          console.log(err);
+                      })
+                },
+                getData: function (val) {
+                    var _this = this
+                    summer.showProgress();
+                        ajaxRequest({
+                            type: "POST",
+                            url: 'crm/getCrmPlanHead',
+                            param: val
+                        }, function (res) {
+                            console.log(JSON.stringify(res));
+                            summer.hideProgress();
+                            _this.playObj = res.data.datas.planHead
+                            _this.payList = res.data.datas.detailList
+                            _this.PLAN_YEAR = res.data.datas.planHead.PLAN_YEAR
+                            _this.PLAN_MONTH = res.data.datas.planHead.PLAN_MONTH
+                            _this.PLAN_NAME = res.data.datas.planHead.PLAN_NAME
+                            _this.PLAN_ID = res.data.datas.planHead.ID
+                            _this.month=[1,2,3,4,5,6,7,8,9,10,11,12]
+                            var i = _this.month.indexOf(Number(_this.PLAN_MONTH))
+                            if (i<11) {
+                              _this.pickerFlagList[0].values=_this.month.splice(i, 12-i)
+                            } else {
+                              _this.pickerFlagList[0].values=_this.month
+                            }
+                        }, function (err) {
+                            summer.hideProgress();
+                            console.log(err);
+                        })
+                },
+                goDetail: function (id) {
+                    summer.openWin({
+                        id: 'monthPlayDetail',
+                        url: 'html/monthPlay/monthPlayDetail.html',
+                        create: false,
+                        type: 'actionBar',
+                        pageParam: {
+                            PLAN_ID: this.PLAN_ID,
+                            ID:id
+                        },
+                        actionBar: {
+                            title: "详细计划",
+                            titleColor: "#ffffff",
+                            backgroundColor: "#039BE5",
+                            leftItem: {
+                                image: "img/back.png",
+                                method: '',
+                                text: "返回",
+                                textColor: "#ffffff"
+                            },
+                            rightItems: [{
+              								type: "text",
+              								text: "删除",
+              								textColor: "#ffffff",
+              								method: "deleteMsg()"
+              							}]
+                        }
+                    })
+                },
+                save: function () {
+                  var _this = this
+                  if(this.PLAN_MONTH==''){
+                    summer.toast({msg:'请先选择计划月份方可保存'})
+                    return
+                  }
+                  if(this.PLAN_NAME==''){
+                    summer.toast({msg:'请先输入计划内容方可保存'})
+                    return
+                  }
+                  summer.showProgress();
+                      ajaxRequest({
+                          type: "POST",
+                          url: 'crm/saveCrmPlanHead',
+                          param: {
+                            EMPLOYEE_AREA:this.playObj.EMPLOYEE_AREA,
+                            BRANCH_CODE:this.playObj.BRANCH_CODE,
+                            BRANCH_NAME:this.playObj.BRANCH_NAME,
+                            PLAN_NAME:this.PLAN_NAME,
+                            PLAN_YEAR:this.PLAN_YEAR,
+                            PLAN_MONTH:this.PLAN_MONTH,
+                            ID:this.playObj.ID
+                          }
+                      }, function (res) {
+                          console.log(JSON.stringify(res));
+                          summer.hideProgress();
+                          summer.toast({msg:"保存成功"})
+                          _this.playObj.PLAN_NAME =_this.PLAN_NAME
+                      }, function (err) {
+                          summer.hideProgress();
+                          console.log(err);
+                      })
+                }
+            }
+        });
+        function getList(){
+          riskTrackContentVue.getList()
+        }
+    </script>
+</body>
+
+</html>

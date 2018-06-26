@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
+    <style>
+        .addCarList>ul li {
+            background: #fff;
+            margin-bottom: .2rem;
+            height: 2.4rem;
+            position: relative;
+        }
+
+        .price {
+            color: #333;
+            font-size: 14px;
+            line-height: .4rem;
+            position: absolute;
+            left: 0;
+            bottom: .3rem;
+        }
+
+        .mint-cell-swipe {
+            height: 2.4rem;
+            padding-left: .54rem;
+            background: #fff;
+        }
+
+        .mint-cell-wrapper {
+            height: 2.4rem;
+            padding-left: 0;
+            background: none;
+        }
+
+        .mint-cell-right {
+            height: 2.4rem;
+            font-size: 14px;
+        }
+
+        .mint-cell-title {
+            margin-bottom: .6rem;
+        }
+
+        .mint-cell-title span {
+            display: block;
+            margin-bottom: .2rem;
+        }
+
+        .mint-cell-title span:first-child {
+            margin-bottom: .1rem;
+        }
+
+        .title,
+        .mint-cell-text {
+            font-size: 16px;
+            color: #039BE5;
+        }
+
+        .normal,
+        .mint-cell-label {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .um-footer {
+            background: inherit;
+        }
+
+        .um-footer button {
+            height: .9rem;
+            border: none;
+            outline: none;
+            width: 100%;
+            line-height: .9rem;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .alignCenter {
+
+            position: absolute;
+            ;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            text-align: center;
+
+        }
+
+        .alignCenter p {
+            padding-top: 20px;
+            font-size: 14px;
+            color: #CBCBCB;
+        }
+
+        .alignCenter img {
+            width: 3rem;
+        }
+
+        .icon-enter {
+            color: #DBDBDB;
+            margin-top: .5rem;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="um-win" id="addCarList" v-cloak>
+        <div class="um-content addCarList">
+            <ul>
+                <li v-for="(item,index) in list" @click="gotoDetail(item.ID)" :key="index">
+                    <mt-cell-swipe :title="item.LNK_NAME" :right="[{content: '&nbsp;&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'2.4rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index, item.ID)}}]">
+                        <div class="price">
+                            <p>联系人职务：{{ item.LNK_POST}}</p>
+                            <p>联系人电话：{{ item.LNK_TEL }}</p>
+                        </div>
+                        <div class="fr">
+                            <i class="icon iconfont icon-enter"></i>
+                        </div>
+                    </mt-cell-swipe>
+                </li>
+            </ul>
+            <div id="noData" class="alignCenter" v-if="list.length==0">
+                <img src="../../img/empty.png" alt="">
+                <p>暂无联系人</p>
+            </div>
+        </div>
+    </div>
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/mint.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script>
+        summerready = function () {
+            contacts.CST_CODE = summer.pageParam.CST_CODE;
+            contacts.getData();
+        }
+        var contacts = new Vue({
+            el: '#addCarList',
+            data: function () {
+                return {
+                    list: [],
+                    // 客户编号
+                    CST_CODE: ""
+                }
+            },
+            methods: {
+                gotoDetail: function (ID) {
+                    var _this = this;
+                    summer.openWin({
+                        id: 'contactsInfo',
+                        url: 'html/opportunity/contactsInfo.html',
+                        create: false,
+                        type: 'actionBar',
+                        pageParam: {
+                            "ID": ID,
+                            "CST_CODE": this.CST_CODE
+                        },
+                        actionBar: {
+                            title: '联系人信息',
+                            titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            backgroundColor: "#039BE5",
+                            leftItem: {
+                                image: "img/back.png",
+                                method: '', //返回按钮自定义事件
+                                text: "返回",
+                                textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            },
+                            rightItems: [{
+                                type: "text",
+                                text: "保存",
+                                method: 'saveContactsInfo()',
+                                textColor: "#ffffff"
+                            }]
+                        }
+                    });
+                },
+                getData: function () {
+                    var _this = this;
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'crm/cstLinkmanlist',
+                        param: {
+                            CST_CODE: _this.CST_CODE
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            var list = res.data.datas.linkmanList;
+                            if (list.length > 0) {
+                                _this.list = list;
+                                summer.execScript({
+                                    winId: 'menu',
+                                    script: "addRight('oLXR')"
+                                });
+                            }
+                        } else {
+                            summer.toast({
+                                msg: '获取联系人列表失败'
+                            })
+                        }
+                    }, function (err) {
+                        summer.hideProgress();
+                        console.log("err", err);
+                        summer.toast({
+                            msg: '获取联系人列表失败'
+                        })
+                    })
+                },
+                deleteItem: function (index, ID) {
+                    var _this = this;
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'crm/delLinkman',
+                        param: {
+                            ID: ID
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            _this.list.splice(index, 1);
+                            summer.toast({
+                                msg: '删除成功'
+                            });
+                            if (!_this.list.length) {
+                                summer.execScript({
+                                    winId: 'menu',
+                                    script: "removeRight('oLXR')"
+                                });
+                            }
+                        } else {
+                            summer.toast({
+                                msg: '删除失败'
+                            });
+                        }
+                    }, function (err) {
+                        summer.hideProgress();
+                        console.log("err", err);
+                        summer.toast({
+                            msg: '删除失败'
+                        })
+                    })
+                },
+                add: function () {
+                    var _this = this;
+                    summer.openWin({
+                        id: 'contactsInfo',
+                        url: 'html/opportunity/contactsInfo.html',
+                        create: false,
+                        type: 'actionBar',
+                        pageParam: {
+                            "ID": "",
+                            "CST_CODE": this.CST_CODE
+                        },
+                        actionBar: {
+                            title: '新增联系人',
+                            titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            backgroundColor: "#039BE5",
+                            leftItem: {
+                                image: "img/back.png",
+                                method: '', //返回按钮自定义事件
+                                text: "返回",
+                                textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            },
+                            rightItems: [{
+                                type: "text",
+                                text: "保存",
+                                method: 'saveContactsInfo()',
+                                textColor: "#ffffff"
+                            }]
+                        }
+                    })
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

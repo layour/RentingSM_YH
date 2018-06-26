@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="contactsInfo.css">
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/common.js"></script>
+</head>
+
+<body>
+    <div class="um-win" id="index">
+        <div class="um-content" v-cloak>
+            <ul class="loanList">
+                <li>
+                    <span>联系人姓名</span>
+                    <input v-model="info.name" type="text" placeholder="请输入姓名" />
+                </li>
+                <li>
+                    <span>联系人职务</span>
+                    <input v-model="info.zhiwu" type="text" placeholder="请输入职务" />
+                </li>
+                <li>
+                    <span>联系人电话</span>
+                    <input v-model="info.phone" type="text" placeholder="请输入电话" />
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var contactsInfo = new Vue({
+            el: '#index',
+            data: {
+                // 联系人ID
+                ID: "",
+                // 客户编号
+                CST_CODE: "",
+                info: {
+                    name: "",
+                    zhiwu: "",
+                    phone: ""
+                }
+            },
+            methods: {
+                // 保存
+                saveContacts: function (){
+                    var self = this;
+                    var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+                    if (this.info.name == "") {
+                        summer.toast({
+                            msg: "请输入姓名"
+                        });
+                        return;
+                    } else if (this.info.phone == "") {
+                        summer.toast({
+                            msg: "请输入手机号"
+                        });
+                        return;
+                    } else if (!phoneCard.test(this.info.phone)) {
+                        summer.toast({
+                            msg: "手机号格式有误"
+                        });
+                        return;
+                    } else if (this.info.zhiwu == "") {
+                        summer.toast({
+                            msg: "请输入职务"
+                        });
+                        return;
+                    }
+                    // 保存
+                    summer.showProgress();
+					ajaxRequest({
+						type: 'post',
+						url: 'crm/saveLinkman',
+						param: {
+                            ID: this.ID,  
+							LNK_NAME: this.info.name,
+                            LNK_POST: this.info.zhiwu,
+                            LNK_TEL: this.info.phone,
+                            CST_CODE: this.CST_CODE
+						}
+					}, function(res) {
+                        summer.hideProgress();
+						var Data;
+						if (Object.prototype.toString.call(res.data) === '[object String]') {
+							Data = JSON.parse(res.data);
+						} else {
+							Data = res.data;
+						}
+						if (Data.flag == 1) {
+                            summer.toast({
+								msg: "保存成功"
+							});
+                            summer.execScript({
+                                winId: 'contacts',
+                                script: "contacts.getData()"
+                            });
+                            summer.closeWin();
+						} else {
+							summer.toast({
+								msg: "保存失败"
+							});
+						}
+					}, function(err) {
+						summer.hideProgress();
+						summer.toast({
+							msg: "保存失败"
+						});
+					});
+                },
+                getData: function (ID) {
+                    var _this = this;
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'crm/cstlinkmanInfo',
+                        param: {
+                            "ID": ID
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            if (res.data.datas.linkmanInfo) {
+                                var info = res.data.datas.linkmanInfo;
+                                _this.info.name = info.LNK_NAME ? info.LNK_NAME : "";
+                                _this.info.zhiwu = info.LNK_POST ? info.LNK_POST : "";
+                                _this.info.phone = info.LNK_TEL ? info.LNK_TEL : "";
+                            }
+                        } else {
+                            summer.toast({
+                                msg: '获取联系人信息失败'
+                            })
+                        }
+                    }, function (err) {
+                        summer.hideProgress();
+                        summer.toast({
+                            msg: '获取联系人信息失败'
+                        })
+                    })
+                }
+            }
+        });
+        function saveContactsInfo () {
+            contactsInfo.saveContacts();
+        };
+        summerready = function() {
+            contactsInfo.ID = summer.pageParam.ID;
+            contactsInfo.CST_CODE = summer.pageParam.CST_CODE;
+            contactsInfo.getData(contactsInfo.ID);
+        };
+    </script>
+</body>
+
+</html>

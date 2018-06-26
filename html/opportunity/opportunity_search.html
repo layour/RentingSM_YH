@@ -46,7 +46,8 @@
             datas: [],
             pageNum: 1,
             totalPage: "",
-            resetData: true
+            resetData: true,
+            CST_NAME: ""
         },
         methods: {
             // 获取商机单列表
@@ -59,7 +60,7 @@
                     param: {
                         "pageNo": this.pageNum,
                         "pageSize": 10,
-                        "CST_NAME": ""
+                        "CST_NAME": this.CST_NAME
                     }
                 }, function (res) {
                     summer.hideProgress();
@@ -74,7 +75,7 @@
                     if (Data.flag == 1) {
                         self.totalPage = Data.datas.last;
                         if (Data.datas.list.length < 1) {
-                            createNull("content", "../../../img/empty.png");
+                            createNull("content", "../../img/empty.png");
                             $('#content').css('display', 'block');
                         } else {
                             $('#content').css('display', 'none');
@@ -163,8 +164,14 @@
             }
         }
     });
-    summerready = function () {
+    function getData (pageNum, val, bool) {
+        opportunity.resetData = true;
+        opportunity.pageNum = 1;
+        opportunity.CST_NAME = val;
         opportunity.getData();
+    };
+    summerready = function () {
+        // opportunity.getData();
         // 上拉下拉刷新
         summer.setRefreshHeaderInfo({
         	visible: true,

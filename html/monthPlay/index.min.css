@@ -1,0 +1,17 @@
+body{color:#333}i{color:#DBDBDB}input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{color:#DEDEDE;font-size:14px}.riskTrack>div.header{text-align:center;height:1rem;line-height:1rem}.riskTrack>div.header>button{outline:none;border:none;background:#ffffff;color:#898989;border:1px solid #E0E0E0;height:.6rem;line-height:.6rem;padding:0 .3rem;font-size:14px}.riskTrack>div.header>button:first-child{border-top-left-radius:.16rem;border-bottom-left-radius:.16rem;border-right:none}.riskTrack>div.header>button:last-child{border-top-right-radius:.16rem;border-bottom-right-radius:.16rem;border-left:none}.riskTrack>div.header>button.active{background:#039BE5;color:#ffffff}.riskTrackContent ul{font-size:14px;background:#ffffff}.riskTrackContent ul li{border-bottom:1px solid #EFEFEF;position:relative;padding:.34rem .56rem;font-size:14px}.riskTrackContent ul li .ps>table{width:100%}.riskTrackContent ul li .ps td{text-align:right}.riskTrackContent ul li .ps td>span{color:#039BE5}.riskTrackContent ul li .ps td.first{text-align:left}.riskTrackContent ul li .ps td.first>p.first-child{font-size:16px;color:#333}.riskTrackContent ul li .ps td .money{font-size:18px;color:#424242}
+
+.play{overflow:hidden}.play li{background:#ffffff;padding:0 .56rem;height:.88rem;line-height:.88rem;border-bottom:1px solid #EFEFEF;font-size:14px;color:#333;position:relative}.play li>span{position:absolute;right:.56rem;top:0}.play li.input input{min-width:2.3rem;text-align:right}.play li.spec{margin-bottom:.2rem}.play li>b{color:#333}.play li b{font-weight:normal}.play li>span{float:right;display:inline-block}.play li>span .default{color:#DEDEDE}.play li>span input{height:.4rem;outline:none;border:none;width:1.2rem;text-align:center}
+.text{
+  background:#ffffff;padding:.2rem .56rem;border-bottom:1px solid #EFEFEF;font-size:14px;color:#333;position:relative;
+}
+.text b{color:#333;font-weight: normal;vertical-align: top;}
+.text textarea{
+  height: 2rem;
+  width: 5rem;
+  text-indent: .2rem;
+  line-height: .3rem;
+  outline: none;
+  border: none;
+}
+
+.pickerPrice{width:100%;background:#ffffff;border-top:1px solid #EFEFEF}.pickerPrice .picker-slot{font-size:14px;color:#DEDEDE}.pickerPrice .picker-item.picker-selected{font-size:22px;color:#333}.pickerPrice>p{padding:0 .56rem;line-height:.88rem;border-top:1px solid #E0E0E0;font-size:14px}.pickerPrice>p span{color:#039BE5}

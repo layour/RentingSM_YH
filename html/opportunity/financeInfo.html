@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="contactsInfo.css">
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/common.js"></script>
+</head>
+
+<body>
+    <div class="um-win" id="index">
+        <div class="um-content" v-cloak>
+            <ul class="loanList">
+                <li>
+                    <span>年份</span>
+                    <input v-model="info.FIN_YEAR" type="number" placeholder="请输入年份" />
+                </li>
+                <li>
+                    <span>主营收入（元）</span>
+                    <input v-model="info.FIN_INCOME" type="number" placeholder="请输入主营收入" />
+                </li>
+                <li>
+                    <span>利润（元）</span>
+                    <input v-model="info.FIN_PROFIT" type="number" placeholder="请输入利润" />
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var financeInfo = new Vue({
+            el: '#index',
+            data: {
+                // 联系人ID
+                ID: "",
+                // 客户编号
+                CST_CODE: "",
+                info: {
+                    FIN_YEAR: "",
+                    FIN_INCOME: "",
+                    FIN_PROFIT: ""
+                }
+            },
+            methods: {
+                // 保存
+                saveFinance: function (){
+                    var self = this;
+                    if (this.info.FIN_YEAR == "") {
+                        summer.toast({
+                            msg: "请输入年份"
+                        });
+                        return;
+                    } else if (this.info.FIN_INCOME == "") {
+                        summer.toast({
+                            msg: "请输入主营收入"
+                        });
+                        return;
+                    } else if (this.info.FIN_PROFIT == "") {
+                        summer.toast({
+                            msg: "请输入利润"
+                        });
+                        return;
+                    }
+                    // 保存
+                    summer.showProgress();
+					ajaxRequest({
+						type: 'post',
+						url: 'crm/saveBusiFinInfo',
+						param: {
+                            ID: this.ID,  
+                            CST_CODE: this.CST_CODE,
+							FIN_YEAR: this.info.FIN_YEAR,
+                            FIN_INCOME: this.info.FIN_INCOME,
+                            FIN_PROFIT: this.info.FIN_PROFIT
+						}
+					}, function(res) {
+                        summer.hideProgress();
+						var Data;
+						if (Object.prototype.toString.call(res.data) === '[object String]') {
+							Data = JSON.parse(res.data);
+						} else {
+							Data = res.data;
+						}
+						if (Data.flag == 1) {
+                            summer.toast({
+								msg: "保存成功"
+							});
+                            summer.execScript({
+                                winId: 'finance',
+                                script: "finance.getData()"
+                            });
+                            summer.closeWin();
+						} else {
+							summer.toast({
+								msg: "保存失败"
+							});
+						}
+					}, function(err) {
+						summer.hideProgress();
+						summer.toast({
+							msg: "保存失败"
+						});
+					});
+                },
+                getData: function (ID) {
+                    var _this = this;
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'crm/findBusiFinInfoById',
+                        param: {
+                            "ID": ID
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            if (res.data.datas.busiFinInfo) {
+                                var info = res.data.datas.busiFinInfo;
+                                _this.info.FIN_YEAR = info.FIN_YEAR ? info.FIN_YEAR : "";
+                                _this.info.FIN_INCOME = info.FIN_INCOME ? info.FIN_INCOME : "";
+                                _this.info.FIN_PROFIT = info.FIN_PROFIT ? info.FIN_PROFIT : "";
+                            }
+                        } else {
+                            summer.toast({
+                                msg: '获取财务情况失败'
+                            })
+                        }
+                    }, function (err) {
+                        summer.hideProgress();
+                        summer.toast({
+                            msg: '获取财务情况失败'
+                        })
+                    })
+                }
+            }
+        });
+        function saveFinanceInfo () {
+            financeInfo.saveFinance();
+        };
+        summerready = function() {
+            financeInfo.ID = summer.pageParam.ID;
+            financeInfo.CST_CODE = summer.pageParam.CST_CODE;
+            financeInfo.getData(financeInfo.ID);
+        };
+    </script>
+</body>
+
+</html>
