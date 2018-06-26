@@ -7,16 +7,59 @@
 		<link rel="stylesheet" href="../../css/iuapmobile.um.css">
 		<link rel="stylesheet" href="../../css/fonts/iconfont.css">
 		<link rel="stylesheet" href="../../css/mint.css">
-		<link rel="stylesheet" href="./index.min.css">
+		<style>
+		body{color:#333}i{color:#DBDBDB}input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{color:#DEDEDE;font-size:14px}
+		.play{overflow:hidden}.play li{background:#ffffff;padding:0 .56rem;height:.88rem;line-height:.88rem;border-bottom:1px solid #EFEFEF;font-size:14px;color:#333;position:relative}.play li>span{position:absolute;right:.56rem;top:0}.play li.input input{min-width:3.3rem;text-align:right}.play li.spec{margin-bottom:.2rem}.play li>b{color:#333}.play li b{font-weight:normal}.play li>span{float:right;display:inline-block}.play li>span .default{color:#DEDEDE}.play li>span input{height:.4rem;outline:none;border:none;width:1.2rem;text-align:center}
+		.text{
+			background:#ffffff;padding:.2rem .56rem;border-bottom:1px solid #EFEFEF;font-size:14px;color:#333;position:relative;
+		}
+		.text b{color:#333;font-weight: normal;vertical-align: top;}
+		.text textarea{
+			height: 2rem;
+			width: 5rem;
+			text-indent: .2rem;
+			line-height: .3rem;
+			outline: none;
+			border: none;
+		}
+
+		.pickerPrice{width:100%;background:#ffffff;border-top:1px solid #EFEFEF}.pickerPrice .picker-slot{font-size:14px;color:#DEDEDE}.pickerPrice .picker-item.picker-selected{font-size:22px;color:#333}.pickerPrice>p{padding:0 .56rem;line-height:.88rem;border-top:1px solid #E0E0E0;font-size:14px}.pickerPrice>p span{color:#039BE5}
+		</style>
 	</head>
 	<body>
 		<div class="um-win" id="payTableDetail" v-cloak>
 			<div class="um-content payTableDetail">
 				<ul class="play">
+          <li @click="pickerFlagStatus=true">
+            <b>客户名称</b>
+            <span>
+              <b v-if="CR_BECR_NAME">{{CR_BECR_NAME}}</b>
+              <b v-else class="default">请选择</b>
+              <i class="icon iconfont icon-enter"></i>
+            </span>
+          </li>
+          <li class="input">
+            <b>统一社会信用代码</b>
+            <span>
+              <input placeholder="组织机构代码" type="text" name="daima" v-model="CR_CORP_ORAGNIZATION_CODE">
+            </span>
+          </li>
+          <li class="input">
+            <b>企业名称</b>
+            <span>
+              <input placeholder="企业名称" type="text" name="daima" v-model="EMPLOYEE_NAME">
+            </span>
+          </li>
+          <li class="input">
+            <b>企业性质</b>
+            <span>
+              <input placeholder="企业性质" type="text" name="daima" v-model="CR_CORP_ENTERPRISES_PROPERTY">
+            </span>
+          </li>
           <li @click="openPicker('start')">
             <b>成立日期</b>
             <span>
-              <b v-if="START_DATE">{{START_DATE}}</b>
+              <b v-if="CR_CORP_SETUP_DATE">{{CR_CORP_SETUP_DATE}}</b>
               <b v-else class="default">请选择</b>
               <i class="icon iconfont icon-enter"></i>
             </span>
@@ -24,39 +67,78 @@
           <li @click="openPicker('end')">
             <b>有效期</b>
             <span>
-              <b v-if="END_DATE">{{END_DATE}}</b>
+              <b v-if="CR_CORP_PERIOD_VALIDITY">{{CR_CORP_PERIOD_VALIDITY}}</b>
               <b v-else class="default">请选择</b>
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
-
-          <li @click="pickerFlagStatus=true">
-            <b>计划拜访客户</b>
+          <li class="input">
+            <b>注册资本</b>
             <span>
-              <b v-if="CST_NAME">{{CST_NAME}}</b>
-              <b v-else class="default">请选择</b>
-              <i class="icon iconfont icon-enter"></i>
+              <input placeholder="注册资本" type="text" name="daima" v-model="CR_CORP_REGISTE_CAPITAL">
             </span>
           </li>
-          <li>
-            <b>拜访人</b>
+          <li class="input">
+            <b>实收资本</b>
             <span>
-              <b>{{VISIT_MAN}}</b>
+              <input placeholder="实收资本" type="text" name="daima" v-model="CR_CORP_PAICLUP_CAPITAL">
+            </span>
+          </li>
+          <li class="input">
+            <b>所属行业</b>
+            <span>
+              <input placeholder="所属行业" type="text" name="daima" v-model="CR_TRADE_TYPE">
+            </span>
+          </li>
+          <li class="input">
+            <b>公司邮编</b>
+            <span>
+              <input placeholder="公司邮编" type="text" name="daima" v-model="CR_CORP_COMPANY_ZIP">
+            </span>
+          </li>
+          <li class="input">
+            <b>一般纳税人</b>
+            <span>
+              <input placeholder="一般纳税人" type="text" name="daima" v-model="GENERAL_TAXPAYER">
+            </span>
+          </li>
+          <li class="input">
+            <b>电子邮箱</b>
+            <span>
+              <input placeholder="电子邮箱" type="text" name="email" v-model="CR_BECR_MAIL">
+            </span>
+          </li>
+          <li class="input">
+            <b>经营范围</b>
+            <span>
+              <input placeholder="经营范围" type="text" name="fanwei" v-model="CR_CORP_BUSINESS_RANGE">
+            </span>
+          </li>
+          <li class="input">
+            <b>公司办公地址</b>
+            <span>
+              <input placeholder="公司办公地址" type="text" name="bangong" v-model="CR_CORP_WORK_ADDRESS">
+            </span>
+          </li>
+          <li class="input">
+            <b>注册地址</b>
+            <span>
+              <input placeholder="注册地址" type="text" name="zhuce" v-model="CR_CORP_REGISTE_ADDRESS">
+            </span>
+          </li>
+          <li class="input">
+            <b>通讯地址</b>
+            <span>
+              <input placeholder="通讯地址" type="text" name="tongxun" v-model="CR_NATU_MAILING_ADDRESS">
             </span>
           </li>
         </ul>
-          <div class="text">
-            <b>拜访目的</b>
-            <span>
-              <textarea type="text" placeholder="拜访目的" name="VISIT_AIM" v-model="VISIT_AIM"></textarea>
-            </span>
-          </div>
-          <div class="text">
-            <b>其他事项</b>
-            <span>
-              <textarea type="text" placeholder="其他事项（工作）" name="DTL_DESC" v-model="DTL_DESC"></textarea>
-            </span>
-          </div>
+        <div class="text">
+          <b>备注</b>
+          <span>
+            <textarea type="text" placeholder="备注" name="CR_REMARK" v-model="CR_REMARK"></textarea>
+          </span>
+        </div>
 			</div>
       <div class="um-footer">
         <button v-show="!pickerFlagStatus" @click="save" class="btn um-btn-primary" >保存</button>
@@ -85,24 +167,30 @@
     <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
 		<script>
 				summerready=function(){
-          legalCustomer.ID=summer.pageParam.ID
-          legalCustomer.PLAN_ID=summer.pageParam.PLAN_ID
-
           legalCustomer.getData()
 				}
         var legalCustomer=new Vue({
 					el:'#payTableDetail',
 					data:function(){
 						return{
-              VISIT_MAN:'',
-              VISIT_AIM:'',
-              CST_NAME:'',
-							CST_CODE:'',
-              START_DATE:'',
-              END_DATE:'',
-              DTL_DESC:'',
-              PLAN_ID:'',
-              ID:'',
+              CR_BECR_NAME:'',
+              EMPLOYEE_ID:'',
+              CR_CORP_ORAGNIZATION_CODE:'',
+							EMPLOYEE_NAME:'',
+							CR_CORP_ENTERPRISES_PROPERTY:'',
+              CR_CORP_SETUP_DATE:'',
+              CR_CORP_PERIOD_VALIDITY:'',
+              CR_CORP_REGISTE_CAPITAL:'',
+              CR_CORP_PAICLUP_CAPITAL:'',
+              CR_TRADE_TYPE:'',
+              CR_CORP_COMPANY_ZIP:'',
+              GENERAL_TAXPAYER:'',
+              CR_BECR_MAIL:'',
+							CR_CORP_BUSINESS_RANGE:'',
+							CR_CORP_WORK_ADDRESS:'',
+							CR_CORP_REGISTE_ADDRESS:'',
+							CR_NATU_MAILING_ADDRESS:'',
+							CR_REMARK:'',
               pickerFlagList:[{
                 flex: 1,
                 values: [],
@@ -122,8 +210,8 @@
             },
             pickerFlag:function(status){
               this.pickerFlagStatus = !this.pickerFlagStatus
-              this.CST_NAME = this.pickerValue.CST_NAME
-							this.CST_CODE = this.pickerValue.CST_CODE
+              this.CR_BECR_NAME = this.pickerValue.CST_NAME
+							this.EMPLOYEE_ID = this.pickerValue.CST_CODE
             },
             openPicker:function(val) {
               this.state = val
@@ -132,13 +220,13 @@
             handleConfirm:function(value){
               console.log('handleConfirm', value);
               if(this.state=='start'){
-                this.START_DATE=this.getFormatDate(value)
+                this.CR_CORP_SETUP_DATE=this.getFormatDate(value)
               }else if(this.state=='end'){
-                if(new Date(this.START_DATE).getTime()>new Date(value).getTime()){
-                  summer.toast({msg:'结束日期不能大于开始日期'})
+                if(new Date(this.CR_CORP_SETUP_DATE).getTime()>new Date(value).getTime()){
+                  summer.toast({msg:'有效期不能大于成立日期'})
                   return
                 }
-                this.END_DATE=this.getFormatDate(value)
+                this.CR_CORP_PERIOD_VALIDITY=this.getFormatDate(value)
               }
             },
             getFormatDate:function(date){
@@ -162,7 +250,7 @@
                 summer.showProgress();
                     ajaxRequest({
                         type: "POST",
-                        url: 'crm/getCrmPlanDetail',
+                        url: '',
                         param: {
                           ID:this.ID
                         }
@@ -170,16 +258,9 @@
                         console.log(JSON.stringify(res));
                         summer.hideProgress();
                         _this.pickerFlagList[0].values=res.data.datas.custList
-                        if(_this.ID!='') {
-                          var data = res.data.datas.detail
-                          _this.VISIT_MAN = data.VISIT_MAN
-                          _this.VISIT_AIM = data.VISIT_AIM
-                          _this.CST_NAME = data.CST_NAME
-													_this.CST_CODE = data.CST_CODE
-                          _this.START_DATE = data.START_DATE
-                          _this.END_DATE = data.END_DATE
-                          _this.DTL_DESC = data.DTL_DESC
-                        }
+                        var data = res.data.datas.detail
+
+
                     }, function (err) {
                         summer.hideProgress();
                         console.log(err);
@@ -187,45 +268,41 @@
             },
             save:function(){
               var _this = this
-              if(this.CST_NAME==""){
-                summer.toast({msg:'请先选择拜访客户'})
+              if(this.CR_BECR_NAME==""){
+                summer.toast({msg:'请先选择客户'})
                 return
               }
-              if(this.START_DATE==""){
-                summer.toast({msg:'请选择开始日期'})
-                return
-              }
-              if(this.END_DATE==""){
-                summer.toast({msg:'请先选择结束日期'})
-                return
-              }
-              if(this.VISIT_AIM==""){
-                summer.toast({msg:'请先输入拜访目的'})
-                return
-              }
+
+
               summer.showProgress();
                   ajaxRequest({
                       type: "POST",
-                      url: 'crm/saveCrmPlanDetail',
+                      url: 'customer/saveCorpInfo',
                       param: {
-                        ID:this.ID,
-                        VISIT_MAN:this.VISIT_MAN,
-                        VISIT_AIM:this.VISIT_AIM,
-                        CST_NAME:this.CST_NAME,
-												CST_CODE:this.CST_CODE,
-                        START_DATE:this.START_DATE,
-                        END_DATE:this.END_DATE,
-                        DTL_DESC:this.DTL_DESC,
-                        PLAN_ID:this.PLAN_ID
+												CR_BECR_NAME:this.CR_BECR_NAME,
+												EMPLOYEE_ID:this.EMPLOYEE_ID,
+												CR_CORP_ORAGNIZATION_CODE:this.CR_CORP_ORAGNIZATION_CODE,
+												EMPLOYEE_NAME:this.EMPLOYEE_NAME,
+												CR_CORP_ENTERPRISES_PROPERTY:this.CR_CORP_ENTERPRISES_PROPERTY,
+												CR_CORP_SETUP_DATE:this.CR_CORP_SETUP_DATE,
+												CR_CORP_PERIOD_VALIDITY:this.CR_CORP_PERIOD_VALIDITY,
+												CR_CORP_REGISTE_CAPITAL:this.CR_CORP_REGISTE_CAPITAL,
+												CR_CORP_PAICLUP_CAPITAL:this.CR_CORP_PAICLUP_CAPITAL,
+												CR_TRADE_TYPE:this.CR_TRADE_TYPE,
+												CR_CORP_COMPANY_ZIP:this.CR_CORP_COMPANY_ZIP,
+												GENERAL_TAXPAYER:this.GENERAL_TAXPAYER,
+												CR_BECR_MAIL:this.CR_BECR_MAIL,
+												CR_CORP_BUSINESS_RANGE:this.CR_CORP_BUSINESS_RANGE,
+												CR_CORP_WORK_ADDRESS:this.CR_CORP_WORK_ADDRESS,
+												CR_CORP_REGISTE_ADDRESS:this.CR_CORP_REGISTE_ADDRESS,
+												CR_NATU_MAILING_ADDRESS:this.CR_NATU_MAILING_ADDRESS,
+												CR_REMARK:this.CR_REMARK,
                       }
                   }, function (res) {
                       console.log(JSON.stringify(res));
                       summer.hideProgress();
                       summer.toast({msg:'保存成功'})
-                      summer.execScript({
-      									winId: "monthPlay",
-      									script: "getList()"
-      								});
+
                       summer.closeWin()
                   }, function (err) {
                       summer.hideProgress();
