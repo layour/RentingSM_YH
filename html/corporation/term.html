@@ -264,9 +264,14 @@
 									CUSTOMER_ID:_this.id
 								}
 							},function(res){
-								console.log('data',JSON.stringify(res));
-								_this.addContactList=res.data.datas.corpCustDetails.companyTeamInfoList
 								summer.hideProgress()
+                                if (res.data.flag == 1) {
+								    _this.addContactList=res.data.datas.corpCustDetails.companyTeamInfoList
+                                } else {
+                                    summer.toast({
+                                        msg: res.data.msg ? res.data.msg : "获取企业团队失败"
+                                    });
+                                }
 							},function(err){
 								summer.hideProgress()
 								alert(err);

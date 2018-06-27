@@ -726,12 +726,8 @@
                         type: 'post',
                         url: 'customer/doCustomerPage',
                         param: {
-                            /* 真实 */
                             "CUSTOMER_ID": clintId,
                             "CR_BECR_TYPE": CR_BECR_TYPE
-                            /* 测试用 */
-                            // "CUSTOMER_ID": "240634",
-                            // "CR_BECR_TYPE": 1
                         }
                     }, function (res) {
                         summer.hideProgress();
