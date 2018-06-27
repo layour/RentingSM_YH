@@ -100,7 +100,7 @@
 			}, function(ret, err) {
 				//通常在这里从服务器加载数据，
 				_endNum += 1;
-				 
+
 				getData(_endNum, false);
 			});
 		}
@@ -188,12 +188,6 @@
 					})
 				},
 				openDetail(id, type, SCHEME_ID, BECR_ID) {
-                    if (type == "法人") {
-                        summer.toast({
-                            msg: "敬请期待"
-                        });
-                        return;
-                    }
 					summer.openWin({
 						id: 'programDetail',
 						url: 'html/fastReport/programDetail.html',
