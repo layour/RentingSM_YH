@@ -62,7 +62,7 @@
 }
 
 .loanList li .type {
-    height: 0.44rem;
+    line-height: 0.44rem;
     border: 1px solid #e0e0e0;
     border-radius: 0.04rem;
     box-sizing: content-box;

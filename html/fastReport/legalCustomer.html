@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
+    <style>
+        body {
+            color: #333
+        }
+
+        i {
+            color: #DBDBDB
+        }
+
+        input::-webkit-input-placeholder,
+        textarea::-webkit-input-placeholder {
+            color: #DEDEDE;
+            font-size: 14px
+        }
+
+        .play {
+            overflow: hidden
+        }
+
+        .play li {
+            background: #ffffff;
+            padding: 0 .56rem;
+            height: .88rem;
+            line-height: .88rem;
+            border-bottom: 1px solid #EFEFEF;
+            font-size: 14px;
+            color: #333;
+            position: relative
+        }
+
+        .play li>span {
+            position: absolute;
+            right: .56rem;
+            top: 0
+        }
+
+        .play li.input input {
+            min-width: 3.3rem;
+            text-align: right
+        }
+
+        .play li.spec {
+            margin-bottom: .2rem
+        }
+
+        .play li>b {
+            color: #333
+        }
+
+        .play li b {
+            font-weight: normal
+        }
+
+        .play li>span {
+            float: right;
+            display: inline-block
+        }
+
+        .play li>span .default {
+            color: #DEDEDE
+        }
+
+        .play li>span input {
+            height: .4rem;
+            outline: none;
+            border: none;
+            width: 1.2rem;
+            text-align: center
+        }
+
+        .text {
+            background: #ffffff;
+            padding: .2rem .56rem;
+            border-bottom: 1px solid #EFEFEF;
+            font-size: 14px;
+            color: #333;
+            position: relative;
+        }
+
+        .text b {
+            color: #333;
+            font-weight: normal;
+            vertical-align: top;
+        }
+
+        .text textarea {
+            height: 2rem;
+            width: 5rem;
+            text-indent: .2rem;
+            line-height: .3rem;
+            outline: none;
+            border: none;
+        }
+
+        .pickerPrice {
+            width: 100%;
+            background: #ffffff;
+            border-top: 1px solid #EFEFEF
+        }
+
+        .pickerPrice .picker-slot {
+            font-size: 14px;
+            color: #DEDEDE
+        }
+
+        .pickerPrice .picker-item.picker-selected {
+            font-size: 22px;
+            color: #333
+        }
+
+        .pickerPrice>p {
+            padding: 0 .56rem;
+            line-height: .88rem;
+            border-top: 1px solid #E0E0E0;
+            font-size: 14px
+        }
+
+        .pickerPrice>p span {
+            color: #039BE5
+        }
+    </style>
+</head>
+
+<body>
+    <div class="um-win" id="payTableDetail" v-cloak>
+        <div class="um-content payTableDetail">
+            <ul class="play">
+                <li class="input">
+                    <b>客户名称</b>
+                    <span>
+                        <input placeholder="客户名称" type="text" name="daima" v-model="CR_BECR_NAME">
+                    </span>
+                </li>
+                <li class="input">
+                    <b>统一社会信用代码</b>
+                    <span>
+                        <input placeholder="组织机构代码" type="text" name="daima" v-model="CR_CORP_ORAGNIZATION_CODE">
+                    </span>
+                </li>
+                <li class="input">
+                    <b>企业名称</b>
+                    <span>
+                        <input placeholder="企业名称" type="text" name="daima" v-model="EMPLOYEE_NAME">
+                    </span>
+                </li>
+                <li @click="pickerFlagStatus=true">
+                    <b>企业性质</b>
+                    <span>
+                        <b v-if="CR_CORP_ENTERPRISES_PROPERTY">{{CR_CORP_ENTERPRISES_PROPERTY}}</b>
+                        <b v-else class="default">请选择</b>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </li>
+                <li @click="openPicker('start')">
+                    <b>成立日期</b>
+                    <span>
+                        <b v-if="CR_CORP_SETUP_DATE">{{CR_CORP_SETUP_DATE}}</b>
+                        <b v-else class="default">请选择</b>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </li>
+                <li @click="openPicker('end')">
+                    <b>有效期</b>
+                    <span>
+                        <b v-if="CR_CORP_PERIOD_VALIDITY">{{CR_CORP_PERIOD_VALIDITY}}</b>
+                        <b v-else class="default">请选择</b>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </li>
+                <li class="input">
+                    <b>注册资本</b>
+                    <span>
+                        <input placeholder="注册资本" type="number" name="daima" v-model="CR_CORP_REGISTE_CAPITAL">
+                    </span>
+                </li>
+                <li class="input">
+                    <b>实收资本</b>
+                    <span>
+                        <input placeholder="实收资本" type="number" name="daima" v-model="CR_CORP_PAICLUP_CAPITAL">
+                    </span>
+                </li>
+                <li @click="pickerHYStatus=true">
+                    <b>所属行业</b>
+                    <span>
+                        <b v-if="CR_TRADE_TYPE">{{CR_TRADE_TYPE}}</b>
+                        <b v-else class="default">请选择</b>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </li>
+                <li class="input">
+                    <b>公司邮编</b>
+                    <span>
+                        <input placeholder="公司邮编" type="text" name="daima" v-model="CR_CORP_COMPANY_ZIP">
+                    </span>
+                </li>
+                <li @click="pickerNSRStatus=true">
+                    <b>一般纳税人</b>
+                    <span>
+                        <b v-if="GENERAL_TAXPAYER">{{GENERAL_TAXPAYER}}</b>
+                        <b v-else class="default">请选择</b>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </li>
+                <li class="input">
+                    <b>电子邮箱</b>
+                    <span>
+                        <input placeholder="电子邮箱" type="text" name="email" v-model="CR_BECR_MAIL">
+                    </span>
+                </li>
+                <li class="input">
+                    <b>经营范围</b>
+                    <span>
+                        <input placeholder="经营范围" type="text" name="fanwei" v-model="CR_CORP_BUSINESS_RANGE">
+                    </span>
+                </li>
+                <li class="input">
+                    <b>公司办公地址</b>
+                    <span>
+                        <input placeholder="公司办公地址" type="text" name="bangong" v-model="CR_CORP_WORK_ADDRESS">
+                    </span>
+                </li>
+                <li class="input">
+                    <b>注册地址</b>
+                    <span>
+                        <input placeholder="注册地址" type="text" name="zhuce" v-model="CR_CORP_REGISTE_ADDRESS">
+                    </span>
+                </li>
+                <li class="input">
+                    <b>通讯地址</b>
+                    <span>
+                        <input placeholder="通讯地址" type="text" name="tongxun" v-model="CR_NATU_MAILING_ADDRESS">
+                    </span>
+                </li>
+                <li @click="pickerBZStatus=true">
+                    <b>币种</b>
+                    <span>
+                        <b v-if="MONEY_TYPE">{{MONEY_TYPE}}</b>
+                        <b v-else class="default">请选择</b>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </li>
+                <li @click="pickerYSBZStatus=true">
+                    <b>应收资金币种</b>
+                    <span>
+                        <b v-if="TRUE_MONEY_TYPE">{{TRUE_MONEY_TYPE}}</b>
+                        <b v-else class="default">请选择</b>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </li>
+                <li @click="pickerKHStatus=true">
+                    <b>客户分类</b>
+                    <span>
+                        <b v-if="CR_CUST_LEVEL">{{CR_CUST_LEVEL}}</b>
+                        <b v-else class="default">请选择</b>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </li>
+                <li @click="pickerSHStatus=true">
+                    <b>审核主体</b>
+                    <span>
+                        <b v-if="AUDIT_MAIN_BODY">{{AUDIT_MAIN_BODY}}</b>
+                        <b v-else class="default">请选择</b>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </li>
+                <li class="input">
+                    <b>公司网址</b>
+                    <span>
+                        <input placeholder="公司网址" type="text" v-model="CR_CORP_COMPANY_WEBSITE">
+                    </span>
+                </li>
+                <li class="input">
+                    <b>注册电话</b>
+                    <span>
+                        <input placeholder="注册电话" type="text" v-model="CR_CORP_REGISTE_PHONE">
+                    </span>
+                </li>
+                <li class="input">
+                    <b>联系电话</b>
+                    <span>
+                        <input placeholder="联系电话" type="text" v-model="CR_CORP_COMPANY_LINKPHONE">
+                    </span>
+                </li>
+                <li class="input">
+                    <b>其他信息</b>
+                    <span>
+                        <input placeholder="其他信息" type="text" v-model="CR_CORP_OTHER_MASSAGE">
+                    </span>
+                </li>
+            </ul>
+            <div class="text">
+                <b>备注</b>
+                <span>
+                    <textarea type="text" placeholder="备注" name="CR_REMARK" v-model="CR_REMARK"></textarea>
+                </span>
+            </div>
+        </div>
+        <div class="um-footer" style="min-height: 0px;">
+            <!-- <button v-show="!pickerFlagStatus" @click="save" class="btn um-btn-primary">保存</button> -->
+            <!-- 企业性质 -->
+            <mt-popup v-model="pickerFlagStatus" class="pickerPrice" position='bottom'>
+                <mt-picker value-key="FLAG" :slots="pickerFlagList" @change="pickerFlagChange"></mt-picker>
+                <p>
+                    <span class="fl" @click="pickerFlagStatus=false">取消</span>
+                    <span class="fr" @click="pickerFlag(true)">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 所属行业 -->
+            <mt-popup v-model="pickerHYStatus" class="pickerPrice" position='bottom'>
+                <mt-picker value-key="FLAG" :slots="pickerHYList" @change="pickerHYChange"></mt-picker>
+                <p>
+                    <span class="fl" @click="pickerHYStatus=false">取消</span>
+                    <span class="fr" @click="pickerHYFlag(true)">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 币种 -->
+            <mt-popup v-model="pickerBZStatus" class="pickerPrice" position='bottom'>
+                <mt-picker value-key="FLAG" :slots="pickerBZList" @change="pickerBZChange"></mt-picker>
+                <p>
+                    <span class="fl" @click="pickerBZStatus=false">取消</span>
+                    <span class="fr" @click="pickerBZFlag(true)">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 应收资金币种 -->
+            <mt-popup v-model="pickerYSBZStatus" class="pickerPrice" position='bottom'>
+                <mt-picker value-key="FLAG" :slots="pickerYSBZList" @change="pickerYSBZChange"></mt-picker>
+                <p>
+                    <span class="fl" @click="pickerYSBZStatus=false">取消</span>
+                    <span class="fr" @click="pickerYSBZFlag(true)">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 客户分类 -->
+            <mt-popup v-model="pickerKHStatus" class="pickerPrice" position='bottom'>
+                <mt-picker value-key="FLAG" :slots="pickerKHList" @change="pickerKHChange"></mt-picker>
+                <p>
+                    <span class="fl" @click="pickerKHStatus=false">取消</span>
+                    <span class="fr" @click="pickerKHFlag(true)">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 审核主题 -->
+            <mt-popup v-model="pickerSHStatus" class="pickerPrice" position='bottom'>
+                <mt-picker value-key="FLAG" :slots="pickerSHList" @change="pickerSHChange"></mt-picker>
+                <p>
+                    <span class="fl" @click="pickerSHStatus=false">取消</span>
+                    <span class="fr" @click="pickerSHFlag(true)">确定</span>
+                </p>
+            </mt-popup>
+            <!-- 是否为一般纳税人 -->
+            <mt-popup v-model="pickerNSRStatus" class="pickerPrice" position='bottom'>
+                <mt-picker :slots="pickerNSRList" @change="pickerNSRChange"></mt-picker>
+                <p>
+                    <span class="fl" @click="pickerNSRStatus=false">取消</span>
+                    <span class="fr" @click="pickerNSRFlag(true)">确定</span>
+                </p>
+            </mt-popup>
+            <mt-datetime-picker ref="picker" type="date" v-model="pickerDateValue" cancel-text='取消' confirm-text='确定' :start-date="new Date('2018-06-01')"
+                @confirm="handleConfirm" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日">
+            </mt-datetime-picker>
+        </div>
+
+    </div>
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/mint.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
+    <script>
+        summerready = function () {
+            legalCustomer.USER_ID = summer.pageParam.USER_ID;
+            legalCustomer.sourceFrom = summer.pageParam.sourceFrom;
+            legalCustomer.BECR_ID = summer.pageParam.clintId ? summer.pageParam.clintId : "";
+            legalCustomer.type = summer.pageParam.type;
+            legalCustomer.getData();
+        }
+        var legalCustomer = new Vue({
+            el: '#payTableDetail',
+            data: function () {
+                return {
+                    USER_ID: '',
+                    sourceFrom: '',
+                    type: '',
+                    BECR_ID: "",
+                    CR_BECR_NAME: '',
+                    CR_CORP_ORAGNIZATION_CODE: '',
+                    EMPLOYEE_NAME: '',
+                    CR_CORP_ENTERPRISES_PROPERTY: '',
+                    CR_CORP_ENTERPRISES_PROPERTY_CODE: '',
+                    CR_CORP_SETUP_DATE: '',
+                    CR_CORP_PERIOD_VALIDITY: '',
+                    CR_CORP_REGISTE_CAPITAL: '',
+                    CR_CORP_PAICLUP_CAPITAL: '',
+                    CR_TRADE_TYPE: '',
+                    CR_TRADE_TYPE_CODE: '',
+                    CR_CORP_COMPANY_ZIP: '',
+                    GENERAL_TAXPAYER: '',
+                    CR_BECR_MAIL: '',
+                    CR_CORP_BUSINESS_RANGE: '',
+                    CR_CORP_WORK_ADDRESS: '',
+                    CR_CORP_REGISTE_ADDRESS: '',
+                    CR_NATU_MAILING_ADDRESS: '',
+                    CR_REMARK: '',
+                    MONEY_TYPE: '',
+                    MONEY_TYPE_CODE: '',
+                    TRUE_MONEY_TYPE: '',
+                    TRUE_MONEY_TYPE_CODE: '',
+                    CR_CUST_LEVEL: '',
+                    CR_CUST_LEVEL_CODE: '',
+                    AUDIT_MAIN_BODY: '',
+                    AUDIT_MAIN_BODY_CODE: '',
+                    CR_CORP_COMPANY_WEBSITE: '',
+                    CR_CORP_REGISTE_PHONE: '',
+                    CR_CORP_COMPANY_LINKPHONE: '',
+                    CR_CORP_OTHER_MASSAGE: '',
+                    // 企业性质
+                    pickerFlagList: [{
+                        flex: 1,
+                        values: [],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    pickerFlagStatus: false,
+                    pickerValue: '',
+                    // 所属行业
+                    pickerHYList: [{
+                        flex: 1,
+                        values: [],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    pickerHYStatus: false,
+                    pickerHYValue: '',
+                    // 是否一般纳税人
+                    pickerNSRList: [{
+                        flex: 1,
+                        values: ["是", "否"],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    pickerNSRStatus: false,
+                    pickerNSRValue: '',
+                    // 币种
+                    pickerBZList: [{
+                        flex: 1,
+                        values: [{CODE:1, FLAG:"A"}],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    pickerBZStatus: false,
+                    pickerBZValue: '',
+                    // 应收资金币种
+                    pickerYSBZList: [{
+                        flex: 1,
+                        values: [{CODE:1, FLAG:"B"}],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    pickerYSBZStatus: false,
+                    pickerYSBZValue: '',
+                    // 客户分类
+                    pickerKHList: [{
+                        flex: 1,
+                        values: [{CODE:1, FLAG:"C"}],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    pickerKHStatus: false,
+                    pickerKHValue: '',
+                    // 审核主体
+                    pickerSHList: [{
+                        flex: 1,
+                        values: [{CODE:1, FLAG:"D"}],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    pickerSHStatus: false,
+                    pickerSHValue: '',
+                    state: '',
+                    pickerDateValue: new Date()
+                }
+            },
+            methods: {
+                // 行业性质
+                pickerFlagChange: function (picker, values) {
+                    this.pickerValue = values[0];
+                },
+                pickerFlag: function (status) {
+                    this.pickerFlagStatus = !this.pickerFlagStatus;
+                    this.CR_CORP_ENTERPRISES_PROPERTY = this.pickerValue.FLAG;
+                    this.CR_CORP_ENTERPRISES_PROPERTY_CODE = this.pickerValue.CODE;
+                },
+                // 所属行业
+                pickerHYChange: function (picker, values) {
+                    this.pickerHYValue = values[0];
+                },
+                pickerHYFlag: function (status) {
+                    this.pickerHYStatus = !this.pickerHYStatus;
+                    this.CR_TRADE_TYPE = this.pickerHYValue.FLAG;
+                    this.CR_TRADE_TYPE_CODE = this.pickerHYValue.CODE;
+                },
+                // 一般纳税人
+                pickerNSRChange: function (picker, values) {
+                    this.pickerNSRValue = values[0];
+                },
+                pickerNSRFlag: function (status) {
+                    this.pickerNSRStatus = !this.pickerNSRStatus;
+                    this.GENERAL_TAXPAYER = this.pickerNSRValue;
+                },
+                // 币种
+                pickerBZChange: function (picker, values) {
+                    this.pickerBZValue = values[0];
+                },
+                pickerBZFlag: function (status) {
+                    this.pickerBZStatus = !this.pickerBZStatus;
+                    this.MONEY_TYPE = this.pickerBZValue.FLAG;
+                    this.MONEY_TYPE_CODE = this.pickerBZValue.CODE;
+                },
+                // 应收资金币种
+                pickerYSBZChange: function (picker, values) {
+                    this.pickerYSBZValue = values[0];
+                },
+                pickerYSBZFlag: function (status) {
+                    this.pickerYSBZStatus = !this.pickerYSBZStatus;
+                    this.TRUE_MONEY_TYPE = this.pickerYSBZValue.FLAG;
+                    this.TRUE_MONEY_TYPE_CODE = this.pickerYSBZValue.CODE;
+                },
+                // 客户分类
+                pickerKHChange: function (picker, values) {
+                    this.pickerKHValue = values[0];
+                },
+                pickerKHFlag: function (status) {
+                    this.pickerKHStatus = !this.pickerKHStatus;
+                    this.CR_CUST_LEVEL = this.pickerKHValue.FLAG;
+                    this.CR_CUST_LEVEL_CODE = this.pickerKHValue.CODE;
+                },
+                // 审核主体
+                pickerSHChange: function (picker, values) {
+                    this.pickerSHValue = values[0];
+                },
+                pickerSHFlag: function (status) {
+                    this.pickerSHStatus = !this.pickerSHStatus;
+                    this.AUDIT_MAIN_BODY = this.pickerSHValue.FLAG;
+                    this.AUDIT_MAIN_BODY_CODE = this.pickerSHValue.CODE;
+                },
+                openPicker: function (val) {
+                    this.state = val
+                    this.$refs.picker.open();
+                },
+                handleConfirm: function (value) {
+                    console.log('handleConfirm', value);
+                    if (this.state == 'start') {
+                        this.CR_CORP_SETUP_DATE = this.getFormatDate(value)
+                    } else if (this.state == 'end') {
+                        if (new Date(this.CR_CORP_SETUP_DATE).getTime() > new Date(value).getTime()) {
+                            summer.toast({
+                                msg: '有效期不能大于成立日期'
+                            })
+                            return
+                        }
+                        this.CR_CORP_PERIOD_VALIDITY = this.getFormatDate(value)
+                    }
+                },
+                getFormatDate: function (date) {
+                    console.log('getFormatDate', date)
+                    if (!date) {
+                        return ''
+                    }
+                    var date = new Date(date),
+                        seperator1 = "-";
+                    var year = date.getFullYear(),
+                        month = date.getMonth() + 1
+                    var strDate = date.getDate();
+                    if (month >= 1 && month <= 9) {
+                        month = "0" + month;
+                    }
+                    if (strDate >= 0 && strDate <= 9) {
+                        strDate = "0" + strDate;
+                    }
+                    return year + seperator1 + month + seperator1 + strDate;
+                },
+                getData: function () {
+                    var _this = this;
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: "POST",
+                        url: 'customer/doCustomerPage',
+                        param: {
+                            "CUSTOMER_ID": this.BECR_ID,
+                            "CR_BECR_TYPE": 2
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        var info = res.data.datas.custInfoDetails;
+                        _this.pickerFlagList[0].values = res.data.datas.CR_CORP_ENTERPRISES_PROPERTY_DIC;
+                        _this.pickerHYList[0].values = res.data.datas.CR_TRADE_TYPE_DIC;
+                        _this.pickerBZList[0].values = res.data.datas.MONEY_TYPE_DIC;
+                        _this.pickerYSBZList[0].values = res.data.datas.MONEY_TYPE_DIC;
+                        _this.pickerKHList[0].values = res.data.datas.CR_CUST_LEVEL_DIC;
+                        _this.pickerSHList[0].values = res.data.datas.AUDIT_MAIN_BODY_DIC;
+                        if (info && info.CR_BECR_NAME) {
+                            _this.CR_BECR_NAME = info.CR_BECR_NAME ? info.CR_BECR_NAME : "";
+                            _this.CR_CORP_ORAGNIZATION_CODE = info.CR_CORP_ORAGNIZATION_CODE ? info.CR_CORP_ORAGNIZATION_CODE : "";
+                            _this.EMPLOYEE_NAME = info.EMPLOYEE_NAME ? info.EMPLOYEE_NAME : "";
+                            _this.CR_CORP_ENTERPRISES_PROPERTY = info.CR_CORP_ENTERPRISES_NM ? info.CR_CORP_ENTERPRISES_NM : "";
+                            if (info.CR_CORP_ENTERPRISES_NM) {
+                                res.data.datas.CR_CORP_ENTERPRISES_PROPERTY_DIC.forEach(function (e) {
+                                    if (info.CR_CORP_ENTERPRISES_NM == e.FLAG) {
+                                        _this.CR_CORP_ENTERPRISES_PROPERTY_CODE = e.CODE;
+                                    }
+                                });
+                            }
+                            _this.CR_CORP_SETUP_DATE = info.CR_CORP_SETUP_DATE ? info.CR_CORP_SETUP_DATE : "";
+                            _this.CR_CORP_PERIOD_VALIDITY = info.CR_CORP_PERIOD_VALIDITY ? info.CR_CORP_PERIOD_VALIDITY : "";
+                            _this.CR_CORP_REGISTE_CAPITAL = info.CR_CORP_REGISTE_CAPITAL ? info.CR_CORP_REGISTE_CAPITAL : "";
+                            _this.CR_CORP_PAICLUP_CAPITAL = info.CR_CORP_PAICLUP_CAPITAL ? info.CR_CORP_PAICLUP_CAPITAL : "";
+                            _this.CR_TRADE_TYPE = info.CR_TRADE_TYPE_NM ? info.CR_TRADE_TYPE_NM : "";
+                            if (info.CR_TRADE_TYPE_NM) {
+                                res.data.datas.CR_TRADE_TYPE_DIC.forEach(function (e) {
+                                    if (info.CR_TRADE_TYPE_NM == e.FLAG) {
+                                        _this.CR_TRADE_TYPE_CODE = e.CODE;
+                                    }
+                                });
+                            }
+                            _this.CR_CORP_COMPANY_ZIP = info.CR_CORP_COMPANY_ZIP ? info.CR_CORP_COMPANY_ZIP : "";
+                            _this.GENERAL_TAXPAYER = info.GENERAL_TAXPAYER == 0 ? "是" : "否";
+                            _this.CR_BECR_MAIL = info.CR_BECR_MAIL ? info.CR_BECR_MAIL : "";
+                            _this.CR_CORP_BUSINESS_RANGE = info.CR_CORP_BUSINESS_RANGE ? info.CR_CORP_BUSINESS_RANGE : "";
+                            _this.CR_CORP_WORK_ADDRESS = info.CR_CORP_WORK_ADDRESS ? info.CR_CORP_WORK_ADDRESS : "";
+                            _this.CR_CORP_REGISTE_ADDRESS = info.CR_CORP_REGISTE_ADDRESS ? info.CR_CORP_REGISTE_ADDRESS : "";
+                            _this.CR_NATU_MAILING_ADDRESS = info.CR_NATU_MAILING_ADDRESS ? info.CR_NATU_MAILING_ADDRESS : "";
+                            _this.CR_REMARK = info.CR_REMARK ? info.CR_REMARK : "";
+                            _this.MONEY_TYPE = info.MONEY_TYPE_NM ? info.MONEY_TYPE_NM : "";
+                            if (info.MONEY_TYPE_NM) {
+                                res.data.datas.MONEY_TYPE_DIC.forEach(function (e) {
+                                    if (info.MONEY_TYPE_NM == e.FLAG) {
+                                        _this.MONEY_TYPE_CODE = e.CODE;
+                                    }
+                                });
+                            }
+                            _this.TRUE_MONEY_TYPE = info.TRUE_MONEY_TYPE_NM ? info.TRUE_MONEY_TYPE_NM : "";
+                            if (info.TRUE_MONEY_TYPE_NM) {
+                                res.data.datas.MONEY_TYPE_DIC.forEach(function (e) {
+                                    if (info.TRUE_MONEY_TYPE_NM == e.FLAG) {
+                                        _this.TRUE_MONEY_TYPE_CODE = e.CODE;
+                                    }
+                                });
+                            }
+                            _this.CR_CUST_LEVEL = info.CR_CUST_LEVEL_NM ? info.CR_CUST_LEVEL_NM : "";
+                            if (info.CR_CUST_LEVEL_NM) {
+                                res.data.datas.CR_CUST_LEVEL_DIC.forEach(function (e) {
+                                    if (info.CR_CUST_LEVEL_NM == e.FLAG) {
+                                        _this.CR_CUST_LEVEL_CODE = e.CODE;
+                                    }
+                                });
+                            }
+                            _this.AUDIT_MAIN_BODY = info.AUDIT_MAIN_BODY_NM ? info.AUDIT_MAIN_BODY_NM : "";
+                            if (info.AUDIT_MAIN_BODY_NM) {
+                                res.data.datas.AUDIT_MAIN_BODY_DIC.forEach(function (e) {
+                                    if (info.AUDIT_MAIN_BODY_NM == e.FLAG) {
+                                        _this.AUDIT_MAIN_BODY_CODE = e.CODE;
+                                    }
+                                });
+                            }
+                            _this.CR_CORP_COMPANY_WEBSITE = info.CR_CORP_COMPANY_WEBSITE ? info.CR_CORP_COMPANY_WEBSITE : "";
+                            _this.CR_CORP_REGISTE_PHONE = info.CR_CORP_REGISTE_PHONE ? info.CR_CORP_REGISTE_PHONE : "";
+                            _this.CR_CORP_COMPANY_LINKPHONE = info.CR_CORP_COMPANY_LINKPHONE ? info.CR_CORP_COMPANY_LINKPHONE : "";
+                            _this.CR_CORP_OTHER_MASSAGE = info.CR_CORP_OTHER_MASSAGE ? info.CR_CORP_OTHER_MASSAGE : "";
+                        }
+                    }, function (err) {
+                        summer.hideProgress();
+                        console.log(err);
+                    })
+                },
+                save: function () {
+                    var _this = this;
+                    if (this.CR_BECR_NAME == "") {
+                        summer.toast({
+                            msg: '请输入客户名称'
+                        });
+                        return;
+                    } else if (this.CR_CORP_ORAGNIZATION_CODE == "") {
+                        summer.toast({
+                            msg: '请输入组织机构代码'
+                        });
+                        return;
+                    } else if (this.EMPLOYEE_NAME == "") {
+                        summer.toast({
+                            msg: '请输入企业名称'
+                        });
+                        return;
+                    } else if (this.CR_CORP_ENTERPRISES_PROPERTY == "") {
+                        summer.toast({
+                            msg: '请选择企业性质'
+                        });
+                        return;
+                    } else if (this.CR_CORP_SETUP_DATE == "") {
+                        summer.toast({
+                            msg: '请选择成立日期'
+                        });
+                        return;
+                    } else if (this.CR_CORP_PERIOD_VALIDITY == "") {
+                        summer.toast({
+                            msg: '请选择有效期'
+                        });
+                        return;
+                    } else if (this.CR_CORP_REGISTE_CAPITAL == "") {
+                        summer.toast({
+                            msg: '请输入注册资本'
+                        });
+                        return;
+                    } else if (this.CR_CORP_PAICLUP_CAPITAL == "") {
+                        summer.toast({
+                            msg: '请输入实收资本'
+                        });
+                        return;
+                    } else if (this.CR_TRADE_TYPE == "") {
+                        summer.toast({
+                            msg: '请选择所属行业'
+                        });
+                        return;
+                    } else if (this.CR_CORP_COMPANY_ZIP == "") {
+                        summer.toast({
+                            msg: '请输入公司邮编'
+                        });
+                        return;
+                    } else if (this.GENERAL_TAXPAYER == "") {
+                        summer.toast({
+                            msg: '请选择是否为一般纳税人'
+                        });
+                        return;
+                    } else if (this.CR_BECR_MAIL == "") {
+                        summer.toast({
+                            msg: '请输入电子邮箱'
+                        });
+                        return;
+                    } else if (this.CR_CORP_BUSINESS_RANGE == "") {
+                        summer.toast({
+                            msg: '请输入经营范围'
+                        });
+                        return;
+                    } else if (this.CR_CORP_WORK_ADDRESS == "") {
+                        summer.toast({
+                            msg: '请输入公司办公地址'
+                        });
+                        return;
+                    } else if (this.CR_CORP_REGISTE_ADDRESS == "") {
+                        summer.toast({
+                            msg: '请输入注册地址'
+                        });
+                        return;
+                    } else if (this.CR_NATU_MAILING_ADDRESS == "") {
+                        summer.toast({
+                            msg: '请输入通讯地址'
+                        });
+                        return;
+                    } else if (this.MONEY_TYPE_CODE == "") {
+                        summer.toast({
+                            msg: '请选择币种'
+                        });
+                        return;
+                    } else if (this.TRUE_MONEY_TYPE == "") {
+                        summer.toast({
+                            msg: '请选择应收资金币种'
+                        });
+                        return;
+                    } else if (this.CR_CUST_LEVEL == "") {
+                        summer.toast({
+                            msg: '请选择客户分类'
+                        });
+                        return;
+                    } else if (this.CR_CORP_COMPANY_WEBSITE == "") {
+                        summer.toast({
+                            msg: '请输入公司网址'
+                        });
+                        return;
+                    } else if (this.CR_CORP_REGISTE_PHONE == "") {
+                        summer.toast({
+                            msg: '请输入注册电话'
+                        });
+                        return;
+                    } else if (this.CR_CORP_COMPANY_LINKPHONE == "") {
+                        summer.toast({
+                            msg: '请输入联系电话'
+                        });
+                        return;
+                    } else if (this.AUDIT_MAIN_BODY == "") {
+                        summer.toast({
+                            msg: '请选择审核主体'
+                        });
+                        return;
+                    }
+                    summer.showProgress();
+                    ajaxRequest({
+                        type: "POST",
+                        url: 'customer/saveCorpInfo',
+                        param: {
+                            USER_ID: this.USER_ID,
+                            CR_BECR_NAME: this.CR_BECR_NAME,
+                            BECR_ID: this.BECR_ID,
+                            CR_CORP_ORAGNIZATION_CODE: this.CR_CORP_ORAGNIZATION_CODE,
+                            EMPLOYEE_NAME: this.EMPLOYEE_NAME,
+                            CR_CORP_ENTERPRISES_PROPERTY: this.CR_CORP_ENTERPRISES_PROPERTY_CODE,
+                            CR_CORP_SETUP_DATE: this.CR_CORP_SETUP_DATE,
+                            CR_CORP_PERIOD_VALIDITY: this.CR_CORP_PERIOD_VALIDITY,
+                            CR_CORP_REGISTE_CAPITAL: this.CR_CORP_REGISTE_CAPITAL,
+                            CR_CORP_PAICLUP_CAPITAL: this.CR_CORP_PAICLUP_CAPITAL,
+                            CR_TRADE_TYPE: this.CR_TRADE_TYPE_CODE,
+                            CR_CORP_COMPANY_ZIP: this.CR_CORP_COMPANY_ZIP,
+                            GENERAL_TAXPAYER: this.GENERAL_TAXPAYER == "是" ? "0" : "1",
+                            CR_BECR_MAIL: this.CR_BECR_MAIL,
+                            CR_CORP_BUSINESS_RANGE: this.CR_CORP_BUSINESS_RANGE,
+                            CR_CORP_WORK_ADDRESS: this.CR_CORP_WORK_ADDRESS,
+                            CR_CORP_REGISTE_ADDRESS: this.CR_CORP_REGISTE_ADDRESS,
+                            CR_NATU_MAILING_ADDRESS: this.CR_NATU_MAILING_ADDRESS,
+                            CR_REMARK: this.CR_REMARK,
+                            MONEY_TYPE: this.MONEY_TYPE_CODE,
+                            TRUE_MONEY_TYPE: this.TRUE_MONEY_TYPE_CODE,
+                            CR_CUST_LEVEL: this.CR_CUST_LEVEL_CODE,
+                            CR_CORP_COMPANY_WEBSITE: this.CR_CORP_COMPANY_WEBSITE,
+                            CR_CORP_REGISTE_PHONE: this.CR_CORP_REGISTE_PHONE,
+                            CR_CORP_COMPANY_LINKPHONE: this.CR_CORP_COMPANY_LINKPHONE,
+                            AUDIT_MAIN_BODY: this.AUDIT_MAIN_BODY_CODE,
+                            CR_CORP_OTHER_MASSAGE: this.CR_CORP_OTHER_MASSAGE
+                        }
+                    }, function (res) {
+                        summer.hideProgress();
+                        if (res.data.flag == 1) {
+                            summer.toast({
+                                msg: '保存成功'
+                            });
+                            if (_this.sourceFrom == "programSelect") {
+                                // 新增客户，保存成功后，回到立项并携带新的客户id
+                                var clint_Id = res.data.datas.BECR_ID;
+                                _this.BECR_ID = clint_Id;
+                                summer.openWin({
+                                    id: 'setProject',
+                                    url: 'html/fastReport/setProject.html',
+                                    create: false,
+                                    isKeep: false,
+                                    type: 'actionBar',
+                                    pageParam: {
+                                        source: "customer",
+                                        customId: clint_Id,
+                                        type: _this.type == "自然人" ? 1 : 2,
+                                        USER_ID: _this.USER_ID
+                                    },
+                                    actionBar: {
+                                        title: "快捷报单",
+                                        titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                        backgroundColor: "#039be5",
+                                        leftItem: {
+                                            image: "img/back.png",
+                                            method: "", //返回按钮自定义事件
+                                            text: "返回",
+                                            textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                        },
+                                        rightItems: [{
+                                            type: "text",
+                                            text: "下一步",
+                                            textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                            method: "nextStopInput()" //在打开的window中自定义事件
+                                        }]
+                                    }
+                                });
+                            } else {
+                                // 查看客户，从立项进，回到立项
+                                if (_this.sourceFrom == "setProject") {
+                                    summer.execScript({
+                                        winId: 'setProject',
+                                        script: "setProgect.getProjectId()"
+                                    });
+                                }
+                                summer.closeWin();
+                            }
+                        } else if (res.data.flag == 0) {
+                            if (res.data.code == "E02003") {
+                                summer.toast({
+                                    msg: "客户证件号重复,请重新录入"
+                                });
+                            } else {
+                                summer.toast({
+                                    msg: "保存失败"
+                                });
+                            }
+                        }
+                    }, function (err) {
+                        summer.hideProgress();
+                        console.log(err);
+                        summer.toast({
+                            msg: "保存失败"
+                        });
+                    })
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

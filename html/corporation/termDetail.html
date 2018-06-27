@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../css/iuapmobile.um.css">
+		<link rel="stylesheet" href="../../css/fonts/iconfont.css">
+		<link rel="stylesheet" href="../../css/mint.css">
+		<style>
+			.addContact>ul li{
+				background:#fff;
+				margin-bottom: .2rem;
+				height: 1.76rem;
+			}
+			.inDiv{display: inline-block;}
+			.mint-cell-swipe{
+				height: 1.76rem;
+				padding-left: .56rem;
+				background: none;
+			}
+			.mint-cell-wrapper{
+				height: 1.76rem;
+				padding-left: 0;
+				background: none;
+			}
+			.mint-cell-right{
+				/*width:1.72rem;*/
+			}
+			.title,.mint-cell-text{
+				font-size: 16px;
+				color:#039BE5;
+			}
+			.normal,.mint-cell-label{
+				color:#333;
+				font-size: 14px;
+			}
+			.fr a{
+				display: inline-block;
+				width: .8rem;
+				height: .48rem;
+				text-align: center;
+				line-height: .48rem;
+				border: 1px solid #EFEFEF;
+				border-radius: 4px;
+				position: relative;
+				top:.1rem;
+				right:.6rem;
+			}
+			.inDiv.one a{
+				top:.6rem;
+			}
+			.fr a i{
+				font-size: 23px;
+				color: #9E9E9E;
+			}
+
+			.mint-popup{
+				width: 100%;
+			}
+			.mint-popup>p,.mint-popups>p{
+				text-align: left;
+				line-height: .88rem;
+				padding: 0 .56rem;
+				color:#039BE5;
+				border-top: 1px solid #E0E0E0;
+				padding-top: .3rem;
+			}
+			.mint-popups p button{
+				font-size: 17px;
+				line-height: 1;
+				border-radius: 5px;
+				display: inline-block;
+				width: 20%;
+				min-width: 60px;
+			}
+			.mint-popups{
+				/*padding-bottom: 2rem;*/
+				background: #fff;
+				height:100vh;
+			}
+			.mint-popups li{
+				text-align: left;
+				padding:0 .56rem;
+				line-height: .88rem;
+				border-top:1px solid #EFEFEF;
+				color:#333;
+				font-size: 14px;
+				position: relative;
+			}
+			input::-webkit-input-placeholder {
+					color: #DEDEDE;
+					font-size: 14px;
+			}
+			input{
+				line-height: .88rem;
+				outline: none;
+				border: none;
+				text-align: right;
+				font-size: 14px;
+			}
+			.um-footer{
+				padding:0 .56rem;
+				background: inherit;
+			}
+			.um-footer button{
+				width:100%;
+	      height:.9rem;
+	      /*line-height: .9rem;*/
+	      font-size:0.3rem;
+	      display: block;
+	      margin-bottom: .56rem;
+	      border-radius: 5px;
+				color: #fff;
+				background:#039BE5;
+			}
+			.grayColor{
+				margin-right: .3rem;
+			}
+			.icon-enter{
+				vertical-align: middle;
+				position: absolute;
+				right: .56rem;
+				top:50%;
+				-webkit-transform:translate(0,-50%);
+				transform:translate(0,-50%);
+				color:#DEDEDE;
+			}
+			.picker-item{
+		    font-size: 14px;
+		  }
+		  .picker-slot{
+		    font-size: 14px;
+		    color:#DEDEDE;
+		  }
+		  .picker-item.picker-selected{
+		    font-size: 22px;
+		    color:#333;
+		  }
+			.gray{
+				color:#DEDEDE;
+			}
+			.alignCenter{
+
+			    position:absolute;;
+			    top:50%;
+			    left:50%;
+			    -ms-transform:translate(-50%,-50%);
+			    -webkit-transform:translate(-50%,-50%);
+			    -o-transform:translate(-50%,-50%);
+			    -moz-transform:translate(-50%,-50%);
+			    transform:translate(-50%,-50%);
+			    text-align:center;
+
+			}
+			.alignCenter p{
+			  line-height: .8rem;
+			  font-size: 14px;
+			  color: #CBCBCB;
+			  padding-top:20px;
+			}
+			.alignCenter img{
+			  width: 3rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="um-win" id="addContact" v-cloak>
+			<div class="um-content addContact">
+				<div class="add mint-popups ">
+					<ul>
+						<li @click="surePicker('guanXi')">
+							<span>类型</span>
+							<span v-if='INFOR_TYPE_NAME' class="grayColor fr">{{INFOR_TYPE_NAME}}</span>
+							<span class="grayColor gray fr" v-else>请选择</span>
+							<i class="icon iconfont icon-enter"></i>
+						</li>
+						<li>
+							<span>名称</span>
+							<input type="text" name="NAME" class='fr'  v-model="NAME" placeholder='请输入名称'>
+						</li>
+						<li  @click="surePicker('sex')">
+							<span>证件类型</span>
+							<span v-if='CARD_FLAG' class="grayColor fr">{{CARD_FLAG}}</span>
+							<span class="grayColor gray fr" v-else>请选择</span>
+							<i class="icon iconfont icon-enter"></i>
+						</li>
+						<li class="um-box">
+							<span class="um-bf1">证件号码</span>
+							<input type="text" class="um-bf3" v-model="CARD_ID" placeholder="请输入证件号码">
+						</li>
+						<li>
+							<span>手机号码</span>
+							<input type="number" class='fr' maxlength='11' name="PHONE1" v-model="PHONE1" placeholder='请输入手机号码'>
+						</li>
+						<li>
+							<span>办公号码</span>
+							<input type="text" class='fr' name="TELEPHONE" v-model="TELEPHONE" placeholder='请输入办公号码'>
+						</li>
+						<li>
+							<span>邮编</span>
+							<input type="number" class='fr' name="POSTCODE" v-model="POSTCODE" placeholder='请输入邮编'>
+						</li>
+						<li class="um-box">
+							<span class="um-bf1">常驻地址</span>
+							<input type="text" class="um-bf3" v-model="ADDRESS  " placeholder="请输入常驻地址">
+						</li>
+						<li class="um-box">
+							<span class="um-bf1">EMAILL</span>
+							<input type="text" class="um-bf3" v-model="EMAIL" placeholder="请输入EMAILL">
+						</li>
+
+						<li></li>
+					</ul>
+				</div>
+      </div>
+			<div class="footer"id="footer">
+				<mt-popup v-model="pickerStatus" position='bottom' class="add">
+					<mt-picker value-key="FLAG" :slots="slots" @change="onValuesChange"></mt-picker>
+					<p class="foop">
+						<span class="" @click="surePicker">取消</span>
+						<span class="fr" @click="surePicker('','confirm')">确定</span>
+					</p>
+				</mt-popup>
+			</div>
+    </div>
+		<script src="../../js/summer.js" ></script>
+		<script src="../../js/jquery.min.js" ></script>
+		<script src="../../js/font.js" ></script>
+		<script src="../../js/vue.js" ></script>
+		<script src="../../js/mint.js" ></script>
+		<script src="../../js/common.js" ></script>
+		<script src="../../js/Frameworks/iuapmobile.frameworks.ui.js" ></script>
+    <script>
+				summerready=function(){
+          vueTemplate.CUSTOMER_ID = summer.pageParam.CUSTOMER_ID;
+					vueTemplate.ID=summer.pageParam.ID
+					console.log('收到的参数'+JSON.stringify(summer.pageParam))
+					if(vueTemplate.ID){
+						var item=summer.pageParam
+						vueTemplate.NAME=item.NAME
+						vueTemplate.PHONE1=item.PHONE1
+						vueTemplate.INFOR_TYPE_NAME=item.INFOR_TYPE_NAME
+						vueTemplate.INFOR_TYPE=item.INFOR_TYPE
+						vueTemplate.CARD_FLAG=item.CARD_FLAG
+						vueTemplate.CARD_FLAG_NAME=item.CARD_FLAG_NAME
+						vueTemplate.ADDRESS=item.ADDRESS
+						vueTemplate.CARD_ID=item.CARD_ID
+						vueTemplate.EMAIL=item.EMAIL
+						vueTemplate.POSTCODE=item.POSTCODE
+						vueTemplate.TELEPHONE=item.TELEPHONE
+
+					}
+					vueTemplate.initData()
+				}
+        var vueTemplate=new Vue({
+          el:'#addContact',
+          data:function () {
+            return {
+							addStatus:false,
+							pickerStatus:false,
+							pickedValues:{},
+							ID:'',
+							NAME:'',
+							PHONE1:'',
+							INFOR_TYPE:'',
+							INFOR_TYPE_NAME:'',
+							CARD_FLAG: '',
+							CARD_CODE:'',
+							CUSTOMER_ID:'', //客户id
+							TELEPHONE:'',
+							CARD_ID:'', //身份证号码
+							POSTCODE:'',
+							ADDRESS  :'',
+							EMAIL:'',
+							currentTarget:'',
+							guanxiList:[],
+							sexList:[],
+							list:[],
+							slots: [{
+								flex: 1,
+								values: [],
+								defaultIndex: 0,
+								className: 'slot1',
+								textAlign: 'center'
+							}],
+							swipeArr:[
+						    {
+						      content: '删除',
+						      style: { background: 'red', color: '#fff' },
+						      handler: function(){this.$messagebox('delete')}
+						    }
+						  ]
+            }
+          },
+					methods:{
+						checkedIDS:function(){
+							if(!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.CARD_ID))){
+								summer.toast({msg:'身份证号码有误'})
+								return false;
+							}
+						},
+						initData:function(){
+							// 查询字典
+							var _this=this
+							summer.showProgress()
+							ajaxRequest({
+								type:'post',
+								url:'customer/doCompanyTeamPage',
+								param:{}
+							},function(res){
+								console.log('init',JSON.stringify(res));
+								_this.sexList=res.data.datas.CARD_ID_DIC
+								_this.guanxiList=res.data.datas.INFOR_TYPE_DIC
+								summer.hideProgress()
+							},function(err){
+								summer.hideProgress()
+								alert(err);
+							})
+						},
+						onValuesChange:function(picker, values) {
+							this.pickedValues = values[0];
+						},
+						surePicker:function(val,param) {
+							this.pickerStatus = !this.pickerStatus;
+							// this.addStatus=!this.addStatus
+							if(val == 'sex'){
+								this.slots[0].values = this.sexList;
+								this.currentTarget=val
+							}else if(val == 'guanXi'){
+								this.slots[0].values = this.guanxiList;
+								this.currentTarget=val
+							}
+							if (param == 'confirm') {
+								if(this.currentTarget == 'sex'){
+									this.CARD_FLAG = this.pickedValues.FLAG;
+									this.CARD_CODE = this.pickedValues.CODE
+								}else if(this.currentTarget == 'guanXi'){
+									this.INFOR_TYPE_NAME = this.pickedValues.FLAG;
+									this.INFOR_TYPE = this.pickedValues.CODE;
+								}
+							}
+						},
+						sureAdd:function(){
+							if(!this.INFOR_TYPE_NAME){
+								summer.toast({msg:'请选择类型'})
+								return
+							}
+							var reg=/^1[3|4|5|6|8][0-9]\d{4,8}$/
+							if(!reg.test(this.PHONE1)){
+								summer.toast({msg:'手机号码格式有误'})
+								return
+							}
+							if(!this.TELEPHONE){
+								summer.toast({msg:'请输入办公号码'})
+								return
+							}
+							// this.checkedIDS()
+							if(!this.ADDRESS){
+								summer.toast({msg:'请输入常驻地址'})
+								return
+							}
+							var _this=this;
+							summer.showProgress()
+							console.log(JSON.stringify({
+								CUSTOMER_ID:this.CUSTOMER_ID,
+								ID:this.ID,
+								INFOR_TYPE:this.INFOR_TYPE,
+								NAME:this.NAME,
+								PHONE1:this.PHONE1,
+								CARD_FLAG:this.CARD_CODE,
+								CARD_ID:this.CARD_ID,
+								ADDRESS:this.ADDRESS,
+								POSTCODE:this.POSTCODE,
+								TELEPHONE:this.TELEPHONE,
+								EMAIL:this.EMAIL
+							}))
+							ajaxRequest({
+									type:'post',
+									url:'customer/saveCompanyTeamInfo',
+									param:{
+										CUSTOMER_ID:this.CUSTOMER_ID,
+										ID:this.ID,
+										INFOR_TYPE:this.INFOR_TYPE,
+										NAME:this.NAME,
+										PHONE1:this.PHONE1,
+										CARD_FLAG:this.CARD_FLAG,
+										CARD_ID:this.CARD_ID,
+										ADDRESS:this.ADDRESS,
+										POSTCODE:this.POSTCODE,
+										TELEPHONE:this.TELEPHONE,
+										EMAIL:this.EMAIL
+									}
+							},function(res){
+									console.log(res,JSON.stringify(res));
+									summer.hideProgress()
+									summer.execScript({
+										  winId: "term",
+										  script: "getData()"
+									});
+									summer.execScript({
+										  winId: "setProject",
+										  script: "addRight('term')"
+									});
+									summer.closeWin()
+								},function(err){
+									alert(err);
+									summer.hideProgress()
+							})
+						}
+					}
+        });
+				function save(){
+					vueTemplate.sureAdd()
+				}
+
+    </script>
+  </body>
+</html>
