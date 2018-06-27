@@ -16,11 +16,7 @@
           <li @click="pickerFlagStatus=true">
             <b>计划拜访客户</b>
             <span>
-<<<<<<< HEAD
-              <b v-if="DTL_NAME">{{DTL_NAME}}</b>
-=======
               <b v-if="CST_NAME">{{CST_NAME}}</b>
->>>>>>> dev
               <b v-else class="default">请选择</b>
               <i class="icon iconfont icon-enter"></i>
             </span>
@@ -101,12 +97,8 @@
 						return{
               VISIT_MAN:'',
               VISIT_AIM:'',
-<<<<<<< HEAD
-              DTL_NAME:'',
-=======
               CST_NAME:'',
 							CST_CODE:'',
->>>>>>> dev
               START_DATE:'',
               END_DATE:'',
               DTL_DESC:'',
@@ -131,13 +123,8 @@
             },
             pickerFlag:function(status){
               this.pickerFlagStatus = !this.pickerFlagStatus
-<<<<<<< HEAD
-              this.DTL_NAME = this.pickerValue.CST_NAME
-
-=======
               this.CST_NAME = this.pickerValue.CST_NAME
 							this.CST_CODE = this.pickerValue.CST_CODE
->>>>>>> dev
             },
             openPicker:function(val) {
               this.state = val
@@ -188,12 +175,8 @@
                           var data = res.data.datas.detail
                           _this.VISIT_MAN = data.VISIT_MAN
                           _this.VISIT_AIM = data.VISIT_AIM
-<<<<<<< HEAD
-                          _this.DTL_NAME = data.DTL_NAME
-=======
                           _this.CST_NAME = data.CST_NAME
 													_this.CST_CODE = data.CST_CODE
->>>>>>> dev
                           _this.START_DATE = data.START_DATE
                           _this.END_DATE = data.END_DATE
                           _this.DTL_DESC = data.DTL_DESC
@@ -205,11 +188,7 @@
             },
             save:function(){
               var _this = this
-<<<<<<< HEAD
-              if(this.DTL_NAME==""){
-=======
               if(this.CST_NAME==""){
->>>>>>> dev
                 summer.toast({msg:'请先选择拜访客户'})
                 return
               }
@@ -226,19 +205,6 @@
                 return
               }
               summer.showProgress();
-<<<<<<< HEAD
-              console.log(JSON.stringify({
-                ID:this.ID,
-                VISIT_MAN:this.VISIT_MAN,
-                VISIT_AIM:this.VISIT_AIM,
-                DTL_NAME:this.DTL_NAME,
-                START_DATE:this.START_DATE,
-                END_DATE:this.END_DATE,
-                DTL_DESC:this.DTL_DESC,
-                PLAN_ID:this.PLAN_ID
-              }))
-=======
->>>>>>> dev
                   ajaxRequest({
                       type: "POST",
                       url: 'crm/saveCrmPlanDetail',
@@ -246,12 +212,8 @@
                         ID:this.ID,
                         VISIT_MAN:this.VISIT_MAN,
                         VISIT_AIM:this.VISIT_AIM,
-<<<<<<< HEAD
-                        DTL_NAME:this.DTL_NAME,
-=======
                         CST_NAME:this.CST_NAME,
 												CST_CODE:this.CST_CODE,
->>>>>>> dev
                         START_DATE:this.START_DATE,
                         END_DATE:this.END_DATE,
                         DTL_DESC:this.DTL_DESC,
