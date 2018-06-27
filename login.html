@@ -71,27 +71,10 @@
 				});
 				return;
 			}
-<<<<<<< HEAD
             summer.showProgress();
 			ajaxRequest({
 				type: 'post',
 				url: 'login/carLogin',
-=======
-			summer.showProgress();
-			if (!summer.netAvailable()) {
-				summer.hideProgress();
-				summer.toast({
-					msg: "网络异常，请检查网络"
-				});
-				return false;
-			}
-			window.cordovaHTTP.settings = {
-				timeout: 120000
-			}; //设置5秒超时
-			summer.ajax({
-				type: "post",
-				url: G_COMMON_URL + "login/carLogin",
->>>>>>> dev
 				param: {
 					"EMPLOYEE_CODE": workNum,
 					"EMPLOYEE_PWD": psw
