@@ -135,10 +135,12 @@
                     <input placeholder="项目名称" type="text" v-model="item.PROJECT_NAME">
                 </p>
                 <p class="pl10 pr10 " @click="surePickerBirthday(index,'PROJECT_DATE')">
-                    <input placeholder="开始时间" type="text" class=" dateInput" v-model="item.PROJECT_DATE"> </p>
+                    <span class=" dateInput" v-if="item.PROJECT_DATE">{{item.PROJECT_DATE}}</span>
+                    <span class=" dateInput" style="color:#999" v-else>开始时间</span>
+                </p>
                 <p class="pl10 pr10 " @click="surePickerBirthday(index,'PROJECT_ENDDATE')">
-                    <input  placeholder="结束时间" type="text" class=" dateInput"
-                        v-model="item.PROJECT_ENDDATE">
+                    <span class=" dateInput" v-if="item.PROJECT_ENDDATE">{{item.PROJECT_ENDDATE}}</span>
+                    <span class=" dateInput" style="color:#999" v-else>结束时间</span>
                 </p>
                 <textarea id="question" v-model="item.PROJECT_CONTENT" placeholder="内容"></textarea>
             </div>
