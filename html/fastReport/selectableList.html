@@ -194,7 +194,8 @@
                 if (res.data.flag == 1) {
                     if (res.data.code != "S00001") {
                         summer.toast({
-                            msg: res.data.msg ? res.data.msg : "获取流程列表失败"
+                            msg: res.data.msg ? res.data.msg : "获取流程列表失败",
+                            duration: "long"
                         });
                     } else {
                         var result = res.data.datas;
@@ -205,14 +206,16 @@
                     }
                 } else {
                     summer.toast({
-                        msg: res.data.msg ? res.data.msg : "获取流程列表失败"
+                        msg: res.data.msg ? res.data.msg : "获取流程列表失败",
+                        duration: "long"
                     });
                 }
             }, function (err) {
                 summer.hideProgress();
                 console.log(err);
                 summer.toast({
-                    msg: "获取流程列表失败"
+                    msg: "获取流程列表失败",
+                    duration: "long"
                 });
             });
         };
