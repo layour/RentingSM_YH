@@ -32,7 +32,12 @@
             </li>
             <li>
                 <span>
-                    <b>*</b>大区</span>
+                    <b>*</b>手机号</span>
+                <input type="number" placeholder="请输入" v-model="datas.phoneNum" />
+            </li>
+            <li>
+                <span>
+                    <b></b>大区</span>
                 <div @click="surePickerDQ">
                     <span class="iconfont icon-enter"></span>
                     <i v-if="datas.area" style="color: #333;">{{ datas.area }}</i>
@@ -41,7 +46,7 @@
             </li>
             <li>
                 <span>
-                    <b>*</b>分公司</span>
+                    <b></b>分公司</span>
                 <div @click="surePickerFGS">
                     <span class="iconfont icon-enter"></span>
                     <i v-if="datas.fengongsi" style="color: #333;">{{ datas.fengongsi }}</i>
@@ -50,17 +55,17 @@
             </li>
             <li v-if="datas.createDate!='none'">
                 <span>
-                    <b>*</b>创建时间</span>
+                    <b></b>创建时间</span>
                 <p>{{ datas.createDate }}</p>
             </li>
             <li v-if="datas.kehuState!='none'">
                 <span>
-                    <b>*</b>客户状态</span>
+                    <b></b>客户状态</span>
                 <p>{{ datas.kehuState }}</p>
             </li>
             <li>
                 <span>
-                    <b>*</b>商机状态</span>
+                    <b></b>商机状态</span>
                 <div @click="surePickerSJLD">
                     <span class="iconfont icon-enter"></span>
                     <i v-if="datas.sjld" style="color: #333;">{{ datas.sjld }}</i>
@@ -69,7 +74,7 @@
             </li>
             <li>
                 <span>
-                    <b>*</b>客户属性</span>
+                    <b></b>客户属性</span>
                 <div @click="surePickerKHSX">
                     <span class="iconfont icon-enter"></span>
                     <i v-if="datas.khsx" style="color: #333;">{{ datas.khsx }}</i>
@@ -78,7 +83,7 @@
             </li>
             <li>
                 <span>
-                    <b>*</b>客户类型</span>
+                    <b></b>客户类型</span>
                 <div @click="surePickerKHLX">
                     <span class="iconfont icon-enter"></span>
                     <i v-if="datas.khlx" style="color: #333;">{{ datas.khlx }}</i>
@@ -87,7 +92,7 @@
             </li>
             <li>
                 <span>
-                    <b>*</b>合作方式</span>
+                    <b></b>合作方式</span>
                 <div @click="surePickerHZFS">
                     <span class="iconfont icon-enter"></span>
                     <i v-if="datas.hzfs" style="color: #333;">{{ datas.hzfs }}</i>
@@ -96,22 +101,17 @@
             </li>
             <li>
                 <span>
-                    <b>*</b>销售人员</span>
+                    <b></b>销售人员</span>
                 <p>{{ datas.xsry }}</p>
             </li>
             <li>
                 <span>
-                    <b>*</b>主代/身份证号</span>
+                    <b></b>主代/身份证号</span>
                 <input type="text" placeholder="请输入" v-model="datas.sfzNo" />
             </li>
             <li>
                 <span>
-                    <b>*</b>手机号</span>
-                <input type="number" placeholder="请输入" v-model="datas.phoneNum" />
-            </li>
-            <li>
-                <span>
-                    <b>*</b>注册时间</span>
+                    <b></b>注册时间</span>
                 <div @click="surePickerZCSJ">
                     <span class="iconfont icon-enter"></span>
                     <i v-if="datas.zcDate" style="color: #333;">{{ datas.zcDate }}</i>
@@ -120,7 +120,7 @@
             </li>
             <li>
                 <span>
-                    <b>*</b>企业性质</span>
+                    <b></b>企业性质</span>
                 <div @click="surePickerQYXZ">
                     <span class="iconfont icon-enter"></span>
                     <i v-if="datas.qyxz" style="color: #333;">{{ datas.qyxz }}</i>
@@ -129,23 +129,24 @@
             </li>
             <li>
                 <span>
-                    <b>*</b>营业范围</span>
+                    <b></b>营业范围</span>
                 <input type="text" placeholder="请输入" v-model="datas.jyfw" />
             </li>
             <li>
                 <span>
-                    <b></b>备注</span>
-                <input type="text" placeholder="请输入" v-model="datas.bjInfoMark" />
-            </li>
-            <li class="first">
-                <strong></strong>
-                <i>业务性质</i>
+                    <b></b>业务性质:</span>
+                <p></p>
             </li>
             <li class="ywxz" v-if="BUSI_PROPS.length">
                 <div v-for="(item, index) in BUSI_PROPS" @click="chooseywxz(index)">
                     <div class="circle" v-bind:class="[item.checked ? 'active' : '']"></div>
                     <div class="txt">{{ item.FLAG }}</div>
                 </div>
+            </li>
+            <li>
+                <span>
+                    <b></b>备注</span>
+                <input type="text" placeholder="请输入" v-model="datas.bjInfoMark" />
             </li>
         </ul>
         <div class="um-footer">
@@ -555,56 +556,6 @@
                         msg: '请输入客户名称'
                     });
                     return false;
-                } else if (this.datas.area == "") {
-                    summer.toast({
-                        msg: '请选择大区'
-                    });
-                    return false;
-                } else if (this.datas.fengongsi == "") {
-                    summer.toast({
-                        msg: '请选择分公司'
-                    });
-                    return false;
-                } else if (this.datas.createDate == "") {
-                    summer.toast({
-                        msg: '请选择创建时间'
-                    });
-                    return false;
-                } /* else if (this.datas.createDate == "") {
-                    summer.toast({
-                        msg: '请选择创建时间'
-                    });
-                    return false;
-                } else if (this.datas.kehuState == "") {
-                    summer.toast({
-                        msg: '请选择客户状态'
-                    });
-                    return false;
-                } */ else if (this.datas.khsx == "") {
-                    summer.toast({
-                        msg: '请选择客户属性'
-                    });
-                    return false;
-                } else if (this.datas.khlx == "") {
-                    summer.toast({
-                        msg: '请选择客户类型'
-                    });
-                    return false;
-                } else if (this.datas.hzfs == "") {
-                    summer.toast({
-                        msg: '请选择合作方式'
-                    });
-                    return false;
-                } /* else if (this.datas.xsry == "") {
-                    summer.toast({
-                        msg: '请选择销售人员'
-                    });
-                    return false;
-                }  */else if (this.datas.sfzNo == "") {
-                    summer.toast({
-                        msg: '请输入主代/身份证号'
-                    });
-                    return false;
                 } else if (this.datas.phoneNum == "") {
                     summer.toast({
                         msg: '请输入手机号'
@@ -613,31 +564,6 @@
                 } else if (!phoneCard.test(this.datas.phoneNum)) {
                     summer.toast({
                         msg: "手机号格式有误"
-                    });
-                    return false;
-                } else if (this.datas.zcDate == "") {
-                    summer.toast({
-                        msg: "请选择注册时间"
-                    });
-                    return false;
-                } else if (this.datas.qyxz == "") {
-                    summer.toast({
-                        msg: "请选择企业性质"
-                    });
-                    return false;
-                } else if (this.datas.jyfw == "") {
-                    summer.toast({
-                        msg: "请输入营业范围"
-                    });
-                    return false;
-                } else if (this.datas.sjld == "") {
-                    summer.toast({
-                        msg: "请选择商机漏斗"
-                    });
-                    return false;
-                } else if (!this.datas.ywxz.length) {
-                    summer.toast({
-                        msg: "请选择业务性质"
                     });
                     return false;
                 } else {

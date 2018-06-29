@@ -7,12 +7,14 @@
     <title></title>
     <link rel="stylesheet" href="../../css/iuapmobile.um.css">
     <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
     <link rel="stylesheet" href="contactsInfo.css">
     <script src="../../js/summer.js"></script>
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
     <script src="../../js/font.js"></script>
     <script src="../../js/vue.js"></script>
+    <script src="../../js/mint.js"></script>
     <script src="../../js/common.js"></script>
 </head>
 
@@ -26,7 +28,11 @@
                 </li>
                 <li>
                     <span>联系人职务</span>
-                    <input v-model="info.zhiwu" type="text" placeholder="请输入职务" />
+                    <div @click="surePickerZW">
+                        <span class="iconfont icon-enter"></span>
+                        <i v-if="info.zhiwu" style="color: #333;">{{ info.zhiwu }}</i>
+                        <i v-else>请选择</i>
+                    </div>
                 </li>
                 <li>
                     <span>联系人电话</span>
@@ -34,6 +40,14 @@
                 </li>
             </ul>
         </div>
+        <!-- 联系人职务 -->
+        <mt-popup v-model="pickerZWShow" position="bottom" class="pickerColor">
+            <mt-picker :slots="slots0" @change="onValuesChange0"></mt-picker>
+            <p>
+                <span class="" @click="surePickerZW">取消</span>
+                <span class="" @click="surePickerZW('confirm')">确定</span>
+            </p>
+        </mt-popup>
     </div>
     <script type="text/javascript">
         var contactsInfo = new Vue({
@@ -47,9 +61,31 @@
                     name: "",
                     zhiwu: "",
                     phone: ""
-                }
+                },
+                // 联系人职务
+                pickerZWShow: false,
+                pickerZW: "",
+                slots0: [{
+                    flex: 1,
+                    values: [],
+                    defaultIndex: 0,
+                    className: 'slot1',
+                    textAlign: 'center'
+                }],
+                LNK_POST_DIC: []
             },
             methods: {
+                // 联系人职务更改
+                onValuesChange0: function (picker, values) {
+                    this.pickerZW = values[0];
+                },
+                surePickerZW: function (param) {
+                    var self = this;
+                    this.pickerZWShow = !this.pickerZWShow;
+                    if (param == 'confirm') {
+                        this.info.zhiwu = this.pickerZW;
+                    }
+                },
                 // 保存
                 saveContacts: function (){
                     var self = this;
@@ -75,6 +111,12 @@
                         });
                         return;
                     }
+                    var LNK_POST;
+                    this.LNK_POST_DIC.forEach(function (e) {
+                        if (e.FLAG == self.info.zhiwu) {
+                            LNK_POST = e.CODE;
+                        }
+                    });
                     // 保存
                     summer.showProgress();
 					ajaxRequest({
@@ -83,7 +125,7 @@
 						param: {
                             ID: this.ID,  
 							LNK_NAME: this.info.name,
-                            LNK_POST: this.info.zhiwu,
+                            LNK_POST: LNK_POST,
                             LNK_TEL: this.info.phone,
                             CST_CODE: this.CST_CODE
 						}
@@ -131,9 +173,13 @@
                             if (res.data.datas.linkmanInfo) {
                                 var info = res.data.datas.linkmanInfo;
                                 _this.info.name = info.LNK_NAME ? info.LNK_NAME : "";
-                                _this.info.zhiwu = info.LNK_POST ? info.LNK_POST : "";
+                                _this.info.zhiwu = info.LNK_POST_NM ? info.LNK_POST_NM : "";
                                 _this.info.phone = info.LNK_TEL ? info.LNK_TEL : "";
                             }
+                            _this.LNK_POST_DIC = res.data.datas.LNK_POST;
+                            res.data.datas.LNK_POST.forEach(function (e) {
+                                _this.slots0[0].values.push(e.FLAG);
+                            });
                         } else {
                             summer.toast({
                                 msg: '获取联系人信息失败'

@@ -298,12 +298,46 @@
                         "CST_CODE": this.CST_CODE
                     }
                 });
+            },
+            // 打对勾
+            checkRight: function () {
+                ajaxRequest({
+                    type: 'post',
+                    url: 'crm/getCrmExcist',
+                    param: {
+                        ID: this.ID
+                    }
+                }, function (res) {
+                    if (res.data.flag == 1) {
+                        if (res.data.datas.crmBusiInfo == 1) {
+                            addRight('oSJD');
+                        } 
+                        if (res.data.datas.crmLinkman == 1) {
+                            addRight('oLXR');
+                        } 
+                        if (res.data.datas.crmFin == 1) {
+                            addRight('oCW');
+                        } 
+                        if (res.data.datas.crmSch == 1) {
+                            addRight('oXQ');
+                        } 
+                        if (res.data.datas.crmVisit == 1) {
+                            addRight('oZF');
+                        }
+                    }
+                }, function (err) {
+                    console.log(err);
+                });
             }
         }
     });
     summerready = function () {
         menu.ID = summer.pageParam.ID;
         menu.CST_CODE = summer.pageParam.CST_CODE;
+        if (summer.pageParam.ID || summer.pageParam.CST_CODE) {
+            // 不是新建，是查看
+            menu.checkRight();
+        }
     }
 
     function addRight(param) {
