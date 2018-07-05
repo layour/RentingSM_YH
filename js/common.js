@@ -26,8 +26,6 @@ var CommonUtil = {
 					text : params.name,
 					style : {
 						"left" : "2",
-						"top" : "0",
-						"right" : "0",
 						"bottom" : "22",
 						"font-size" : "8"
 					}
@@ -35,8 +33,6 @@ var CommonUtil = {
 					text : (new Date()).format("yyyy-MM-dd hh:mm:ss"),
 					style : {
 						"left" : "2",
-						"top" : "0",
-						"right" : "0",
 						"bottom" : "12",
 						"font-size" : "8"
 					}
@@ -44,8 +40,6 @@ var CommonUtil = {
 					text : args.address,
 					style : {
 						"left" : "2",
-						"top" : "0",
-						"right" : "0",
 						"bottom" : "2",
 						"font-size" : "8"
 					}
@@ -55,8 +49,6 @@ var CommonUtil = {
 					text : params.name,
 					style : {
 						"left" : "1",
-						"top" : "0",
-						"right" : "0",
 						"bottom" : "5",
 						"font-size" : "6"
 					}
@@ -64,8 +56,6 @@ var CommonUtil = {
 					text : (new Date()).format("yyyy-MM-dd hh:mm:ss"),
 					style : {
 						"left" : "1",
-						"top" : "0",
-						"right" : "0",
 						"bottom" : "3",
 						"font-size" : "6"
 					}
@@ -73,8 +63,6 @@ var CommonUtil = {
 					text : args.address,
 					style : {
 						"left" : "1",
-						"top" : "0",
-						"right" : "0",
 						"bottom" : "1",
 						"font-size" : "6"
 					}
