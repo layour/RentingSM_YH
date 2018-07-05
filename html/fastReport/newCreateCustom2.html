@@ -388,6 +388,7 @@
                 // 校验
                 messageTest: function () {
                     var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+                    var regCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; //身份证校验
                     if (!this.personMes.CR_NATU_MATE_NAME) {
                         summer.toast({
                             msg: "姓名不能为空"
@@ -401,6 +402,11 @@
                     } else if (!this.personMes.CR_NATU_MATE_IDCARD) {
                         summer.toast({
                             msg: "证件号码不能为空"
+                        });
+                        return false;
+                    } else if (this.personMes.CR_NATU_MATE_DOCUMENT_NAME == "身份证" && !regCard.test(this.personMes.CR_NATU_MATE_IDCARD)) {
+                        summer.toast({
+                            msg: "身份证号格式有误"
                         });
                         return false;
                     } else if (!this.personMes.CR_NATU_MATE_SEX) {
@@ -533,6 +539,10 @@
                             if (self.sourceFrom == "programSelect") {
                                 // 新增客户配偶，保存成功后回到立项并携带新的客户id
                                 var clint_Id = res.data.datas.EMPLOYEE_ID;
+                                summer.execScript({
+                                    winId: 'newCustom',
+                                    script: "getData(1, true)"
+                                });
                                 if ($summer.os == "ios") {
                                     summer.closeWin({
                                         id: 'newCreateCustom'
@@ -570,6 +580,10 @@
                                     }
                                 });
                             } else if (self.sourceFrom == "newCustom" || self.sourceFrom == "index") {
+                                summer.execScript({
+                                    winId: 'newCustom',
+                                    script: "getData(1, true)"
+                                });
                                 summer.closeToWin({
                                     id: "newCustom"
                                 });

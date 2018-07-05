@@ -850,6 +850,10 @@
                                 // 新增客户，保存成功后，回到立项并携带新的客户id
                                 var clint_Id = res.data.datas.BECR_ID;
                                 _this.BECR_ID = clint_Id;
+                                summer.execScript({
+                                    winId: 'newCustom',
+                                    script: "getData(1, true)"
+                                });
                                 summer.openWin({
                                     id: 'setProject',
                                     url: 'html/fastReport/setProject.html',
@@ -886,6 +890,11 @@
                                     summer.execScript({
                                         winId: 'setProject',
                                         script: "setProgect.getProjectId()"
+                                    });
+                                } else {
+                                    summer.execScript({
+                                        winId: 'newCustom',
+                                        script: "getData(1, true)"
                                     });
                                 }
                                 summer.closeWin();

@@ -199,6 +199,7 @@
                 // 保存
                 saveBank:function (){
                     var This = this;
+                    var regCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; //身份证校验
                     if (this.name == "") {
                         summer.toast({
                             msg: "请输入姓名"
@@ -234,7 +235,12 @@
                             msg: "请输入证件号码"
                         });
                         return;
-                    } 
+                    } else if (!regCard.test(this.paperNum)) {
+                        summer.toast({
+                            msg: "身份证号格式有误"
+                        });
+                        return;
+                    }
                     // 查询字典
                     var AccountType, IdentificationType, bkCd, BankID;
                     // 账号类型

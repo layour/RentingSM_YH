@@ -1,360 +1,402 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
-		<meta charset="UTF-8">
-		<title></title>
-		<link rel="stylesheet" href="../../css/iuapmobile.um.css">
-		<link rel="stylesheet" href="../../css/fonts/iconfont.css">
-		<link rel="stylesheet" href="../../css/mint.css">
-		<style>
-			.addContact>ul li{
-				background:#fff;
-				margin-bottom: .2rem;
-				height: 1.76rem;
-			}
-			.inDiv{display: inline-block;}
-			.mint-cell-swipe{
-				height: 1.76rem;
-				padding-left: .56rem;
-				background: none;
-			}
-			.mint-cell-wrapper{
-				height: 1.76rem;
-				padding-left: 0;
-				background: none;
-			}
-			.mint-cell-right{
-				/*width:1.72rem;*/
-			}
-			.title,.mint-cell-text{
-				font-size: 16px;
-				color:#039BE5;
-			}
-			.normal,.mint-cell-label{
-				color:#333;
-				font-size: 14px;
-			}
-			.fr a{
-				display: inline-block;
-				width: .8rem;
-				height: .48rem;
-				text-align: center;
-				line-height: .48rem;
-				border: 1px solid #EFEFEF;
-				border-radius: 4px;
-				position: relative;
-				top:.1rem;
-				right:.6rem;
-			}
-			.inDiv.one a{
-				top:.6rem;
-			}
-			.fr a i{
-				font-size: 23px;
-				color: #9E9E9E;
-			}
 
-			.mint-popup{
-				width: 100%;
-			}
-			.mint-popup>p,.mint-popups>p{
-				text-align: left;
-				line-height: .88rem;
-				padding: 0 .56rem;
-				color:#039BE5;
-				border-top: 1px solid #E0E0E0;
-				padding-top: .3rem;
-			}
-			.mint-popups p button{
-				font-size: 17px;
-				line-height: 1;
-				border-radius: 5px;
-				display: inline-block;
-				width: 20%;
-				min-width: 60px;
-			}
-			.mint-popups{
-				/*padding-bottom: 2rem;*/
-				background: #fff;
-				height:100vh;
-			}
-			.mint-popups li{
-				text-align: left;
-				padding:0 .56rem;
-				line-height: .88rem;
-				border-top:1px solid #EFEFEF;
-				color:#333;
-				font-size: 14px;
-				position: relative;
-			}
-			input::-webkit-input-placeholder {
-					color: #DEDEDE;
-					font-size: 14px;
-			}
-			input{
-				line-height: .88rem;
-				outline: none;
-				border: none;
-				text-align: right;
-				font-size: 14px;
-			}
-			.um-footer{
-				padding:0 .56rem;
-				background: inherit;
-			}
-			.um-footer button{
-				width:100%;
-	      height:.9rem;
-	      /*line-height: .9rem;*/
-	      font-size:0.3rem;
-	      display: block;
-	      margin-bottom: .56rem;
-	      border-radius: 5px;
-				color: #fff;
-				background:#039BE5;
-			}
-			.grayColor{
-				margin-right: .3rem;
-			}
-			.icon-enter{
-				vertical-align: middle;
-				position: absolute;
-				right: .56rem;
-				top:50%;
-				-webkit-transform:translate(0,-50%);
-				transform:translate(0,-50%);
-				color:#DEDEDE;
-			}
-			.picker-item{
-		    font-size: 14px;
-		  }
-		  .picker-slot{
-		    font-size: 14px;
-		    color:#DEDEDE;
-		  }
-		  .picker-item.picker-selected{
-		    font-size: 22px;
-		    color:#333;
-		  }
-			.gray{
-				color:#DEDEDE;
-			}
-			.alignCenter{
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/iuapmobile.um.css">
+    <link rel="stylesheet" href="../../css/fonts/iconfont.css">
+    <link rel="stylesheet" href="../../css/mint.css">
+    <style>
+        .addContact>ul li {
+            background: #fff;
+            margin-bottom: .2rem;
+            height: 1.76rem;
+        }
 
-			    position:absolute;;
-			    top:50%;
-			    left:50%;
-			    -ms-transform:translate(-50%,-50%);
-			    -webkit-transform:translate(-50%,-50%);
-			    -o-transform:translate(-50%,-50%);
-			    -moz-transform:translate(-50%,-50%);
-			    transform:translate(-50%,-50%);
-			    text-align:center;
+        .inDiv {
+            display: inline-block;
+        }
 
-			}
-			.alignCenter p{
-			  line-height: .8rem;
-			  font-size: 14px;
-			  color: #CBCBCB;
-			  padding-top:20px;
-			}
-			.alignCenter img{
-			  width: 3rem;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="um-win" id="addContact" v-cloak>
-			<div class="um-content addContact">
-				<div>
-					<div class="alignCenter" v-if="addContactList.length==0">
-						<img src="../../img/empty.png" alt="">
-						<p>暂无数据</p>
-		      </div>
-					<ul>
-						<li v-for="(item,index) in addContactList" :key='index' @click="lookDetail(item)">
-							<mt-cell-swipe :title="item.LINK_NAME" :label="item.LINK_MOBILE" :right="[{content: '&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'1.76rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index)}}]">
-								<div  class="fr one inDiv">
-									<!-- <a href=""><i class="icon iconfont icon-call"></i></a> -->
-									{{item.LINK_RELATION2CUST}}
-								</div>
-							</mt-cell-swipe>
-						</li>
-					</ul>
-				</div>
-      </div>
+        .mint-cell-swipe {
+            height: 1.76rem;
+            padding-left: .56rem;
+            background: none;
+        }
+
+        .mint-cell-wrapper {
+            height: 1.76rem;
+            padding-left: 0;
+            background: none;
+        }
+
+        .mint-cell-right {
+            /*width:1.72rem;*/
+        }
+
+        .title,
+        .mint-cell-text {
+            font-size: 16px;
+            color: #039BE5;
+        }
+
+        .normal,
+        .mint-cell-label {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .fr a {
+            display: inline-block;
+            width: .8rem;
+            height: .48rem;
+            text-align: center;
+            line-height: .48rem;
+            border: 1px solid #EFEFEF;
+            border-radius: 4px;
+            position: relative;
+            top: .1rem;
+            right: .6rem;
+        }
+
+        .inDiv.one a {
+            top: .6rem;
+        }
+
+        .fr a i {
+            font-size: 23px;
+            color: #9E9E9E;
+        }
+
+        .mint-popup {
+            width: 100%;
+        }
+
+        .mint-popup>p,
+        .mint-popups>p {
+            text-align: left;
+            line-height: .88rem;
+            padding: 0 .56rem;
+            color: #039BE5;
+            border-top: 1px solid #E0E0E0;
+            padding-top: .3rem;
+        }
+
+        .mint-popups p button {
+            font-size: 17px;
+            line-height: 1;
+            border-radius: 5px;
+            display: inline-block;
+            width: 20%;
+            min-width: 60px;
+        }
+
+        .mint-popups {
+            /*padding-bottom: 2rem;*/
+            background: #fff;
+            height: 100vh;
+        }
+
+        .mint-popups li {
+            text-align: left;
+            padding: 0 .56rem;
+            line-height: .88rem;
+            border-top: 1px solid #EFEFEF;
+            color: #333;
+            font-size: 14px;
+            position: relative;
+        }
+
+        input::-webkit-input-placeholder {
+            color: #DEDEDE;
+            font-size: 14px;
+        }
+
+        input {
+            line-height: .88rem;
+            outline: none;
+            border: none;
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .um-footer {
+            padding: 0 .56rem;
+            background: inherit;
+        }
+
+        .um-footer button {
+            width: 100%;
+            height: .9rem;
+            /*line-height: .9rem;*/
+            font-size: 0.3rem;
+            display: block;
+            margin-bottom: .56rem;
+            border-radius: 5px;
+            color: #fff;
+            background: #039BE5;
+        }
+
+        .grayColor {
+            margin-right: .3rem;
+        }
+
+        .icon-enter {
+            vertical-align: middle;
+            position: absolute;
+            right: .56rem;
+            top: 50%;
+            -webkit-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+            color: #DEDEDE;
+        }
+
+        .picker-item {
+            font-size: 14px;
+        }
+
+        .picker-slot {
+            font-size: 14px;
+            color: #DEDEDE;
+        }
+
+        .picker-item.picker-selected {
+            font-size: 22px;
+            color: #333;
+        }
+
+        .gray {
+            color: #DEDEDE;
+        }
+
+        .alignCenter {
+
+            position: absolute;
+            ;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            text-align: center;
+
+        }
+
+        .alignCenter p {
+            line-height: .8rem;
+            font-size: 14px;
+            color: #CBCBCB;
+            padding-top: 20px;
+        }
+
+        .alignCenter img {
+            width: 3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="um-win" id="addContact" v-cloak>
+        <div class="um-content addContact">
+            <div>
+                <div class="alignCenter" v-if="addContactList.length==0">
+                    <img src="../../img/empty.png" alt="">
+                    <p>暂无数据</p>
+                </div>
+                <ul>
+                    <li v-for="(item,index) in addContactList" :key='index' @click="lookDetail(item)">
+                        <mt-cell-swipe :title="item.LINK_NAME" :label="item.LINK_MOBILE" :right="[{content: '&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'1.76rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index)}}]">
+                            <div class="fr one inDiv">
+                                <!-- <a href=""><i class="icon iconfont icon-call"></i></a> -->
+                                {{item.LINK_RELATION2CUST}}
+                            </div>
+                        </mt-cell-swipe>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-		<script src="../../js/summer.js" ></script>
-		<script src="../../js/jquery.min.js" ></script>
-		<script src="../../js/font.js" ></script>
-		<script src="../../js/vue.js" ></script>
-		<script src="../../js/mint.js" ></script>
-		<script src="../../js/common.js" ></script>
-		<script src="../../js/Frameworks/iuapmobile.frameworks.ui.js" ></script>
+    <script src="../../js/summer.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/font.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/mint.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
     <script>
-				summerready=function(){
-					vueTemplate.id=summer.pageParam.id
-					vueTemplate.BECR_TYPE=summer.pageParam.BECR_TYPE
-					console.log(vueTemplate.id,vueTemplate.BECR_TYPE);
-					vueTemplate.getData()
-				}
-        var vueTemplate=new Vue({
-          el:'#addContact',
-          data:function () {
-            return {
-							addStatus:false,
-							pickerStatus:false,
-							pickedValues:{},
-							addContactList:[],
-							LINK_NAME:'',
-							LINK_MOBILE:'',
-							rlTypCd:'',
-							LINK_RELATION2CUST:'',
-							LINK_SEX: '',
-							id:'', //客户id
-							CULM_ID:'',//联系人id
-							BECR_TYPE:'', //客户类型
-							LINK_IDCARD:'', //身份证号码
-							LINK_IDCARD_ADDRESS  :'',
-							LINK_HOME_ADDRESS:'',
-							currentTarget:'',
-							guanxiList:[],
-							sexList:[],
-							list:[],
-							slots: [{
-								flex: 1,
-								values: [],
-								defaultIndex: 0,
-								className: 'slot1',
-								textAlign: 'center'
-							}],
-							swipeArr:[
-						    {
-						      content: '删除',
-						      style: { background: 'red', color: '#fff' },
-						      handler: function(){this.$messagebox('delete')}
-						    }
-						  ]
+        summerready = function () {
+            vueTemplate.id = summer.pageParam.id
+            vueTemplate.BECR_TYPE = summer.pageParam.BECR_TYPE
+            console.log(vueTemplate.id, vueTemplate.BECR_TYPE);
+            vueTemplate.getData()
+        }
+        var vueTemplate = new Vue({
+            el: '#addContact',
+            data: function () {
+                return {
+                    addStatus: false,
+                    pickerStatus: false,
+                    pickedValues: {},
+                    addContactList: [],
+                    LINK_NAME: '',
+                    LINK_MOBILE: '',
+                    rlTypCd: '',
+                    LINK_RELATION2CUST: '',
+                    LINK_SEX: '',
+                    id: '', //客户id
+                    CULM_ID: '', //联系人id
+                    BECR_TYPE: '', //客户类型
+                    LINK_IDCARD: '', //身份证号码
+                    LINK_IDCARD_ADDRESS: '',
+                    LINK_HOME_ADDRESS: '',
+                    currentTarget: '',
+                    guanxiList: [],
+                    sexList: [],
+                    list: [],
+                    slots: [{
+                        flex: 1,
+                        values: [],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+                    swipeArr: [{
+                        content: '删除',
+                        style: {
+                            background: 'red',
+                            color: '#fff'
+                        },
+                        handler: function () {
+                            this.$messagebox('delete')
+                        }
+                    }]
+                }
+            },
+            methods: {
+                lookDetail: function (item) {
+                    summer.openWin({
+                        id: 'emergencyContractDetail',
+                        url: "html/fastReport/addEmergencyDetail.html",
+                        create: false,
+                        type: 'actionBar',
+                        pageParam: {
+                            LINK_NAME: item.LINK_NAME,
+                            LINK_MOBILE: item.LINK_MOBILE,
+                            LINK_RELATION2CUST: item.LINK_RELATION2CUST,
+                            LINK_RELATION2CUST_CODE: item.LINK_RELATION2CUST_CODE,
+                            LINK_SEX: item.LINK_SEX,
+                            CULM_ID: item.CULM_ID,
+                            LINK_IDCARD: item.LINK_IDCARD,
+                            LINK_IDCARD_ADDRESS: item.LINK_IDCARD_ADDRESS,
+                            LINK_HOME_ADDRESS: item.LINK_HOME_ADDRESS
+                        },
+                        actionBar: {
+                            title: '修改紧急联系人',
+                            titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            backgroundColor: "#039BE5",
+                            leftItem: {
+                                image: "img/back.png",
+                                method: "", //返回按钮自定义事件
+                                text: "返回",
+                                textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            },
+                            rightItems: [{
+                                type: "text",
+                                text: "保存",
+                                textColor: "#ffffff",
+                                method: "save()"
+                            }]
+                        }
+                    })
+                },
+                getData: function () {
+                    var _this = this
+                    summer.showProgress()
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'customer/queryCustLinkManList',
+                        param: {
+                            BECR_ID: _this.id,
+                            BECR_TYPE: _this.BECR_TYPE
+                        }
+                    }, function (res) {
+                        console.log('data', JSON.stringify(res));
+                        _this.addContactList = res.data.datas.linkManList
+                        summer.hideProgress()
+                    }, function (err) {
+                        summer.hideProgress()
+                        alert(err);
+                    })
+
+                },
+                deleteItem: function (i) {
+                    var _this = this
+                    ajaxRequest({
+                        type: 'post',
+                        url: 'customer/updateLinkmanStatus',
+                        param: {
+                            CULM_ID: _this.addContactList[i].CULM_ID
+                        }
+                    }, function (res) {
+                        console.log(res, JSON.stringify(res));
+                        _this.addContactList.splice(i, 1)
+                        summer.toast({
+                            msg: '删除成功'
+                        })
+                        if (_this.addContactList.length == 0) {
+                            summer.execScript({
+                                winId: "setProject",
+                                script: "removeRight('emergencyContract')"
+                            });
+                        }
+                    }, function (err) {
+                        summer.hideProgress()
+                        alert(err);
+                    })
+                },
+                addItem: function () {
+                    summer.openWin({
+                        id: 'emergencyContractDetail',
+                        url: "html/fastReport/addEmergencyDetail.html",
+                        create: false,
+                        type: 'actionBar',
+                        pageParam: {
+                            BECR_ID: this.id
+                        },
+                        actionBar: {
+                            title: '新增紧急联系人',
+                            titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            backgroundColor: "#039BE5",
+                            leftItem: {
+                                image: "img/back.png",
+                                method: "", //返回按钮自定义事件
+                                text: "返回",
+                                textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                            },
+                            rightItems: [{
+                                type: "text",
+                                text: "保存",
+                                textColor: "#ffffff",
+                                method: "save()"
+                            }]
+                        }
+                    })
+                },
+
             }
-          },
-					methods:{
-						lookDetail:function(item){
-							summer.openWin({
-								id: 'emergencyContractDetail',
-								url: "html/fastReport/addEmergencyDetail.html",
-								create: false,
-								type: 'actionBar',
-								pageParam: {
-									LINK_NAME:item.LINK_NAME,
-									LINK_MOBILE:item.LINK_MOBILE,
-									LINK_RELATION2CUST:item.LINK_RELATION2CUST,
-									LINK_RELATION2CUST_CODE:item.LINK_RELATION2CUST_CODE,
-									LINK_SEX:item.LINK_SEX,
-									CULM_ID:item.CULM_ID,
-									LINK_IDCARD:item.LINK_IDCARD,
-									LINK_IDCARD_ADDRESS:item.LINK_IDCARD_ADDRESS,
-									LINK_HOME_ADDRESS:item.LINK_HOME_ADDRESS
-								},
-								actionBar: {
-									title: '修改紧急联系人',
-									titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
-									backgroundColor: "#039BE5",
-									leftItem: {
-										image: "img/back.png",
-										method: "", //返回按钮自定义事件
-										text: "返回",
-										textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-									},
-									rightItems: [{
-										type: "text",
-										text: "保存",
-										textColor: "#ffffff",
-										method: "save()"
-									}]
-								}
-							})
-						},
-						getData:function(){
-							var _this=this
-							summer.showProgress()
-							ajaxRequest({
-								type:'post',
-								url:'customer/queryCustLinkManList',
-								param:{
-									BECR_ID:_this.id,
-									BECR_TYPE:_this.BECR_TYPE
-								}
-							},function(res){
-								console.log('data',JSON.stringify(res));
-								_this.addContactList=res.data.datas.linkManList
-								summer.hideProgress()
-							},function(err){
-								summer.hideProgress()
-								alert(err);
-							})
-
-						},
-						deleteItem:function(i){
-								var _this=this
-								ajaxRequest({
-									type:'post',
-									url:'customer/updateLinkmanStatus',
-									param:{
-										CULM_ID:_this.addContactList[i].CULM_ID
-									}
-								},function(res){
-									console.log(res,JSON.stringify(res));
-									_this.addContactList.splice(i,1)
-									summer.toast({msg:'删除成功'})
-									if(_this.addContactList.length==0){
-										summer.execScript({
-											  winId: "setProject",
-											  script: "removeRight('emergencyContract')"
-										});
-									}
-								},function(err){
-									summer.hideProgress()
-									alert(err);
-								})
-						},
-						addItem:function(){
-							summer.openWin({
-								id: 'emergencyContractDetail',
-								url: "html/fastReport/addEmergencyDetail.html",
-								create: false,
-								type: 'actionBar',
-								pageParam: {
-                                    BECR_ID: this.id
-                                },
-								actionBar: {
-									title: '新增紧急联系人',
-									titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
-									backgroundColor: "#039BE5",
-									leftItem: {
-										image: "img/back.png",
-										method: "", //返回按钮自定义事件
-										text: "返回",
-										textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-									},
-									rightItems: [{
-										type: "text",
-										text: "保存",
-										textColor: "#ffffff",
-										method: "save()"
-									}]
-								}
-							})
-						},
-
-					}
         });
-				function addEmergencyContract(){
-					vueTemplate.addItem()
-				}
-				function getData(){
-					vueTemplate.getData()
-				}
+
+        function addEmergencyContract() {
+            vueTemplate.addItem()
+        }
+
+        function getData() {
+            vueTemplate.getData()
+        }
     </script>
-  </body>
+</body>
+
 </html>

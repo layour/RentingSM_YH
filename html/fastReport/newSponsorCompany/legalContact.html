@@ -171,12 +171,22 @@
                             msg: "身份证号不能为空"
                         });
                         return false;
-                    }  else if (this.message.PHONE1 == "") {
+                    } else if (!regCard.test(this.message.CARD_ID)) {
+                        summer.toast({
+                            msg: "身份证号格式有误"
+                        });
+                        return;
+                    } else if (this.message.PHONE1 == "") {
                         summer.toast({
                             msg: "联系电话1不能为空"
                         });
                         return false;
-                    }  else if (this.message.ABILITY_EVALUATION == "") {
+                    } else if (!phoneCard.test(this.message.PHONE1)) {
+                        summer.toast({
+                            msg: "手机号格式有误"
+                        });
+                        return false;
+                    } else if (this.message.ABILITY_EVALUATION == "") {
                         summer.toast({
                             msg: "担保人能力评价不能为空"
                         });

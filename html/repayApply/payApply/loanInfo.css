@@ -55,7 +55,7 @@
 
 .loanList li div {
     float: right;
-    height: 0.9rem;
+    /* height: 0.9rem; */
     line-height: 0.9rem;
     font-size: 0.28rem;
     color: #424242;

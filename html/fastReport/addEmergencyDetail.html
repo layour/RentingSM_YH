@@ -285,7 +285,9 @@
 							if(!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.LINK_IDCARD))){
 								summer.toast({msg:'身份证号码有误'})
 								return false;
-							}
+							} else {
+                                return true;
+                            }
 						},
 						initData:function(){
 							// 查询字典

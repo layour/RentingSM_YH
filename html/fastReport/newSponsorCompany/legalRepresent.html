@@ -178,7 +178,12 @@
                             msg: "身份证号不能为空"
                         });
                         return false;
-                    }  else if (this.message.ADDRESS == "") {
+                    } else if (!regCard.test(this.message.CARD_ID)) {
+                        summer.toast({
+                            msg: "身份证号格式有误"
+                        });
+                        return false;
+                    } else if (this.message.ADDRESS == "") {
                         summer.toast({
                             msg: "常住地址不能为空"
                         });
@@ -188,7 +193,12 @@
                             msg: "联系电话1不能为空"
                         });
                         return false;
-                    }   
+                    } else if (!phoneCard.test(this.message.PHONE1)) {
+                        summer.toast({
+                            msg: "手机号格式有误"
+                        });
+                        return false;
+                    }  
                     return true;
                 },
                 complete: function() {
