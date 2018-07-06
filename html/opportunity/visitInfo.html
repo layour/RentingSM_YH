@@ -348,6 +348,7 @@
                             res.data.datas.VISIT_STAGE_DIC.forEach(function (e) {
                                 _this.slots1[0].values.push(e.FLAG);
                             });
+                            _this.info.VISIT_DATE = res.data.datas.VISIT_DATE ? res.data.datas.VISIT_DATE : "";
                             if (res.data.datas.crmVisitDetails && res.data.datas.crmVisitDetails.RCV_VISIT_MAN) {
                                 var info = res.data.datas.crmVisitDetails;
                                 _this.info.VISIT_DATE = info.VISIT_DATE ? info.VISIT_DATE : "";
