@@ -249,6 +249,8 @@
             },
             // 字典及信息
             resultData: "",
+            //分公司字典
+            companyResultData: "",
             // 业务性质
             BUSI_PROPS: [],
             // 注册时间
@@ -403,6 +405,34 @@
                 this.pickerDQShow = !this.pickerDQShow;
                 if (param == 'confirm') {
                     this.datas.area = this.pickerDQ;
+                    ajaxRequest({
+                    type: 'post',
+                    url: 'crm/getCompanys',
+                    param: {
+                        QY: this.datas.area
+                    }
+                }, function (res) {
+                    if (res.data.flag == 1) {
+                        self.companyResultData = res.data.datas;
+                        console.log("bbbb",res.data.datas.COMPANYS)
+                        if (res.data.datas.COMPANYS) {
+                            res.data.datas.COMPANYS.forEach(function (e) {
+                            self.slots6[0].values.push(e.NAME);
+                        });
+                       console.log("aaaaa",self.datas.fengongsi)
+                        }
+                    } else {
+                        summer.toast({
+                            msg:  "获取分公司失败"
+                        });
+                    }
+                }, function (err) {
+                    console.log("err", err);
+                    summer.toast({
+                        msg: '转为意向客户失败'
+                    });
+                });
+                      
                 }
             },
             // 客户类型更改
@@ -516,9 +546,10 @@
                         res.data.datas.COO_WAYS.forEach(function (e) {
                             self.slots3[0].values.push(e.FLAG);
                         });
-                        res.data.datas.COMPANYS.forEach(function (e) {
-                            self.slots6[0].values.push(e.SHORT_NAME);
-                        });
+                    //SWL
+                    //  res.data.datas.COMPANYS.forEach(function (e) {
+                    //     self.slots6[0].values.push(e.SHORT_NAME);
+                    // });
                         res.data.datas.LARGE_AREAS.forEach(function (e) {
                             self.slots7[0].values.push(e.FLAG);
                         });
@@ -575,7 +606,7 @@
                 if (this.saveCheck()) {
                     var _this = this;
                     summer.showProgress();
-                    var CST_TYPE, CST_PROP, BUSI_AREA, BRANCH_CODE, COO_WAY, CORP_PROP, BUSI_PROP=[], BUSI_FUNNEL;
+                    var CST_TYPE, CST_PROP, BUSI_AREA, BRANCH_NAME, COO_WAY, CORP_PROP, BUSI_PROP=[], BUSI_FUNNEL;
                     this.resultData.CST_TYPE.forEach(function (e) {
                         if (e.FLAG == _this.datas.khlx) {
                             CST_TYPE = e.CODE;
@@ -591,11 +622,12 @@
                             BUSI_AREA = e.CODE;
                         }
                     });
-                    this.resultData.COMPANYS.forEach(function (e) {
-                        if (e.SHORT_NAME == _this.datas.fengongsi) {
-                            BRANCH_CODE = e.ID;
+                    this.companyResultData.COMPANYS.forEach(function (e) {
+                        if (e.NAME == _this.datas.fengongsi) {
+                            BRANCH_NAME = e.NAME;
                         }
                     });
+                    console.log("名称",BRANCH_NAME)
                     this.resultData.COO_WAYS.forEach(function (e) {
                         if (e.FLAG == _this.datas.hzfs) {
                             COO_WAY = e.CODE;
@@ -628,7 +660,7 @@
                             CST_TYPE: CST_TYPE,
                             CST_PROP: CST_PROP,
                             BUSI_AREA: BUSI_AREA,
-                            BRANCH_CODE: BRANCH_CODE,
+                            BRANCH_NAME: BRANCH_NAME,
                             COO_WAY: COO_WAY,
                             REG_DATE: _this.datas.zcDate,
                             CORP_PROP: CORP_PROP,
