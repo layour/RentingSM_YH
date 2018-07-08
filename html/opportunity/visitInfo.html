@@ -24,8 +24,7 @@
             <ul class="loanList">
                 <li>
                     <span>拜访时间</span>
-                    <div @click="surePickerBFSJ">
-                        <span class="iconfont icon-enter"></span>
+                    <div >
                         <i v-if="info.VISIT_DATE" style="color: #333;">{{ info.VISIT_DATE }}</i>
                         <i v-else>请选择</i>
                     </div>
@@ -170,6 +169,7 @@
                 },
                 // 拜访时间
                 surePickerBFSJ: function () {
+                   // <span class="iconfont icon-enter"></span>
                     this.pickerbfDate = !this.pickerbfDate;
                     this.$refs.picker1.open();
                 },
