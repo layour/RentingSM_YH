@@ -165,7 +165,8 @@
                         type: "POST",
                         url: 'crm/getCrmPlanDetail',
                         param: {
-                          ID:this.ID
+                          ID:this.ID,
+													PLAN_ID: this.PLAN_ID
                         }
                     }, function (res) {
                         console.log(JSON.stringify(res));
@@ -204,6 +205,17 @@
                 summer.toast({msg:'请先输入拜访目的'})
                 return
               }
+							console.log(JSON.stringify({
+								ID:this.ID,
+								VISIT_MAN:this.VISIT_MAN,
+								VISIT_AIM:this.VISIT_AIM,
+								CST_NAME:this.CST_NAME,
+								CST_CODE:this.CST_CODE,
+								START_DATE:this.START_DATE,
+								END_DATE:this.END_DATE,
+								DTL_DESC:this.DTL_DESC,
+								PLAN_ID:this.PLAN_ID
+							}))
               summer.showProgress();
                   ajaxRequest({
                       type: "POST",

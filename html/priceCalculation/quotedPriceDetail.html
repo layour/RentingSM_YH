@@ -1178,20 +1178,23 @@
 						var mountedRate=Number((_this.LEASE_COURSE_ID*_this.LEASE_TERM).toFixed(2))
 						var hasVal=false
 						for (var i = 0; i < _this.rate_list.length; i++) {
+							// console.log(mountedRate, mountedRate>=_this.rate_list[i].LEASE_TERM_S && mountedRate<=_this.rate_list[i].LEASE_TERM_E)
 							if(mountedRate>=_this.rate_list[i].LEASE_TERM_S && mountedRate<=_this.rate_list[i].LEASE_TERM_E){
 								hasVal=true
-								_this.SXF_RATE=_this.SXF_RATE==''?_this.rate_list[i].SXF_RATE:_this.SXF_RATE
-								_this.YEAR_INTEREST=_this.YEAR_INTEREST==''?_this.rate_list[i].YEAR_RATE:_this.YEAR_INTEREST
+								// _this.SXF_RATE=_this.SXF_RATE==''?_this.rate_list[i].SXF_RATE:_this.SXF_RATE
+								_this.SXF_RATE=_this.rate_list[i].SXF_RATE
+								// _this.YEAR_INTEREST=_this.YEAR_INTEREST==''?_this.rate_list[i].YEAR_RATE:_this.YEAR_INTEREST
+								_this.YEAR_INTEREST=_this.rate_list[i].YEAR_RATE
 								this.SXF=this.SXF_RATE===''?'':parseInt(this.TOPRIC_SUBFIRENT*this.SXF_RATE*0.01) //手续费
 							}
 						}
 						//gps
 						for (var i = 0; i < _this.gps_money_list.length; i++) {
 							if(mountedRate>=_this.gps_money_list[i].LEASE_TERM_S && mountedRate<=_this.gps_money_list[i].LEASE_TERM_E){
-								_this.GPS_MONEY=_this.GPS_MONEY==''?(_this.gps_money_list[i].GPS || 0):_this.GPS_MONEY
+								// _this.GPS_MONEY=_this.GPS_MONEY==''?(_this.gps_money_list[i].GPS || 0):_this.GPS_MONEY
+								_this.GPS_MONEY=_this.gps_money_list[i].GPS || 0
 							}
 						}
-						console.log(mountedRate,JSON.stringify(_this.rate_list),hasVal)
 						return hasVal
 					},
 					checkDate:function(){
