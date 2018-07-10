@@ -24,8 +24,7 @@
             <ul class="loanList">
                 <li>
                     <span>拜访时间</span>
-                    <div @click="surePickerBFSJ">
-                        <span class="iconfont icon-enter"></span>
+                    <div >
                         <i v-if="info.VISIT_DATE" style="color: #333;">{{ info.VISIT_DATE }}</i>
                         <i v-else>请选择</i>
                     </div>
@@ -170,6 +169,7 @@
                 },
                 // 拜访时间
                 surePickerBFSJ: function () {
+                   // <span class="iconfont icon-enter"></span>
                     this.pickerbfDate = !this.pickerbfDate;
                     this.$refs.picker1.open();
                 },
@@ -348,6 +348,7 @@
                             res.data.datas.VISIT_STAGE_DIC.forEach(function (e) {
                                 _this.slots1[0].values.push(e.FLAG);
                             });
+                            _this.info.VISIT_DATE = res.data.datas.VISIT_DATE ? res.data.datas.VISIT_DATE : "";
                             if (res.data.datas.crmVisitDetails && res.data.datas.crmVisitDetails.RCV_VISIT_MAN) {
                                 var info = res.data.datas.crmVisitDetails;
                                 _this.info.VISIT_DATE = info.VISIT_DATE ? info.VISIT_DATE : "";
