@@ -1290,7 +1290,7 @@
 								if(arr[i].KEY_NAME_EN=='ZLZQ'){  //租赁周期
 									_this.lease_course_status=arr[i].VALUE_STR
 								}else if(arr[i].KEY_NAME_EN=='ZLQS'){
-									if(_this.LEASE_TERM===''){_this.LEASE_TERM=arr[i].VALUE_STR || 0}
+									_this.LEASE_TERM=arr[i].VALUE_STR || 0
 									_this.lease_term_status=arr[i].VALUE_STR
 									_this.lease_term_edit=arr[i].VALUE_STATUS
 									_this.lease_term_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
@@ -1312,7 +1312,7 @@
 									// _this.SFXYZB=arr[i].VALUE_STR
 									_this.fxyzb_status=arr[i].VALUE_STR
 								}else if(arr[i].KEY_NAME_EN=='TX_M'){
-									if(_this.TX_M===''){_this.TX_M=arr[i].VALUE_STR || 0}
+									_this.TX_M=arr[i].VALUE_STR || 0
 									_this.tx_m_edit=arr[i].VALUE_STATUS
 									_this.tx_m_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
 									_this.tx_m_limit.LIMIT_VALUE_D=arr[i].LIMIT_VALUE_D
@@ -1323,7 +1323,7 @@
 								}else if(arr[i].KEY_NAME_EN=='TQGH'){
 									_this.tqgh_status=arr[i].VALUE_STR
 								}else if(arr[i].KEY_NAME_EN=='GHTIME'){
-									if(_this.GHTIME===''){_this.GHTIME=arr[i].VALUE_STR || 0}
+									_this.GHTIME=arr[i].VALUE_STR || 0
 									_this.ghtime_edit=arr[i].VALUE_STATUS
 								}else if(arr[i].KEY_NAME_EN=='QMCLFS'){
 									_this.qmclfs_status=arr[i].VALUE_STR
@@ -1332,7 +1332,7 @@
 									_this.gpsaz_status=arr[i].VALUE_STR
 									_this.gpsaz_edit=arr[i].VALUE_STATUS
 								}else if(arr[i].KEY_NAME_EN=='START_PERCENT'){
-									if(_this.HIRE_PERCENT===''){_this.HIRE_PERCENT=arr[i].VALUE_STR || 0}
+									_this.HIRE_PERCENT=arr[i].VALUE_STR || 0
 									_this.first_pay_edit=arr[i].VALUE_STATUS
 									_this.first_pay_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
 									_this.first_pay_limit.LIMIT_VALUE_D=arr[i].LIMIT_VALUE_D
@@ -1340,13 +1340,13 @@
 									this.HEAD_HIRE=_this.HIRE_PERCENT===''?'':parseInt(this.LEASE_TOPRIC*this.HIRE_PERCENT*0.01)//首付款
 								}else if(arr[i].KEY_NAME_EN=='WKBL_PERCENT'){
 									_this.final_money_edit=arr[i].VALUE_STATUS
-									if(_this.FINAL_RATE===''){_this.FINAL_RATE=arr[i].VALUE_STR || 0}
+									_this.FINAL_RATE=arr[i].VALUE_STR || 0
 									_this.final_money_limit.LIMIT_FLAG=arr[i].LIMIT_FLAG
 									_this.final_money_limit.LIMIT_VALUE_D=arr[i].LIMIT_VALUE_D
 									_this.final_money_limit.LIMIT_VALUE_U=arr[i].LIMIT_VALUE_U
 									this.FINAL_FEE=_this.FINAL_RATE===''?'':parseInt(this.LEASE_TOPRIC*this.FINAL_RATE*0.01)//尾款款
 								}else if(arr[i].KEY_NAME_EN=='BZJBL_PERCENT'){
-									if(_this.BAIL_PERCENT===''){_this.BAIL_PERCENT=arr[i].VALUE_STR || 0}
+									_this.BAIL_PERCENT=arr[i].VALUE_STR || 0
 									_this.bail_money_edit=arr[i].VALUE_STATUS
 									this.LEASE_BAIL=_this.BAIL_PERCENT===''?'':parseInt(this.TOPRIC_SUBFIRENT*this.BAIL_PERCENT*0.01)//保证金
 								}else if(arr[i].KEY_NAME_EN=='BZJCLFS'){
@@ -1360,7 +1360,7 @@
 								if(otherArr[i].KEY_NAME_EN=='BXF_PRICE'){
 									_this.bxf_status=true
 									_this.BXF_DK=otherArr[i].DK
-									if(_this.BXF_PRICE===''){_this.BXF_PRICE=otherArr[i].VALUE_STR || 0}
+									_this.BXF_PRICE=otherArr[i].VALUE_STR || 0
 									_this.bxf_edit=otherArr[i].VALUE_STATUS
 									_this.bxf_list=_this.checkFlagCode(otherArr[i].FYGS)
 									if(_this.bxf_jrfs_name==''){
@@ -1370,7 +1370,7 @@
 								}else if(otherArr[i].KEY_NAME_EN=='BYF_PRICE'){
 									_this.byf_status=true
 									_this.BYF_DK=otherArr[i].DK
-									if(_this.BYF_PRICE===''){_this.BYF_PRICE=otherArr[i].VALUE_STR || 0}
+									this.BYF_PRICE=otherArr[i].VALUE_STR || 0
 									_this.byf_edit=otherArr[i].VALUE_STATUS
 									_this.byf_list=_this.checkFlagCode(otherArr[i].FYGS)
 									if(_this.byf_jrfs_name==''){
@@ -1380,7 +1380,7 @@
 								}else if(otherArr[i].KEY_NAME_EN=='BUY_TAX_PRICE'){
 									_this.buy_tax_status=true
 									_this.BUY_TAX_DK=otherArr[i].DK
-									if(_this.BUY_TAX_PRICE===''){_this.BUY_TAX_PRICE=otherArr[i].VALUE_STR || 0}
+									_this.BUY_TAX_PRICE=otherArr[i].VALUE_STR || 0
 									_this.buy_tax_edit=otherArr[i].VALUE_STATUS
 									_this.buy_tax_list=_this.checkFlagCode(otherArr[i].FYGS)
 									if(_this.buy_tax_jrfs_name==''){
@@ -1390,7 +1390,7 @@
 								}else if(otherArr[i].KEY_NAME_EN=='SJ_PRICE'){
 									_this.SJ_DK=otherArr[i].DK
 									_this.sj_status=true
-									if(_this.SJ_PRICE===''){_this.SJ_PRICE=otherArr[i].VALUE_STR || 0}
+									this.SJ_PRICE=otherArr[i].VALUE_STR || 0
 									_this.sj_edit=otherArr[i].VALUE_STATUS
 									_this.sj_list=_this.checkFlagCode(otherArr[i].FYGS)
 									if(_this.sj_jrfs_name==''){
@@ -1400,7 +1400,7 @@
 								}else if(otherArr[i].KEY_NAME_EN=='JPZH_PRICE'){
 									_this.jpzh_status=true
 									_this.JPZH_DK=otherArr[i].DK
-									if(_this.JPZH_PRICE===''){_this.JPZH_PRICE=otherArr[i].VALUE_STR || 0}
+									_this.JPZH_PRICE=otherArr[i].VALUE_STR || 0
 									_this.jpzh_edit=otherArr[i].VALUE_STATUS
 									_this.jpzh_list=_this.checkFlagCode(otherArr[i].FYGS)
 									if(_this.jpzh_jrfs_name==''){
@@ -1410,7 +1410,7 @@
 								}else if(otherArr[i].KEY_NAME_EN=='CCS_PRICE'){
 									_this.ccs_status=true
 									_this.CCS_DK=otherArr[i].DK
-									if(_this.CCS_PRICE===''){_this.CCS_PRICE=otherArr[i].VALUE_STR || 0}
+									_this.CCS_PRICE=otherArr[i].VALUE_STR || 0
 									_this.ccs_edit=otherArr[i].VALUE_STATUS
 									_this.ccs_list=_this.checkFlagCode(otherArr[i].FYGS)
 									if(_this.ccs_jrfs_name==''){
@@ -1420,7 +1420,7 @@
 								}else if(otherArr[i].KEY_NAME_EN=='SJ_MONEY'){
 									_this.sh_status=true
 									_this.SH_DK=otherArr[i].DK
-									if(_this.SH_MONEY===''){_this.SH_MONEY=otherArr[i].VALUE_STR || 0}
+									_this.SH_MONEY=otherArr[i].VALUE_STR || 0
 									_this.sh_edit=otherArr[i].VALUE_STATUS
 									_this.sh_list=_this.checkFlagCode(otherArr[i].FYGS)
 									if(_this.sh_jrfs_name==''){
