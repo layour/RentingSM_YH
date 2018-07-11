@@ -66,7 +66,8 @@
         <mt-datetime-picker  ref="picker"  type="date"  v-model="pickerDateValue"
           cancel-text='取消'
           confirm-text='确定'
-          :start-date="new Date('2018-06-01')"
+          :start-date="startDate"
+					:end-date="endDate"
           @confirm="handleConfirm"
           year-format="{value} 年"
           month-format="{value} 月"
@@ -104,6 +105,8 @@
               DTL_DESC:'',
               PLAN_ID:'',
               ID:'',
+							startDate: new Date(),
+							endDate: new Date(new Date().getTime() + 10*24*60*60*1000),
               pickerFlagList:[{
                 flex: 1,
                 values: [],
@@ -172,6 +175,8 @@
                         console.log(JSON.stringify(res));
                         summer.hideProgress();
                         _this.pickerFlagList[0].values=res.data.datas.custList
+												_this.startDate = new Date(res.data.datas.FIRST)
+												_this.endDate = new Date(res.data.datas.LAST)
                         if(_this.ID!='') {
                           var data = res.data.datas.detail
                           _this.VISIT_MAN = data.VISIT_MAN
