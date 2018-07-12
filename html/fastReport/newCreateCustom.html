@@ -134,7 +134,7 @@
         <div class="um-content">
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
-                <span class="um-bf1">姓名</span>
+                <span class="um-bf1 mr5">姓名</span>
                 <input v-if="CSTATUS==0" placeholder="请输入姓名" v-model="message.CR_BECR_NAME" type="text">
                 <span v-else class="um-bf3 tr">{{message.CR_BECR_NAME}}</span>
             </div>
@@ -289,7 +289,7 @@
             <div @click="surePickerYQ" class="item">
                 <p class="pl10 pr10  um-box">
                     <span class="um-red mr5 fl">*</span>
-                    <span class="um-bf1">是否有过逾期</span>
+                    <span class="um-bf1">贷款是否有过逾期</span>
                     <span class="um-bf2 tr">
                         <span v-if="message.MAILING_LOANS_OVERDUE" class="first">{{message.MAILING_LOANS_OVERDUE}}</span>
                         <span v-else class="second">请选择</span>
@@ -311,7 +311,7 @@
             <div @click="surePickerDJYQ" class="item">
                 <p class="pl10 pr10  um-box">
                     <span class="um-red mr5 fl">*</span>
-                    <span class="um-bf1">是否有过逾期</span>
+                    <span class="um-bf1">贷记卡是否有过逾期</span>
                     <span class="um-bf2 tr">
                         <span v-if="message.MAILING_CREDIT_OVERDUE" class="first">{{message.MAILING_CREDIT_OVERDUE}}</span>
                         <span v-else class="second">请选择</span>
