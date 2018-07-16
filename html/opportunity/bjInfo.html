@@ -417,6 +417,8 @@
                         QY: this.datas.area
                     }
                 }, function (res) {
+                    self.slots6[0].values = [];
+                    
                     if (res.data.flag == 1) {
                         self.companyResultData = res.data.datas;
                         console.log("bbbb",res.data.datas.COMPANYS)
@@ -505,9 +507,9 @@
                             self.datas.name = info.CST_NAME ? info.CST_NAME : "";
                             if(info.CST_STATUS_NM) {
                                    if(info.CST_STATUS_NM == "自然人"){
-                                        this.cstStatus = true;
-                                      }else{
                                         this.cstStatus = false;
+                                      }else{
+                                        this.cstStatus = true;
                                    }
                             }
                             if(!info.CST_NAME){
@@ -527,42 +529,20 @@
                             self.datas.sjld = info.BUSI_FUNNEL_NM ? info.BUSI_FUNNEL_NM : "";
                             self.datas.bjInfoMark = info.NOTES ? info.NOTES : "";
                             self.datas.jyfw = info.BUSI_RANGE ? info.BUSI_RANGE : "";
-                            var BUSI_PROP_ARR = info.BUSI_PROP.split(",");
-                            res.data.datas.BUSI_PROPS.forEach(function (e) {
-                                var o = {};
-                                if (BUSI_PROP_ARR.some(function (item) {return item == e.CODE})) {
-                                    BUSI_PROP_ARR.forEach(function (item) {
-                                        if (item == e.CODE) {
-                                            o = {
-                                                DATA_ID: e.DATA_ID,
-                                                FLAG: e.FLAG,
-                                                CODE: e.CODE,
-                                                checked: true
-                                            };
-                                        }
-                                    });
-                                } else {
-                                    o = {
-                                        DATA_ID: e.DATA_ID,
-                                        FLAG: e.FLAG,
-                                        CODE: e.CODE,
-                                        checked: false
-                                    };
-                                }
-                                self.BUSI_PROPS.push(o);
-                            });
-                            self.datas.ywxz = self.BUSI_PROPS.filter(function (e) {
-                                return e.checked == true;
-                            });
                             // 销售人员信息
+                            var  BUSI_PROP_ARR  
+                            if(info.BUSI_PROP){ 
+                             
+                            BUSI_PROP_ARR  = info.BUSI_PROP.split(",");}
+                           
                             self.datas.xsry = info.CLERK_NAME;
                             self.CLERK_ID = info.CLERK_ID;
                             self.CLERK_TEL = info.CLERK_TEL;
                             // 是否可转意向用户
                             if (info.SYN_FLAG && info.SYN_FLAG != "1") {
                                 self.shouldChange = true;
-                            }
-                        } else {
+                                  }
+                             } else {
                             res.data.datas.BUSI_PROPS.forEach(function (e) {
                                 var o = {
                                     DATA_ID: e.DATA_ID,
@@ -597,6 +577,42 @@
                         res.data.datas.BUSI_FUNNELS.forEach(function (e) {
                             self.slots9[0].values.push(e.FLAG);
                         });
+                        res.data.datas.BUSI_PROPS.forEach(function (e) {
+                                var o = {};
+                         if (BUSI_PROP_ARR){
+
+                                if (BUSI_PROP_ARR.some(function (item) {return item == e.CODE})) {
+                                    BUSI_PROP_ARR.forEach(function (item) {
+                                        if (item == e.CODE) {
+                                            o = {
+                                                DATA_ID: e.DATA_ID,
+                                                FLAG: e.FLAG,
+                                                CODE: e.CODE,
+                                                checked: true
+                                            };
+                                        }
+                                    });
+                                } else {
+                                    o = {
+                                        DATA_ID: e.DATA_ID,
+                                        FLAG: e.FLAG,
+                                        CODE: e.CODE,
+                                        checked: false
+                                    };
+                                  }
+                             } else  {
+                                    o = {
+                                        DATA_ID: e.DATA_ID,
+                                        FLAG: e.FLAG,
+                                        CODE: e.CODE,
+                                        checked: false
+                                    };
+                                  }
+                                self.BUSI_PROPS.push(o);
+                            });
+                            self.datas.ywxz = self.BUSI_PROPS.filter(function (e) {
+                                return e.checked == true;
+                            });
                         // 新增时间默认当天
                         self.handleConfirm1(new Date());
                     } else {
