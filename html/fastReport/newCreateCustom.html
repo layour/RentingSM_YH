@@ -311,7 +311,7 @@
             <div @click="surePickerDJYQ" class="item">
                 <p class="pl10 pr10  um-box">
                     <span class="um-red mr5 fl">*</span>
-                    <span class="um-bf1">贷记卡是否有过逾期</span>
+                    <span class="um-bf2">贷记卡是否有过逾期</span>
                     <span class="um-bf2 tr">
                         <span v-if="message.MAILING_CREDIT_OVERDUE" class="first">{{message.MAILING_CREDIT_OVERDUE}}</span>
                         <span v-else class="second">请选择</span>
@@ -1275,6 +1275,7 @@
                     } else {
                         params.CR_CUST_LEVEL = self.message.CR_CUST_LEVEL;
                     }
+                   
                     // 性别
                     this.totalData.SEX_DIC.forEach(function (e) {
                         if (e.FLAG == self.message.CR_NATU_SEX) {
@@ -1382,8 +1383,20 @@
                     if (!this.messageTest()) {
                         return;
                     };
+                     //电子邮箱
+                     if(this.message.EMPLOYEE_EMAIL.length > 0)
+                     {
+                      var objExp=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+                      var objMatch=this.message.EMPLOYEE_EMAIL.match(objExp);
+                    if (objMatch == null)
+                     {
+                       summer.toast({msg: "电子邮箱格式不对，请重新填写"}); 
+                       return;
+                       }
+                      }
                     var paramData = this.saveParams();
                     summer.showProgress();
+                    
                     ajaxRequest({
                         type: 'post',
                         url: 'customer/saveNpCust',
