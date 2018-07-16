@@ -102,7 +102,9 @@
             color: #dbdbdb;
         }
 
-
+        div.item span span {
+            color: rgb(247, 11, 11);
+        }
 
         .item .first {
 
@@ -134,11 +136,13 @@
     <div class="um-win" id="app" v-cloak>
         <div class="um-content">
             <div class="item um-box pl10 pr10">
+                <span><span class="um-red mr5 fl">*</span></span>
                 <span class="um-bf1">姓名</span>
                 <input placeholder="请输入配偶姓名" v-model="personMes.CR_NATU_MATE_NAME" type="text">
             </div>
             <div @click="surePickerZJType" class="item">
                 <p class="pl10 pr10  um-box">
+                    <span><span class="um-red mr5 fl">*</span></span>
                     <span class="um-bf1">证件类型</span>
                     <span class="um-bf1 tr">
                         <span v-if="personMes.CR_NATU_MATE_DOCUMENT_NAME" class="first">{{ personMes.CR_NATU_MATE_DOCUMENT_NAME }}</span>
@@ -148,11 +152,13 @@
                 </p>
             </div>
             <div class="item um-box pl10 pr10">
+                <span><span class="um-red mr5 fl">*</span></span>
                 <span class="um-bf1">证件号码</span>
                 <input placeholder="请输入证件号码" v-model="personMes.CR_NATU_MATE_IDCARD" type="text">
             </div>
             <div @click="surePickerSex" class="item">
                 <p class="pl10 pr10 um-box">
+                    <span><span class="um-red mr5 fl">*</span></span>
                     <span class="um-bf1">性别</span>
                     <span class="um-bf1 tr">
                         <span v-if="personMes.CR_NATU_MATE_SEX" class="first">{{ personMes.CR_NATU_MATE_SEX }}</span>
@@ -162,13 +168,15 @@
                 </p>
             </div>
             <div class="item um-box pl10 pr10">
+                <span><span class="um-red mr5 fl">*</span></span>
                 <span class="um-bf1">手机号码</span>
                 <input placeholder="请输入手机号码" v-model="personMes.CR_NATU_MATE_MOBILE" type="number">
             </div>
             <div @click="surePickerBirthday" class="item">
                 <p class="pl10 pr10 um-box">
+                    <span><span class="um-red mr5 fl">*</span></span>
                     <span class="um-bf1">出生日期</span>
-                    <span class="um-bf1 tr">
+                    <span class="um-bf2 tr">
                         <span v-if="personMes.CR_MATE_BIRTH_DATE" class="first">{{ personMes.CR_MATE_BIRTH_DATE }}</span>
                         <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
@@ -176,27 +184,33 @@
                 </p>
             </div>
             <div class="item um-box pl10 pr10">
+                <span><span class="um-red mr5 fl">*</span></span>
                 <span class="um-bf1">家庭地址</span>
                 <input placeholder="请输入家庭地址" v-model="personMes.CR_MATE_HOME_ADDRESS" type="text">
             </div>
             <div class="item um-box pl10 pr10">
+                <span><span class="um-red mr5 fl">*</span></span>
                 <span class="um-bf1">工作单位</span>
                 <input placeholder="请输入工作单位" v-model="personMes.CR_NATU_MATE_WORK_UNITS" type="text">
             </div>
             <div class="item um-box pl10 pr10">
+                <span><span class="um-red mr5 fl">*</span></span>
                 <span class="um-bf1">身份证地址</span>
                 <input placeholder="请输入身份证地址" v-model="personMes.CR_NATU_MATE_IDCARD_ADDRESS" type="text">
             </div>
             <div class="item um-box pl10 pr10">
+                <span><span class="um-red mr5 fl">*</span></span>
                 <span class="um-bf1">邮寄地址</span>
                 <input placeholder="请输入邮寄地址" v-model="personMes.CR_MATE_MAILING_ADDRESS_DZ" type="text">
             </div>
             <div class="item um-box pl10 pr10">
+                <span><span class="um-red mr5 fl">*</span></span>
                 <span class="um-bf1">工作单位地址</span>
                 <input placeholder="请输入工作单位地址" v-model="personMes.CR_NATU_MATE_WORK_ADDRESS" type="text">
             </div>
             <div @click="surePickerXL" class="item">
                 <p class="pl10 pr10  um-box">
+                    <span><span class="um-red mr5 fl">*</span></span>
                     <span class="um-bf1">教育</span>
                     <span class="um-bf1 tr">
                         <span v-if="personMes.CR_NATU_MATE_EDUCATION_NAME" class="first">{{personMes.CR_NATU_MATE_EDUCATION_NAME}}</span>
@@ -206,6 +220,7 @@
                 </p>
             </div>
             <div class="item um-box pl10 pr10">
+                <span><span class="um-red mr5 fl">*</span></span>
                 <span class="um-bf1">备注</span>
                 <input placeholder="请输入备注" v-model="personMes.EMPLOYEE_MEMO" type="text">
             </div>
@@ -326,6 +341,28 @@
                     type: "",
                     // 登陆人ID
                     USER_ID: ""
+                }
+            },
+            computed: {
+                pickerSex: function () {
+                    if (this.personMes.certNo && this.personMes.CR_NATU_MATE_IDCARD.length == "18") {
+                        var psidno = this.personMes.certNo;
+                        if (parseInt(psidno.substring(16, 17)) % 2 == 0) {
+                            this.personMes.CR_NATU_MATE_SEX = "女";
+                            return "女"
+                        } else {
+                            this.personMes.CR_NATU_MATE_SEX = "男";
+                            return "男"
+                        };
+                    }
+                },
+                pickerValue: function () {
+                    if (this.personMes.certNo && this.personMes.CR_NATU_MATE_IDCARD.length == "18") {
+                        var psidno = this.personMes.certNo;
+                        this.personMes.CR_MATE_BIRTH_DATE = psidno.substr(6, 8).replace(/(.{4})(.{2})/, "$1-$2-");
+                        return psidno.substr(6, 8).replace(/(.{4})(.{2})/, "$1-$2-");
+
+                    }
                 }
             },
             methods: {
