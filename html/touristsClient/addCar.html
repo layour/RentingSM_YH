@@ -99,8 +99,8 @@
 							guidePrice:'',
 							realityPrice:'',
 							holdPrice:'',
-							safePrice:'',
-							onePrice:'',
+							safePrice:0,
+							onePrice:0,
 							number:'',
 							pickerColorStatus:false,
 							pickedColor:'',
@@ -232,7 +232,7 @@
 							}
 						},
 						save:function(){
-							if(!this.dealer||!this.carModels||!this.guidePrice||!this.realityPrice||!this.number||!this.holdPrice||this.onePrice==''||this.safePrice==''){
+							if(!this.dealer||!this.carModels||!this.guidePrice||!this.realityPrice||!this.number||!this.holdPrice||this.onePrice===''||this.safePrice===''){
 								summer.toast({msg:'请填写车辆的所有信息'})
 								return
 							}

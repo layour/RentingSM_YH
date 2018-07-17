@@ -187,7 +187,7 @@
 						</li>
 						<li class="um-box">
 							<span class="um-bf1">证件号码</span>
-							<input type="text" class="um-bf3" v-model="CARD_ID" placeholder="请输入证件号码">
+							<input type="text" @blur="checkedIDS" class="um-bf3" v-model="CARD_ID" placeholder="请输入证件号码">
 						</li>
 						<li>
 							<span>手机号码</span>
@@ -195,11 +195,11 @@
 						</li>
 						<li>
 							<span>办公号码</span>
-							<input type="text" class='fr' name="TELEPHONE" v-model="TELEPHONE" placeholder='请输入办公号码'>
+							<input type="number" class='fr' name="TELEPHONE" v-model="TELEPHONE" placeholder='请输入办公号码'>
 						</li>
 						<li>
 							<span>邮编</span>
-							<input type="number" class='fr' name="POSTCODE" v-model="POSTCODE" placeholder='请输入邮编'>
+							<input type="number" class='fr' @blur="checkedCode" maxlength="6" name="POSTCODE" v-model="POSTCODE" placeholder='请输入邮编'>
 						</li>
 						<li class="um-box">
 							<span class="um-bf1">常驻地址</span>
@@ -207,7 +207,7 @@
 						</li>
 						<li class="um-box">
 							<span class="um-bf1">EMAILL</span>
-							<input type="text" class="um-bf3" v-model="EMAIL" placeholder="请输入EMAILL">
+							<input type="text" class="um-bf3" @blur="checkedEmail" v-model="EMAIL" placeholder="请输入EMAILL">
 						</li>
 
 						<li></li>
@@ -295,9 +295,28 @@
           },
 					methods:{
 						checkedIDS:function(){
-							if(!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.CARD_ID))){
-								summer.toast({msg:'身份证号码有误'})
+							if (this.CARD_FLAG == '身份证') {
+								if(!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.CARD_ID))){
+									summer.toast({msg:'身份证号码有误'})
+									return false;
+								}
+							}
+							return true
+						},
+						checkedCode(){
+							if(!(/^[0-9]{6}$/.test(this.POSTCODE))){
+								summer.toast({msg:'邮编格式有误'})
 								return false;
+							}else {
+								return true
+							}
+						},
+						checkedEmail(){
+							if(!(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(this.EMAIL))){
+								summer.toast({msg:'EMAIL格式有误'})
+								return false;
+							}else {
+								return true
 							}
 						},
 						initData:function(){
@@ -355,7 +374,16 @@
 								summer.toast({msg:'请输入办公号码'})
 								return
 							}
-							// this.checkedIDS()
+							if(!this.checkedIDS()){
+								return
+							}
+							if(!this.checkedCode()){
+								return
+							}
+							if(!this.checkedEmail()){
+								return
+							}
+
 							if(!this.ADDRESS){
 								summer.toast({msg:'请输入常驻地址'})
 								return

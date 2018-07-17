@@ -49,12 +49,12 @@
 								SUPPLIERS_NAME:_this.searchVal,
 								PROJECT_ID:PROJECT_ID
 							}))
-							if(_this.searchVal){
+							// if(_this.searchVal){
 								ajaxRequest({
 									type:'POST',
 									url:'foundproject/getSupplierByName',
 									param:{
-										SUPPLIERS_NAME:_this.searchVal,
+										SUPPLIERS_NAME:_this.searchVal || '',
 										PROJECT_ID:PROJECT_ID
 									}
 								},function(res){
@@ -63,9 +63,9 @@
 								},function(err){
 									console.log("err",err);
 								})
-							}else{
-								_this.dealerList=[]
-							}
+							// }else{
+							// 	_this.dealerList=[]
+							// }
 						},
 						pickerAcc:function(){
 							this.popupVisible=!this.popupVisible;
