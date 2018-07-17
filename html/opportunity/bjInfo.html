@@ -104,10 +104,15 @@
                     <b></b>销售人员</span>
                 <p>{{ datas.xsry }}</p>
             </li>
-            <li>
+            <li v-if='!cstStatus'>
                 <span>
                     <b></b>主代/身份证号</span>
                 <input type="text" placeholder="请输入" v-model="datas.sfzNo" />
+            </li>
+            <li v-if='cstStatus'>
+                    <span>
+                        <b></b>统一社会信用代码</span>
+                    <input type="text" placeholder="请输入" v-model="datas.sfzNo" />
             </li>
                 <li v-if='cstStatus'>
                     <span>
@@ -824,6 +829,7 @@
     });
     summerready = function () {
         bjInfo.ID = summer.pageParam.ID;
+        //self.status=true;
         console.log("aaaaa",bjInfo.ID);
         var userinfo = summer.getStorage("userinfo");
         if (userinfo) {
@@ -833,6 +839,7 @@
             bjInfo.CLERK_ID = userinfo.EMPLOYEE_ID;
         }
         bjInfo.getData();
+
     }
 </script>
 

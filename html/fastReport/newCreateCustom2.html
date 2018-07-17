@@ -156,14 +156,13 @@
                 <span class="um-bf1">证件号码</span>
                 <input placeholder="请输入证件号码" v-model="personMes.CR_NATU_MATE_IDCARD" type="text">
             </div>
-            <div @click="surePickerSex" class="item">
-                <p class="pl10 pr10 um-box">
+       
+            <div class="item">
                     <span><span class="um-red mr5 fl">*</span></span>
-                    <span class="um-bf1">性别</span>
-                    <span class="um-bf1 tr">
-                        <span v-if="personMes.CR_NATU_MATE_SEX" class="first">{{ personMes.CR_NATU_MATE_SEX }}</span>
-                        <span v-else class="second">请选择</span>
-                        <i class="icon iconfont icon-enter"></i>
+                <p class="pl10 pr10 tr">
+                    <span class="fl">性别</span>
+                    <span class="">
+                        <span class="first">{{sex1}} </span>
                     </span>
                 </p>
             </div>
@@ -172,17 +171,16 @@
                 <span class="um-bf1">手机号码</span>
                 <input placeholder="请输入手机号码" v-model="personMes.CR_NATU_MATE_MOBILE" type="number">
             </div>
-            <div @click="surePickerBirthday" class="item">
-                <p class="pl10 pr10 um-box">
-                    <span><span class="um-red mr5 fl">*</span></span>
-                    <span class="um-bf1">出生日期</span>
-                    <span class="um-bf2 tr">
-                        <span v-if="personMes.CR_MATE_BIRTH_DATE" class="first">{{ personMes.CR_MATE_BIRTH_DATE }}</span>
-                        <span v-else class="second">请选择</span>
-                        <i class="icon iconfont icon-enter"></i>
+            <div class="item">
+                <p class="pl10 pr10 tr">
+                        <span><span class="um-red mr5 fl">*</span></span>
+                    <span class="fl">出生日期</span>
+                    <span class="">
+                        <span class="first">{{ birthDay1}} </span>
                     </span>
                 </p>
             </div>
+           
             <div class="item um-box pl10 pr10">
                 <span><span class="um-red mr5 fl">*</span></span>
                 <span class="um-bf1">家庭地址</span>
@@ -344,9 +342,10 @@
                 }
             },
             computed: {
-                pickerSex: function () {
-                    if (this.personMes.certNo && this.personMes.CR_NATU_MATE_IDCARD.length == "18") {
-                        var psidno = this.personMes.certNo;
+                sex1: { 
+                    get:function () {
+                    if (this.personMes.CR_NATU_MATE_IDCARD && this.personMes.CR_NATU_MATE_IDCARD.length == "18") {
+                        var psidno = this.personMes.CR_NATU_MATE_IDCARD;
                         if (parseInt(psidno.substring(16, 17)) % 2 == 0) {
                             this.personMes.CR_NATU_MATE_SEX = "女";
                             return "女"
@@ -356,13 +355,20 @@
                         };
                     }
                 },
-                pickerValue: function () {
-                    if (this.personMes.certNo && this.personMes.CR_NATU_MATE_IDCARD.length == "18") {
-                        var psidno = this.personMes.certNo;
+                     set: function () {
+                        }
+                },
+ 
+                birthDay1:{
+                    get: function () {
+                    if (this.personMes.CR_NATU_MATE_IDCARD && this.personMes.CR_NATU_MATE_IDCARD.length == "18") {
+                        var psidno = this.personMes.CR_NATU_MATE_IDCARD;
                         this.personMes.CR_MATE_BIRTH_DATE = psidno.substr(6, 8).replace(/(.{4})(.{2})/, "$1-$2-");
                         return psidno.substr(6, 8).replace(/(.{4})(.{2})/, "$1-$2-");
-
                     }
+                },
+                    set: function () {
+                        }
                 }
             },
             methods: {
@@ -520,6 +526,7 @@
                     // 证件号码
                     peiou.CR_NATU_MATE_IDCARD = this.personMes.CR_NATU_MATE_IDCARD;
                     // 性别
+                    self.personMes.CR_NATU_MATE_SEX = self.sex1;
                     this.totalData.SEX_DIC.forEach(function (e) {
                         if (e.FLAG == self.personMes.CR_NATU_MATE_SEX) {
                             peiou.CR_NATU_MATE_SEX = e.CODE;
@@ -692,6 +699,7 @@
                 // 登陆人ID
                 newCreateCustom2.USER_ID = summer.pageParam.USER_ID;
                 // 姓名，身份证号，证件类型，性别赋值
+        
                 /* newCreateCustom2.personMes.CR_NATU_MATE_NAME = sponseBase.cstNm;
                 newCreateCustom2.personMes.CR_NATU_MATE_IDCARD = sponseBase.certNo;
                 newCreateCustom2.personMes.CR_NATU_MATE_DOCUMENT_NAME = sponseBase.isHasLicenseNm;
@@ -702,6 +710,8 @@
                     newCreateCustom2.totalData = totalData;
                     // 配偶信息（客户详情表）
                     newCreateCustom2.personMes = personMessage;
+                    newCreateCustom2.sex1 = personMessage.CR_NATU_MATE_SEX;
+                    newCreateCustom2.birthDay1 = personMessage.CR_NATU_MATE_SEX;
                     // 证件类型
                     newCreateCustom2.slots1[0].values = cardValues;
                     // 性别
