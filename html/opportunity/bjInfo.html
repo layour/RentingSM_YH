@@ -104,45 +104,51 @@
                     <b></b>销售人员</span>
                 <p>{{ datas.xsry }}</p>
             </li>
-            <li>
+            <li v-if='!cstStatus'>
                 <span>
                     <b></b>主代/身份证号</span>
                 <input type="text" placeholder="请输入" v-model="datas.sfzNo" />
             </li>
-            <li>
-                <span>
-                    <b></b>注册时间</span>
-                <div @click="surePickerZCSJ">
-                    <span class="iconfont icon-enter"></span>
-                    <i v-if="datas.zcDate" style="color: #333;">{{ datas.zcDate }}</i>
-                    <i v-else>请选择</i>
-                </div>
+            <li v-if='cstStatus'>
+                    <span>
+                        <b></b>统一社会信用代码</span>
+                    <input type="text" placeholder="请输入" v-model="datas.sfzNo" />
             </li>
-            <li>
-                <span>
-                    <b></b>企业性质</span>
-                <div @click="surePickerQYXZ">
-                    <span class="iconfont icon-enter"></span>
-                    <i v-if="datas.qyxz" style="color: #333;">{{ datas.qyxz }}</i>
-                    <i v-else>请选择</i>
-                </div>
-            </li>
-            <li>
-                <span>
-                    <b></b>营业范围</span>
-                <input type="text" placeholder="请输入" v-model="datas.jyfw" />
-            </li>
-            <li>
-                <span>
-                    <b></b>业务性质:</span>
-                <p></p>
-            </li>
-            <li class="ywxz" v-if="BUSI_PROPS.length">
-                <div v-for="(item, index) in BUSI_PROPS" @click="chooseywxz(index)">
-                    <div class="circle" v-bind:class="[item.checked ? 'active' : '']"></div>
-                    <div class="txt">{{ item.FLAG }}</div>
-                </div>
-            </li>
+                <li v-if='cstStatus'>
+                    <span>
+                        <b></b>注册时间</span>
+                    <div @click="surePickerZCSJ">
+                        <span class="iconfont icon-enter"></span>
+                        <i v-if="datas.zcDate" style="color: #333;">{{ datas.zcDate }}</i>
+                        <i v-else>请选择</i>
+                    </div>
+                </li> 
+                <li v-if='cstStatus'>
+                    <span>
+                        <b></b>企业性质</span>
+                    <div @click="surePickerQYXZ">
+                        <span class="iconfont icon-enter"></span>
+                        <i v-if="datas.qyxz" style="color: #333;">{{ datas.qyxz }}</i>
+                        <i v-else>请选择</i>
+                    </div>
+                </li>
+                <li v-if='cstStatus'>
+                    <span>
+                        <b></b>营业范围</span>
+                    <input type="text" placeholder="请输入" v-model="datas.jyfw" />
+                </li>
+                <li v-if='cstStatus'>
+                    <span>
+                        <b></b>业务性质:</span>
+                    <p></p>
+                </li>
+                <li class="ywxz" v-if="BUSI_PROPS.length">
+                    <div v-for="(item, index) in BUSI_PROPS" v-if='cstStatus' @click="chooseywxz(index)">
+                        <div class="circle" v-bind:class="[item.checked ? 'active' : '']" ></div>
+                        <div class="txt" >{{ item.FLAG }}</div>
+                    </div>
+                </li>
+          
             <li>
                 <span>
                     <b></b>备注</span>
@@ -219,6 +225,10 @@
         data: {
             // 商机单ID
             ID: "",
+
+            isOldCar:"是",
+
+            cstStatus:true,
             // 登陆人电话
             EMPLOYEE_MOBILE_TEL: "",
             // 销售人员ID
@@ -412,6 +422,8 @@
                         QY: this.datas.area
                     }
                 }, function (res) {
+                    self.slots6[0].values = [];
+                    
                     if (res.data.flag == 1) {
                         self.companyResultData = res.data.datas;
                         console.log("bbbb",res.data.datas.COMPANYS)
@@ -438,12 +450,29 @@
             // 客户类型更改
             onValuesChange8: function (picker, values) {
                 this.pickerKHLX = values[0];
+                if(this.pickerKHLX == "自然人"){
+                       this.cstStatus = false;
+                          this.datas.zcDate = "";
+                          this.datas.qyxz = "";
+                          this.datas.jyfw = "";
+                          this.datas.ywxz =  this.BUSI_PROPS.filter(function (e) {
+                            return e.checked = false;
+                          });
+                    }else {
+                       this.cstStatus = true;
+                    }
             },
             surePickerKHLX: function (param) {
                 var self = this;
                 this.pickerKHLXShow = !this.pickerKHLXShow;
                 if (param == 'confirm') {
                     this.datas.khlx = this.pickerKHLX;
+                    console.log("aa",this.pickerKHLX)
+                    // if(this.pickerKHLX == "自然人"){
+                    //    this.cstStatus = false;
+                    // }else {
+                    //    this.cstStatus = true;
+                    // }
                 }
             },
             // 商机漏斗更改
@@ -481,6 +510,16 @@
                         if (res.data.datas.crmBusInfo && res.data.datas.crmBusInfo.CST_NAME) {
                             var info = res.data.datas.crmBusInfo;
                             self.datas.name = info.CST_NAME ? info.CST_NAME : "";
+                            if(info.CST_STATUS_NM) {
+                                   if(info.CST_STATUS_NM == "自然人"){
+                                        this.cstStatus = false;
+                                      }else{
+                                        this.cstStatus = true;
+                                   }
+                            }
+                            if(!info.CST_NAME){
+                                this.cstStatus = true;
+                            }
                             self.datas.area = info.BUSI_AREA ? info.BUSI_AREA : "";
                             self.datas.fengongsi = info.BRANCH_CODE_NM ? info.BRANCH_CODE_NM : "";
                             self.datas.createDate = info.CREATE_DATE ? info.CREATE_DATE : "";
@@ -495,42 +534,20 @@
                             self.datas.sjld = info.BUSI_FUNNEL_NM ? info.BUSI_FUNNEL_NM : "";
                             self.datas.bjInfoMark = info.NOTES ? info.NOTES : "";
                             self.datas.jyfw = info.BUSI_RANGE ? info.BUSI_RANGE : "";
-                            var BUSI_PROP_ARR = info.BUSI_PROP.split(",");
-                            res.data.datas.BUSI_PROPS.forEach(function (e) {
-                                var o = {};
-                                if (BUSI_PROP_ARR.some(function (item) {return item == e.CODE})) {
-                                    BUSI_PROP_ARR.forEach(function (item) {
-                                        if (item == e.CODE) {
-                                            o = {
-                                                DATA_ID: e.DATA_ID,
-                                                FLAG: e.FLAG,
-                                                CODE: e.CODE,
-                                                checked: true
-                                            };
-                                        }
-                                    });
-                                } else {
-                                    o = {
-                                        DATA_ID: e.DATA_ID,
-                                        FLAG: e.FLAG,
-                                        CODE: e.CODE,
-                                        checked: false
-                                    };
-                                }
-                                self.BUSI_PROPS.push(o);
-                            });
-                            self.datas.ywxz = self.BUSI_PROPS.filter(function (e) {
-                                return e.checked == true;
-                            });
                             // 销售人员信息
+                            var  BUSI_PROP_ARR  
+                            if(info.BUSI_PROP){ 
+                             
+                            BUSI_PROP_ARR  = info.BUSI_PROP.split(",");}
+                           
                             self.datas.xsry = info.CLERK_NAME;
                             self.CLERK_ID = info.CLERK_ID;
                             self.CLERK_TEL = info.CLERK_TEL;
                             // 是否可转意向用户
                             if (info.SYN_FLAG && info.SYN_FLAG != "1") {
                                 self.shouldChange = true;
-                            }
-                        } else {
+                                  }
+                             } else {
                             res.data.datas.BUSI_PROPS.forEach(function (e) {
                                 var o = {
                                     DATA_ID: e.DATA_ID,
@@ -565,6 +582,42 @@
                         res.data.datas.BUSI_FUNNELS.forEach(function (e) {
                             self.slots9[0].values.push(e.FLAG);
                         });
+                        res.data.datas.BUSI_PROPS.forEach(function (e) {
+                                var o = {};
+                         if (BUSI_PROP_ARR){
+
+                                if (BUSI_PROP_ARR.some(function (item) {return item == e.CODE})) {
+                                    BUSI_PROP_ARR.forEach(function (item) {
+                                        if (item == e.CODE) {
+                                            o = {
+                                                DATA_ID: e.DATA_ID,
+                                                FLAG: e.FLAG,
+                                                CODE: e.CODE,
+                                                checked: true
+                                            };
+                                        }
+                                    });
+                                } else {
+                                    o = {
+                                        DATA_ID: e.DATA_ID,
+                                        FLAG: e.FLAG,
+                                        CODE: e.CODE,
+                                        checked: false
+                                    };
+                                  }
+                             } else  {
+                                    o = {
+                                        DATA_ID: e.DATA_ID,
+                                        FLAG: e.FLAG,
+                                        CODE: e.CODE,
+                                        checked: false
+                                    };
+                                  }
+                                self.BUSI_PROPS.push(o);
+                            });
+                            self.datas.ywxz = self.BUSI_PROPS.filter(function (e) {
+                                return e.checked == true;
+                            });
                         // 新增时间默认当天
                         self.handleConfirm1(new Date());
                     } else {
@@ -622,12 +675,15 @@
                             BUSI_AREA = e.CODE;
                         }
                     });
-                    this.companyResultData.COMPANYS.forEach(function (e) {
-                        if (e.NAME == _this.datas.fengongsi) {
-                            BRANCH_NAME = e.NAME;
-                        }
-                    });
-                    console.log("名称",BRANCH_NAME)
+                    // this.companyResultData.COMPANYS.forEach(function (e) {
+                    //     if (e.NAME == _this.datas.fengongsi) {
+                    //         BRANCH_NAME = e.NAME;
+                    //     }
+                    // });
+                    BRANCH_NAME = _this.datas.fengongsi
+                    // res.data.datas.COMPANYS.forEach(function (e) {
+                    //         self.slots6[0].values.push(e.NAME);
+                    // console.log("名称",BRANCH_NAME)
                     this.resultData.COO_WAYS.forEach(function (e) {
                         if (e.FLAG == _this.datas.hzfs) {
                             COO_WAY = e.CODE;
@@ -773,6 +829,8 @@
     });
     summerready = function () {
         bjInfo.ID = summer.pageParam.ID;
+        //self.status=true;
+        console.log("aaaaa",bjInfo.ID);
         var userinfo = summer.getStorage("userinfo");
         if (userinfo) {
             bjInfo.EMPLOYEE_MOBILE_TEL = userinfo.EMPLOYEE_MOBILE_TEL;
@@ -781,6 +839,7 @@
             bjInfo.CLERK_ID = userinfo.EMPLOYEE_ID;
         }
         bjInfo.getData();
+
     }
 </script>
 

@@ -183,10 +183,26 @@
                         <input placeholder="注册资本" type="number" name="daima" v-model="CR_CORP_REGISTE_CAPITAL">
                     </span>
                 </li>
+                <li @click="pickerBZStatus=true">
+                    <b>注册资本币种</b>
+                    <span>
+                        <b v-if="MONEY_TYPE">{{MONEY_TYPE}}</b>
+                        <b v-else class="default">请选择</b>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </li>
                 <li class="input">
                     <b>实收资本</b>
                     <span>
                         <input placeholder="实收资本" type="number" name="daima" v-model="CR_CORP_PAICLUP_CAPITAL">
+                    </span>
+                </li>
+                <li @click="pickerYSBZStatus=true">
+                    <b>实收资金币种</b>
+                    <span>
+                        <b v-if="TRUE_MONEY_TYPE">{{TRUE_MONEY_TYPE}}</b>
+                        <b v-else class="default">请选择</b>
+                        <i class="icon iconfont icon-enter"></i>
                     </span>
                 </li>
                 <li @click="pickerHYStatus=true">
@@ -239,22 +255,6 @@
                     <b>通讯地址</b>
                     <span>
                         <input placeholder="通讯地址" type="text" name="tongxun" v-model="CR_NATU_MAILING_ADDRESS">
-                    </span>
-                </li>
-                <li @click="pickerBZStatus=true">
-                    <b>币种</b>
-                    <span>
-                        <b v-if="MONEY_TYPE">{{MONEY_TYPE}}</b>
-                        <b v-else class="default">请选择</b>
-                        <i class="icon iconfont icon-enter"></i>
-                    </span>
-                </li>
-                <li @click="pickerYSBZStatus=true">
-                    <b>应收资金币种</b>
-                    <span>
-                        <b v-if="TRUE_MONEY_TYPE">{{TRUE_MONEY_TYPE}}</b>
-                        <b v-else class="default">请选择</b>
-                        <i class="icon iconfont icon-enter"></i>
                     </span>
                 </li>
                 <li @click="pickerKHStatus=true">
@@ -363,7 +363,7 @@
                     <span class="fr" @click="pickerNSRFlag(true)">确定</span>
                 </p>
             </mt-popup>
-            <mt-datetime-picker ref="picker" type="date" v-model="pickerDateValue" cancel-text='取消' confirm-text='确定' :start-date="new Date('2018-06-01')"
+            <mt-datetime-picker ref="picker" type="date" v-model="pickerDateValue" cancel-text='取消' confirm-text='确定' :start-date="new Date('1950-01-01')"
                 @confirm="handleConfirm" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日">
             </mt-datetime-picker>
         </div>

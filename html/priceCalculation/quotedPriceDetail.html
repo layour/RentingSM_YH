@@ -36,14 +36,14 @@
 							<i class="icon iconfont icon-enter"></i>
 						</span>
 					</li>
-          <li v-if='lease_term_status'>
+          <li>
 						<b>租赁期数</b>
 						<span>
 							<b v-if="lease_term_edit=='1'">{{LEASE_TERM}}</b>
 							<input v-else type="text" @input="checkVal('lease_term')" placeholder="租赁期数" name="lease_term" v-model="LEASE_TERM">
 						</span>
 					</li>
-					<li v-if='lease_course_status' @click="pickerFlag('leaseCourse')">
+					<li @click="pickerFlag('leaseCourse')">
 						<b>租赁周期</b>
 						<span>
 							<b v-if="LEASE_COURSE">{{LEASE_COURSE}}</b>
@@ -57,7 +57,7 @@
               <b>{{YEAR_LIMIT}}</b>年
             </span>
           </li>
-          <template v-if="llpz_status">
+          <template>
             <li v-if='llpz_edit=="1"'>
   						<b>利率配置</b>
   						<span>
@@ -121,7 +121,7 @@
 								<i class="icon iconfont icon-enter"></i>
 							</span>
 					</li>
-					<template v-if="bzjclfs_status">
+					<template >
 						<li v-if='bzjclfs_edit=="1"'>
 							<b>保证金处理方式</b>
 							<span>
@@ -137,7 +137,7 @@
 							</span>
 						</li>
 					</template>
-          <li v-if='pay_way_status' @click="pickerFlag('payWay')">
+          <li @click="pickerFlag('payWay')">
 						<b>支付方式</b>
 						<span>
 							<b v-if="PAY_WAY">{{PAY_WAY}}</b>
@@ -160,7 +160,7 @@
 							<input v-else type="text" @input="checkVal('tx_m')" placeholder="贴息金额" name="tx_m" v-model="TX_M">&nbsp;元
             </span>
           </li>
-          <li v-if="fxyzb_status" @click="pickerFlag('sfxyzb')">
+          <li @click="pickerFlag('sfxyzb')">
             <b>牌照指标</b>
             <span>
               <b v-if="SFXYZB">{{SFXYZB}}</b>
@@ -168,7 +168,7 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
-          <template v-if="rpzsf_status">
+          <template>
             <li v-if='rpzsf_edit=="1"'>
               <b>融牌照收费</b>
               <span>
@@ -208,7 +208,7 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
-          <template v-if="fkgz_status">
+          <template>
             <li v-if='fkgz_edit=="1"'>
   						<b>放款方式</b>
   						<span>
@@ -224,7 +224,7 @@
   						</span>
   					</li>
           </template>
-          <li v-if="tqgh_status" @click="pickerFlag('tqgh')">
+          <li  @click="pickerFlag('tqgh')">
             <b>提前过户</b>
             <span>
               <b v-if="TQGH">{{TQGH}}</b>
@@ -240,7 +240,7 @@
               <input v-else type="text" @input="checkVal('ghtime')" placeholder="过户期数" name="ghtime" v-model="GHTIME">
             </span>
           </li>
-          <template v-if="qmclfs_status">
+          <template >
             <li v-if='qmclfs_edit=="1"'>
   						<b>期满处理方式</b>
   						<span>
@@ -256,7 +256,7 @@
   						</span>
   					</li>
           </template>
-          <template v-if="gpsaz_status">
+          <template >
             <li v-if='gpsaz_edit=="1"'>
   						<b>GPS安装</b>
   						<span>
@@ -617,7 +617,7 @@
 						llpz_edit:'',
 						llpz_list:[],
 						YEAR_INTEREST:'', //利率
-
+						schremEXIST:false,
 						PAY_WAY:'',
 						PAY_WAY_ID:'',
 						pay_way_status:'',
@@ -802,11 +802,17 @@
 								url:"offer/toProjectScheme",
 								param:{PROJECT_ID:_this.prjId}
 							},function(res){
+							
 								console.log("查询",JSON.stringify(res));
 								var data=res.data.datas
+								if(data.EXIST == "0"&& _this.schremEXIST) {
+									_this.schremEXIST = true
+                   return
+								}
 								_this.scheme_type_list=data.POLICY_TYPES //方案类型字典
 								_this.lease_course_list=data.LEASE_COURSES  //租赁周期
 								_this.llpz_list=data.LLPZS  //利率配置字典
+								console.log("利率配置字典aa",_this.llpz_list)
 								_this.pay_way_list=data.PAY_WAYS
 								_this.tx_list=data.PREMIUMSS  //贴息
 								_this.rpzsf_list=data.RPZSFS //融牌照收费
@@ -817,7 +823,7 @@
 								_this.tqgh_list=data.TQGHS    //提前过户
 								_this.qmclfs_list=data.QMCLFSS //期满处理方式
 								_this.gpsaz_list=data.GPSAZS  //GPS安装
-								_this.gpsaz_list=data.SFLYSS //是否留钥匙
+								_this.sflys_list=data.SFLYSS //是否留钥匙
 								_this.bzjclfs_list=data.BZJCLFSS //是否留钥匙
 
 								_this.EQU_MONEY_ALL=data.EQU_MONEY_ALL //车辆单价
@@ -874,10 +880,19 @@
 									_this.totleFirstM=projectData.FIRST_RENT?(projectData.FIRST_RENT).toFixed(2):'' //测算返回首期款
 									_this.MONTH_PRICE=projectData.MONTH_PRICE?(projectData.MONTH_PRICE).toFixed(2):'' //测返每期租金
 									_this.term=projectData.LEASE_TERM //测算返回期数
+									_this.sh_status=false
+                  _this.ccs_status=false
+                  _this.jpzh_status=false
+                  _this.sj_status=false
+                  _this.buy_tax_status=false
+                  _this.byf_status=false
+                  _this.bxf_status=false
 									// 其他费用的逻辑 没整
 									var array=res.data.datas.otherFee
 									for (var i = 0; i < array.length; i++) {
+										console.log("dididididi",array[i].O_OTHER_NAME)
 										if(array[i].O_OTHER_NAME=='保险费'){
+											_this.bxf_status=true
 											_this.BXF_PRICE=array[i].O_OTHER_MONEY
 											_this.bxf_jrfs_code=array[i].O_TYPE_MONEY
 											if(_this.bxf_jrfs_code=='JRRZE'){
@@ -888,6 +903,7 @@
 											}
 											// console.log(_this.BXF_PRICE,_this.bxf_jrfs_name)
 										}else if(array[i].O_OTHER_NAME=='保养费'){
+											_this.byf_status=true 
 											_this.BYF_PRICE=array[i].O_OTHER_MONEY
 											_this.byf_jrfs_code=array[i].O_TYPE_MONEY
 											if(_this.byf_jrfs_code=='JRRZE'){
@@ -897,6 +913,7 @@
 
 											}
 										}else if(array[i].O_OTHER_NAME=='购置税'){
+											_this.buy_tax_status=true
 											_this.BUY_TAX_PRICE=array[i].O_OTHER_MONEY
 											_this.buy_tax_jrfs_code=array[i].O_TYPE_MONEY
 											if(_this.buy_tax_jrfs_code=='JRRZE'){
@@ -906,6 +923,7 @@
 
 											}
 										}else if(array[i].O_OTHER_NAME=='上牌税'){
+											_this.sj_status=true 
 											_this.SJ_PRICE=array[i].O_OTHER_MONEY
 											_this.sj_jrfs_code=array[i].O_TYPE_MONEY
 											if(_this.sj_jrfs_code=='JRRZE'){
@@ -915,6 +933,7 @@
 
 											}
 										}else if(array[i].O_OTHER_NAME=='精品装潢'){
+											_this.jpzh_status=true 
 											_this.JPZH_PRICE=array[i].O_OTHER_MONEY
 											_this.jpzh_jrfs_code=array[i].O_TYPE_MONEY
 											if(_this.jpzh_jrfs_code=='JRRZE'){
@@ -923,6 +942,7 @@
 												_this.jpzh_jrfs_name='计入首期款'
 											}
 										}else if(array[i].O_OTHER_NAME=='车船税'){
+											_this.ccs_status=true
 											_this.CCS_PRICE=array[i].O_OTHER_MONEY
 											_this.ccs_jrfs_code=array[i].O_TYPE_MONEY
 											if(_this.ccs_jrfs_code=='JRRZE'){
@@ -931,6 +951,7 @@
 												_this.ccs_jrfs_name='计入首期款'
 											}
 										}else if(array[i].O_OTHER_NAME=='上海牌照费'){
+											_this.sh_status=true
 											_this.SH_MONEY=array[i].O_OTHER_MONEY
 											_this.sh_jrfs_code=array[i].O_TYPE_MONEY
 											if(_this.sh_jrfs_code=='JRRZE'){
@@ -949,8 +970,8 @@
 										}
 									}
 									_this.changRze() //其他费用 计算合同总计
+									// _this.checkDate()
 									_this.initData()
-									_this.checkDate()
 									_this.getSchemeList()
 								}
 								summer.hideProgress()
@@ -1198,7 +1219,9 @@
 						return hasVal
 					},
 					checkDate:function(){
+						
 						var _this=this
+						console.log("报价方案名称-----",_this.SCHEME_NAME_ID)
 						summer.showProgress();
 						console.log("schemeCode======>"+_this.SCHEME_NAME_ID);
 						ajaxRequest({
@@ -1206,7 +1229,14 @@
 							url:'offer/getPolicyScheme',
 							param:{SCHEME_CODE:_this.SCHEME_NAME_ID}
 						},function(res){
-							console.log("checkData",JSON.stringify(res));
+							_this.sh_status=false
+               _this.ccs_status=false
+              _this.jpzh_status=false
+							_this.sj_status=false
+ 						  _this.buy_tax_status=false
+ 						  _this.byf_status=false
+						  _this.bxf_status=false
+							console.log("checkData",JSON.stringify(res))
 							summer.hideProgress()
 							if(res.data.flag==0){summer.toast({msg: res.data.msg})}
 							// 重新获取初始化的字典 start
@@ -1215,6 +1245,7 @@
 							_this.lease_course_list=data.LEASE_COURSES  //租赁周期
 							if(_this.LEASE_COURSE==''){   //如果是新建 就给默认第一项
 								_this.LEASE_COURSE=data.LEASE_COURSES[0].FLAG
+								console.log("88998899",_this.LEASE_COURSE)
 								_this.LEASE_COURSE_ID=data.LEASE_COURSES[0].CODE
 							}
 							_this.llpz_list=data.LLPZS  //利率配置字典
@@ -1286,6 +1317,7 @@
 							_this.gps_money_list=res.data.datas.FEELIST
 							//重新获取初始化的字典 over
 							var arr=res.data.datas.SCHEME
+				
 							for(var i=0;i<arr.length;i++){
 								if(arr[i].KEY_NAME_EN=='ZLZQ'){  //租赁周期
 									_this.lease_course_status=arr[i].VALUE_STR
@@ -1354,9 +1386,11 @@
 									_this.bzjclfs_edit=arr[i].VALUE_STATUS
 								}
 							}
+							
 							//其他费用的限制条件和字典
 							var otherArr=res.data.datas.OTHER_FEE
 							for(var i=0;i<otherArr.length;i++){
+								console.log("dididididi",otherArr[i].KEY_NAME_EN)
 								if(otherArr[i].KEY_NAME_EN=='BXF_PRICE'){
 									_this.bxf_status=true
 									_this.BXF_DK=otherArr[i].DK
@@ -1429,6 +1463,7 @@
 									}
 								}
 							}
+
 							_this.gps_list=_this.checkFlagCode('')
 							if(_this.gps_jrfs_name==''){
 								_this.gps_jrfs_name=_this.gps_list[0].FLAG
