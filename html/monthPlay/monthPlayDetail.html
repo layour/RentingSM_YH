@@ -21,7 +21,7 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
-          <li @click="openPicker('start')">
+          <li @click="openPicker('start',START_DATE)">
             <b>开始时间</b>
             <span>
               <b v-if="START_DATE">{{START_DATE}}</b>
@@ -29,7 +29,7 @@
               <i class="icon iconfont icon-enter"></i>
             </span>
           </li>
-          <li @click="openPicker('end')">
+          <li @click="openPicker('end',END_DATE)">
             <b>结束时间</b>
             <span>
               <b v-if="END_DATE">{{END_DATE}}</b>
@@ -129,8 +129,9 @@
               this.CST_NAME = this.pickerValue.CST_NAME
 							this.CST_CODE = this.pickerValue.CST_CODE
             },
-            openPicker:function(val) {
+            openPicker:function(val, date) {
               this.state = val
+							this.pickerDateValue = new Date(date)
               this.$refs.picker.open();
             },
             handleConfirm:function(value){

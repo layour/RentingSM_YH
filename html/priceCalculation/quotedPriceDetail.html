@@ -700,8 +700,8 @@
 						bzjclfs_status:'',
 						bzjclfs_edit:'',
 						bzjclfs_list:[],
-						SXF:'',//手续费 =手续费比例*融资额
-						SXF_RATE:'', //手续费比例
+						SXF:0,//手续费 =手续费比例*融资额
+						SXF_RATE:0, //手续费比例
 						sxMoney:'',
 						sxRate:'',
 						sxMoneyStatu:false,
@@ -726,7 +726,7 @@
 						bxf_status:false,
 						bxf_jrfs_name:'',
 						bxf_jrfs_code:'',
-						BYF_PRICE:'', //保养费
+						BYF_PRICE:0, //保养费
 						BYF_DK:'',
 						byf_edit:'',
 						byf_list:[],
@@ -740,7 +740,7 @@
 						buy_tax_status:false,
 						buy_tax_jrfs_name:'',
 						buy_tax_jrfs_code:'',
-						SJ_PRICE:'', //上牌税
+						SJ_PRICE:0, //上牌税
 						SJ_DK:'',
 						sj_edit:'',
 						sj_list:[],
@@ -789,7 +789,7 @@
 						this.HEAD_HIRE=this.HIRE_PERCENT===''?'':parseInt(this.LEASE_TOPRIC*this.HIRE_PERCENT*0.01) //首付款
 						this.TOPRIC_SUBFIRENT=parseInt(this.LEASE_TOPRIC-(this.HEAD_HIRE || 0))//融资额
 						this.LEASE_BAIL=this.BAIL_PERCENT===''?'':parseInt(this.TOPRIC_SUBFIRENT*this.BAIL_PERCENT*0.01)//保证金
-						this.SXF=this.SXF_RATE===''?'':parseInt(this.TOPRIC_SUBFIRENT*this.SXF_RATE*0.01) //手续费
+						this.SXF=!this.SXF_RATE?0:parseInt(this.TOPRIC_SUBFIRENT*this.SXF_RATE*0.01) //手续费
 						this.FINAL_FEE=this.FINAL_RATE===''?'':parseInt(this.LEASE_TOPRIC*this.FINAL_RATE*0.01)//尾款
 					},
 					getData:function(){
@@ -802,7 +802,7 @@
 								url:"offer/toProjectScheme",
 								param:{PROJECT_ID:_this.prjId}
 							},function(res){
-							
+
 								console.log("查询",JSON.stringify(res));
 								var data=res.data.datas
 								if(data.EXIST == "0"&& _this.schremEXIST) {
@@ -903,7 +903,7 @@
 											}
 											// console.log(_this.BXF_PRICE,_this.bxf_jrfs_name)
 										}else if(array[i].O_OTHER_NAME=='保养费'){
-											_this.byf_status=true 
+											_this.byf_status=true
 											_this.BYF_PRICE=array[i].O_OTHER_MONEY
 											_this.byf_jrfs_code=array[i].O_TYPE_MONEY
 											if(_this.byf_jrfs_code=='JRRZE'){
@@ -923,7 +923,7 @@
 
 											}
 										}else if(array[i].O_OTHER_NAME=='上牌税'){
-											_this.sj_status=true 
+											_this.sj_status=true
 											_this.SJ_PRICE=array[i].O_OTHER_MONEY
 											_this.sj_jrfs_code=array[i].O_TYPE_MONEY
 											if(_this.sj_jrfs_code=='JRRZE'){
@@ -933,7 +933,7 @@
 
 											}
 										}else if(array[i].O_OTHER_NAME=='精品装潢'){
-											_this.jpzh_status=true 
+											_this.jpzh_status=true
 											_this.JPZH_PRICE=array[i].O_OTHER_MONEY
 											_this.jpzh_jrfs_code=array[i].O_TYPE_MONEY
 											if(_this.jpzh_jrfs_code=='JRRZE'){
@@ -1203,10 +1203,10 @@
 							if(mountedRate>=_this.rate_list[i].LEASE_TERM_S && mountedRate<=_this.rate_list[i].LEASE_TERM_E){
 								hasVal=true
 								// _this.SXF_RATE=_this.SXF_RATE==''?_this.rate_list[i].SXF_RATE:_this.SXF_RATE
-								_this.SXF_RATE=_this.rate_list[i].SXF_RATE
+								_this.SXF_RATE=_this.rate_list[i].SXF_RATE || 0
 								// _this.YEAR_INTEREST=_this.YEAR_INTEREST==''?_this.rate_list[i].YEAR_RATE:_this.YEAR_INTEREST
 								_this.YEAR_INTEREST=_this.rate_list[i].YEAR_RATE
-								this.SXF=this.SXF_RATE===''?'':parseInt(this.TOPRIC_SUBFIRENT*this.SXF_RATE*0.01) //手续费
+								this.SXF=!this.SXF_RATE?0:parseInt(this.TOPRIC_SUBFIRENT*this.SXF_RATE*0.01) //手续费
 							}
 						}
 						//gps
@@ -1219,7 +1219,7 @@
 						return hasVal
 					},
 					checkDate:function(){
-						
+
 						var _this=this
 						console.log("报价方案名称-----",_this.SCHEME_NAME_ID)
 						summer.showProgress();
@@ -1317,7 +1317,7 @@
 							_this.gps_money_list=res.data.datas.FEELIST
 							//重新获取初始化的字典 over
 							var arr=res.data.datas.SCHEME
-				
+
 							for(var i=0;i<arr.length;i++){
 								if(arr[i].KEY_NAME_EN=='ZLZQ'){  //租赁周期
 									_this.lease_course_status=arr[i].VALUE_STR
@@ -1386,7 +1386,7 @@
 									_this.bzjclfs_edit=arr[i].VALUE_STATUS
 								}
 							}
-							
+
 							//其他费用的限制条件和字典
 							var otherArr=res.data.datas.OTHER_FEE
 							for(var i=0;i<otherArr.length;i++){
@@ -1451,7 +1451,7 @@
 										_this.ccs_jrfs_name=_this.ccs_list[0].FLAG
 										_this.ccs_jrfs_code=_this.ccs_list[0].CODE
 									}
-								}else if(otherArr[i].KEY_NAME_EN=='SJ_MONEY'){
+								}else if(otherArr[i].KEY_NAME_EN=='SJ_PRICE'){
 									_this.sh_status=true
 									_this.SH_DK=otherArr[i].DK
 									_this.SH_MONEY=otherArr[i].VALUE_STR || 0
@@ -1777,7 +1777,7 @@
 							FINAL_FEE:this.FINAL_FEE,  //尾款
 							FINAL_RATE:this.FINAL_RATE,  //尾款比列
 							SXF:this.SXF,           //手续费
-							SXF_RATE:this.SXF_RATE, //手续费比列
+							SXF_RATE:String(this.SXF_RATE), //手续费比列
 							TOPRIC_SUBFIRENT:this.TOPRIC_SUBFIRENT, //融资额
 							LEASE_BAIL:this.LEASE_BAIL, //保证金
 							BAIL_PERCENT:this.BAIL_PERCENT, //保证金比列
@@ -1971,7 +1971,7 @@
 						}
 						if(this.TQGH !='否'){
 							param.GHTIME=this.GHTIME
-							if(!this.GHTIME){
+							if(this.GHTIME===''){
 								summer.toast({msg:'过户期数不能为空'})
 								return
 							}

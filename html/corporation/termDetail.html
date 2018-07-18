@@ -303,7 +303,7 @@
 							}
 							return true
 						},
-						checkedCode(){
+						checkedCode:function(){
 							if(!(/^[0-9]{6}$/.test(this.POSTCODE))){
 								summer.toast({msg:'邮编格式有误'})
 								return false;
@@ -311,7 +311,7 @@
 								return true
 							}
 						},
-						checkedEmail(){
+						checkedEmail:function(){
 							if(!(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(this.EMAIL))){
 								summer.toast({msg:'EMAIL格式有误'})
 								return false;
