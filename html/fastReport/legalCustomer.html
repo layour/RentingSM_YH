@@ -87,7 +87,7 @@
             position: relative;
         }
 
-        .text b {
+        /* .text b {
             color: #333;
             font-weight: normal;
             vertical-align: top;
@@ -100,7 +100,7 @@
             line-height: .3rem;
             outline: none;
             border: none;
-        }
+        } */
 
         .pickerPrice {
             width: 100%;
@@ -127,6 +127,40 @@
 
         .pickerPrice>p span {
             color: #039BE5
+        }
+        .textArea{
+		    width: 100%;
+		    position: relative;
+		    height: 2.6rem;
+		}
+		.textArea textarea{
+		    resize: none;
+		    outline: none;
+		    padding: 0.2rem;
+		    height: 2.4rem;
+		}
+        #question {
+            word-break: break-all;
+            display: block;
+            width: 100%;
+            height: 1.6rem;
+            line-height: 0.4rem;
+            resize: none;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            text-align: justify;
+            outline: none;
+            border: none;
+            border-color: #fff;
+            font-size: 0.28rem;
+            padding: 0.2rem;
+            padding-left:0.56rem;
+            border-bottom: 1px solid #f7f7f7;
+            margin-bottom: 0.2rem;
+        }
+
+        #question::-webkit-input-placeholder {
+            color: #666;
         }
     </style>
 </head>
@@ -298,12 +332,15 @@
                     </span>
                 </li>
             </ul>
-            <div class="text">
+            <div class="textArea">
+                <textarea class = "text" id="question" placeholder="备注" maxlength="300" v-model="CR_REMARK"></textarea>
+           </div>
+            <!-- <div class="text">
                 <b>备注</b>
                 <span>
                     <textarea type="text" placeholder="备注" name="CR_REMARK" v-model="CR_REMARK"></textarea>
                 </span>
-            </div>
+            </div> -->
         </div>
         <div class="um-footer" style="min-height: 0px;">
             <!-- <button v-show="!pickerFlagStatus" @click="save" class="btn um-btn-primary">保存</button> -->
