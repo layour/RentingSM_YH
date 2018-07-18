@@ -151,7 +151,7 @@
 				</div>
             </div> -->
             <div id="content"></div>
-			<div class="list customList um-bgc-white" v-for="(item,index) in dataSource" @click="completeCustom(item.CUSTOMER_ID,item.CR_BECR_NAME, item.CR_BECR_TYPE, USER_ID)"
+			<div class="list customList um-bgc-white" v-for="(item,index) in dataSource" @click="completeCustom(item.CUSTOMER_ID,item.CR_BECR_NAME, item.CR_BECR_TYPE, USER_ID, item.CSTATUS)"
 			    v-bind:class="[index==0 ? marginTop0 : '']">
 				<p class="pl20 title pr20">{{item.CR_BECR_NAME}}
 					<span class="status fr">
@@ -269,17 +269,11 @@
 						summer.refreshFooterLoadDone(); //加载完成后调用方法恢复组件到默认状态
 					})
 				},
-				completeCustom:function(id, name, type, USER_ID){
+				completeCustom:function(id, name, type, USER_ID, CSTATUS){
                     var self = this;
-                    if (type == "法人") {
-                        summer.toast({
-                            msg: "敬请期待"
-                        });
-                        return;
-                    }
-					var pageFromSource = summer.getStorage("pageFromSource");
-					if (pageFromSource == "programSelect") {
-						summer.openWin({
+                    var pageFromSource = summer.getStorage("pageFromSource");
+                    if (pageFromSource == 'programSelect') {
+                        summer.openWin({
                             id: 'setProject',
                             url: 'html/fastReport/setProject.html',
                             create: false,
@@ -288,7 +282,8 @@
                                 source: "customer",
                                 customId: id,
                                 type: type == "自然人" ? 1 : 2,
-                                USER_ID: USER_ID
+                                USER_ID: USER_ID,
+                                CSTATUS: CSTATUS
                             },
                             actionBar: {
                                 title: "快捷报单",
@@ -308,43 +303,75 @@
                                 }]
                             }
                         });
-					} else if (pageFromSource == 'index') {
-                        summer.openWin({
-                            id: 'newCreateCustom',
-                            url: 'html/fastReport/newCreateCustom.html',
-                            create: false,
-                            type: 'actionBar',
-                            actionBar: {
-                                title: "客户信息",
-                                titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
-                                backgroundColor: "#039be5",
-                                leftItem: {
-                                    image: "img/back.png",
-                                    method: "", //返回按钮自定义事件
-                                    text: "返回",
-                                    textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                    } else if (pageFromSource == 'index') {
+                        if (type == "法人") {
+                            summer.openWin({
+                                id: 'legalCustomer',
+                                url: 'html/fastReport/legalCustomer.html',
+                                create: false,
+                                type: 'actionBar',
+                                actionBar: {
+                                    title: "客户信息",
+                                    titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                    backgroundColor: "#039be5",
+                                    leftItem: {
+                                        image: "img/back.png",
+                                        method: "", //返回按钮自定义事件
+                                        text: "返回",
+                                        textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                    },
+                                    rightItems: [{
+                                        type: "text",
+                                        text: "保存",
+                                        textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                        method: "legalCustomer.save()" //在打开的window中自定义事件
+                                    }]
                                 },
-                                rightItems: [{
-                                    type: "text",
-                                    text: "下一步",
-                                    textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
-                                    method: "nextStopAction()" //在打开的window中自定义事件
-                                }]
-                            },
-                            pageParam: {
-                                clintId: id,
-                                sourceFrom: "newCustom",
-                                type: type,
-                                USER_ID: USER_ID
-                            }
-                        });
-                    }  else {
+                                pageParam: {
+                                    clintId: id,
+                                    sourceFrom: "newCustom",
+                                    type: type,
+                                    USER_ID: USER_ID
+                                }
+                            });
+                        } else {
+                            summer.openWin({
+                                id: 'newCreateCustom',
+                                url: 'html/fastReport/newCreateCustom.html',
+                                create: false,
+                                type: 'actionBar',
+                                actionBar: {
+                                    title: "客户信息",
+                                    titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                    backgroundColor: "#039be5",
+                                    leftItem: {
+                                        image: "img/back.png",
+                                        method: "", //返回按钮自定义事件
+                                        text: "返回",
+                                        textColor: "#ffffff" //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                    },
+                                    rightItems: [{
+                                        type: "text",
+                                        text: "下一步",
+                                        textColor: "#ffffff", //文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+                                        method: "nextStopAction()" //在打开的window中自定义事件
+                                    }]
+                                },
+                                pageParam: {
+                                    clintId: id,
+                                    sourceFrom: "newCustom",
+                                    type: type,
+                                    USER_ID: USER_ID
+                                }
+                            });
+                        }
+                    } else {
                         summer.execScript({
-                            winId: pageFromSource,
+                            winId: self.pageSource,
                             script: 'getCustomName("' + id + '","' + name + '")'
                         });
                         summer.closeWin();
-					}
+                    }
 				}
 			}
 		});
