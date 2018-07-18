@@ -793,6 +793,11 @@
                             msg: '请输入电子邮箱'
                         });
                         return;
+                    } else if (!(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(this.CR_BECR_MAIL))) {
+                        summer.toast({
+                            msg: '电子邮箱格式有误'
+                        });
+                        return;
                     } else if (this.CR_CORP_BUSINESS_RANGE == "") {
                         summer.toast({
                             msg: '请输入经营范围'
