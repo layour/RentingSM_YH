@@ -91,7 +91,7 @@
                     <p class="pl10 pr10 "><input placeholder="请输入股东名称" type="text" v-model="item.HOLDER_NAME"  ></p>
                     <p class="pl10 pr10 "><input placeholder="请输入股东出资情况" type="number" v-model="item.HOLDER_CAPITAL"  > <span class="fr">(万元)</span></p> 
                     <p class="pl10 pr10 "><input placeholder="请输入股东出资方式" type="text" v-model="item.HOLDER_WAY"  ></p>   
-                    <p class="pl10 pr10 "><input placeholder="请输入股东比例" type="number" v-model="item.HOLDER_RATE"  > <span class="fr">%</span></p>
+                    <p class="pl10 pr10 "><input placeholder="请输入股东比例" type="number" max=100 v-model="item.HOLDER_RATE"  > <span class="fr">%</span></p>
                     
                             <textarea id="question" v-model="item.HOLDER_MOME" placeholder="备注" ></textarea>
                       
@@ -151,7 +151,13 @@
                             msg: "股东比例不能为空"
                         });
                         return false;
-                    }     
+                    }  
+                    else if (this.message.corpShareholderArray[0].HOLDER_RATE >100) {
+                        summer.toast({
+                            msg: "股东比例不能超过100"
+                        });
+                        return false;
+                    }       
                     return true;
                 },
                 addBnk:function(){

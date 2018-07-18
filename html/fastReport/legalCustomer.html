@@ -170,9 +170,9 @@
         <div class="um-content payTableDetail">
             <ul class="play">
                 <li class="input">
-                    <b>客户名称</b>
+                    <b>企业名称</b>
                     <span>
-                        <input placeholder="客户名称" type="text" name="daima" v-model="CR_BECR_NAME">
+                        <input placeholder="企业名称" type="text" name="daima" v-model="CR_BECR_NAME">
                     </span>
                 </li>
                 <li class="input">
@@ -181,12 +181,12 @@
                         <input placeholder="组织机构代码" type="text" name="daima" v-model="CR_CORP_ORAGNIZATION_CODE">
                     </span>
                 </li>
-                <li class="input">
+                <!-- <li class="input">
                     <b>企业名称</b>
                     <span>
                         <input placeholder="企业名称" type="text" name="daima" v-model="EMPLOYEE_NAME">
                     </span>
-                </li>
+                </li> -->
                 <li @click="pickerFlagStatus=true">
                     <b>企业性质</b>
                     <span>
@@ -431,7 +431,7 @@
                     BECR_ID: "",
                     CR_BECR_NAME: '',
                     CR_CORP_ORAGNIZATION_CODE: '',
-                    EMPLOYEE_NAME: '',
+                    // EMPLOYEE_NAME: '',
                     CR_CORP_ENTERPRISES_PROPERTY: '',
                     CR_CORP_ENTERPRISES_PROPERTY_CODE: '',
                     CR_CORP_SETUP_DATE: '',
@@ -655,7 +655,7 @@
                         if (info && info.CR_BECR_NAME) {
                             _this.CR_BECR_NAME = info.CR_BECR_NAME ? info.CR_BECR_NAME : "";
                             _this.CR_CORP_ORAGNIZATION_CODE = info.CR_CORP_ORAGNIZATION_CODE ? info.CR_CORP_ORAGNIZATION_CODE : "";
-                            _this.EMPLOYEE_NAME = info.EMPLOYEE_NAME ? info.EMPLOYEE_NAME : "";
+                            // _this.EMPLOYEE_NAME = info.EMPLOYEE_NAME ? info.EMPLOYEE_NAME : "";
                             _this.CR_CORP_ENTERPRISES_PROPERTY = info.CR_CORP_ENTERPRISES_NM ? info.CR_CORP_ENTERPRISES_NM : "";
                             if (info.CR_CORP_ENTERPRISES_NM) {
                                 res.data.datas.CR_CORP_ENTERPRISES_PROPERTY_DIC.forEach(function (e) {
@@ -738,12 +738,12 @@
                             msg: '请输入组织机构代码'
                         });
                         return;
-                    } else if (this.EMPLOYEE_NAME == "") {
+                    } /* else if (this.EMPLOYEE_NAME == "") {
                         summer.toast({
                             msg: '请输入企业名称'
                         });
                         return;
-                    } else if (this.CR_CORP_ENTERPRISES_PROPERTY == "") {
+                    } */ else if (this.CR_CORP_ENTERPRISES_PROPERTY == "") {
                         summer.toast({
                             msg: '请选择企业性质'
                         });
@@ -791,6 +791,11 @@
                     } else if (this.CR_BECR_MAIL == "") {
                         summer.toast({
                             msg: '请输入电子邮箱'
+                        });
+                        return;
+                    } else if (!(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(this.CR_BECR_MAIL))) {
+                        summer.toast({
+                            msg: '电子邮箱格式有误'
                         });
                         return;
                     } else if (this.CR_CORP_BUSINESS_RANGE == "") {
@@ -858,7 +863,7 @@
                             CR_BECR_NAME: this.CR_BECR_NAME,
                             BECR_ID: this.BECR_ID,
                             CR_CORP_ORAGNIZATION_CODE: this.CR_CORP_ORAGNIZATION_CODE,
-                            EMPLOYEE_NAME: this.EMPLOYEE_NAME,
+                            // EMPLOYEE_NAME: this.EMPLOYEE_NAME,
                             CR_CORP_ENTERPRISES_PROPERTY: this.CR_CORP_ENTERPRISES_PROPERTY_CODE,
                             CR_CORP_SETUP_DATE: this.CR_CORP_SETUP_DATE,
                             CR_CORP_PERIOD_VALIDITY: this.CR_CORP_PERIOD_VALIDITY,
