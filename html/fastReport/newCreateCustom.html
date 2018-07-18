@@ -220,6 +220,17 @@
                     </span>
                 </p>
             </div>
+            <div @click="surePickerDD" class="item">
+                <p class="pl10 pr10  um-box">
+                    <span class="um-red mr5 fl">*</span>
+                    <span class="um-bf1">最高学位</span>
+                    <span class="um-bf1 tr">
+                        <span v-if="message.CR_NATU_EDUDEGREE" class="first">{{message.CR_NATU_EDUDEGREE}}</span>
+                        <span v-else class="second">请选择</span>
+                        <i class="icon iconfont icon-enter"></i>
+                    </span>
+                </p>
+            </div>
             <div @click="surePickerZC" class="item">
                 <p class="pl10 pr10  um-box">
                     <span class="um-red mr5 fl">*</span>
@@ -410,6 +421,14 @@
                     <span class="" @click="surePickerXL('confirm')">确定</span>
                 </p>
             </mt-popup>
+              <!-- 学位 -->
+              <mt-popup v-model="pickerDDShow" position="bottom" class="pickerColor">
+                <mt-picker :slots="slots111" @change="onValuesChange111"></mt-picker>
+                <p>
+                    <span class="" @click="surePickerDD">取消</span>
+                    <span class="" @click="surePickerDD('confirm')">确定</span>
+                </p>
+            </mt-popup>
             <!-- 职称 -->
             <mt-popup v-model="pickerZCShow" position="bottom" class="pickerColor">
                 <mt-picker :slots="slots4" @change="onValuesChange4"></mt-picker>
@@ -545,6 +564,17 @@
                         className: 'slot1',
                         textAlign: 'center'
                     }],
+                    //学位
+                    pickerDDShow: false,
+                    pickerDD: "",
+                    slots111: [{
+                        flex: 1,
+                        values: [],
+                        defaultIndex: 0,
+                        className: 'slot1',
+                        textAlign: 'center'
+                    }],
+
                     // 职称
                     pickerZCShow: false,
                     pickerZC: "",
@@ -659,6 +689,8 @@
                         CR_NATU_MOBILE: "",
                         // 客户类型
                         CR_BECR_TYPE: "",
+                        //最高学位
+                        CR_NATU_EDUDEGREE:"",
                         // 工作单位
                         CR_NATU_WORK_UNITS: "",
                         // 性别
@@ -865,6 +897,15 @@
                                     self.message.MAILING_ADDRESS_DZ = e.FLAG;
                                 }
                             });
+                            //最高学位
+                            console.log("最高学位字段",res.data.datas.CR_NATU_EDUDEGREE_DIC)
+                            console.log("最高学位字段",self.message.CR_NATU_EDUDEGREE)
+                            res.data.datas.CR_NATU_EDUDEGREE_DIC.forEach(function (e) {
+                                self.slots111[0].values.push(e.FLAG);
+                                if (e.CODE == self.message.CR_NATU_EDUDEGREE) {
+                                    self.message.CR_NATU_EDUDEGREE = e.FLAG;
+                                }
+                            });
                         } else {
                             summer.toast({
                                 msg: "获取客户信息失败"
@@ -919,6 +960,17 @@
                         this.message.CR_EDUCATION_NAME = this.pickerXL;
                     }
                 },
+                //最高学历
+                onValuesChange111: function (picker, values) {
+                    this.pickerDD = values[0];
+                },
+                surePickerDD: function (param) {
+                    var self = this;
+                    this.pickerDDShow = !this.pickerDDShow;
+                    if (param == 'confirm') {
+                        this.message.CR_NATU_EDUDEGREE = this.pickerDD;
+                    }
+                },
                 // 职称更改
                 onValuesChange4: function (picker, values) {
                     this.pickerZC = values[0];
@@ -930,6 +982,7 @@
                         this.message.CR_NATU_CASTE_NAME = this.pickerZC;
                     }
                 },
+               
                 // 行业更改
                 onValuesChange5: function (picker, values) {
                     this.pickerHY = values[0];
@@ -1116,7 +1169,12 @@
                             msg: "请输入证件号码"
                         });
                         return false;
-                    } else if (this.message.CR_ID_CARD_TYPE_NAME == "身份证" && !regCard.test(this.message.CR_NATU_IDCARD)) {
+                    } else if (!this.message.CR_NATU_EDUDEGREE) {
+                        summer.toast({
+                            msg: "请输入最高学位"
+                        });
+                        return false;
+                    }  else if (this.message.CR_ID_CARD_TYPE_NAME == "身份证" && !regCard.test(this.message.CR_NATU_IDCARD)) {
                         summer.toast({
                             msg: "身份证号格式有误"
                         });
@@ -1318,6 +1376,16 @@
                         });
                     } else {
                         params.CR_EDUCATION = self.message.CR_EDUCATION;
+                    }
+                     // 最高学历
+                     if (this.totalData.CR_NATU_EDUDEGREE_DIC.some(function (e) {return e.FLAG == self.message.CR_EDUCATION_NAME})) {
+                        this.totalData.CR_NATU_EDUDEGREE_DIC.forEach(function (e) {
+                            if (e.FLAG == self.message.CR_NATU_EDUDEGREE) {
+                                params.CR_NATU_EDUDEGREE = e.CODE;
+                            }
+                        });
+                    } else {
+                        params.CR_NATU_EDUDEGREE = self.message.CR_EDUCATION;
                     }
                     // 职称
                     if (this.totalData.CR_NATU_CASTE_DIC.some(function (e) {return e.FLAG == self.message.CR_NATU_CASTE_NAME})) {
