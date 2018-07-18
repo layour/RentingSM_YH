@@ -804,6 +804,7 @@
             },
             changeTypeBtnClick: function () {
                 var regCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; //身份证校验
+                var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
                 if (!this.shouldChange) {
                     return;
                 }
@@ -811,13 +812,18 @@
                     summer.toast({
                         msg: '客户姓名为空，不可转为意向客户'
                     });
-                    return;
+                    return;//!phoneCard.test(this.datas.phoneNum)
                 } else if (this.datas.phoneNum == "") {
                     summer.toast({
                         msg: '客户电话为空，不可转为意向客户'
                     });
                     return;
-                } else if (this.datas.sfzNo == "") {
+                } else if (!phoneCard.test(this.datas.phoneNum)) {
+                    summer.toast({
+                        msg: '客户电话格式错误，不可转为意向客户'
+                    });
+                    return;
+                }else if (this.datas.sfzNo == "") {
                     summer.toast({
                         msg: '客户身份证号为空，不可转为意向客户'
                     });
