@@ -741,6 +741,11 @@
                             msg: '请输入公司邮编'
                         });
                         return;
+                    }else if (!(/^[0-9]{6}$/.test(this.CR_CORP_COMPANY_ZIP))) {
+                        summer.toast({
+                            msg: '公司邮编有误,请重新输入'
+                        });
+                        return;
                     } else if (this.GENERAL_TAXPAYER == "") {
                         summer.toast({
                             msg: '请选择是否为一般纳税人'

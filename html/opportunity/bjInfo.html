@@ -803,6 +803,7 @@
                 });
             },
             changeTypeBtnClick: function () {
+                var regCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; //身份证校验
                 if (!this.shouldChange) {
                     return;
                 }
@@ -819,6 +820,11 @@
                 } else if (this.datas.sfzNo == "") {
                     summer.toast({
                         msg: '客户身份证号为空，不可转为意向客户'
+                    });
+                    return;
+                } else if (!regCard.test(this.datas.sfzNo )) {
+                    summer.toast({
+                        msg: '客户身份证号有误，不可转为意向客户'
                     });
                     return;
                 }

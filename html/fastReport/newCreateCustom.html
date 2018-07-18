@@ -1241,14 +1241,29 @@
                             msg: "请输入家庭地址邮编"
                         });
                         return false;
+                    } else if (!(/^[0-9]{6}$/.test(this.message.CR_NATU_ZIP))) {
+                        summer.toast({
+                            msg: "家庭地址邮编有误,请重新输入"
+                        });
+                        return false;
                     } else if (!this.message.CR_NATU_POSITION_ZIPCODE) {
                         summer.toast({
                             msg: "请输入邮寄地址邮编"
                         });
                         return false;
+                    } else if (!(/^[0-9]{6}$/.test(this.message.CR_NATU_POSITION_ZIPCODE))) {
+                        summer.toast({
+                            msg: "邮寄地址邮编有误,请重新输入"
+                        });
+                        return false;
                     } else if (!this.message.CR_CORP_COMPANY_ZIP) {
                         summer.toast({
                             msg: "请输入单位地址邮编"
+                        });
+                        return false;
+                    }else if (!(/^[0-9]{6}$/.test(this.message.CR_CORP_COMPANY_ZIP))) {
+                        summer.toast({
+                            msg: "单位地址邮编有误,请重新输入"
                         });
                         return false;
                     }

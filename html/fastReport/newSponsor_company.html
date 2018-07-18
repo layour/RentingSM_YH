@@ -458,6 +458,7 @@
 				},
 				messageTest: function() {
 					var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+					var regCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; //身份证校验
 					if (this.message.warNm == "") {
 						summer.toast({
 							msg: "企业名称不能为空"
@@ -496,6 +497,11 @@
 					}else if(this.message.corpRepCertNo == "") {
 						summer.toast({
 							msg: "证件号码不能为空"
+						});
+						return false;
+					}else if(!regCard.test(this.message.corpRepCertNo)) {
+						summer.toast({
+							msg: "证件号码有误"
 						});
 						return false;
 					} 
