@@ -58,6 +58,11 @@
                             msg: "请输入年份"
                         });
                         return;
+                    } else if (this.info.FIN_YEAR.trim().length != 4) {
+                        summer.toast({
+                            msg: "年份格式有误"
+                        });
+                        return;
                     } else if (this.info.FIN_INCOME == "") {
                         summer.toast({
                             msg: "请输入主营收入"
@@ -66,6 +71,11 @@
                     } else if (this.info.FIN_PROFIT == "") {
                         summer.toast({
                             msg: "请输入利润"
+                        });
+                        return;
+                    } else if (this.info.FIN_PROFIT > this.info.FIN_INCOME) {
+                        summer.toast({
+                            msg: "利润不得大于主营收入"
                         });
                         return;
                     }

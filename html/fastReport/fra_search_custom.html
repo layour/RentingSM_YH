@@ -250,8 +250,9 @@
                             self.totalPage = Data.datas.last;
                             if (flag) {
                                 if (Data.datas.list.length < 1) {
-                                    createNull("content", "../../img/empty.png");
+                                    createNull("content", "../../img/empty.png", "未搜索到该客户");
                                     $("#content").css('display', 'block');
+                                    self.dataSource = [];
                                 } else {
                                     $("#content").css('display', 'none');
                                     self.dataSource = Data.datas.list;

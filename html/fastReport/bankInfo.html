@@ -220,6 +220,11 @@
                             msg: "请输入银行账号"
                         });
                         return;
+                    } else if (!/^[0-9]{16,19}$/.test(this.BANK_ACCOUNT)) {
+                        summer.toast({
+                            msg: "银行账号格式有误"
+                        });
+                        return;
                     } else if (this.insurerType == "请选择") {
                         summer.toast({
                             msg: "请选择账号类型"
@@ -332,6 +337,11 @@
                             });
                             // 账号类型
                             _this.typeArr = res.data.datas.DEBITFLAG;
+                            res.data.datas.DEBITFLAG.forEach(function (e) {
+                                if (e.CODE == _this.state) {
+                                    _this.insurerType = e.FLAG;
+                                }
+                            });
                             _this.typeSlots[0].values = res.data.datas.DEBITFLAG.map(function (e) {
                                 return e.FLAG;
                             });

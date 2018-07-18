@@ -89,6 +89,11 @@
                             msg: "请输入所需台数"
                         });
                         return;
+                    } else if (!/^\d+$/.test(this.crmDemandDetails.CAR_QTY)) {
+                        summer.toast({
+                            msg: "请输入整数"
+                        });
+                        return;
                     } else if (this.crmDemandDetails.FIN_SUM == "") {
                         summer.toast({
                             msg: "请输入融资额"
@@ -97,6 +102,11 @@
                     } else if (this.crmDemandDetails.FIN_TERM == "") {
                         summer.toast({
                             msg: "请输入融资期限"
+                        });
+                        return;
+                    } else if (!/^\d+$/.test(this.crmDemandDetails.FIN_TERM)) {
+                        summer.toast({
+                            msg: "请输入整数"
                         });
                         return;
                     } else if (this.crmDemandDetails.FIRST_PERCENT == "") {
