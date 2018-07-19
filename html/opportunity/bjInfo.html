@@ -448,29 +448,29 @@
             // 客户类型更改
             onValuesChange8: function (picker, values) {
                 this.pickerKHLX = values[0];
-                if(this.pickerKHLX == "自然人"){
-                       this.cstStatus = false;
-                        //   this.datas.zcDate = "";
-                        //   this.datas.qyxz = "";
-                        //   this.datas.jyfw = "";
-                        //   this.datas.ywxz =  this.BUSI_PROPS.filter(function (e) {
-                        //     return e.checked = false;
-                        //   });
-                    }else {
-                       this.cstStatus = true;
-                    }
+                // if(this.pickerKHLX == "自然人"){
+                //        this.cstStatus = false;
+                //         //   this.datas.zcDate = "";
+                //         //   this.datas.qyxz = "";
+                //         //   this.datas.jyfw = "";
+                //         //   this.datas.ywxz =  this.BUSI_PROPS.filter(function (e) {
+                //         //     return e.checked = false;
+                //         //   });
+                //     }else {
+                //        this.cstStatus = true;
+                //     }
             },
             surePickerKHLX: function (param) {
                 var self = this;
                 this.pickerKHLXShow = !this.pickerKHLXShow;
                 if (param == 'confirm') {
                     this.datas.khlx = this.pickerKHLX;
-                    console.log("aa",this.pickerKHLX)
-                    // if(this.pickerKHLX == "自然人"){
-                    //    this.cstStatus = false;
-                    // }else {
-                    //    this.cstStatus = true;
-                    // }
+                    // console.log("aa",this.pickerKHLX)
+                    if(this.pickerKHLX == "自然人"){
+                       self.cstStatus = false;
+                    }else {
+                       self.cstStatus = true;
+                    }
                 }
             },
             // 商机漏斗更改
@@ -508,16 +508,18 @@
                         if (res.data.datas.crmBusInfo && res.data.datas.crmBusInfo.CST_NAME) {
                             var info = res.data.datas.crmBusInfo;
                             self.datas.name = info.CST_NAME ? info.CST_NAME : "";
-                            if(info.CST_STATUS_NM) {
-                                   if(info.CST_STATUS_NM == "自然人"){
-                                        this.cstStatus = false;
+                            if(info.CST_TYPE_NM) {
+                                   if(info.CST_TYPE_NM == "自然人"){
+                                        self.cstStatus = false;
+                                        
                                       }else{
-                                        this.cstStatus = true;
+                                        self.cstStatus = true;
+                                        console.log("self.cstStatus111",self.cstStatus)
                                    }
                             }
-                            if(!info.CST_NAME){
-                                this.cstStatus = true;
-                            }
+                           // if(!info.CST_NAME){
+                            //    self.cstStatus = true;
+                            //}
                             self.datas.area = info.BUSI_AREA ? info.BUSI_AREA : "";
                             self.datas.fengongsi = info.BRANCH_CODE_NM ? info.BRANCH_CODE_NM : "";
                             self.datas.createDate = info.CREATE_DATE ? info.CREATE_DATE : "";
@@ -554,7 +556,6 @@
                                     CODE: e.CODE,
                                     checked: false
                                 };
-                                self.BUSI_PROPS.push(o);
                             });
                             self.datas.kehuState = "none";
                             self.datas.createDate = "none";
@@ -828,6 +829,7 @@
         }
     });
     summerready = function () {
+        var self = this;
         bjInfo.ID = summer.pageParam.ID;
        
         console.log("aaaaa",bjInfo.ID);
@@ -838,8 +840,9 @@
             bjInfo.datas.xsry = userinfo.EMPLOYEE_NAME;
             bjInfo.CLERK_ID = userinfo.EMPLOYEE_ID;
         }
-        self.status=true;
+        
         bjInfo.getData();
+        console.log("self.cstStatus",bjInfo.cstStatus)
 
     }
 </script>

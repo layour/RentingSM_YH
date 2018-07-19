@@ -136,7 +136,24 @@
 				});
 			},
 			normal: function (CONTRACT_ID) {
-                summer.openWin({
+
+			ajaxRequest({
+				type: 'post',
+				url: 'payment/getPaymentByContract',
+				param: {
+					"CONTRACT_ID": CONTRACT_ID
+				}
+			}, function(res) {
+				summer.hideProgress();
+				var Data;
+				if (Object.prototype.toString.call(res.data) === '[object String]') {
+					Data = JSON.parse(res.data);
+				} else {
+					Data = res.data;
+				}
+				
+				if (Data.flag == 1) {
+					summer.openWin({
 					id: 'payApply',
 					url: 'html/repayApply/payApply/index.html',
 					create: false,
@@ -162,6 +179,19 @@
 						CONTRACT_ID: CONTRACT_ID
 					}
 				});
+				} else {
+					summer.toast({
+						msg: Data.msg
+					});
+				}
+			}, function(err) {
+				summer.hideProgress();
+				summer.toast({
+					msg: "暂无数据"
+				});
+				console.log(err);
+			});
+              
 			}
 		}
 	});
