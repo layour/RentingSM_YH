@@ -1378,7 +1378,7 @@
                         params.CR_EDUCATION = self.message.CR_EDUCATION;
                     }
                      // 最高学历
-                     if (this.totalData.CR_NATU_EDUDEGREE_DIC.some(function (e) {return e.FLAG == self.message.CR_EDUCATION_NAME})) {
+                     if (this.totalData.CR_NATU_EDUDEGREE_DIC.some(function (e) {return e.FLAG == self.message.CR_NATU_EDUDEGREE})) {
                         this.totalData.CR_NATU_EDUDEGREE_DIC.forEach(function (e) {
                             if (e.FLAG == self.message.CR_NATU_EDUDEGREE) {
                                 params.CR_NATU_EDUDEGREE = e.CODE;
