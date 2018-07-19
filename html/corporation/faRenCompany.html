@@ -197,10 +197,20 @@
                     this.message.corpShareholderArray.splice(index,1);
                 },
                 complete: function() {
-					var self=this;
+                    var self=this;
+                    var total = 0;
 					if (!this.messageTest()) {
 						return;
-					};
+                    };
+                    this.message.corpShareholderArray.forEach(function (e) {
+                        total += Number(e.HOLDER_RATE);
+                    });
+                    if (total > 100) {
+                        summer.toast({
+                            msg: "股权比例总和不得大于100%"
+                        });
+                        return;
+                    }
 					var paramData;
 					paramData = self.message;
 					//放入登陆人ID
@@ -220,7 +230,11 @@
 									script: "addRight('faRenCompany')"
 								});
 								summer.closeWin()
-						}
+						} else {
+                            summer.toast({
+                                msg: res.data.msg
+                            });
+                        }
 					}, function(err) {
 						console.log(err);
 						summer.hideProgress();
