@@ -131,16 +131,7 @@
                 <span class="um-bf1">手机号</span>
                 <input placeholder="请输入您的手机号码" type="number" v-model="message.cstPhoneNumber" class="um-bf3">
             </div>
-            <div @click="surePickerZJType" class="item">
-                <p class="pl10 pr10  um-box">
-                    <span class="um-bf1">证件类型</span>
-                    <span class="um-bf1 tr">
-                        <span v-if="message.CR_ID_CARD_TYPE_NAME" class="first">{{ message.CR_ID_CARD_TYPE_NAME }}</span>
-                        <span v-else class="second">请选择</span>
-                        <i class="icon iconfont icon-enter"></i>
-                    </span>
-                </p>
-            </div>
+        
             <div class="item um-box pl10 pr10">
                 <span class="um-bf1">证件号码</span>
                 <input placeholder="请输入您的证件号码" type="text" v-model="message.certNo" class="um-bf3">
@@ -290,7 +281,12 @@
                             msg: "请输入正确的身份证号"
                         });
                         return false;
-                    } else if (this.message.cstPhoneNumber == "") {
+                    }else if (this.message.CR_ID_CARD_TYPE_NAME == "身份证" && !regCard.test(this.message.CR_NATU_IDCARD)) {
+                        summer.toast({
+                            msg: "身份证号格式有误"
+                        });
+                        return false;
+                    }else if (this.message.cstPhoneNumber == "") {
                         summer.toast({
                             msg: "手机号不能为空"
                         });
@@ -396,6 +392,16 @@
             newCreateCustomVerify.pageSource = pageSource;
             // 拿证件类型字典
             newCreateCustomVerify.getDic();
+            // <div @click="surePickerZJType" class="item">
+            //     <p class="pl10 pr10  um-box">
+            //         <span class="um-bf1">证件类型</span>
+            //         <span class="um-bf1 tr">
+            //             <span v-if="message.CR_ID_CARD_TYPE_NAME" class="first">{{ message.CR_ID_CARD_TYPE_NAME }}</span>
+            //             <span v-else class="second">请选择</span>
+            //             <i class="icon iconfont icon-enter"></i>
+            //         </span>
+            //     </p>
+            // </div>
         }
     </script>
 </body>
