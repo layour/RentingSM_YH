@@ -1648,6 +1648,7 @@
 								if(this.firstPayRate<100 && this.checkFloatNmber(this.firstPayRate)){
 									if(this.first_pay_limit.LIMIT_FLAG=='1'){
 										if(this.firstPayRate<this.first_pay_limit.LIMIT_VALUE_D || this.firstPayRate>this.first_pay_limit.LIMIT_VALUE_U){
+											summer.toast({msg:'首付比例超出范围'})
 											this.firstPayRate=''
 										}
 									}
