@@ -138,11 +138,13 @@
                             msg: "请输入联系地址"
                         });
                         return;
-                    } else if (this.LEGAL_REPRESENTATIVE == "") {
-                        summer.toast({
+                    } else if (this.insurerType == "法人") {
+                        if(this.LEGAL_REPRESENTATIVE == ""){
+                            summer.toast({
                             msg: "请输入法人代表"
                         });
                         return;
+                        }
                     }
                     summer.showProgress();
 					ajaxRequest({
@@ -187,14 +189,15 @@
 						});
 					});
                 },
-                getData: function (id) {
+                getData: function (id,CREDIT_ID) {
                     var _this = this;
                     summer.showProgress();
                     ajaxRequest({
                         type: 'post',
                         url: 'commonLessee/queryCommonLesseeInfo',
                         param: {
-                            ID: id
+                            ID: id,
+                            CREDIT_ID:CREDIT_ID
                         }
                     }, function (res) {
                         summer.hideProgress();
@@ -228,8 +231,10 @@
         summerready = function() {
             sharePeopleInfo.CREDIT_ID = summer.pageParam.CREDIT_ID;
             sharePeopleInfo.ID = summer.pageParam.ID;
+            console.log("ID",sharePeopleInfo.CREDIT_ID)
+            console.log("CREDIT",sharePeopleInfo.ID)
             if (sharePeopleInfo.ID) {
-                sharePeopleInfo.getData(sharePeopleInfo.ID);
+                sharePeopleInfo.getData(sharePeopleInfo.ID,sharePeopleInfo.CREDIT_ID);
             }
         };
     </script>

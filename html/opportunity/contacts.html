@@ -121,7 +121,7 @@
                 <li v-for="(item,index) in list" @click="gotoDetail(item.ID)" :key="index">
                     <mt-cell-swipe :title="item.LNK_NAME" :right="[{content: '&nbsp;&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;',style: {lineHeight:'2.4rem', background: '#f44336', color: '#fff' },handler: function(){deleteItem(index, item.ID)}}]">
                         <div class="price">
-                            <p>联系人职务：{{ item.LNK_POST}}</p>
+                            <p>联系人职务：{{ item.LNK_POST_NM}}</p>
                             <p>联系人电话：{{ item.LNK_TEL }}</p>
                         </div>
                         <div class="fr">

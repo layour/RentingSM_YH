@@ -104,16 +104,14 @@
                     <b></b>销售人员</span>
                 <p>{{ datas.xsry }}</p>
             </li>
-            <li v-if='!cstStatus'>
-                <span>
-                    <b></b>主代/身份证号</span>
+            <li >
+                <span v-if='!cstStatus'>
+                    <b></b>身份证号</span>
+                 <span v-if='cstStatus'>
+                        <b></b>统一信用代码</span>
                 <input type="text" placeholder="请输入" v-model="datas.sfzNo" />
             </li>
-            <li v-if='cstStatus'>
-                    <span>
-                        <b></b>统一社会信用代码</span>
-                    <input type="text" placeholder="请输入" v-model="datas.sfzNo" />
-            </li>
+        
                 <li v-if='cstStatus'>
                     <span>
                         <b></b>注册时间</span>
@@ -450,29 +448,29 @@
             // 客户类型更改
             onValuesChange8: function (picker, values) {
                 this.pickerKHLX = values[0];
-                if(this.pickerKHLX == "自然人"){
-                       this.cstStatus = false;
-                          this.datas.zcDate = "";
-                          this.datas.qyxz = "";
-                          this.datas.jyfw = "";
-                          this.datas.ywxz =  this.BUSI_PROPS.filter(function (e) {
-                            return e.checked = false;
-                          });
-                    }else {
-                       this.cstStatus = true;
-                    }
+                // if(this.pickerKHLX == "自然人"){
+                //        this.cstStatus = false;
+                //         //   this.datas.zcDate = "";
+                //         //   this.datas.qyxz = "";
+                //         //   this.datas.jyfw = "";
+                //         //   this.datas.ywxz =  this.BUSI_PROPS.filter(function (e) {
+                //         //     return e.checked = false;
+                //         //   });
+                //     }else {
+                //        this.cstStatus = true;
+                //     }
             },
             surePickerKHLX: function (param) {
                 var self = this;
                 this.pickerKHLXShow = !this.pickerKHLXShow;
                 if (param == 'confirm') {
                     this.datas.khlx = this.pickerKHLX;
-                    console.log("aa",this.pickerKHLX)
-                    // if(this.pickerKHLX == "自然人"){
-                    //    this.cstStatus = false;
-                    // }else {
-                    //    this.cstStatus = true;
-                    // }
+                    // console.log("aa",this.pickerKHLX)
+                    if(this.pickerKHLX == "自然人"){
+                       self.cstStatus = false;
+                    }else {
+                       self.cstStatus = true;
+                    }
                 }
             },
             // 商机漏斗更改
@@ -510,16 +508,18 @@
                         if (res.data.datas.crmBusInfo && res.data.datas.crmBusInfo.CST_NAME) {
                             var info = res.data.datas.crmBusInfo;
                             self.datas.name = info.CST_NAME ? info.CST_NAME : "";
-                            if(info.CST_STATUS_NM) {
-                                   if(info.CST_STATUS_NM == "自然人"){
-                                        this.cstStatus = false;
+                            if(info.CST_TYPE_NM) {
+                                   if(info.CST_TYPE_NM == "自然人"){
+                                        self.cstStatus = false;
+                                        
                                       }else{
-                                        this.cstStatus = true;
+                                        self.cstStatus = true;
+                                        console.log("self.cstStatus111",self.cstStatus)
                                    }
                             }
-                            if(!info.CST_NAME){
-                                this.cstStatus = true;
-                            }
+                           // if(!info.CST_NAME){
+                            //    self.cstStatus = true;
+                            //}
                             self.datas.area = info.BUSI_AREA ? info.BUSI_AREA : "";
                             self.datas.fengongsi = info.BRANCH_CODE_NM ? info.BRANCH_CODE_NM : "";
                             self.datas.createDate = info.CREATE_DATE ? info.CREATE_DATE : "";
@@ -530,6 +530,7 @@
                             self.datas.sfzNo = info.CERT_NO ? info.CERT_NO : "";
                             self.datas.phoneNum = info.CST_TEL ? info.CST_TEL : "";
                             self.datas.zcDate = info.REG_DATE ? info.REG_DATE : "";
+                            console.log("注册时间",self.datas.zcDate)
                             self.datas.qyxz = info.CORP_PROP_NM ? info.CORP_PROP_NM : "";
                             self.datas.sjld = info.BUSI_FUNNEL_NM ? info.BUSI_FUNNEL_NM : "";
                             self.datas.bjInfoMark = info.NOTES ? info.NOTES : "";
@@ -555,7 +556,6 @@
                                     CODE: e.CODE,
                                     checked: false
                                 };
-                                self.BUSI_PROPS.push(o);
                             });
                             self.datas.kehuState = "none";
                             self.datas.createDate = "none";
@@ -702,6 +702,7 @@
                             BUSI_FUNNEL = e.CODE;
                         }
                     });
+                    console.log("注册时间1",_this.datas.zcDate)
                     ajaxRequest({
                         type: 'post',
                         url: 'crm/saveCrmBusInfo',
@@ -803,8 +804,6 @@
                 });
             },
             changeTypeBtnClick: function () {
-                var regCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; //身份证校验
-                var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
                 if (!this.shouldChange) {
                     return;
                 }
@@ -812,25 +811,15 @@
                     summer.toast({
                         msg: '客户姓名为空，不可转为意向客户'
                     });
-                    return;//!phoneCard.test(this.datas.phoneNum)
+                    return;
                 } else if (this.datas.phoneNum == "") {
                     summer.toast({
                         msg: '客户电话为空，不可转为意向客户'
                     });
                     return;
-                } else if (!phoneCard.test(this.datas.phoneNum)) {
-                    summer.toast({
-                        msg: '客户电话格式错误，不可转为意向客户'
-                    });
-                    return;
-                }else if (this.datas.sfzNo == "") {
+                } else if (this.datas.sfzNo == "") {
                     summer.toast({
                         msg: '客户身份证号为空，不可转为意向客户'
-                    });
-                    return;
-                } else if (!regCard.test(this.datas.sfzNo )) {
-                    summer.toast({
-                        msg: '客户身份证号有误，不可转为意向客户'
                     });
                     return;
                 }
@@ -840,8 +829,9 @@
         }
     });
     summerready = function () {
+        var self = this;
         bjInfo.ID = summer.pageParam.ID;
-        //self.status=true;
+       
         console.log("aaaaa",bjInfo.ID);
         var userinfo = summer.getStorage("userinfo");
         if (userinfo) {
@@ -850,9 +840,12 @@
             bjInfo.datas.xsry = userinfo.EMPLOYEE_NAME;
             bjInfo.CLERK_ID = userinfo.EMPLOYEE_ID;
         }
+        
         bjInfo.getData();
+        console.log("self.cstStatus",bjInfo.cstStatus)
 
     }
 </script>
 
 </html>
+
