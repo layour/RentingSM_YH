@@ -1500,6 +1500,7 @@
             }
 						this.isTest=false
 						if(val=='lease_term'){
+							this.LEASE_TERM = Number(this.LEASE_TERM)
 							if(!this.checkIntNmber(this.LEASE_TERM)){
 								this.LEASE_TERM=''
 							}
@@ -1645,6 +1646,7 @@
 					toMoneyToRate:function(val,status){
 						if(val == 'firstPay'){
 							if(status){  // status=true比例改变 计算金额
+								this.firstPayRate = Number(this.firstPayRate)
 								if(this.firstPayRate<100 && this.checkFloatNmber(this.firstPayRate)){
 									if(this.first_pay_limit.LIMIT_FLAG=='1'){
 										if(this.firstPayRate<this.first_pay_limit.LIMIT_VALUE_D || this.firstPayRate>this.first_pay_limit.LIMIT_VALUE_U){
@@ -1660,7 +1662,7 @@
 									this.firstPay=''
 								}
 							}else { // status=false  金额改变 计算比例
-								var money=this.firstPay
+								var money=Number(this.firstPay)
 								if(this.checkIntNmber(money) && money<=this.LEASE_TOPRIC){
 									this.firstPayRate=parseFloat(100*this.firstPay/this.LEASE_TOPRIC).toFixed(2);
 								}else {
@@ -1671,6 +1673,7 @@
 							}
 						}else if(val== 'finalMoney'){
 							if(status){
+								this.finalRate = Number(this.finalRate)
 								if(this.finalRate<100&&this.checkFloatNmber(this.finalRate)){
 									if(this.final_money_limit.LIMIT_FLAG=='1'){
 										if(this.finalRate<this.final_money_limit.LIMIT_VALUE_D || this.finalRate>this.final_money_limit.LIMIT_VALUE_U){
