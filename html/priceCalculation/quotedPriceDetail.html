@@ -779,7 +779,6 @@
 				},
 				watch:{
           otherMoney:function(){
-						console.log("watch------>changeRZE")
             this.initData()
           }
         },
@@ -1776,7 +1775,7 @@
 							HIRE_PERCENT:this.HIRE_PERCENT, //首付比例
 							FINAL_FEE:this.FINAL_FEE,  //尾款
 							FINAL_RATE:this.FINAL_RATE,  //尾款比列
-							SXF:this.SXF,           //手续费
+							SXF:String(this.SXF),           //手续费
 							SXF_RATE:String(this.SXF_RATE), //手续费比列
 							TOPRIC_SUBFIRENT:this.TOPRIC_SUBFIRENT, //融资额
 							LEASE_BAIL:this.LEASE_BAIL, //保证金
@@ -1942,8 +1941,8 @@
 							HIRE_PERCENT:this.HIRE_PERCENT, //首付比例
 							FINAL_FEE:this.FINAL_FEE,  //尾款
 							FINAL_RATE:this.FINAL_RATE,  //尾款比列
-							SXF:this.SXF,           //手续费
-							SXF_RATE:this.SXF_RATE, //手续费比列
+							SXF:String(this.SXF),           //手续费
+							SXF_RATE:String(this.SXF_RATE), //手续费比列
 							TOPRIC_SUBFIRENT:this.TOPRIC_SUBFIRENT, //融资额
 							LEASE_BAIL:this.LEASE_BAIL, //保证金
 							BAIL_PERCENT:this.BAIL_PERCENT, //保证金比列

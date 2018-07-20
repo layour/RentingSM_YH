@@ -711,8 +711,8 @@
 						bzjclfs_status:'',
 						bzjclfs_edit:'',
 						bzjclfs_list:[],
-						SXF:'',//手续费 =手续费比例*融资额
-						SXF_RATE:'', //手续费比例
+						SXF:0,//手续费 =手续费比例*融资额
+						SXF_RATE:0, //手续费比例
 						sxMoney:'',
 						sxRate:'',
 						sxMoneyStatu:false,
@@ -737,7 +737,7 @@
 						bxf_status:false,
 						bxf_jrfs_name:'',
 						bxf_jrfs_code:'',
-						BYF_PRICE:'', //保养费
+						BYF_PRICE:0, //保养费
 						BYF_DK:'',
 						byf_edit:'',
 						byf_list:[],
@@ -751,7 +751,7 @@
 						buy_tax_status:false,
 						buy_tax_jrfs_name:'',
 						buy_tax_jrfs_code:'',
-						SJ_PRICE:'', //上牌税
+						SJ_PRICE:0, //上牌税
 						SJ_DK:'',
 						sj_edit:'',
 						sj_list:[],
@@ -1292,7 +1292,7 @@
 										_this.ccs_jrfs_name=_this.ccs_list[0].FLAG
 										_this.ccs_jrfs_code=_this.ccs_list[0].CODE
 									}
-								}else if(otherArr[i].KEY_NAME_EN=='SJ_MONEY'){
+								}else if(otherArr[i].KEY_NAME_EN=='SJ_PRICE'){
 									_this.sh_status=true
 									_this.SH_DK=otherArr[i].DK
 									if(_this.SH_MONEY===''){_this.SH_MONEY=otherArr[i].VALUE_STR || 0}
@@ -1617,8 +1617,8 @@
 							HIRE_PERCENT:this.HIRE_PERCENT, //首付比例
 							FINAL_FEE:this.FINAL_FEE,  //尾款
 							FINAL_RATE:this.FINAL_RATE,  //尾款比列
-							SXF:this.SXF,           //手续费
-							SXF_RATE:this.SXF_RATE, //手续费比列
+							SXF:String(this.SXF),           //手续费
+							SXF_RATE:String(this.SXF_RATE), //手续费比列
 							TOPRIC_SUBFIRENT:this.TOPRIC_SUBFIRENT, //融资额
 							LEASE_BAIL:this.LEASE_BAIL, //保证金
 							BAIL_PERCENT:this.BAIL_PERCENT, //保证金比列
