@@ -154,10 +154,10 @@
                   this.pickerFlagStatus = !this.pickerFlagStatus
                   this.PLAN_MONTH = this.picking[0]
                     if(Number(this.playObj.PLAN_MONTH)===12 && this.PLAN_MONTH<12) {
-                      this.PLAN_YEAR = Number(this.playObj.PLAN_MONTH) + 1
+                      this.PLAN_YEAR = Number(this.PLAN_YEAR) + 1
                     }
                     if(Number(this.playObj.PLAN_MONTH)===12 && this.PLAN_MONTH==12) {
-                      this.PLAN_YEAR = Number(this.playObj.PLAN_MONTH)
+                      this.PLAN_YEAR = Number(this.PLAN_YEAR)
                     }
                     this.getData({
                       PLAN_MONTH:this.PLAN_MONTH,
