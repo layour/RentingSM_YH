@@ -557,12 +557,43 @@
                                     checked: false
                                 };
                             });
+
+                    
                             self.datas.kehuState = "none";
                             self.datas.createDate = "none";
                         }
                         res.data.datas.COO_WAYS.forEach(function (e) {
                             self.slots3[0].values.push(e.FLAG);
                         });
+                        ajaxRequest({
+                            type: 'post',
+                            url: 'crm/getCompanys',
+                            param: {
+                            QY: self.datas.area 
+                       }
+                      }, function (res) {
+                    self.slots6[0].values = [];
+                    
+                    if (res.data.flag == 1) {
+                        self.companyResultData = res.data.datas;
+                        console.log("bbbb",res.data.datas.COMPANYS)
+                        if (res.data.datas.COMPANYS) {
+                            res.data.datas.COMPANYS.forEach(function (e) {
+                            self.slots6[0].values.push(e.NAME);
+                        });
+                       console.log("aaaaa",self.datas.fengongsi)
+                        }
+                    } else {
+                        summer.toast({
+                            msg:  "获取分公司失败"
+                        });
+                    }
+                     }, function (err) {
+                          console.log("err", err);
+                           summer.toast({
+                        msg: '系统内部报错'
+                      });
+                     });
                     //SWL
                     //  res.data.datas.COMPANYS.forEach(function (e) {
                     //     self.slots6[0].values.push(e.SHORT_NAME);

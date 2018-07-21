@@ -239,11 +239,14 @@
 			setProgect.project_Id = __projectid;
 			setProgect.customId = customId;
 			setProgect.carName = summer.pageParam.carName;
-			if (sourceId == "programSelect") {
-				var CREDIT_ID = summer.pageParam.CREDIT_ID;
+			// if (sourceId == "programSelect") {
+			// 	var CREDIT_ID = summer.pageParam.CREDIT_ID;
+			// 	setProgect.CREDIT_ID = CREDIT_ID
+			// 	setProgect.getProjectId();
+			// }
+			var CREDIT_ID = summer.pageParam.CREDIT_ID;
 				setProgect.CREDIT_ID = CREDIT_ID
 				setProgect.getProjectId();
-			}
 			//setProgect.getData(__projectid);
 			$("." + sourceId).addClass('active').siblings('i').addClass("active");
 		}

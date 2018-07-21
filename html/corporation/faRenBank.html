@@ -181,12 +181,13 @@
                             msg: "开户行账号不能为空"
                         });
                         return false;
-                    } else if (!/^[0-9]{16,19}$/.test(this.message.custBankArray[0].BANK_ACCOUNT)) {
-                        summer.toast({
-                            msg: "开户行账号格式有误"
-                        });
-                        return false;
-                    }         
+                    } 
+                    // else if (!/^[0-9]{16,19}$/.test(this.message.custBankArray[0].BANK_ACCOUNT)) {
+                    //     summer.toast({
+                    //         msg: "开户行账号格式有误"
+                    //     });
+                    //     return false;
+                    // }         
                     return true;
                 },
                 addBnk:function(){

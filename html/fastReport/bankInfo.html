@@ -220,11 +220,6 @@
                             msg: "请输入银行账号"
                         });
                         return;
-                    } else if (!/^[0-9]{16,19}$/.test(this.BANK_ACCOUNT)) {
-                        summer.toast({
-                            msg: "银行账号格式有误"
-                        });
-                        return;
                     } else if (this.insurerType == "请选择") {
                         summer.toast({
                             msg: "请选择账号类型"
