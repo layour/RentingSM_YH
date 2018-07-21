@@ -263,7 +263,7 @@
             BUSI_PROPS: [],
             // 注册时间
             pickerzcDate: false,
-            pickerzcValue: new Date(),
+            pickerzcValue: '',
             // 客户属性
             pickerKHSXShow: false,
             pickerKHSX: "",
@@ -339,6 +339,11 @@
             // 注册时间
             surePickerZCSJ: function () {
                 this.pickerzcDate = !this.pickerzcDate;
+                if(this.datas.zcDate){
+this.pickerzcValue = new Date (this.datas.zcDate)
+
+}
+console.log("注册时间123",this.datas.zcDate)
                 this.$refs.picker1.open();
             },
             handleConfirm1: function (pickerValue) {
@@ -399,6 +404,12 @@
             },
             surePickerFGS: function (param) {
                 var self = this;
+                if(this.datas.area == ""){
+                    summer.toast({
+                        msg: '请选择分公司'
+                    });
+                    return false;
+                }
                 this.pickerFGSShow = !this.pickerFGSShow;
                 if (param == 'confirm') {
                     this.datas.fengongsi = this.pickerFGS;
@@ -433,7 +444,7 @@
                         }
                     } else {
                         summer.toast({
-                            msg:  "获取分公司失败"
+                            msg:  "获取分公司失败!"
                         });
                     }
                 }, function (err) {
@@ -565,6 +576,8 @@
                         res.data.datas.COO_WAYS.forEach(function (e) {
                             self.slots3[0].values.push(e.FLAG);
                         });
+
+                        if(self.datas.area){
                         ajaxRequest({
                             type: 'post',
                             url: 'crm/getCompanys',
@@ -593,7 +606,7 @@
                            summer.toast({
                         msg: '系统内部报错'
                       });
-                     });
+                     });}
                     //SWL
                     //  res.data.datas.COMPANYS.forEach(function (e) {
                     //     self.slots6[0].values.push(e.SHORT_NAME);
@@ -650,7 +663,7 @@
                                 return e.checked == true;
                             });
                         // 新增时间默认当天
-                        self.handleConfirm1(new Date());
+                       // self.handleConfirm1(new Date());
                     } else {
                         summer.toast({
                             msg: '获取基础信息失败'

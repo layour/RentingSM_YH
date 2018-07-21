@@ -204,18 +204,17 @@
                     <span class="um-bf1">出生日期</span>
                     <span class="um-bf1 tr">
                         <span v-if="message.CR_NATU_SEX" class="first">{{ message.CR_BIRTH_DATE }}</span>
-                        <span v-else class="second">请选择</span>
                         <i class="icon iconfont icon-enter"></i>
                     </span>
                 </p>
             </div>
-            <div @click="surePickerXL" class="item">
+            <div class="item">
                 <p class="pl10 pr10  um-box">
                     <span class="um-red mr5 fl">*</span>
                     <span class="um-bf1">最高学历</span>
                     <span class="um-bf1 tr">
                         <span v-if="message.CR_EDUCATION_NAME" class="first">{{message.CR_EDUCATION_NAME}}</span>
-                        <span v-else class="second">请选择</span>
+                      <span v-else class="second">请选择</span> 
                         <i class="icon iconfont icon-enter"></i>
                     </span>
                 </p>
@@ -410,7 +409,7 @@
                 cancel-text='取消' 
                 confirm-text='确定' 
                 :start-date='new Date("1950-01-01")'
-                :end-date="new Date('2100-01-01')" 
+                :end-date="new Date()" 
                 @confirm="handleConfirm"
             ></mt-datetime-picker>
             <!-- 学历 -->

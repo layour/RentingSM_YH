@@ -210,11 +210,25 @@
                     }
                     return true;
                 },
+
                 // 日期更改
                 surePickerBirthday: function (index, item) {
                     this.indexNum = index;
                     this.startOrEnd = item;
+                    //self = this;
+                    if(item == "PROJECT_DATE"){
+if(this.message.comChangeInfoArray[index].PROJECT_DATE){
+    if(this.message.comChangeInfoArray[index].PROJECT_DATE){
+this.pickerValue = new Date (this.message.comChangeInfoArray[index].PROJECT_DATE)
+}
+}
+} else if(this.message.comChangeInfoArray[index].PROJECT_ENDDATE) {
+if(this.message.comChangeInfoArray[index].PROJECT_ENDDATE){
+this.pickerValue = new Date (this.message.comChangeInfoArray[index].PROJECT_ENDDATE)
+}
+}
                     this.pickerBirthday = !this.pickerBirthday;
+
                     this.$refs.picker.open();
                 },
                 handleConfirm: function (pickerValue) {

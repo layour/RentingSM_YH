@@ -195,7 +195,8 @@
                         <i class="icon iconfont icon-enter"></i>
                     </span>
                 </li>
-                <li @click="openPicker('start')">
+
+                <li @click="openPicker('start','CR_CORP_SETUP_DATE')">
                     <b>成立日期</b>
                     <span>
                         <b v-if="CR_CORP_SETUP_DATE">{{CR_CORP_SETUP_DATE}}</b>
@@ -203,7 +204,7 @@
                         <i class="icon iconfont icon-enter"></i>
                     </span>
                 </li>
-                <li @click="openPicker('end')">
+                <li @click="openPicker('end','CR_CORP_PERIOD_VALIDITY')">
                     <b>有效期</b>
                     <span>
                         <b v-if="CR_CORP_PERIOD_VALIDITY">{{CR_CORP_PERIOD_VALIDITY}}</b>
@@ -400,7 +401,7 @@
                     <span class="fr" @click="pickerNSRFlag(true)">确定</span>
                 </p>
             </mt-popup>
-            <mt-datetime-picker ref="picker" type="date" v-model="pickerDateValue" cancel-text='取消' confirm-text='确定' :start-date="new Date('1950-01-01')"
+            <mt-datetime-picker ref="picker" type="date" v-model="pickerDateValue" cancel-text='取消' confirm-text='确定' :start-date="new Date('1950-01-01')"  :end-date="new Date('2100-01-01')"
                 @confirm="handleConfirm" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日">
             </mt-datetime-picker>
         </div>
@@ -597,8 +598,17 @@
                     this.AUDIT_MAIN_BODY = this.pickerSHValue.FLAG;
                     this.AUDIT_MAIN_BODY_CODE = this.pickerSHValue.CODE;
                 },
-                openPicker: function (val) {
+                openPicker: function (val,type) {
                     this.state = val
+                    if(type == "CR_CORP_SETUP_DATE"){
+    if(this.CR_CORP_SETUP_DATE){
+        this.pickerDateValue = new Date (this.CR_CORP_SETUP_DATE)
+    }
+                    } else if(type == "CR_CORP_PERIOD_VALIDITY") {
+     if(this.CR_CORP_PERIOD_VALIDITY){
+        this.pickerDateValue = new Date (this.CR_CORP_PERIOD_VALIDITY)
+    }
+                    } 
                     this.$refs.picker.open();
                 },
                 handleConfirm: function (value) {

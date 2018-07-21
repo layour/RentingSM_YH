@@ -299,6 +299,9 @@
                 // 日期更改
                 surePickerBirthday: function () {
                     this.pickerBirthday = !this.pickerBirthday;
+                    if(this.message.DATE_ESTABLISHMENT){
+this.pickerValue = new Date (this.message.DATE_ESTABLISHMENT)
+}
                     this.$refs.picker.open();
                 },
                 handleConfirm: function (pickerValue) {
