@@ -184,8 +184,7 @@
 							<span class="" @click="surePickerCompanytype('confirm')">确定</span>
 						</p>
 					</mt-popup>
-					<mt-datetime-picker ref="picker" v-model="pickerValue" type="date" cancel-text='取消' confirm-text='确定' :start-date='new Date("1950-01-01")'
-					:end-date="new Date()"  :end-date="noweDate" @confirm="handleConfirm1">
+					<mt-datetime-picker ref="picker" v-model="pickerValue" type="date" cancel-text='取消' confirm-text='确定' :start-date='new Date("1950-01-01")' :end-date="noweDate" @confirm="handleConfirm1">
 					</mt-datetime-picker>
 					<mt-datetime-picker ref="picker2" v-model="pickerValue2" type="date" cancel-text='取消' confirm-text='确定' :start-date='new Date()' :end-date="noweDate2" @confirm="handleConfirm2">
 					</mt-datetime-picker>
@@ -459,7 +458,7 @@
 				},
 				messageTest: function() {
 					var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
-					var regCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; //身份证校验
+					var regCard = /[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]/; //身份证校验
 					if (this.message.warNm == "") {
 						summer.toast({
 							msg: "企业名称不能为空"

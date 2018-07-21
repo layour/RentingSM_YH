@@ -199,7 +199,7 @@
                 // 保存
                 saveBank:function (){
                     var This = this;
-                    var regCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; //身份证校验
+                    var regCard = /[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]/;//身份证校验
                     if (this.name == "") {
                         summer.toast({
                             msg: "请输入姓名"
