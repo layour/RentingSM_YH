@@ -50,6 +50,10 @@
             text-align: right
         }
 
+         .play li.input span span {
+            color: rgb(247, 11, 11);
+        }
+
         .play li.spec {
             margin-bottom: .2rem
         }
@@ -77,6 +81,10 @@
             border: none;
             width: 1.2rem;
             text-align: center
+        }
+
+        .play  li span span {
+            color: rgb(247, 11, 11);
         }
 
         .text {
@@ -140,6 +148,9 @@
 		    padding: 0.2rem;
 		    height: 2.4rem;
 		}
+
+       
+
         #question {
             word-break: break-all;
             display: block;
@@ -171,13 +182,14 @@
         <div class="um-content payTableDetail">
             <ul class="play">
                 <li class="input">
-                    <b>企业名称</b>
+                    <span><span class="um-red mr5 fl">*</span></span>
+                    <b><font color="red">*</font> 企业名称</b>
                     <span>
                         <input placeholder="企业名称" type="text" name="daima" v-model="CR_BECR_NAME">
                     </span>
                 </li>
                 <li class="input">
-                    <b>统一社会信用代码</b>
+                    <b><font color="red">*</font> 统一社会信用代码</b>
                     <span>
                         <input placeholder="组织机构代码" type="text" name="daima" v-model="CR_CORP_ORAGNIZATION_CODE">
                     </span>
@@ -189,7 +201,7 @@
                     </span>
                 </li> -->
                 <li @click="pickerFlagStatus=true">
-                    <b>企业性质</b>
+                    <b><font color="red">*</font> 企业性质</b>
                     <span>
                         <b v-if="CR_CORP_ENTERPRISES_PROPERTY">{{CR_CORP_ENTERPRISES_PROPERTY}}</b>
                         <b v-else class="default">请选择</b>
@@ -198,7 +210,7 @@
                 </li>
 
                 <li @click="openPicker('start','CR_CORP_SETUP_DATE')">
-                    <b>成立日期</b>
+                    <b><font color="red">*</font> 成立日期</b>
                     <span>
                         <b v-if="CR_CORP_SETUP_DATE">{{CR_CORP_SETUP_DATE}}</b>
                         <b v-else class="default">请选择</b>
@@ -206,7 +218,7 @@
                     </span>
                 </li>
                 <li @click="openPicker('end','CR_CORP_PERIOD_VALIDITY')">
-                    <b>有效期</b>
+                    <b><font color="red">*</font> 有效期</b>
                     <span>
                         <b v-if="CR_CORP_PERIOD_VALIDITY">{{CR_CORP_PERIOD_VALIDITY}}</b>
                         <b v-else class="default">请选择</b>
@@ -214,13 +226,13 @@
                     </span>
                 </li>
                 <li class="input">
-                    <b>注册资本（万元）</b>
+                    <b><font color="red">*</font> 注册资本（万元）</b>
                     <span>
                         <input placeholder="注册资本" type="number" name="daima" v-model="CR_CORP_REGISTE_CAPITAL">
                     </span>
                 </li>
                 <li @click="pickerBZStatus=true">
-                    <b>注册资本币种</b>
+                    <b><font color="red">*</font> 注册资本币种</b>
                     <span>
                         <b v-if="MONEY_TYPE">{{MONEY_TYPE}}</b>
                         <b v-else class="default">请选择</b>
@@ -228,13 +240,13 @@
                     </span>
                 </li>
                 <li class="input">
-                    <b>实收资本</b>
+                    <b><font color="red">*</font> 实收资本（万元）</b>
                     <span>
                         <input placeholder="实收资本" type="number" name="daima" v-model="CR_CORP_PAICLUP_CAPITAL">
                     </span>
                 </li>
                 <li @click="pickerYSBZStatus=true">
-                    <b>实收资金币种（万元）</b>
+                    <b><font color="red">*</font> 实收资金币种</b>
                     <span>
                         <b v-if="TRUE_MONEY_TYPE">{{TRUE_MONEY_TYPE}}</b>
                         <b v-else class="default">请选择</b>
@@ -242,7 +254,7 @@
                     </span>
                 </li>
                 <li @click="pickerHYStatus=true">
-                    <b>所属行业</b>
+                    <b><font color="red">*</font> 所属行业</b>
                     <span>
                         <b v-if="CR_TRADE_TYPE">{{CR_TRADE_TYPE}}</b>
                         <b v-else class="default">请选择</b>
@@ -256,7 +268,7 @@
                     </span>
                 </li>
                 <li @click="pickerNSRStatus=true">
-                    <b>一般纳税人</b>
+                    <b><font color="red">*</font> 一般纳税人</b>
                     <span>
                         <b v-if="GENERAL_TAXPAYER">{{GENERAL_TAXPAYER}}</b>
                         <b v-else class="default">请选择</b>
@@ -264,37 +276,37 @@
                     </span>
                 </li>
                 <li class="input">
-                    <b>电子邮箱</b>
+                    <b><font color="red">*</font> 电子邮箱</b>
                     <span>
                         <input placeholder="电子邮箱" type="text" name="email" v-model="CR_BECR_MAIL">
                     </span>
                 </li>
                 <li class="input">
-                    <b>经营范围</b>
+                    <b><font color="red">*</font>经营范围</b>
                     <span>
                         <input placeholder="经营范围" type="text" name="fanwei" v-model="CR_CORP_BUSINESS_RANGE">
                     </span>
                 </li>
                 <li class="input">
-                    <b>公司办公地址</b>
+                    <b><font color="red">*</font> 公司办公地址</b>
                     <span>
                         <input placeholder="公司办公地址" type="text" name="bangong" v-model="CR_CORP_WORK_ADDRESS">
                     </span>
                 </li>
                 <li class="input">
-                    <b>注册地址</b>
+                    <b><font color="red">*</font> 注册地址</b>
                     <span>
                         <input placeholder="注册地址" type="text" name="zhuce" v-model="CR_CORP_REGISTE_ADDRESS">
                     </span>
                 </li>
                 <li class="input">
-                    <b>通讯地址</b>
+                    <b><font color="red">*</font> 通讯地址</b>
                     <span>
                         <input placeholder="通讯地址" type="text" name="tongxun" v-model="CR_NATU_MAILING_ADDRESS">
                     </span>
                 </li>
                 <li @click="pickerKHStatus=true">
-                    <b>客户分类</b>
+                    <b><font color="red">*</font> 客户分类</b>
                     <span>
                         <b v-if="CR_CUST_LEVEL">{{CR_CUST_LEVEL}}</b>
                         <b v-else class="default">请选择</b>
@@ -322,7 +334,7 @@
                     </span>
                 </li>
                 <li class="input">
-                    <b>联系电话</b>
+                    <b><font color="red">*</font> 联系电话</b>
                     <span>
                         <input placeholder="联系电话" type="number" v-model="CR_CORP_COMPANY_LINKPHONE">
                     </span>
@@ -604,10 +616,14 @@
                     if(type == "CR_CORP_SETUP_DATE"){
     if(this.CR_CORP_SETUP_DATE){
         this.pickerDateValue = new Date (this.CR_CORP_SETUP_DATE)
+    }else if(this.CR_CORP_SETUP_DATE == ""){
+        this.pickerDateValue = new Date ()
     }
                     } else if(type == "CR_CORP_PERIOD_VALIDITY") {
      if(this.CR_CORP_PERIOD_VALIDITY){
         this.pickerDateValue = new Date (this.CR_CORP_PERIOD_VALIDITY)
+    }else if(this.CR_CORP_PERIOD_VALIDITY == ""){
+        this.pickerDateValue = new Date ()
     }
                     } 
                     this.$refs.picker.open();
@@ -784,17 +800,15 @@
                             msg: '请选择所属行业'
                         });
                         return;
-                    } else if (this.CR_CORP_COMPANY_ZIP == "") {
+                    }else if (this.CR_CORP_COMPANY_ZIP != "") {
+                       if(!(/^[0-9]{6}$/.test(this.CR_CORP_COMPANY_ZIP))){
                         summer.toast({
-                            msg: '请输入公司邮编'
+                            msg: '请公司邮编有误'
                         });
-                        return;
-                    }else if (!(/^[0-9]{6}$/.test(this.CR_CORP_COMPANY_ZIP))) {
-                        summer.toast({
-                            msg: '公司邮编有误,请重新输入'
-                        });
-                        return;
-                    } else if (this.GENERAL_TAXPAYER == "") {
+                        return;  
+                       }
+                    }
+                    else if (this.GENERAL_TAXPAYER == "") {
                         summer.toast({
                             msg: '请选择是否为一般纳税人'
                         });
@@ -849,22 +863,12 @@
                             msg: '请输入公司网址'
                         });
                         return;
-                    } else if (this.CR_CORP_REGISTE_PHONE == "") {
-                        summer.toast({
-                            msg: '请输入注册电话'
-                        });
-                        return;
-                    } else if (this.CR_CORP_COMPANY_LINKPHONE == "") {
+                    }  else if (this.CR_CORP_COMPANY_LINKPHONE == "") {
                         summer.toast({
                             msg: '请输入联系电话'
                         });
                         return;
-                    } else if (this.AUDIT_MAIN_BODY == "") {
-                        summer.toast({
-                            msg: '请选择审核主体'
-                        });
-                        return;
-                    }
+                    } 
                     summer.showProgress();
                     ajaxRequest({
                         type: "POST",
@@ -958,15 +962,18 @@
                                 summer.closeWin();
                             }
                         } else if (res.data.flag == 0) {
-                            if (res.data.code == "E02003") {
-                                summer.toast({
-                                    msg: "客户证件号重复,请重新录入"
+                            summer.toast({
+                                    msg: res.data.msg
                                 });
-                            } else {
-                                summer.toast({
-                                    msg: "保存失败"
-                                });
-                            }
+                            // if (res.data.code == "E02003") {
+                            //     summer.toast({
+                            //         msg: "客户证件号重复,请重新录入"
+                            //     });
+                            // } else {
+                            //     summer.toast({
+                            //         msg: res.data.msg
+                            //     });
+                            // }
                         }
                     }, function (err) {
                         summer.hideProgress();

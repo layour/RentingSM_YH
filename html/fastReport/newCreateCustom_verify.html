@@ -323,12 +323,14 @@
                             code: self.message.certNo
                         }
                     }, function (res) {
+                        //上线时候去掉注释
                         /* if (res.data.flag == 0) {
                             summer.toast({
                                 msg: res.data.msg
                             });
                         } */
-                        if (res.data.flag == 1 || res.data.flag == 0) {
+                         //上线时候去掉 条件flag为0
+                        if (res.data.flag == 1 || res.data.flag == 0 ) {
                             var totalMessage = self.message;
                             totalMessage.sex = self.SEXCOM;
                             totalMessage.birth = self.BIRTHCOM;

@@ -1133,6 +1133,9 @@
                 // 日期更改
                 surePickerBirthday: function () {
 					this.pickerBirthday = !this.pickerBirthday;
+                    if(this.message.CR_BIRTH_DATE){
+                           this.pickerValue = new Date (this.message.CR_BIRTH_DATE)
+                    }
 					this.$refs.picker.open();
 				},
                 handleConfirm: function (pickerValue) {
@@ -1527,8 +1530,15 @@
                                             method: "nextStopInput()" //在打开的window中自定义事件
                                         }]
                                     }
-                                });
-                            } else {
+                                });index
+                            }else if (self.sourceFrom == "index") {
+                                summer.closeToWin({
+    				    id: 'newCustom'
+    				                });
+
+                            }
+                            
+                             else {
                                 // 查看客户，从立项进，回到立项
                                 if (self.sourceFrom == "setProject") {
                                     summer.execScript({
