@@ -275,6 +275,7 @@ ajaxRequest({
 		}, function (ret, err) {
 			//通常在这里从服务器加载数据，
 			var num = toBeSubmitted.num+1;
+			toBeSubmitted.num=toBeSubmitted.num+1;
 			if (num > toBeSubmitted.totalPage) {
 				summer.toast({
 					msg: "没有更多了"

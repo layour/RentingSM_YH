@@ -168,6 +168,7 @@
 			}, function (ret, err) {
 				//通常在这里从服务器加载数据，
 				var num = loaned.num+1;
+				loaned.num=	loaned.num+1;
 				if (num > loaned.totalPage) {
 					summer.toast({
 						msg: "没有更多了"

@@ -275,6 +275,7 @@
 		}, function (ret, err) {
 			//通常在这里从服务器加载数据，
 			var num = all.num+1;
+			all.num = all.num+1;
 			if (num > all.totalPage) {
 				summer.toast({
 					msg: "没有更多了"

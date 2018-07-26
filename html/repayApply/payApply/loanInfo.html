@@ -53,7 +53,7 @@
                 <li>
                     <span>实际成交价</span>
                     <strong>元</strong>
-                    <div>{{ contractInfo.LEASE_TOPRIC }}</div>
+                    <div>{{ contractInfo.EQU_MONEY_ALL }}</div>
                 </li>
                 <li>
                     <span>贴息</span>
@@ -107,7 +107,12 @@
                 // 是否代收
                 isCOLLECTION: true,
                 // 合同补充约定
-                remarks: ""
+                remarks: "",
+                //不含车税
+                NOTINCLUDING:"",
+                //含车税
+                PAY_AMOUNT_SQ:""
+                
             },
             computed: {
                 // 单选样式
@@ -138,13 +143,16 @@
                             Data = res.data;
                         }
                         if (Data.flag == 1) {
+                            console.log("答应",loanInfo)
                             loanInfo.realPaymentInfo = Data.datas.realPaymentInfo ? Data.datas.realPaymentInfo : {};
                             loanInfo.paymentHistory = Data.datas.paymentHistory ? Data.datas.paymentHistory : {};
                             loanInfo.riqi = Data.datas.riqi ? Data.datas.riqi : {};
                             loanInfo.noticeOfPayment = Data.datas.noticeOfPayment ? Data.datas.noticeOfPayment : [];
+                            console.log("不含车稅价",loanInfo.noticeOfPayment )
                             loanInfo.paymentOfthis = Data.datas.paymentOfthis ? Data.datas.paymentOfthis : {};
                             loanInfo.fileList = Data.datas.fileList ? Data.datas.fileList : {};
                             loanInfo.contractInfo = Data.datas.contractInfo ? Data.datas.contractInfo : {};
+                            console.log("答应",loanInfo.contractInfo)
                             loanInfo.PAY_MODE = Data.datas.PAY_MODE ? Data.datas.PAY_MODE : [];
                             if (loanInfo.PAY_MODE.length) {
                                 loanInfo.PAY_MODE.forEach(function (e) {
