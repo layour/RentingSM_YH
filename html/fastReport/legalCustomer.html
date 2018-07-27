@@ -755,6 +755,12 @@
                 },
                 save: function () {
                     var _this = this;
+                    var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+                    var reg22=/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+                    var reg33= /^((https|http|ftp|rtsp|mms){0,1}(:\/\/){0,1})www\.(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+                    var reg44= /^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/;
+
+
                     if (this.CR_BECR_NAME == "") {
                         summer.toast({
                             msg: '请输入客户名称'
@@ -765,16 +771,18 @@
                             msg: '请输入组织机构代码'
                         });
                         return;
-                    } /* else if (this.EMPLOYEE_NAME == "") {
-                        summer.toast({
-                            msg: '请输入企业名称'
-                        });
-                        return;
-                    } */ else if (this.CR_CORP_ENTERPRISES_PROPERTY == "") {
+                    } else if (this.CR_CORP_ENTERPRISES_PROPERTY == "") {
                         summer.toast({
                             msg: '请选择企业性质'
                         });
                         return;
+                    } else if (this.CR_CORP_COMPANY_WEBSITE != "" && !reg44.test(this.CR_CORP_COMPANY_WEBSITE)) {
+                
+                        summer.toast({
+                            msg: "请输入公司网址,网址格式www.baidu.com"
+                        });
+                        return;  
+                       
                     } else if (this.CR_CORP_SETUP_DATE == "") {
                         summer.toast({
                             msg: '请选择成立日期'
@@ -800,13 +808,13 @@
                             msg: '请选择所属行业'
                         });
                         return;
-                    }else if (this.CR_CORP_COMPANY_ZIP != "") {
-                       if(!(/^[0-9]{6}$/.test(this.CR_CORP_COMPANY_ZIP))){
+                    }else if (this.CR_CORP_COMPANY_ZIP != "" && !(/^[0-9]{6}$/.test(this.CR_CORP_COMPANY_ZIP))) {
+
                         summer.toast({
                             msg: '请公司邮编有误'
                         });
                         return;  
-                       }
+                       
                     }
                     else if (this.GENERAL_TAXPAYER == "") {
                         summer.toast({
@@ -857,18 +865,18 @@
                         summer.toast({
                             msg: '请选择客户分类'
                         });
-                        return;
-                    } else if (this.CR_CORP_COMPANY_WEBSITE == "") {
-                        summer.toast({
-                            msg: '请输入公司网址'
-                        });
-                        return;
-                    }  else if (this.CR_CORP_COMPANY_LINKPHONE == "") {
+                        return; var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+                    }   else if (this.CR_CORP_COMPANY_LINKPHONE == "") {
                         summer.toast({
                             msg: '请输入联系电话'
                         });
                         return;
-                    } 
+                    }   else if (!phoneCard.test(this.CR_CORP_COMPANY_LINKPHONE)) {
+                        summer.toast({
+                            msg: '联系电话格式不正确'
+                        });
+                        return;
+                    }  
                     summer.showProgress();
                     ajaxRequest({
                         type: "POST",

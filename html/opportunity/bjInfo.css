@@ -208,3 +208,10 @@ input::-webkit-input-placeholder {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.sp111 {
+    width:2.2rem;
+}
+.sp222 {
+    width:2.5rem;
+}

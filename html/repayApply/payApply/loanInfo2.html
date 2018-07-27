@@ -783,6 +783,13 @@
             loanInfo2.remarks = summer.pageParam.remarks;
             // 获取付款单位信息
             loanInfo2.getFKcompanyList('', 'fk');
+   
+            if (summer.pageParam.VEHICLETAXNEW) {
+                loanInfo2.noticeOfPayment.VEHICLETAX = summer.pageParam.VEHICLETAXNEW;
+            } 
+            if (summer.pageParam.NOTINCLUDINGNEW) {
+                loanInfo2.noticeOfPayment.NOTINCLUDING = summer.pageParam.NOTINCLUDINGNEW;
+            } 
         };
     </script>
 </body>

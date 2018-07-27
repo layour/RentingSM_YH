@@ -7,6 +7,8 @@
  */
 // 易汇测试地址
 window.G_COMMON_URL = "http://106.15.55.173:8090/appservice-yh/";
+// 易汇测试地址(易汇服务器)
+//window.G_COMMON_URL = "http://192.168.5.187:9096/appservice-yh/";
 
 function userId() {
 	var userinfo = summer.getStorage("userinfo");

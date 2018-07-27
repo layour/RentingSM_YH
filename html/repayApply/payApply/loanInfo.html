@@ -111,7 +111,7 @@
                 //不含车税
                 NOTINCLUDING:"",
                 //含车税
-                PAY_AMOUNT_SQ:""
+                VEHICLETAXNEW:""
                 
             },
             computed: {
@@ -149,6 +149,11 @@
                             loanInfo.riqi = Data.datas.riqi ? Data.datas.riqi : {};
                             loanInfo.noticeOfPayment = Data.datas.noticeOfPayment ? Data.datas.noticeOfPayment : [];
                             console.log("不含车稅价",loanInfo.noticeOfPayment )
+                            loanInfo.VEHICLETAXNEW = Data.datas.VEHICLETAXNEW;
+                            loanInfo.NOTINCLUDINGNEW = Data.datas.NOTINCLUDINGNEW;
+                            console.log("不含车稅价1",loanInfo.VEHICLETAXNEW )
+                            console.log("不含车稅价2",loanInfo.NOTINCLUDINGNEW )
+
                             loanInfo.paymentOfthis = Data.datas.paymentOfthis ? Data.datas.paymentOfthis : {};
                             loanInfo.fileList = Data.datas.fileList ? Data.datas.fileList : {};
                             loanInfo.contractInfo = Data.datas.contractInfo ? Data.datas.contractInfo : {};
@@ -254,7 +259,9 @@
                             // 是否代收
                             isCOLLECTION: this.isCOLLECTION,
                             // 合同补充约定
-                            remarks: this.remarks
+                            remarks: this.remarks,
+                            VEHICLETAXNEW:this.VEHICLETAXNEW,
+                            NOTINCLUDINGNEW:this.NOTINCLUDINGNEW
                         }
                     });
                 }

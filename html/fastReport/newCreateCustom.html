@@ -135,25 +135,25 @@
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
                 <span class="um-bf1 mr5">姓名</span>
-                <input v-if="CSTATUS==0" placeholder="请输入姓名" v-model="message.CR_BECR_NAME" type="text">
-                <span v-else class="um-bf3 tr">{{message.CR_BECR_NAME}}</span>
+                <!--input v-if="CSTATUS==0" placeholder="请输入姓名" v-model="message.CR_BECR_NAME" type="text"-->
+                <span class="um-bf3 tr">{{message.CR_BECR_NAME}}</span>
             </div>
-            <div @click="surePickerZJType" class="item">
+            <div  class="item">
                 <p class="pl10 pr10  um-box">
                     <span class="um-red mr5 fl">*</span>
                     <span class="um-bf1">证件类型</span>
                     <span class="um-bf1 tr">
                         <span v-if="message.CR_ID_CARD_TYPE_NAME" class="first">{{ message.CR_ID_CARD_TYPE_NAME }}</span>
                         <span v-else class="second">请选择</span>
-                        <i class="icon iconfont icon-enter"></i>
+                        <!--i class="icon iconfont icon-enter"></i-->
                     </span>
                 </p>
             </div>
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
                 <span class="um-bf1">证件号码</span>
-                <input v-if="CSTATUS==0" placeholder="请输入证件号码" v-model="message.CR_NATU_IDCARD" type="text">
-                <span v-else class="um-bf3 tr">{{message.CR_NATU_IDCARD}}</span>
+                <!--input v-if="CSTATUS==0" placeholder="请输入证件号码" v-model="message.CR_NATU_IDCARD" type="text"-->
+                <span class="um-bf3 tr">{{message.CR_NATU_IDCARD}}</span>
             </div>
             <div @click="surePickerKehuType" class="item">
                 <p class="pl10 pr10  um-box">
@@ -169,13 +169,13 @@
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
                 <span class="um-bf1">手机号码</span>
-                <input v-if="CSTATUS==0" placeholder="请输入手机号码" v-model="message.CR_NATU_MOBILE" type="number">
-                <span v-else class="um-bf3 tr">{{message.CR_NATU_MOBILE}}</span>
+                <input  placeholder="请输入手机号码" v-model="message.CR_NATU_MOBILE" type="number">
             </div>
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
                 <span class="um-bf1">客户类型</span>
-                <input placeholder="请输入客户类型" v-model="CR_BECR_TYPE" type="text">
+                <!--input placeholder="请输入客户类型" v-model="CR_BECR_TYPE" type="text"-->
+                <span class="um-bf3 tr">{{CR_BECR_TYPE}}</span>
             </div>
             <div class="item um-box pl10 pr10">
                 <span class="um-red mr5">*</span>
@@ -1161,6 +1161,7 @@
                 messageTest: function () {
                     var regCard = /[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]/; //身份证校验
                     var phoneCard = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+                    var reg=/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
                     if (!this.message.CR_ID_CARD_TYPE_NAME) {
                         summer.toast({
                             msg: "请选择证件类型"
