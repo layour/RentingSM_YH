@@ -73,7 +73,7 @@
                             msg: "请输入利润"
                         });
                         return;
-                    } else if (this.info.FIN_PROFIT > this.info.FIN_INCOME) {
+                    } else if (parseInt(this.info.FIN_PROFIT) > parseInt(this.info.FIN_INCOME)) {
                         summer.toast({
                             msg: "利润不得大于主营收入"
                         });
