@@ -298,7 +298,7 @@
 					var that = this
 					this.popupVisible = false;
 					summer.openCamera({
-						compressionRatio: 0.5,
+						compressionRatio: 0.1,
 						callback: function (args) {
 							console.log(JSON.stringify(args));
 							// if (that.imgList.length > 8) {
@@ -326,7 +326,7 @@
 					this.popupVisible = false
 					var that = this
 					summer.openPhotoAlbum({
-						compressionRatio: 0.5,
+						compressionRatio: 0.1,
 						type: "multiple",
 						callback: function (args) {
 							// console.log(JSON.stringify(args));
