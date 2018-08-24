@@ -30,9 +30,9 @@
 					<tr @click="pickerModels">
             <td>品牌</td>
             <td>
-							<span v-if='carModels'>{{carModels}}</span><span class="grayColor"  v-else>请选择</span>
-							<i class="icon iconfont icon-enter"></i>
-						</td>
+					<span v-if='carModels'>{{carModels}}</span><span class="grayColor"  v-else>请选择</span>
+					<i class="icon iconfont icon-enter"></i>
+			</td>
           </tr>
 					<tr>
             <td>指导价</td>
@@ -236,6 +236,11 @@
 								summer.toast({msg:'请填写车辆的所有信息'})
 								return
 							}
+							var numberVertity = /^[0-9]*[1-9][0-9]*$/;
+							if(!numberVertity.test(this.number)) {
+								summer.toast({msg:'请填写车辆的数量为整数'})
+								return
+							}
 							// summer.setStorage('carType',this.color)
 							var param={};
 							// summer.showProgress();
@@ -297,6 +302,10 @@
 						addCar.dealer=JSON.parse(dealer).SUPPLIERS_NAME;
 					}
 				}
+				function cleanDealer(){
+					addCar.carModels = '';
+				}
+
 				function getCompany(){
 					var company=summer.getStorage('pickerCompany');
 					console.log(company);

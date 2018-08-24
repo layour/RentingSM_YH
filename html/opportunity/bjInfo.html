@@ -695,23 +695,20 @@ console.log("注册时间123",this.datas.zcDate)
                         msg: "手机号格式有误"
                     });
                     return false;
-                } else if (this.datas.khlx == "自然人" && this.datas.sfzNo != "") {
-                    if (!regCard.test(this.datas.sfzNo)){
+                } else if (this.datas.khlx == "自然人" && this.datas.sfzNo != "" && !regCard.test(this.datas.sfzNo)) {
+                  
 summer.toast({
 msg: "身份证格式有误，请重新填写！"
 });
-return false;} 
-                } else if (this.datas.khlx == "法人" && this.datas.sfzNo != "") {
-                    if (this.changeTypezhudai(this.datas.sfzNo)){
-   return true;
-} else {
+return false;
+                } else if (this.datas.khlx == "法人" && this.datas.sfzNo != "" && !this.changeTypezhudai(this.datas.sfzNo)) {
+     
     summer.toast({
 msg: "社会统一信用代码有误，请重新填写！"
 });
 return false;
-}  
-                }
-                else {
+
+                } else {
                     return true;
                 }
             },

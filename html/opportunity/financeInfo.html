@@ -78,7 +78,14 @@
                             msg: "利润不得大于主营收入"
                         });
                         return;
+                    } else if (parseInt(this.info.FIN_YEAR) < 1950 || parseInt(this.info.FIN_YEAR) > 2099) {
+                        summer.toast({
+                            msg: "请输入正确的年份"
+                        });
+                        return;
                     }
+                    console.log("parseInt(this.info.FIN_YEAR)",parseInt(this.info.FIN_YEAR))
+                    console.log("this.info.FIN_YEAR",this.info.FIN_YEAR)
                     // 保存
                     summer.showProgress();
 					ajaxRequest({

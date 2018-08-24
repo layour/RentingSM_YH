@@ -129,7 +129,13 @@
                             msg: "请输入IRR范围"
                         });
                         return;
+                    } else if (this.crmDemandDetails.IRR_LOW>100 || this.crmDemandDetails.IRR_LOW<0 || this.crmDemandDetails.IRR_UP >100 || this.crmDemandDetails.IRR_UP<0){
+                        summer.toast({
+                            msg: "请输入正确的IRR范围"
+                        });
+                        return;
                     }
+
                     // 保存
                     summer.showProgress();
 					ajaxRequest({

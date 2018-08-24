@@ -297,8 +297,19 @@
 					// 打开相机
 					var that = this
 					this.popupVisible = false;
+					var chiChun = 0;
+					var platform = $summer.os;
+						if(platform == "android"){
+							// 执行android特殊代码
+							chiChun = 0.4;
+						} else if(platform == "ios"){
+							// 执行ios特殊代码
+							chiChun = 0.1;
+						} else if(platform == "pc"){
+							// 执行pc特殊代码
+						}
 					summer.openCamera({
-						compressionRatio: 0.1,
+						compressionRatio: chiChun,
 						callback: function (args) {
 							console.log(JSON.stringify(args));
 							// if (that.imgList.length > 8) {
