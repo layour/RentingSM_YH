@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title>添加车辆</title>
+		<link rel="stylesheet" href="../../css/iuapmobile.um.css">
+		<link rel="stylesheet" href="../../css/fonts/iconfont.css">
+		<link rel="stylesheet" href="../../css/mint.css">
+		<link rel="stylesheet" href="./car.min.css">
+		<script src="../../js/summer.js" ></script>
+		<script src="../../js/jquery.min.js" ></script>
+		<script src="../../js/font.js" ></script>
+		<script src="../../js/vue.js" ></script>
+		<script src="../../js/mint.js" ></script>
+		<script src="../../js/common.js" ></script>
+		<script src="../../js/Frameworks/iuapmobile.frameworks.ui.js" ></script>
+	</head>
+	<body>
+		<div class="um-win" id="addCar" v-cloak>
+			<div class="um-content addCar">
+        <table>
+          <tr @click="pickerDealer">
+            <td>经销商</td>
+            <td>
+							<span v-if='dealer'>{{dealer}}</span><span class="grayColor" v-else>请选择</span>
+							<i class="icon iconfont icon-enter"></i>
+						</td>
+          </tr>
+					<tr @click="pickerModels">
+            <td>品牌</td>
+            <td>
+					<span v-if='carModels'>{{carModels}}</span><span class="grayColor"  v-else>请选择</span>
+					<i class="icon iconfont icon-enter"></i>
+			</td>
+          </tr>
+					<tr>
+            <td>指导价</td>
+            <td class='last'>
+							{{guidePrice}}元
+						</td>
+					</tr>
+					<tr>
+            <td>零售价</td>
+            <td class='last'>
+							<input type="text" @input="checkNumber($event,'realityPrice')" name="price" placeholder="请输入零售价" v-model="realityPrice">元
+						</td>
+					</tr>
+					<tr>
+            <td>留购价</td>
+            <td class='last'>
+							<input type="text" @input="checkNumber($event,'holdPrice')" name="holdPrice" placeholder="请输入留购价" v-model="holdPrice">元
+						</td>
+					</tr>
+					<tr>
+						<td>数量</td>
+						<td class='last'>
+							<span>
+								<input type="number"  name="number" placeholder="请输入数量" v-model="number">
+							台</span>
+						</td>
+					</tr>
+					<tr>
+            <td>车船税</td>
+            <td class='last'>
+							<input type="text" @input="checkNumber($event,'onePrice')" name="onePrice" placeholder="请输入车船税" v-model="onePrice">元
+						</td>
+					</tr>
+					<tr>
+            <td>保险</td>
+            <td class='last'>
+							<input type="text" @input="checkNumber($event,'safePrice')" name="safePrice" placeholder="请输入保险" v-model="safePrice">元
+						</td>
+					</tr>
+        </table>
+				<mt-popup v-model="pickerColorStatus" position='bottom' class="pickerColor">
+					<mt-picker value-key="FLAG" :slots="slots" @change="onValuesChange"></mt-picker>
+					<p><span class="" @click="surePickerColor">取消</span><span class="" @click="surePickerColor('confirm')">确定</span></p>
+				</mt-popup>
+			</div>
+		</div>
+		<script>
+				summerready=function(){
+					addCar.PROJECT_ID=summer.pageParam.id
+					//addCar.newID=summer.pageParam
+					addCar.item=summer.pageParam.item
+					console.log("addCar.item",addCar.item)
+					console.log("addCar.PROJECT_ID6666",addCar.PROJECT_ID)
+					//console.log("newID",JSON.stringify(addCar.newID));
+					if(summer.pageParam.resource == "newProject") {
+						addCar.is_new = true;
+					} else {
+						addCar.is_new = false;
+						addCar.getData()
+					}
+				}
+				function getData1(item) {
+					addCar.dealer=item.SUPPLIERS_NAME;
+					addCar.safePrice=item.E_BX_M;
+					addCar.realityPrice=item.UNIT_PRICE;
+					addCar.holdPrice=item.STAYBUY_PRICE;
+					addCar.guidePrice=item.UNIT_PRICE_ZD;
+					addCar.onePrice=item.E_CCS_M;
+					addCar.number=item.AMOUNT;
+
+					addCar.carModels=item.COMPANY_NAME+" "+item.THING_NAME+" "+item.MODEL_SPEC;
+
+					summer.setStorage('pickerDealer',JSON.stringify({SUPPLIERS_NAME:item.SUPPLIERS_NAME,SUPPLIERS_ID:item.SUPPLIERS_ID}))
+					//品牌
+					summer.setStorage('pickerModels1',JSON.stringify({COMPANY_NAME:item.COMPANY_NAME,COMPANY_ID:item.COMPANY_ID}))
+					//车系
+					summer.setStorage('pickerModels2',item.THING_NAME)
+					//车型
+					summer.setStorage('pickerModels3',JSON.stringify({MODEL_SPEC:item.MODEL_SPEC,PRODUCT_TYPEID:item.PRODUCT_TYPEID}))
+				}
+				$(function(){$('body').height($('body')[0].clientHeight);});
+				var addCar=new Vue({
+					el:'#addCar',
+					data:function(){
+						return{
+							is_new:true,
+							dealer:'',
+							company:'',
+							carStatus:'new',
+							carModels:'',
+							color:'',
+							guidePrice:'',
+							realityPrice:'',
+							holdPrice:'',
+							safePrice:0,
+							onePrice:0,
+							number:'',
+							pickerColorStatus:false,
+							pickedColor:'',
+							id:'',
+							item:'',
+							PROJECT_ID:'',
+							CLIENT_ID:'',
+							newID:{},
+							slots: [
+								{
+									flex: 1,
+									values: [],
+									defaultIndex:0,
+									className: 'slot1',
+									textAlign: 'center'
+								}
+							]
+						}
+					},
+					methods:{
+						getData:function(data){
+								var _this=this;
+								//console.log("SCHEME_ID",SCHEME_ID)
+								//console.log("PROJECT_ID",PROJECT_ID)
+								// if(_this.item = "") {
+								// 	return
+								// }
+								summer.showProgress()
+								ajaxRequest({
+									type:'POST',
+									url:'offer/toProjectScheme',
+									param:{
+										SCHEME_ID:_this.item.SCHEME_ID,
+										PROJECT_ID:_this.PROJECT_ID
+									}
+								},function(res){
+									console.log("res",_this.PROJECT_ID,JSON.stringify(res))
+									console.log("resdata",res.data.datas)
+									console.log("res",_this.PROJECT_ID,JSON.stringify(res))
+									var data={}
+									if(res.data.datas.equ){
+										data=res.data.datas.equ
+										console.log("data.E_BX_M",data.E_BX_M)
+										_this.dealer=data.SUPPLIERS_NAME;
+										_this.safePrice=data.E_BX_M;
+										_this.realityPrice=data.UNIT_PRICE;
+										_this.holdPrice=data.STAYBUY_PRICE;
+										_this.guidePrice=data.UNIT_PRICE_ZD;
+										_this.onePrice=data.E_CCS_M;
+										_this.number=data.AMOUNT;
+
+										_this.carModels=data.COMPANY_NAME+" "+data.THING_NAME+" "+data.MODEL_SPEC;
+
+										summer.setStorage('pickerDealer',JSON.stringify({SUPPLIERS_NAME:data.SUPPLIERS_NAME,SUPPLIERS_ID:data.SUPPLIERS_ID}))
+										//品牌
+										summer.setStorage('pickerModels1',JSON.stringify({COMPANY_NAME:data.COMPANY_NAME,COMPANY_ID:data.COMPANY_ID}))
+										//车系
+										summer.setStorage('pickerModels2',data.THING_NAME)
+										//车型
+										summer.setStorage('pickerModels3',JSON.stringify({MODEL_SPEC:data.MODEL_SPEC,PRODUCT_TYPEID:data.PRODUCT_TYPEID}))
+									}
+									summer.hideProgress()
+								},function(err){
+									summer.hideProgress()
+									console.log("err",err);
+								})
+						},
+						checkNumber:function(e,param){
+							var val=$(e.currentTarget).val()
+							if(!/^([1-9]\d{0,9}|0)([.]?|(\.\d{1,2})?)$/.test(val)){
+								if(param=='guidePrice'){
+									this.guidePrice=''
+								}else if(param=='realityPrice'){
+									this.realityPrice=''
+								}else if(param=='onePrice'){
+									this.onePrice=''
+								}else if(param=='safePrice'){
+									this.safePrice=''
+								}
+							}
+							if(param=='realityPrice'&& Number(val)>this.guidePrice){
+								this.realityPrice=''
+								summer.toast({msg:'零售价不得高于指导价'})
+							}
+						},
+						pickerDealer:function(){
+							console.log("this.PROJECT_ID",this.PROJECT_ID)
+							summer.setStorage('addCarProjectId',this.PROJECT_ID)
+							summer.openWin({
+								id:'pickerDealer',
+								url:'html/touristsClient/pickerDealer.html',
+								create:false,
+								type:'actionBar',
+								actionBar: {
+						      title: "选择经销商",
+						      titleColor: "#ffffff",
+						      backgroundColor: "#039BE5",
+						      leftItem:{
+						          image: "img/back.png",
+						          method:'',
+						          text:"返回",
+						          textColor:"#ffffff"
+						      }
+								}
+							})
+						},
+						pickerModels:function(){
+							var dealer=summer.getStorage('pickerDealer');
+							if(dealer){
+								summer.openWin({
+									id:'pickerModels',
+									url:'html/touristsClient/pickerModels.html',
+									create:false,
+									type:'actionBar',
+									pageParam:{id:JSON.parse(dealer).SUPPLIERS_ID},
+									actionBar: {
+							      title: "选择车型",
+							      titleColor: "#ffffff",
+							      backgroundColor: "#039BE5",
+							      leftItem:{
+							          image: "img/back.png",
+							          method:'',
+							          text:"返回",
+							          textColor:"#ffffff"
+							      }
+									}
+								})
+							}else {
+								summer.toast({msg:'请先选择经销商'})
+							}
+						},
+						onValuesChange:function(picker,values) {
+							this.pickedColor=values[0];
+				        },
+						surePickerColor:function(param){
+							this.pickerColorStatus=!this.pickerColorStatus;
+							if(param=='confirm'){
+								this.color=this.pickedColor.FLAG;
+								this.colorId=this.pickedColor.CODE;
+							}
+						},
+						save:function(){
+							// summer.toast({msg:'弹出'})
+							if(!this.dealer||!this.carModels||!this.guidePrice||!this.realityPrice||!this.number||!this.holdPrice||this.onePrice===''||this.safePrice===''){
+								summer.toast({msg:'请填写车辆的所有信息'})
+								return
+							}
+							var numberVertity = /^[0-9]*[1-9][0-9]*$/;
+							if(!numberVertity.test(this.number)) {
+								summer.toast({msg:'请填写车辆的数量为整数'})
+								return
+							}
+							// summer.setStorage('carType',this.color)
+							var realityPrice1 = parseInt(this.realityPrice);
+							var param={};
+							// summer.showProgress();
+							param.SUPPLIERS_NAME=JSON.parse(summer.getStorage('pickerDealer')).SUPPLIERS_NAME;
+							param.COMPANY_NAME=JSON.parse(summer.getStorage('pickerModels1')).COMPANY_NAME;
+							param.COMPANY_ID=JSON.parse(summer.getStorage('pickerModels1')).COMPANY_ID;
+							param.THING_NAME=summer.getStorage('pickerModels2');
+							param.MODEL_SPEC=JSON.parse(summer.getStorage('pickerModels3')).MODEL_SPEC;
+							param.PRODUCT_TYPEID=JSON.parse(summer.getStorage('pickerModels3')).PRODUCT_TYPEID;
+							param.AMOUNT=this.number;
+							param.UNIT_PRICE_ZD=this.guidePrice;
+							param.UNIT_PRICE=this.realityPrice;
+							param.E_CCS_M=this.onePrice;
+							param.E_BX_M=this.safePrice;
+							param.STAYBUY_PRICE=this.holdPrice;
+							console.log("param",JSON.stringify({
+								BUSINESS_HEAD_ID:this.PROJECT_ID,
+								equipObjList:[param],
+								SUPPLIERS_ID:JSON.parse(summer.getStorage('pickerDealer')).SUPPLIERS_ID,
+								CUSTOMER_ID:this.newID.CUSTOMER_ID,
+								SCHEME_ID : this.newID.SCHEME_ID,//方案ID
+								CREDIT_HEAD_ID : this.newID.CREDIT_ID,//资信ID
+								PLATFORM : this.newID.PLATFORM//业务类型
+							}));
+							var _this=this;
+							//summer.showProgress()
+							// summer.toast({msg:'进入报价'})
+							summer.openWin({
+								id:'addCar1',
+								url:'html/priceCalulationMulti/quotedPriceDetail.html',
+								create:false,
+								type:'actionBar',
+								pageParam:{
+									item:_this.item,
+									id:_this.PROJECT_ID,
+									BUSINESS_HEAD_ID:this.PROJECT_ID,
+									equipObjList:[param],
+									SUPPLIERS_ID:JSON.parse(summer.getStorage('pickerDealer')).SUPPLIERS_ID,
+									CUSTOMER_ID:this.newID.CUSTOMER_ID,
+									SCHEME_ID : this.newID.SCHEME_ID,//方案ID
+									CREDIT_HEAD_ID : this.newID.CREDIT_ID,//资信ID
+									PLATFORM : this.newID.PLATFORM,//业务类型
+									is_New:this.is_new,
+									realityPrice1:realityPrice1
+								},
+								actionBar: {
+									title: '报价方案',
+									titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
+									backgroundColor: "#039BE5",
+									leftItem:{
+											image: "img/back.png",
+											method:'',//返回按钮自定义事件
+											text:"返回",
+											textColor:"#ffffff"  //返回文字颜色，注意必须是6位数的颜色值。（3位数颜色值会不正常）
+									},
+									rightItems: [{
+										type: "text",
+										text: "保存",
+										method:'goBack()',
+										textColor: "#ffffff"
+									}]
+								}
+							})
+							// ajaxRequest({
+							// 	type:'POST',
+							// 	url:'foundproject/saveEquipment',
+							// 	param:{
+							// 		BUSINESS_HEAD_ID:this.PROJECT_ID,
+							// 		equipObjList:[param],
+							// 		SUPPLIERS_ID:JSON.parse(summer.getStorage('pickerDealer')).SUPPLIERS_ID,
+							// 		CUSTOMER_ID:this.newID.CUSTOMER_ID,
+							// 		SCHEME_ID : this.newID.SCHEME_ID,//方案ID
+							// 		CREDIT_HEAD_ID : this.newID.CREDIT_ID,//资信ID
+							// 		PLATFORM : this.newID.PLATFORM//业务类型
+							// 	}
+							// },function(res){
+							// 	console.log("返回数据",JSON.stringify(res));
+							// 	summer.hideProgress();
+							// 	summer.toast({msg:"保存成功"});
+							// 	summer.execScript({
+							// 			winId: "setProject",
+							// 			script: "addRight('addCarList')"
+							// 	});
+							// 	summer.closeWin()
+
+							// },function(err){
+							// 	console.log("err",err);
+							// })
+						}
+					}
+				});
+				function getDealer(){
+					var dealer=summer.getStorage('pickerDealer');
+					console.log(dealer);
+					if(dealer){
+						addCar.dealer=JSON.parse(dealer).SUPPLIERS_NAME;
+					}
+				}
+				function cleanDealer(){
+					addCar.carModels = '';
+				}
+
+				function getCompany(){
+					var company=summer.getStorage('pickerCompany');
+					console.log(company);
+					if(company){
+						addCar.company=JSON.parse(company).COMPANY_NAME;
+					}
+				}
+				function getModels(){
+					var models=summer.getStorage('pickerModels3');
+					console.log(summer.getStorage('pickerModels1'),summer.getStorage('pickerModels2'),models);
+					if(models){
+						addCar.carModels=JSON.parse(summer.getStorage('pickerModels1')).COMPANY_NAME+summer.getStorage('pickerModels2')+JSON.parse(models).MODEL_SPEC;
+						addCar.guidePrice=JSON.parse(models).PRICE;
+					}
+				}
+
+				function goBack(){
+					addCar.save()
+				}
+		</script>
+	</body>
+</html>
