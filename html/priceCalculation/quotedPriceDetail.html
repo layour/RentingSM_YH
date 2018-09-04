@@ -799,7 +799,10 @@
 							ajaxRequest({
 								type:'POST',
 								url:"offer/toProjectScheme",
-								param:{PROJECT_ID:_this.prjId}
+								param:{PROJECT_ID:_this.prjId,
+									SCHEME_ID:""
+								
+								}
 							},function(res){
 
 								console.log("查询",JSON.stringify(res));
@@ -809,6 +812,7 @@
                    return
 								}
 								_this.scheme_type_list=data.POLICY_TYPES //方案类型字典
+								console.log("scheme_type_list",	_this.scheme_type_list)
 								_this.lease_course_list=data.LEASE_COURSES  //租赁周期
 								_this.llpz_list=data.LLPZS  //利率配置字典
 								console.log("利率配置字典aa",_this.llpz_list)
@@ -828,8 +832,14 @@
 								_this.EQU_MONEY_ALL=data.EQU_MONEY_ALL //车辆单价
 								_this.E_BX_M=data.E_BX_M   //设备保险金额
 								var projectData=res.data.datas.scheme
+								console.log("projectData",projectData)
+								console.log("projectData.POLICY_NAME",projectData.POLICY_NAME)
+								console.log("projectData",projectData)
 								_this.SCHEME_NAME=projectData.POLICY_NAME
+							
 								_this.SCHEME_NAME_ID=projectData.POLICY
+								console.log("projectData.POLICY",projectData.POLICY)
+								console.log("projectData.POLICY",projectData.POLICY)
 								console.log('res.data.datas.scheme===>',res.data.datas.scheme)
 								if(projectData&&_this.SCHEME_NAME_ID){
                   _this.LEASE_TERM=projectData.LEASE_TERM

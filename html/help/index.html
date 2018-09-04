@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../css/iuapmobile.um.css">
     <link rel="stylesheet" href="../../css/fonts/iconfont.css">
     <link rel="stylesheet" href="index.css">
+    <script src="../../js/common.js" ></script>
     <script src="../../js/summer.js"></script>
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/Frameworks/iuapmobile.frameworks.ui.js"></script>
@@ -21,7 +22,7 @@
                 <textarea id="question" placeholder="亲，请输入需要解决的问题（必填）" maxlength="200"></textarea>
                 <p class="showBox"><span id="txtShow">0/200</span></p>
             </div>
-            <div class="box clearfix border">
+            <!--div class="box clearfix border">
                 <div class="title-box">
                     <span class="title">问题截图(非必填) </span>
                     <span id="picShow" class="picShow">0/4</span>
@@ -37,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div-->
         </div>
     </div>
     <script type="text/javascript">
@@ -198,14 +199,54 @@
         }
 
         function feedback(){
+
+			var userinfo  =  summer.getStorage("userinfo", userinfo);
+            var EMPLOYEE_ID =  userinfo.EMPLOYEE_ID;
+            var EMPLOYEE_NAME = userinfo.EMPLOYEE_NAME;
+            console.log("EMPLOYEE_ID ",EMPLOYEE_ID)
+            console.log("EMPLOYEE_NAME ",EMPLOYEE_NAME)
+            console.log("EMPLOYEE_NAME12 ",$.trim($("#question").val()))
             summer.showProgress();
-            summer.ajax({
+
+            //目前的
+            ajaxRequest({
+					type: 'post',
+					url: 'appsys/getAppfeeback',
+					param: {
+                        "EMPLOYEE_ID":EMPLOYEE_ID,
+                    	"EMPLOYEE_NAME":EMPLOYEE_NAME,
+                    	"FEEDTYPECONTENT":$.trim($("#question").val())
+					}
+				}, function(res) {
+					if (res.data.flag == 1) {
+						console.log("res.data.datas",res.data.datas)
+                        summer.hideProgress();
+                        var Data = res.data.datas;
+                        switch (Data.feedflag) {
+                            case 1:
+                                summer.toast({msg:"提交成功"});
+                                summer.closeToWin({
+                                    id: 'mine'
+                                });
+                                break;
+                            case 0:
+                                summer.toast({msg:"提交失败"});
+                                break;
+                            default:
+                                summer.toast({msg:"提交失败"});
+                        }
+					}
+				}, function(err) {
+					console.log(err);
+				});
+
+            //之前的
+            /*summer.ajax({
 				type: "post",
 				url: G_COMMON_URL+"appsys/getAppfeeback",
 				param:{
                     "EMPLOYEE_ID":"11350",
                 	"EMPLOYEE_NAME":"张仁忠",
-                	"FEEDBACKTYPE":"出错",
                 	"FEEDTYPECONTENT":$.trim($("#question").val())
 				},
 				header : {
@@ -236,7 +277,7 @@
 				summer.hideProgress();
 				console.log(error);
 				summer.toast({msg:"系统内部异常"});
-			});
+			});*/
         };
     </script>
 </body>

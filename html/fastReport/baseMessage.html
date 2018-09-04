@@ -510,6 +510,13 @@
                         });
                         return;
                     }
+                    // if (this.message.PROJECT_TYPE_NM == "大客户") {
+                    //     summer.execScript({
+                    //             winId: "setProject",
+                    //             script: "addRightBigCustom()"
+                    //      });
+                    // }
+                 
                     //此时需要调后端的ajax请求数据
                     var self = this;
                     var param = self.message
@@ -543,6 +550,17 @@
                                 script: "addRight('baseMessage','" + baseMessageReturn +
                                     "')"
                             });
+                            if (self.message.PROJECT_TYPE_NM == "大客户") {
+                                summer.execScript({
+                                        winId: "setProject",
+                                        script: "addRightBigCustom()"
+                                    });
+                            } else {
+                                summer.execScript({
+                                        winId: "setProject",
+                                        script: "addRightSmallCustom()"
+                                    });
+                            }
                             summer.closeWin()
                         }
                     }, function (err) {
