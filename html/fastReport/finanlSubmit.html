@@ -43,12 +43,12 @@
                 <i style="font-size:20px;color:#1287DE;" class='icon  iconfont icon-right'></i>
                 <span class="p10">成功受理申请!</span>
             </p>
-            <div class="list listContent">
+            <div class="list listContent" v-for="(item,index) in equList" :key="index">
                 <p class="title f16">立项中
                     <!-- <span class="fr">{{bizTypCdNm}}</span> -->
                 </p>
                 <div>
-                    <p class="nb">购买了{{ COUNT }}台{{ COMPANY_NAME }}{{ THING_NAME }}{{ MODEL_SPEC }}</p>
+                    <p class="nb">购买了{{ item.AMOUNT }}台{{ item.COMPANY_NAME }}{{ item.THING_NAME }}{{ item.MODEL_SPEC }}</p>
                     <!-- <p class="">&yen;{{guidePc}} </p> -->
                 </div>
                 <p class="last">流程ID:
@@ -56,6 +56,7 @@
                     <i class="icon iconfont icon-enter fr" style="color:#DBDBDB;"></i>
                 </p>
             </div>
+           
         </div>
     </div>
     <script>
@@ -65,6 +66,8 @@
             finanlSubmit.COMPANY_NAME = summer.pageParam.COMPANY_NAME;
             finanlSubmit.THING_NAME = summer.pageParam.THING_NAME;
             finanlSubmit.MODEL_SPEC = summer.pageParam.MODEL_SPEC;
+            finanlSubmit.equList = summer.pageParam.equList;
+            console.log("finanlSubmit.equList ", finanlSubmit.equList)
         }
         var finanlSubmit = new Vue({
             el: '#finanlSub',
@@ -74,7 +77,8 @@
                     COUNT: "",
                     COMPANY_NAME: "",
                     THING_NAME: "",
-                    MODEL_SPEC: ""
+                    MODEL_SPEC: "",
+                    equList:""
                 }
             },
             methods: {

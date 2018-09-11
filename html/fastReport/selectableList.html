@@ -233,6 +233,7 @@
                     BECR_ID: "",
                     // 项目名称
                     PROJECT_NAME: "",
+                    // 返回字典
                     // 行业信息（字典）
                     tradeType: "",
                     // 行业对应模板信息（字典）
@@ -280,12 +281,14 @@
                                 msg: "发起流程成功"
                             });
                             console.log("res.data.datas",res.data.datas)
-                            console.log("res.data.datas",res.data.datas.equList)
+                            console.log("res.data.datas.22",res.data.datas.equList)
                             var JBPM_ID = res.data.datas.JBPM_ID; // 流程ID
                             var COUNT = res.data.datas.COUNT; // 设备数量
                             var COMPANY_NAME = res.data.datas.COMPANY_NAME; // 品牌
                             var THING_NAME = res.data.datas.THING_NAME; // 车系
                             var MODEL_SPEC = res.data.datas.MODEL_SPEC; // 车型
+                            var equList = res.data.datas.equList;
+                            console.log("equList",equList)
                             summer.openWin({
                                 id : "finanlSubmit",
                                 url : "html/fastReport/finanlSubmit.html",
@@ -307,7 +310,8 @@
                                     COUNT: COUNT,
                                     COMPANY_NAME: COMPANY_NAME,
                                     THING_NAME: THING_NAME,
-                                    MODEL_SPEC: MODEL_SPEC
+                                    MODEL_SPEC: MODEL_SPEC,
+                                    equList:equList
                                 }
                             });
                         } else if (res.data.flag == 0) {

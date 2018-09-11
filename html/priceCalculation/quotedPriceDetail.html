@@ -799,12 +799,10 @@
 							ajaxRequest({
 								type:'POST',
 								url:"offer/toProjectScheme",
-								param:{PROJECT_ID:_this.prjId,
-									SCHEME_ID:""
-								
+								param:{
+												PROJECT_ID:_this.prjId
 								}
-							},function(res){
-
+						  	},function(res){
 								console.log("查询",JSON.stringify(res));
 								var data=res.data.datas
 								if(data.EXIST == "0"&& _this.schremEXIST) {
