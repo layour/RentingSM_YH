@@ -197,21 +197,21 @@
 					vueTemplate.id=summer.pageParam.id
 					vueTemplate.getData()
 				}
-        var vueTemplate=new Vue({
-          el:'#addContact',
-          data:function () {
-            return {
-							addContactList:[],
-							id:'', //客户id
-							swipeArr:[
-						    {
-						      content: '删除',
-						      style: { background: 'red', color: '#fff' },
-						      handler: function(){this.$messagebox('delete')}
-						    }
-						  ]
-            }
-          },
+				var vueTemplate=new Vue({
+				el:'#addContact',
+				data:function () {
+					return {
+						addContactList:[],
+						id:'', //客户id
+						swipeArr:[
+						{
+						content: '删除',
+						style: { background: 'red', color: '#fff' },
+						handler: function(){this.$messagebox('delete')}
+						}
+						]
+					}
+				},
 					methods:{
 						lookDetail:function(item){
 							console.log('send',JSON.stringify(item))
@@ -308,8 +308,8 @@
 								create: false,
 								type: 'actionBar',
 								pageParam: {
-                  CUSTOMER_ID: this.id
-                },
+               					   CUSTOMER_ID: this.id
+             			       },
 								actionBar: {
 									title: '新增企业团队',
 									titleColor: "#ffffff", //注意必须是6位数的颜色值。（3位数颜色值会不正常）
@@ -331,7 +331,7 @@
 						},
 
 					}
-        });
+       			 });
 				function add(){
 					vueTemplate.addItem()
 				}
